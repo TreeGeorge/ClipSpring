@@ -79,7 +79,7 @@ public class FreeMovieImpl implements FreeMovieService {
 			int sale = 0;
 			// 30% 확률로 세일하게 해줌
 			if ((int)(Math.random() * 3) + 1 == 1) {
-				sale = (int)(Math.random() * 60) + 1;
+				sale = (int)(Math.random() * 55) + 5;
 			}
 			
 			input = sqlSession.selectOne("FreeMovieMapper.endFreeMovieSearch", input);
