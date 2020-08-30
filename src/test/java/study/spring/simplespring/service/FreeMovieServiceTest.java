@@ -41,5 +41,10 @@ public class FreeMovieServiceTest {
 			
 	}
 	
+	@Test
+	public void testV() {
+		freeMovieService.getFreeMovieCount();
+	}
+	
 
 }

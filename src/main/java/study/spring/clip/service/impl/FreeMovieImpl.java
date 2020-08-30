@@ -7,11 +7,9 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import lombok.extern.slf4j.Slf4j;
 import study.spring.clip.model.FreeMovie;
 import study.spring.clip.service.FreeMovieService;
 
-@Slf4j
 @Service
 public class FreeMovieImpl implements FreeMovieService {
 
@@ -79,8 +77,11 @@ public class FreeMovieImpl implements FreeMovieService {
 		
 		// 동시에 무료영화 기간이 끝날 수 있기 때문에
 		while ( null != sqlSession.selectOne("FreeMovieMapper.endFreeMovieSearch", input) ) {
-			
-			int sale = (int)(Math.random() * 60) + 1;
+			int sale = 0;
+			// 30% 확률로 세일하게 해줌
+			if ((int)(Math.random() * 3) + 1 == 1) {
+				sale = (int)(Math.random() * 60) + 1;
+			}
 			int movie_no = sqlSession.selectOne("FreeMovieMapper.endFreeMovieSearch", input);
 			
 			input.setMovie_no(movie_no);
