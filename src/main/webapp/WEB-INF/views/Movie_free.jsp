@@ -155,7 +155,7 @@
 					<span class="Age">
 					<span>&nbsp;${item.age} 이용가 | ${item.runtime}</span>
 					</span>
-					<span class="Period"><img src="assets/img/Freecalendal.png">${item.period} 까지</span>
+					<span class="Period"><img src="assets/img/freecalendal.png">${item.period} 까지</span>
 					</a>
 				</c:forEach>
 			</div>
