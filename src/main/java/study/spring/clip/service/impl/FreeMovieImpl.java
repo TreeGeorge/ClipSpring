@@ -81,9 +81,9 @@ public class FreeMovieImpl implements FreeMovieService {
 			if ((int)(Math.random() * 3) + 1 == 1) {
 				sale = (int)(Math.random() * 60) + 1;
 			}
-			int movie_no = sqlSession.selectOne("FreeMovieMapper.endFreeMovieSearch", input);
 			
-			input.setMovie_no(movie_no);
+			input = sqlSession.selectOne("FreeMovieMapper.endFreeMovieSearch", input);
+			
 			input.setSale(sale);
 			sqlSession.update("FreeMovieMapper.endFreeEdit", input);
 		}
