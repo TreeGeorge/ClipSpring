@@ -41,7 +41,7 @@ public class FreeMovieImpl implements FreeMovieService {
 			FreeMovie input = new FreeMovie();
 			
 			// 무료가 아닌 영화 가져오기
-			int getNotFreeMovie = sqlSession.selectOne("FreeMovieMapper.notFreeMovieSearch");
+			input = sqlSession.selectOne("FreeMovieMapper.notFreeMovieSearch");
 			
 			// 무료 기간 정해주기
 			Calendar now = Calendar.getInstance();
@@ -54,7 +54,6 @@ public class FreeMovieImpl implements FreeMovieService {
 			String period = year + "-" + month + "-" + day;
 			
 			input.setPeriod(period);
-			input.setMovie_no(getNotFreeMovie);
 			sqlSession.update("FreeMovieMapper.setFreeEdit", input);
 		}
 	}
