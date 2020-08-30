@@ -37,7 +37,7 @@
 	
 	<select id="endFreeEdit"
     	parameterType="study.spring.clip.model.FreeMovie">
-        UPDATE movie SET sale=#{sale}, period = null
+        UPDATE movie SET sale = #{sale}, period = null
 		WHERE movie_no = #{movie_no};
     </select>
 	

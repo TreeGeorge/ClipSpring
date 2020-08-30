@@ -108,8 +108,6 @@
 		$(".bot_bar_icon").eq(3).attr("src", "assets/img/my_page_icon_selected.png");
 		$(".top_bar_list").eq(2).addClass("selected");
 		
-		var id = "LSB001";
-		$("#user_id").html(id);
 		if (!$(".movie_list")[0]) {
 			$(".no_value").removeClass("hide");
             $(".delete_list").addClass("hide");
