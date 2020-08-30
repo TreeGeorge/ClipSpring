@@ -19,7 +19,7 @@
 	<select id="freeList"
 		parameterType="study.spring.clip.model.FreeMovie"
 		resultMap="freeMovieMap">
-		SELECT movie_no, name, age, runtime, thumbnail, period FROM movie
+		SELECT movie_no, name, IF(age='12', '12세 이용가', IF(age='15', '15세 이용가', IF(age='19', '청소년 관람 불가', '전체 이용가'))) as age, runtime, thumbnail, period FROM movie
 		WHERE sale = 100;
 	</select>
 	

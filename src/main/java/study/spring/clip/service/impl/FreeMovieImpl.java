@@ -81,7 +81,7 @@ public class FreeMovieImpl implements FreeMovieService {
 			if ((int)(Math.random() * 3) + 1 == 1) {
 				sale = (int)(Math.random() * 55) + 5;
 			}
-			
+			// TODO 할인영화 개수 30% 유지되게 하기 여기서 sale 0 대면 전체 영화중 세일영화 % 구해서 sale 0인 영화중 랜덤하게 세일적용시켜주기
 			input = sqlSession.selectOne("FreeMovieMapper.endFreeMovieSearch", input);
 			
 			input.setSale(sale);
