@@ -1,0 +1,92 @@
+{
+	"item": [
+		{
+			"movieTitle": "아이유 좋아연",
+			"thumbnail": "assets/img/sample6.jpg",
+			"age": "12",
+			"time": "130",
+			"price": "12000",
+			"type": "대여"
+		},
+		{
+			"movieTitle": "아이유 짱짱걸",
+			"thumbnail": "assets/img/sample7.jpg",
+			"age": "15",
+			"time": "120",
+			"price": "1500",
+			"type": "구매"
+		},
+		{
+			"movieTitle": "아이유 멋져요",
+			"thumbnail": "assets/img/sample12.jpg",
+			"age": "17",
+			"time": "100",
+			"price": "1600",
+			"type": "대여"
+		},
+		{
+			"movieTitle": "아이유 연대기",
+			"thumbnail": "assets/img/sample16.jpg",
+			"age": "19",
+			"time": "180",
+			"price": "1000",
+			"type": "구매"
+		},
+		{
+			"movieTitle": "아이유 콘서트",
+			"thumbnail": "assets/img/sample18.jpg",
+			"age": "15",
+			"time": "70",
+			"price": "2000",
+			"type": "대여"
+		},
+		{
+			"movieTitle": "심규선 콘서트",
+			"thumbnail": "assets/img/sample12.jpg",
+			"age": "19",
+			"time": "180",
+			"price": "1000",
+			"type": "구매"
+		},
+		{
+			"movieTitle": "심규선 연대기",
+			"thumbnail": "assets/img/sample13.jpg",
+			"age": "19",
+			"time": "180",
+			"price": "1000",
+			"type": "구매"
+		},
+		{
+			"movieTitle": "인간극장 심규선",
+			"thumbnail": "assets/img/sample14.jpg",
+			"age": "19",
+			"time": "180",
+			"price": "1000",
+			"type": "대여"
+		},
+		{
+			"movieTitle": "test1",
+			"thumbnail": "assets/img/sample1.jpg",
+			"age": "19",
+			"time": "180",
+			"price": "1000",
+			"type": "구매"
+		},
+		{
+			"movieTitle": "test2",
+			"thumbnail": "assets/img/sample2.jpg",
+			"age": "19",
+			"time": "180",
+			"price": "1000",
+			"type": "대여"
+		},
+		{
+			"movieTitle": "test3",
+			"thumbnail": "assets/img/sample3.jpg",
+			"age": "19",
+			"time": "180",
+			"price": "1000",
+			"type": "구매"
+		}
+	]
+}
