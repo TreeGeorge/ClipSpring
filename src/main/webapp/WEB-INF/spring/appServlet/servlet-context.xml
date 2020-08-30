@@ -37,6 +37,15 @@
 		</interceptor>
 	</interceptors>
 	
-	
+	<!-- 스케쥴러 어노테이션 선언 -->
+	<task:annotation-driven/>
+
+	<!-- 스케쥴러로 동작할 객체 생성 -->
+	<beans:bean id="scheduleJob" class="study.spring.clip.scheduler.FreeMovieScheduler" />
+
+	<!-- 생성한 스케쥴러 객체에 대한 작업 스케쥴 지정 -->
+	<task:scheduled-tasks>
+		<task:scheduled ref="scheduleJob" method="everyMidnight" cron="0 0 0 * * ?"/>
+	</task:scheduled-tasks>
 	
 </beans:beans>

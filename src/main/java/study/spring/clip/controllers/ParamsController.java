@@ -115,36 +115,6 @@ public class ParamsController {
 		return "Movie_category_sorted";
 	}
 	
-	@RequestMapping(value = "Movie_free", method = RequestMethod.GET)
-	public String goFreeMovie(Model movie) {
-		int[] MovieNo = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-		String[] MovieThumbnail = 
-			{ "무료 영화 썸네일 주소1", "무료 영화 썸네일 주소2", "무료 영화 썸네일 주소3", "무료 영화 썸네일 주소4", "무료 영화 썸네일 주소5",
-				"무료 영화 썸네일 주소6", "무료 영화 썸네일 주소7", "무료 영화 썸네일 주소8", "무료 영화 썸네일 주소9", "무료 영화 썸네일 주소10" };
-		String[] MovieTitle = 
-			{ "무료영화1", "무료영화2", "무료영화3", "무료영화4", "무료영화5", "무료영화6", "무료영화7", "무료영화8", "무료영화9","무료영화10" };
-		String[] MovieAge = {"12세","15세","전체","12세","15세","전체","12세","15세","전체","12세"};
-		int[] MovieRuntime = {120,180,150,120,180,150,120,180,150,120};
-		String[] MovieDate = 
-			{"2020-09-25","2020-09-23","2020-09-21","2020-09-25","2020-09-23","2020-09-21","2020-09-25","2020-09-23","2020-09-21","2020-09-21"};
-	
-		
-		for (int i = 0; i < 10; i++) {
-			MovieDate[i] = MovieDate[i].substring(5,7) + "월" + MovieDate[i].substring(8,10) + "일 까지";
-			movie.addAttribute("MovieNo" + i, MovieNo[i]);
-			movie.addAttribute("MovieThumbnail" + i, MovieThumbnail[i]);
-			movie.addAttribute("MovieTitle" + i, MovieTitle[i]);
-			movie.addAttribute("MovieAge" + i, MovieAge[i]);
-			movie.addAttribute("MovieRuntime" + i, MovieRuntime[i]);
-			movie.addAttribute("MovieDate" + i, MovieDate[i]);	
-		}
-
-		// "/src/main/webapp/WEB-INF/views/params/get.jsp" 파일로 View로 지정한다
-		return "Movie_free";
-	}
-	
-	
-	
 	/** POST 방식의 파라미터를 전송받기 위한 컨트롤러 메서드 */
 	// 추가적인 파라미터가 필요하다면 콤마(,)로 구분하여 나열한다.
 	@RequestMapping(value = "Wish_list", method = {RequestMethod.GET, RequestMethod.POST})

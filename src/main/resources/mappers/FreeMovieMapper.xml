@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="FreeMovieMapper">
+
+    <!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
+    <resultMap id="freeMovieMap" type="study.spring.clip.model.FreeMovie">
+        <!-- Beans의 멤버변수(property)이름과 대상 테이블의 컬럼(column)을 연결한다. -->
+        <result property="movie_no" column="movie_no" />
+        <result property="name" column="name" />
+        <result property="sale" column="sale" />
+        <result property="thumbnail" column="thumbnail" />
+        <result property="runtime" column="runtime" />
+        <result property="age" column="age" />
+        <result property="period" column="period" />
+    </resultMap>
+    
+	<select id="freeList"
+		parameterType="study.spring.clip.model.FreeMovie"
+		resultMap="freeMovieMap">
+		SELECT movie_no, name, age, runtime, thumbnail, period FROM movie
+		WHERE sale = 100;
+	</select>
+	
+	<select id="setFreeEdit"
+    	parameterType="study.spring.clip.model.FreeMovie">
+        UPDATE movie SET sale=100, period = #{period}
+		WHERE movie_no = #{movie_no};
+    </select>
+	
+	<select id="selectCountFree"
+	 	parameterType="study.spring.clip.model.FreeMovie"
+	 	resultType="int">
+	 	SELECT COUNT(*) FROM movie WHERE sale = 100;
+	</select>
+	
+	<select id="endFreeEdit"
+    	parameterType="study.spring.clip.model.FreeMovie">
+        UPDATE movie SET sale=#{sale}, period = null
+		WHERE movie_no = #{movie_no};
+    </select>
+	
+	<select id="endFreeMovieSearch"
+		parameterType="study.spring.clip.model.FreeMovie"
+		resultMap="freeMovieMap">
+		SELECT movie_no FROM movie WHERE period = #{period} ORDER BY RAND() LIMIT 1;
+	</select>
+	
+	<select id="notFreeMovieSearch"
+		parameterType="study.spring.clip.model.FreeMovie"
+		resultMap="freeMovieMap">
+		SELECT movie_no FROM movie WHERE sale != 100 ORDER BY RAND() LIMIT 1;
+	</select>
+
+</mapper>

@@ -2,6 +2,8 @@
 	pageEncoding="utf-8"%>
 <%@ page trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -146,20 +148,14 @@
 		<div id="content">
 			<div class="Free_movie_box">
 				<!-- 무료 영화 목록 -->
-				<c:forEach var="i" begin="0" end="9" step="1" varStatus="status">
-					<c:set var="thumb" value="MovieThumbnail${status.index}" />
-					<c:set var="movie_no" value="MovieNo${status.index}" />
-					<c:set var="movie_title" value="MovieTitle${status.index}" />
-					<c:set var="movieage" value="MovieAge${status.index}" />
-					<c:set var="movieruntime" value="MovieRuntime${status.index}" />
-					<c:set var="moviedate" value="MovieDate${status.index}" />
-					<a class="Free_movie" href="Movie_information.do?Movie_no=${requestScope[movie_no]}"> 
-					<img src="${requestScope[thumb]}" alt="${requestScope[thumb]}"> 
-					<span class="Movie_title">${requestScope[movie_title]}</span> 
+				<c:forEach var="item" items="${output}" varStatus="status">
+					<a class="Free_movie" href="Movie_information.do?Movie_no=${item.movie_no}"> 
+					<img src="${item.thumbnail}}" alt="${item.name} 썸네일"> 
+					<span class="Movie_title">${item.name}</span> 
 					<span class="Age">
-					<span>&nbsp;${requestScope[movieage]} 이용가 | ${requestScope[movieruntime]}분</span>
+					<span>&nbsp;${item.age} 이용가 | ${item.runtime}</span>
 					</span>
-					<span class="Period"><img src="assets/img/Freecalendal.png">${requestScope[moviedate]}</span>
+					<span class="Period"><img src="assets/img/Freecalendal.png">${item.period} 까지</span>
 					</a>
 				</c:forEach>
 			</div>
