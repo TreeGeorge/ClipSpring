@@ -81,13 +81,39 @@ public class FreeMovieImpl implements FreeMovieService {
 			if ((int)(Math.random() * 3) + 1 == 1) {
 				sale = (int)(Math.random() * 55) + 5;
 			}
-			// TODO 할인영화 개수 30% 유지되게 하기 여기서 sale 0 대면 전체 영화중 세일영화 % 구해서 sale 0인 영화중 랜덤하게 세일적용시켜주기
 			input = sqlSession.selectOne("FreeMovieMapper.endFreeMovieSearch", input);
 			
 			input.setSale(sale);
 			sqlSession.update("FreeMovieMapper.endFreeEdit", input);
 		}
 		
+	}
+
+	@Override
+	public boolean saleMovieCount() {
+		
+		int sale = sqlSession.selectOne("FreeMovieMapper.selectCountSale");
+		int all = sqlSession.selectOne("FreeMovieMapper.selectCountAll");
+		
+		if (sale == 0) {
+			return true;
+		}
+		
+		if (all/sale <= 3) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public void editSaleMovie() {
+		// TODO 나중에 FreeMovie 객체가아니라 SaleMovie 객체로 바꾸던가 해야함
+		FreeMovie input = new FreeMovie();
+		
+		while (saleMovieCount()) {
+			input = sqlSession.selectOne("FreeMovieMapper.notSaleMovieSearch", input);
+			sqlSession.update("FreeMovieMapper.setSaleEdit", input);
+		}
 	}
 
 }

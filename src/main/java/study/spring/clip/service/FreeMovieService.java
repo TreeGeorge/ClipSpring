@@ -14,4 +14,8 @@ public interface FreeMovieService {
 	
 	public void endFreeMovie();
 	
+	public boolean saleMovieCount();
+	
+	public void editSaleMovie();
+	
 }

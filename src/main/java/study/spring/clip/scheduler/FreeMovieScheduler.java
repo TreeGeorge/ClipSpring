@@ -16,7 +16,8 @@ public class FreeMovieScheduler {
 	public void everyMidnight() {
 		freeMovieService.endFreeMovie();
 		freeMovieService.editFreeMovie();
-		log.debug("무료영화 업데이트 완료!");
+		freeMovieService.editSaleMovie();
+		log.debug("무료영화 + 세일영화 업데이트 완료!");
 	}
 
 }

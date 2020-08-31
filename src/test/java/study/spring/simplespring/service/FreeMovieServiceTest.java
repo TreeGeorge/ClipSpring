@@ -52,5 +52,10 @@ public class FreeMovieServiceTest {
 		freeMovieService.editFreeMovie();
 	}
 	
+	@Test
+	public void testQ() {
+		freeMovieService.editSaleMovie();
+	}
+	
 
 }

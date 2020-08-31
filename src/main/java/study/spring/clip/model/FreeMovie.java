@@ -10,5 +10,6 @@ public class FreeMovie {
 	private String runtime;
 	private String period;
 	private String thumbnail;
-	private int sale;	
+	private int sale;
+	private String release_date;
 }
