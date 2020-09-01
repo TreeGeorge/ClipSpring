@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="MovieCommentMapper">
+
+	<!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
+	<resultMap id="MovieCommentMap"
+		type="study.spring.clip.model.MovieComment">
+		<!-- Beans의 멤버변수(property)이름과 대상 테이블의 컬럼(column)을 연결한다. -->
+		<result property="movie_comment_no" column="movie_comment_no" />
+		<result property="editdate" column="editdate" />
+		<result property="content" column="content" />
+		<result property="userid" column="userid" />
+		<result property="user_no" column="user_no" />
+		<result property="movie_no" column="movie_no" />
+	</resultMap>
+
+	<!-- 단일행 조회를 위한 기능 정의 -->
+	<select id="oneComment"
+		parameterType="study.spring.clip.model.MovieComment"
+		resultMap="MovieCommentMap">
+		SELECT movie_comment_no, editdate, content, userid, user_no,
+		movie_no FROM
+		movie_comment WHERE
+		movie_comment_no=#{movie_comment_no};
+	</select>
+
+	<!-- 데이터 삭제를 위한 기능 정의 -->
+	<delete id="deleteComment"
+		parameterType="study.spring.clip.model.MovieComment">
+		DELETE FROM movie_comment WHERE
+		movie_comment_no=#{movie_comment_no};
+	</delete>
+</mapper>
