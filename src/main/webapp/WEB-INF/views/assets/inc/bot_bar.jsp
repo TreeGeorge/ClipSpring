@@ -50,10 +50,19 @@
 		</li>
 		<li class="pull_left">
 			<!-- 로그인페이지 or 마이페이지 -->
-			<span class="login_status"><a href="MY_movie"><img class="bot_bar_icon" src="${pageContext.request.contextPath}/assets/img/my_page_icon.png" alt="로그인페이지"></a>
+			<span class="login_status"><a href="MY_movie" id="session"><img class="bot_bar_icon" src="${pageContext.request.contextPath}/assets/img/my_page_icon.png" alt="로그인페이지"></a>
 			</span>
 		</li>
 	</ul>
 </div>
+<script>
+	$("#session").click(function(e){
+		e.preventDefault();
+		$.get("sessionCheck.do",function(req){
+			if(req){$(location).attr('href','MY_movie');}
+			else{$(location).attr('href','Login');}
+		})
+	})
+</script>
 
 <!-- $(".bot_bar_icon").eq(i).attr("src", "assets/img/해당페이지_icon_selected.png"); -->

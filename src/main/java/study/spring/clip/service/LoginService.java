@@ -8,7 +8,6 @@ public interface LoginService {
 	
 	
 	public boolean loginCheck(HttpSession session, String id, String pw);
-	
-	 
 	public void pushSession(HttpSession session, User user) ;
+	
 }

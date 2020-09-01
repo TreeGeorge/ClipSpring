@@ -34,17 +34,19 @@ public class LoginController{
 	}
 	
 	
-	/*마이페이지 관련 페이지 접근할때 세션 정보 없으면 로그인 페이지로 보내는 처리*/
-    @RequestMapping(value={"MY_movie","MY_interest_movie","MY_coupon","MY_movie_purchase_list"},
-    		method=RequestMethod.GET)
-    public String enterMyMovie(HttpSession session, Model model, HttpServletRequest request) {
-
-    	//세션 정보에서 로그인 정보가 없으면 Login View로 이동
-    	if( session.getAttribute("id") == null) {return "Login"; }
-    	
-        return request.getServletPath();
-        //요청받은 서블릿 주소 리턴
+	
+	
+	
+	@ResponseBody
+    @RequestMapping(value="sessionCheck.do", method=RequestMethod.GET)
+    public boolean tryMyMovie(HttpSession session) {
+    	if(session.getAttribute("id")!=null) { return true; }
+    	return false;    	
     }
+    @RequestMapping(value="MY_movie",method=RequestMethod.GET)
+    public String enterMyMovie() { return "MY_movie"; }
+    @RequestMapping(value="Login",method=RequestMethod.GET)
+    public String enterLogin() { return "Login"; }
 
 
     @RequestMapping(value="MY_information",method=RequestMethod.GET)

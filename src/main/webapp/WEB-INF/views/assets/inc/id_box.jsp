@@ -90,7 +90,8 @@ button:focus {
 <script>
 //내 정보보기 클릭시 얼럴창
 $(".id_btn_my").click(function() {
-
+	var sessionPw = ${pw};
+	
     swal({
 
         showConfirmButton: true,
@@ -116,7 +117,7 @@ $(".id_btn_my").click(function() {
 										$(".id_btn_my").click(); //비밀번호 변경 alert창 재실행
 									})
 
-								} else if (pw != "master001") {
+								} else if (pw != sessionPw) {
 									swal({
 										showConfirmButton : false,
 										type : 'error',

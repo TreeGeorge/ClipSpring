@@ -16,6 +16,7 @@ public class LoginServiceImpl implements LoginService {
 	@Autowired
 	private SqlSession sqlSession;
 	
+	/*로그인*/
 	public boolean loginCheck(HttpSession session, String id, String pw) {
 		User input = new User();		
 		User result = new User();
@@ -26,7 +27,7 @@ public class LoginServiceImpl implements LoginService {
 		else { pushSession(session, result); return true; }
 	}
 	
-	 
+	/*세션에 회원정보 저장*/
 	 public void pushSession(HttpSession session, User user) {
 			session.setAttribute("id", user.getId());
 			session.setAttribute("pw", user.getPw());
@@ -36,5 +37,6 @@ public class LoginServiceImpl implements LoginService {
 			session.setAttribute("is_sendagree", user.getIs_sendagree());
 			session.setAttribute("coin", user.getCoin());
 			session.setAttribute("card", user.getCard());
+			session.setAttribute("birthdate", user.getBirthdate());
 	   }
 }

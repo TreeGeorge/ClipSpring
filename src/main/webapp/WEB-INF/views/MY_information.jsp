@@ -186,11 +186,11 @@
             </div>
             <div class="clearfix" style ='padding-top:8px; padding-bottom:8px;'>
                 <div class="info_group">
-                    <p class="info_list">아이디<br><span class="info_item " >LSB001</span></p>
-                    <p class="info_list">이름<br> <span class="info_item">이세빈</span></p>
-                    <p class="info_list">성별<br> <span class="info_item">남자</span></p>
-                    <p class="info_list">생년월일<br><span class="info_item">0000-00-00</span></p>
-                    <p class="info_list">이메일<br> <span class="info_item">qq4323@gmail.com</span></p>
+                    <p class="info_list">아이디<br><span class="info_item " >${id}</span></p>
+                    <p class="info_list">이름<br> <span class="info_item">${name}</span></p>
+                    <p class="info_list">성별<br> <span class="info_item">${gender}</span></p>
+                    <p class="info_list">생년월일<br><span class="info_item">${birthdate}</span></p>
+                    <p class="info_list">이메일<br> <span class="info_item">${email}</span></p>
                 </div>
                 <div class="btn_box"><input type="button" value="비밀번호 변경" class="change_btn" id="pw_change"></div>
                 <div class="space"></div>
