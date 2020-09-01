@@ -57,21 +57,12 @@ html, body {
 </style>
 
 <div id="top_bar">
-	<ul class="clearfix">
-		<li class="pull_left"><a class="session" href="MY_movie"><span class="top_bar_list">내영상</span></a></li>
-		<li class="pull_left"><a class="session" href="MY_interest_movie"><span class="top_bar_list">관심영화</span></a></li>
-		<li class="pull_left"><a class="session" href="MY_coupon"><span class="top_bar_list">쿠폰함</span></a></li>
-		<li class="pull_left"><a class="session" href="MY_movie_purchase_list"><span class="top_bar_list">구입내역</span></a></li>
-	</ul>
+   <ul class="clearfix">
+      <li class="pull_left"><a href="MY_movie"><span class="top_bar_list">내영상</span></a></li>
+      <li class="pull_left"><a href="MY_interest_movie"><span class="top_bar_list">관심영화</span></a></li>
+      <li class="pull_left"><a href="MY_coupon"><span class="top_bar_list">쿠폰함</span></a></li>
+      <li class="pull_left"><a href="MY_movie_purchase_list"><span class="top_bar_list">구입내역</span></a></li>
+   </ul>
 </div>
-
-<script>
-	$(".session").click(function(e){
-		e.preventDefault();
-		var item = e.target.parentElement.href.substring(e.target.parentElement.href.lastIndexOf("/")+1);
-		
-		
-	})
-</script>
 
 <!-- $(".top_bar_list").eq(i).addClass("selected") -->

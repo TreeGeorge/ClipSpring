@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <%@ page trimDirectiveWhitespaces="true"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -12,7 +15,29 @@
 a {
 	text-decoration: none;
 }
+.top_info {
+   	position: fixed;
+    top: 0;
+    width: 100%;
+    height: 40px;
+    border-bottom: 1px solid #b8b8b8;
+    text-align: center;
+    line-height: 40px;
+    box-sizing: border-box;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #fff;
+    z-index: 100;
+}
 
+.top_info img {
+    display: block;
+    position: absolute;
+    float: left;
+    height: 26px;
+    width: 26px;
+    margin: 7px;
+}
 #top_bar_cash .pull_center {
 	text-align: center;
 	background-color: #e5e5e5;
@@ -197,7 +222,7 @@ a {
 	<div id="container">
 		<!--탑 바-->
       <div class="top_info">
-         <a href="MY_movie.jsp"> <img
+         <a href="MY_movie"> <img
             src="assets/img/left.png" alt="뒤로">
          </a><span id="top_info_value">내 코인</span>
       </div>
@@ -207,9 +232,9 @@ a {
 	<!-- 탭영역 -->
 	<div id="top_bar">
 		<ul class="clearfix">
-			<li class="pull_left"><a href="MY_coin_charge.jsp"><span
+			<li class="pull_left"><a href="MY_coin_charge"><span
 					class="selected">코인충전</span></a></li>
-			<li class="pull_left"><a href="MY_coin_purchase_list.jsp"><span>충전내역</span></a></li>
+			<li class="pull_left"><a href="MY_coin_purchase_list"><span>충전내역</span></a></li>
 		</ul>
 	</div>
 
@@ -220,7 +245,7 @@ a {
 					<!--코인잔여 보여주는 곳-->
 					<li>
 						<p style="font-weight: bold;">보유코인</p> <br /> <img
-						src="assets/img/coin.png" alt="코인" /><span>&nbsp;7,000코인</span>
+						src="assets/img/coin.png" alt="코인" /><span>&nbsp;${user_coin}코인</span>
 					</li>
 
 				</ul>

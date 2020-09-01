@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="BuyCoinListMapper">
+
+    <!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
+    <resultMap id="buyCoinListMap" type="study.spring.clip.model.BuyCoinList">
+        <!-- Beans의 멤버변수(property)이름과 대상 테이블의 컬럼(column)을 연결한다. -->
+        <result property="buy_coin_list_no" column="buy_coin_list_no" />
+        <result property="date" column="date" />
+        <result property="price" column="price" />
+        <result property="user_no" column="user_no" />
+        <result property="coin" column="coin" />
+    </resultMap>
+    
+    <select id="buyList"
+		parameterType="study.spring.clip.model.BuyCoinList"
+		resultMap="buyCoinListMap">
+		SELECT date, price FROM buy_coin_list WHERE user_no = #{user_no};
+	</select>
+
+	<delete id="deleteItem"
+		parameterType="study.spring.clip.model.BuyCoinList">
+		DELETE FROM buy_coin_list WHERE user_no = #{user_no} AND date = #{date};	
+	</delete>
+	
+	<insert id="insertItem"
+		parameterType="study.spring.clip.model.BuyCoinList"
+		useGeneratedKeys="true"
+		keyProperty="deptno">
+		INSERT INTO buy_coin_list (date, price, user_no) VALUES (now(), #{price}, #{user_no});
+	</insert>
+	
+	<select id="getUserCoin"
+		parameterType="study.spring.clip.model.BuyCoinList"
+		resultType="int">
+		SELECT coin FROM user WHERE user_no = #{user_no};
+	</select>
+	
+</mapper>

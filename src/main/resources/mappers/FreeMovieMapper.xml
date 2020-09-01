@@ -24,11 +24,11 @@
 		WHERE sale = 100;
 	</select>
 	
-	<select id="setFreeEdit"
+	<update id="setFreeEdit"
     	parameterType="study.spring.clip.model.FreeMovie">
         UPDATE movie SET sale=100, period = #{period}
 		WHERE movie_no = #{movie_no};
-    </select>
+    </update>
 	
 	<select id="selectCountFree"
 	 	parameterType="study.spring.clip.model.FreeMovie"
@@ -36,11 +36,11 @@
 	 	SELECT COUNT(*) FROM movie WHERE sale = 100;
 	</select>
 	
-	<select id="endFreeEdit"
+	<update id="endFreeEdit"
     	parameterType="study.spring.clip.model.FreeMovie">
         UPDATE movie SET sale = #{sale}, period = null
 		WHERE movie_no = #{movie_no};
-    </select>
+    </update>
 	
 	<select id="endFreeMovieSearch"
 		parameterType="study.spring.clip.model.FreeMovie"
@@ -51,7 +51,7 @@
 	<select id="notFreeMovieSearch"
 		parameterType="study.spring.clip.model.FreeMovie"
 		resultMap="freeMovieMap">
-		SELECT movie_no FROM movie WHERE sale != 100 ORDER BY RAND() LIMIT 1;
+		(SELECT movie_no FROM movie WHERE sale != 100 ORDER BY release_date desc LIMIT 2, 100000000000) ORDER BY RAND() LIMIT 1;
 	</select>
 	
 	<!-- 여기부터는 할인영화 -->
@@ -62,11 +62,11 @@
 	 	(SELECT movie_no FROM movie WHERE sale = 0 ORDER BY release_date desc LIMIT 2, 100000000000) ORDER BY RAND() LIMIT 1;
 	</select>
 	
-	<select id="setSaleEdit"
+	<update id="setSaleEdit"
     	parameterType="study.spring.clip.model.FreeMovie">
         UPDATE movie SET sale = FLOOR( (RAND() * 55) + 5 ), period = null
 		WHERE movie_no = #{movie_no};
-    </select>
+    </update>
     
     <select id="selectCountSale"
 	 	parameterType="study.spring.clip.model.FreeMovie"

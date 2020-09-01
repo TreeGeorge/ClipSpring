@@ -9,4 +9,7 @@ public class BuyMovieList {
 	private String is_delete;
 	private int user_no;
 	private int movie_no;
+	private String name;
+	private int price;
+	private String thumbnail;
 }

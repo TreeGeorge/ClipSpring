@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="BuyMovieListMapper">
+
+    <!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
+    <resultMap id="buyMovieListMap" type="study.spring.clip.model.BuyMovieList">
+        <!-- Beans의 멤버변수(property)이름과 대상 테이블의 컬럼(column)을 연결한다. -->
+        <result property="buy_movie_list_no" column="buy_movie_list_no" />
+        <result property="date" column="date" />
+        <result property="is_delete" column="is_delete" />
+        <result property="user_no" column="user_no" />
+        <result property="movie_no" column="movie_no" />
+        <result property="name" column="name" />
+        <result property="price" column="price" />
+        <result property="thumbnail" column="thumbnail" />
+    </resultMap>
+    
+    <select id="buyList"
+		parameterType="study.spring.clip.model.BuyMovieList"
+		resultMap="buyMovieListMap">
+		SELECT name, price, date FROM movie m, buy_movie_list b WHERE b.movie_no = m.movie_no 
+		IN (SELECT movie_no FROM buy_movie_list WHERE user_no = #{user_no});
+	</select>
+</mapper>

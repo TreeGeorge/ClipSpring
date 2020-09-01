@@ -38,5 +38,9 @@ public class LoginServiceImpl implements LoginService {
 			session.setAttribute("coin", user.getCoin());
 			session.setAttribute("card", user.getCard());
 			session.setAttribute("birthdate", user.getBirthdate());
+			session.setAttribute("gender", user.getGender());
+			session.setAttribute("editdate", user.getEditdate());
 	   }
+	 
+	 
 }

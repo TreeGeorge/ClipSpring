@@ -85,7 +85,7 @@ button:focus {
 			</ul>
 		</div>
 		<div class="id_box2">
-			<span>보유코인&nbsp;</span><span>${coin}코인<!-- ${coin}코인 --></span> <a href="MY_coin_charge.jsp">충전하기 ></a>
+			<span>보유코인&nbsp;</span><span>${coin}코인</span> <a href="MY_coin_charge">충전하기 ></a>
 </div>
 <script>
 //내 정보보기 클릭시 얼럴창

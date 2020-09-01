@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ page trimDirectiveWhitespaces="true" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -14,6 +17,30 @@
 /*a 밑줄 제거*/
 a{
 	text-decoration: none;
+}
+
+.top_info {
+   	position: fixed;
+    top: 0;
+    width: 100%;
+    height: 40px;
+    border-bottom: 1px solid #b8b8b8;
+    text-align: center;
+    line-height: 40px;
+    box-sizing: border-box;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #fff;
+    z-index: 100;
+}
+
+.top_info img {
+    display: block;
+    position: absolute;
+    float: left;
+    height: 26px;
+    width: 26px;
+    margin: 7px;
 }
 /*탭영역 넓이 및 마진오토값*/
 #top_bar ul {
@@ -282,7 +309,7 @@ button{
 <div id="container">
 		<!--탑 바-->
       <div class="top_info">
-         <a href="MY_movie.jsp"> <img
+         <a href="MY_movie"> <img
             src="assets/img/left.png" alt="뒤로">
          </a><span id="top_info_value">내 코인</span>
       </div>
@@ -291,8 +318,8 @@ button{
 			<!-- 탭영역 -->
 			<div id="top_bar">
 		<ul class="clearfix">
-			<li class="pull_left"><a href="MY_coin_charge.jsp"><span>코인충전</span></a></li>
-			<li class="pull_left"><a href="MY_coin_purchase_list.jsp"><span class="selected">충전내역</span></a></li>
+			<li class="pull_left"><a href="MY_coin_charge"><span>코인충전</span></a></li>
+			<li class="pull_left"><a href="MY_coin_purchase_list"><span class="selected">충전내역</span></a></li>
 		</ul>
 	</div>
 			
@@ -306,12 +333,13 @@ button{
 		
 	<div id="top_bar_movie" class="clear">
 		<ul class="movie">
-			<li class="area_list">
+			<c:forEach var="item" items="${output}" varStatus="status">
+				<li class="area_list">
 					<span class="this_text">코인 충전<br>
 					<!-- 충전한 날짜 시간 -->
-					<span class="font">2020.07.31 19:20</span><br>
+					<span class="font">${item.date}</span><br>
 					<!-- 충전한 금액 -->
-					<span class="font">금액 600원</span></span>
+					<span class="font">금액 ${item.price}원</span></span>
 					<!--버튼 -->
 					 <div id="buy_bottom">
 						<button id="coin" name="movie_check" class="this_number">
@@ -319,7 +347,8 @@ button{
 							구매취소
 						</button>
 					</div>
-			</li>
+				</li>
+			</c:forEach>
 		</ul>
 	</div>	
 

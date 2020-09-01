@@ -18,4 +18,6 @@ public interface FreeMovieService {
 	
 	public void editSaleMovie();
 	
+	public void test(int user_no);
+	
 }

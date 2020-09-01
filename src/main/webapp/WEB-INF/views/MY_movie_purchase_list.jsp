@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <%@ page trimDirectiveWhitespaces="true"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -175,25 +178,17 @@ input[type='radio']:checked {
 
 
 	<div class="movies">
-		<div class="plist clear">
-			<p class="movie_title">백두산</p>
-			<button style="display: block;" class="cancel pull-right"
-				onclick="return false;">구매취소</button>
-			<p class="price">
-				9,000<img src="assets/img/coin_icon.png">
-			</p>
-			<p class="period">2020-08-01</p>
-		</div>
-
-		<div class="plist clear">
-			<p class="movie_title">아저씨</p>
-			<button style="display: block;" class="no_cancel pull-right"
-				onclick="return false;">구매취소</button>
-			<p class="price">
-				2,000<img src="assets/img/coin_icon.png">
-			</p>
-			<p class="period">2020-05-01</p>
-		</div>
+		<c:forEach var="item" items="${output}" varStatus="status">
+			<div class="plist clear">
+				<p class="movie_title">${item.name}</p>
+				<button style="display: block;" class="cancel pull-right"
+					onclick="return false;">구매취소</button>
+				<p class="price">
+					${item.price}<img src="assets/img/coin_icon.png">
+				</p>
+				<p class="period">${item.date}</p>
+			</div>
+		</c:forEach>
 	</div>
 	<div class="no_movies hide">
 		<img src="assets/img/wish_list_none.png" />

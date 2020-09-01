@@ -1,5 +1,11 @@
 package study.spring.clip.controllers;
 
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,6 +17,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 // -> import org.springframework.stereotype.Controller;
 @Controller
 public class ParamsController {
+	
+	@Value("#{servletContext.contextPath}")
+	String contextPath;
+	
 	/** GET 방식의 파라미터를 전송받기 위한 컨트롤러 메서드 */
 	// 변수값을 View에게 전달할 필요가 있는 경우 Model 파라미터를 정의한다.
 	// import org.springframework.ui.Model;
@@ -117,9 +127,19 @@ public class ParamsController {
 	
 	/** POST 방식의 파라미터를 전송받기 위한 컨트롤러 메서드 */
 	// 추가적인 파라미터가 필요하다면 콤마(,)로 구분하여 나열한다.
-	@RequestMapping(value = "Wish_list", method = {RequestMethod.GET, RequestMethod.POST})
-	public String post(Model model,
-			@RequestParam(value="id", defaultValue="") String id) {
+	@RequestMapping(value = "Wish_list", method = RequestMethod.GET)
+	public String post(Model model, HttpSession session, HttpServletResponse response) {
+		
+		if ( session.getAttribute("id") == null ) {
+			try {
+				response.sendRedirect(contextPath + "/Login");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		 }
+		// 세빈쓰 도움되라고 해놨음 이 user_no가지고 값 받아와서 쓰면됨
+		int user_no = (int)session.getAttribute("user_no");
+		
 		int[] movieNo = {1,2,3,4};
 		String[] movieType = {"대여","구매","구매","대여"};
 		String[] movieTitle = {"제목1","제목2","제목3","제목4"};

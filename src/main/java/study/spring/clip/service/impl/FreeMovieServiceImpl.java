@@ -11,7 +11,7 @@ import study.spring.clip.model.FreeMovie;
 import study.spring.clip.service.FreeMovieService;
 
 @Service
-public class FreeMovieImpl implements FreeMovieService {
+public class FreeMovieServiceImpl implements FreeMovieService {
 
 	/** MyBatis 세션 객체 주입 설정 */
 	@Autowired
@@ -91,7 +91,7 @@ public class FreeMovieImpl implements FreeMovieService {
 
 	@Override
 	public boolean saleMovieCount() {
-		
+		// TODO 최신영화 x개 제외하고 에서 숫자 바꿔줘야됨 현재 2
 		int sale = sqlSession.selectOne("FreeMovieMapper.selectCountSale");
 		int all = sqlSession.selectOne("FreeMovieMapper.selectCountAll");
 		
@@ -114,6 +114,11 @@ public class FreeMovieImpl implements FreeMovieService {
 			input = sqlSession.selectOne("FreeMovieMapper.notSaleMovieSearch", input);
 			sqlSession.update("FreeMovieMapper.setSaleEdit", input);
 		}
+	}
+
+	@Override
+	public void test(int user_no) {
+		
 	}
 
 }

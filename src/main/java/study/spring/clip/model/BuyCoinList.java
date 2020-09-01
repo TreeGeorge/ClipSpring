@@ -8,5 +8,5 @@ public class BuyCoinList {
 	private String date;
 	private int price;
 	private int user_no;
-
+	private int coin;
 }

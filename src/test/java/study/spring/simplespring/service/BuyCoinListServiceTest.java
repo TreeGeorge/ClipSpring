@@ -10,7 +10,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import lombok.extern.slf4j.Slf4j;
-import study.spring.clip.service.FreeMovieService;
+import study.spring.clip.service.BuyCoinListService;
 
 /** Lombok의 Log4j 객체 */
 //import lombok.extern.slf4j.Slf4j;
@@ -28,39 +28,21 @@ import study.spring.clip.service.FreeMovieService;
 /** 메서드 이름순서로 실행하도록 설정 (설정하지 않을 경우 무작위 순서로 실행됨) */
 //import org.junit.FixMethodOrder;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class FreeMovieServiceTest {
+public class BuyCoinListServiceTest {
 	
 	/** Service 객체 주입 설정 */
 	@Autowired
-	private FreeMovieService freeMovieService;
+	private BuyCoinListService buyCoinListService;
 	
 	@Test
-	public void tesetB() {
-
-		freeMovieService.getFreeMovieList();
-			
+	public void testA() {
+		buyCoinListService.getBuyCoinList(3);
 	}
 	
 	@Test
-	public void testV() {
-		freeMovieService.getFreeMovieCount();
+	public void testB() {
+		int a = buyCoinListService.getUserCoin(4);
+		System.out.println(a);
 	}
-	
-	@Test
-	public void testE() {
-		freeMovieService.endFreeMovie();
-		freeMovieService.editFreeMovie();
-	}
-	
-	@Test
-	public void testQ() {
-		freeMovieService.editSaleMovie();
-	}
-	
-	@Test
-	public void testC() {
-		
-	}
-	
 
 }
