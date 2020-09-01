@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="JangreSliderMapper">
+
+	<!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
+	<resultMap id="JangreSliderMap"
+		type="study.spring.clip.model.JangreSlider">
+		<!-- Beans의 멤버변수(property)이름과 대상 테이블의 컬럼(column)을 연결한다. -->
+		<result property="movie_no" column="movie_no" />
+		<result property="name" column="name" />
+		<result property="thumbnail" column="thumbnail" />
+		<result property="price" column="price" />
+		<result property="sale" column="sale" />
+	</resultMap>
+	
+	<select id="oneJangreSlider"
+		parameterType="study.spring.clip.model.JangreSlider"
+		resultMap="JangreSliderMap">
+		SELECT movie_no, name, thumbnail, price, sale FROM movie
+	</select>
+
+</mapper>
+	

@@ -8,6 +8,5 @@ public class Top100Slider {
     private String name;
     private int price;
     private String thumbnail;
-    private int sale;
 }
 

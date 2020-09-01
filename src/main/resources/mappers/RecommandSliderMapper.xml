@@ -15,7 +15,7 @@
 	<select id="oneRecommandSlider"
 		parameterType="study.spring.clip.model.RecommandSlider"
 		resultMap="RecommandSliderMap">
-		SELECT movie_no, name FROM movie
+		SELECT movie_no, name, thumbnail FROM movie
 	</select>
 	
 </mapper>

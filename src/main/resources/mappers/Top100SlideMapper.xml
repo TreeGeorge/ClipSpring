@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Top100SliderMapper">
+
+	<!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
+	<resultMap id="Top100SliderMap"
+		type="study.spring.clip.model.Top100Slider">
+		<!-- Beans의 멤버변수(property)이름과 대상 테이블의 컬럼(column)을 연결한다. -->
+		<result property="movie_no" column="movie_no" />
+		<result property="name" column="name" />
+		<result property="thumbnail" column="thumbnail" />
+		<result property="price" column="price" />
+	</resultMap>
+	
+	<select id="oneTop100Slider"
+		parameterType="study.spring.clip.model.Top100Slider"
+		resultMap="Top100SliderMap">
+		SELECT movie_no, name, thumbnail, price FROM movie
+	</select>
+
+</mapper>
+	
