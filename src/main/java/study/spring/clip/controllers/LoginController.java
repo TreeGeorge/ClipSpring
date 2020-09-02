@@ -8,12 +8,14 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.extern.slf4j.Slf4j;
+import study.spring.clip.service.BuyCoinListService;
 import study.spring.clip.service.impl.LoginServiceImpl;
 
 @Slf4j
@@ -22,6 +24,9 @@ public class LoginController{
 
 	@Autowired
 	LoginServiceImpl loginService; //로그인 서비스 객체 주입
+	
+	@Autowired
+	BuyCoinListService buyCoinListService;
 	
 	/** "/프로젝트이름" 에 해당하는 ContextPath 변수 주입 */
 	// --> import org.springframework.beans.factory.annotation.Value;
@@ -41,7 +46,7 @@ public class LoginController{
 	
 	
 	 @RequestMapping(value="MY_movie",method=RequestMethod.GET)
-	 public String enterMyMovie(HttpSession session, HttpServletResponse response) { 
+	 public String enterMyMovie(Model model, HttpSession session, HttpServletResponse response) { 
 		 if ( session.getAttribute("id") == null ) {
 				try {
 					response.sendRedirect(contextPath + "/Login");
@@ -50,11 +55,19 @@ public class LoginController{
 					e.printStackTrace();
 				}
 	    	}
+		 
+		int user_no = (int)session.getAttribute("user_no");
+		 
+		// 충전한 다음에도 값을 가져와야 하기 때문에 세션에 저장된 값을 가져오면 안됨
+		int user_coin = buyCoinListService.getUserCoin(user_no);
+			
+		model.addAttribute("user_coin", user_coin);
+			
 		 return "MY_movie"; 
 	 }
 	 
 	 @RequestMapping(value="MY_interest_movie",method=RequestMethod.GET)
-	 public String enterMyInterest(HttpSession session, HttpServletResponse response) { 
+	 public String enterMyInterest(Model model, HttpSession session, HttpServletResponse response) { 
 		 if ( session.getAttribute("id") == null ) {
 				try {
 					response.sendRedirect(contextPath + "/Login");
@@ -63,11 +76,19 @@ public class LoginController{
 					e.printStackTrace();
 				}
 	    	}
+		 
+		 int user_no = (int)session.getAttribute("user_no");
+		 
+			// 충전한 다음에도 값을 가져와야 하기 때문에 세션에 저장된 값을 가져오면 안됨
+			int user_coin = buyCoinListService.getUserCoin(user_no);
+				
+			model.addAttribute("user_coin", user_coin);
+			
 		 return "MY_interest_movie"; 
 	 }
 	 
 	 @RequestMapping(value="MY_coupon",method=RequestMethod.GET)
-	 public String enterMyCoupon(HttpSession session, HttpServletResponse response) { 
+	 public String enterMyCoupon(Model model, HttpSession session, HttpServletResponse response) { 
 		 if ( session.getAttribute("id") == null ) {
 				try {
 					response.sendRedirect(contextPath + "/Login");
@@ -76,6 +97,14 @@ public class LoginController{
 					e.printStackTrace();
 				}
 	    	}
+		 
+		 int user_no = (int)session.getAttribute("user_no");
+		 
+			// 충전한 다음에도 값을 가져와야 하기 때문에 세션에 저장된 값을 가져오면 안됨
+			int user_coin = buyCoinListService.getUserCoin(user_no);
+				
+			model.addAttribute("user_coin", user_coin);
+			
 		 return "MY_coupon"; 
 	 }
 	 

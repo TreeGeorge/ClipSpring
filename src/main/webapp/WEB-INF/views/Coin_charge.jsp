@@ -238,7 +238,7 @@ input[type="number"]::-webkit-inner-spin-button {
 			<!-- 체크박스 or 라디오 박스 중에 하나정하고 하나만 체크되게 설정 -->
 			<!-- 라디오 박스 체크 시 총결제 금액 자동으로 바껴야함 -->
 			<li class="area_card"><input id="coinbox" class="coupon"
-				name="coin" type="radio" checked/><span class="this_text"> 1,000원</span> <b
+				name="coin" type="radio" /><span class="this_text"> 1,000원</span> <b
 				class="this_number">1,100코인</b></li>
 
 
@@ -317,6 +317,8 @@ input[type="number"]::-webkit-inner-spin-button {
 	<!-- 제이쿼리 시작 -->
 	<script>
 		$(function() {
+			$("input:radio[name='coin']").eq(${check}).prop("checked", true);
+			$(".coupon2").html($("input:radio[name='coin']:checked").next().text());
 			$("#top_info_value").html("코인 결제하기");
 			
 			$("#coinbox").click(function() {

@@ -419,6 +419,16 @@ $(function(){
 			            }).then(function(){
 			            	return false;
 			            })
+					} else if (${user_coin} < (price * 1.1)) {
+						swal({
+			                timer:1500,
+			                html:"<div style='font-weight: bold; margin-bottom: 20px;'>보유하신 코인이 모자라<br>구매 취소가 불가능합니다.</div>",
+			                type:"error",
+			                allowOutsideClick: false,
+			                showConfirmButton: false
+			            }).then(function(){
+			            	return false;
+			            })
 					} else {
 						swal({
 			                timer:1500,

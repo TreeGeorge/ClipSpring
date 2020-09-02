@@ -44,10 +44,12 @@ public class BuyMovieListController {
     	}
     	
 		int user_no = (int)session.getAttribute("user_no");
+		int user_coin = buyCoinListService.getUserCoin(user_no);
 		
 		List<BuyMovieList> output = buyMovieListService.getBuyMovieList(user_no);
 		
 		movie.addAttribute("output", output);
+		movie.addAttribute("user_coin", user_coin);
 		
 		return "MY_movie_purchase_list";
 	}

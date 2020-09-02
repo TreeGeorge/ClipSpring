@@ -33,7 +33,8 @@ public class BuyCoinListController {
 	String contextPath;
 	
 	@RequestMapping(value = "Coin_charge", method = RequestMethod.GET)
-	public String goCoinCharge(Model model, HttpServletResponse response, HttpSession session) {
+	public String goCoinCharge(Model model, HttpServletResponse response, HttpSession session,
+			@RequestParam(value="check") int check) {
 		
 		if ( session.getAttribute("id") == null ) {
 			try {
@@ -43,6 +44,8 @@ public class BuyCoinListController {
 				e.printStackTrace();
 			}
     	}
+		
+		model.addAttribute("check", check);
 		
 		return "Coin_charge";
 	}
@@ -82,10 +85,12 @@ public class BuyCoinListController {
     	}
 		
 		int user_no = (int)session.getAttribute("user_no");
+		int user_coin = buyCoinListService.getUserCoin(user_no);
 		
 		List<BuyCoinList> output = buyCoinListService.getBuyCoinList(user_no);
 		
 		model.addAttribute("output", output);
+		model.addAttribute("user_coin", user_coin);
 		
 		return "MY_coin_purchase_list";
 	}
