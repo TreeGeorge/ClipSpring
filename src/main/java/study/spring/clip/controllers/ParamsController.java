@@ -130,16 +130,16 @@ public class ParamsController {
 	@RequestMapping(value = "Wish_list", method = RequestMethod.GET)
 	public String post(Model model, HttpSession session, HttpServletResponse response) {
 		
-		if ( session.getAttribute("id") == null ) {
-			try {
-				response.sendRedirect(contextPath + "/Login");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		 }
-		// 세빈쓰 도움되라고 해놨음 이 user_no가지고 값 받아와서 쓰면됨
-		int user_no = (int)session.getAttribute("user_no");
-		
+//		if ( session.getAttribute("id") == null ) {
+//			try {
+//				response.sendRedirect(contextPath + "/Login");
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//		 }
+//		// 세빈쓰 도움되라고 해놨음 이 user_no가지고 값 받아와서 쓰면됨
+//		int user_no = (int)session.getAttribute("user_no");
+//		
 		int[] movieNo = {1,2,3,4};
 		String[] movieType = {"대여","구매","구매","대여"};
 		String[] movieTitle = {"제목1","제목2","제목3","제목4"};
