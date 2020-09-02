@@ -30,6 +30,8 @@ public class BuyCoinListServiceImpl implements BuyCoinListService {
 	public int deleteBuyCoinList(BuyCoinList input) throws Exception {
 		int result = 0;
 		
+		sqlSession.update("BuyCoinListMapper.userCoinDelete", input);
+		
 		try {
 			result = sqlSession.delete("BuyCoinListMapper.deleteItem", input);
 			
@@ -50,6 +52,8 @@ public class BuyCoinListServiceImpl implements BuyCoinListService {
 	@Override
 	public int addBuyCoinList(BuyCoinList input) throws Exception {
 		int result = 0;
+		
+		sqlSession.update("BuyCoinListMapper.userCoinAdd", input);
 		
 		try {
 			result = sqlSession.insert("BuyCoinListMapper.insertItem", input);

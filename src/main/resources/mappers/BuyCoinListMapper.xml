@@ -25,6 +25,18 @@
 		DELETE FROM buy_coin_list WHERE user_no = #{user_no} AND date = #{date};	
 	</delete>
 	
+	<update id="userCoinDelete"
+    	parameterType="study.spring.clip.model.BuyCoinList">
+        UPDATE user SET coin = (#{coin} - (#{price} * 1.1))
+		WHERE user_no = #{user_no};
+    </update>
+    
+	<update id="userCoinAdd"
+    	parameterType="study.spring.clip.model.BuyCoinList">
+        UPDATE user SET coin = (#{coin} + (#{price} * 1.1))
+		WHERE user_no = #{user_no};
+    </update>
+	
 	<insert id="insertItem"
 		parameterType="study.spring.clip.model.BuyCoinList"
 		useGeneratedKeys="true"

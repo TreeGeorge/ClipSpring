@@ -15,6 +15,7 @@
         <result property="name" column="name" />
         <result property="price" column="price" />
         <result property="thumbnail" column="thumbnail" />
+        <result property="coin" column="coin" />
     </resultMap>
     
     <select id="buyList"
@@ -23,4 +24,16 @@
 		SELECT name, price, date FROM movie m, buy_movie_list b WHERE b.movie_no = m.movie_no 
 		IN (SELECT movie_no FROM buy_movie_list WHERE user_no = #{user_no});
 	</select>
+	
+	<update id="userCoinEdit"
+    	parameterType="study.spring.clip.model.BuyMovieList">
+        UPDATE user SET coin = (#{coin} + #{price})
+		WHERE user_no = #{user_no};
+    </update>
+    
+    <delete id="deleteItem"
+		parameterType="study.spring.clip.model.BuyMovieList">
+		DELETE FROM buy_movie_list WHERE user_no = #{user_no} AND date = #{date};	
+	</delete>
+    
 </mapper>

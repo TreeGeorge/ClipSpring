@@ -33,7 +33,7 @@ public class LoginController{
 	@RequestMapping(value="login.do", method=RequestMethod.POST)
 	public String loginProcess(HttpSession session,
 			@RequestParam(value="user_id") String id,
-			 @RequestParam(value="user_pw") String pw) {
+			@RequestParam(value="user_pw") String pw) {
 		
 		if(loginService.loginCheck(session, id, pw)) { return "1"; }
 		return "0";
@@ -42,13 +42,14 @@ public class LoginController{
 	
 	 @RequestMapping(value="MY_movie",method=RequestMethod.GET)
 	 public String enterMyMovie(HttpSession session, HttpServletResponse response) { 
-		if ( session.getAttribute("id") == null ) {
-			try {
-				response.sendRedirect(contextPath + "/Login");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		 }
+		 if ( session.getAttribute("id") == null ) {
+				try {
+					response.sendRedirect(contextPath + "/Login");
+					return "Login";
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+	    	}
 		 return "MY_movie"; 
 	 }
 	 
@@ -57,10 +58,11 @@ public class LoginController{
 		 if ( session.getAttribute("id") == null ) {
 				try {
 					response.sendRedirect(contextPath + "/Login");
+					return "Login";
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-			 }
+	    	}
 		 return "MY_interest_movie"; 
 	 }
 	 
@@ -69,10 +71,11 @@ public class LoginController{
 		 if ( session.getAttribute("id") == null ) {
 				try {
 					response.sendRedirect(contextPath + "/Login");
+					return "Login";
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-			 }
+	    	}
 		 return "MY_coupon"; 
 	 }
 	 
@@ -86,10 +89,11 @@ public class LoginController{
 		 if ( session.getAttribute("id") == null ) {
 				try {
 					response.sendRedirect(contextPath + "/Login");
+					return "Login";
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-		}
+	    	}
 		 return "MY_information"; 
 	 }
 

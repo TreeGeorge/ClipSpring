@@ -12,4 +12,5 @@ public class BuyMovieList {
 	private String name;
 	private int price;
 	private String thumbnail;
+	private int coin;
 }

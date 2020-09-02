@@ -211,7 +211,7 @@ input[type="radio" i] {
 				<div class="couponbox">
 					<div class="coupon">
 						<div>
-							선택안함<span class="coupun_radio"> 선택안함<input id="no_coin"
+							 &nbsp;<span class="coupun_radio"> 선택안함<input id="no_coin"
 								class="coupon" name="coin" type="radio" checked />
 							</span>
 						</div>
@@ -331,7 +331,7 @@ input[type="radio" i] {
                 cancelButtonText : "취소"
             	}).then(function(result) {
             		if (result.value) {
-            			$(location).attr('href', 'Coin_charge.jsp');
+            			$(location).attr('href', 'Coin_charge');
             		}
             	})
             return false;

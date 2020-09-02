@@ -317,7 +317,7 @@
             
             <!-- 구매버튼 -->
             <li class="btn1_1_2">
-                <span style="font-weight: bold;"><a href="Movie_buy.jsp">구매<span class="price">&nbsp;&nbsp;${price}코인</span></a></span>
+                <span style="font-weight: bold;"><a href="Movie_buy">구매<span class="price">&nbsp;&nbsp;${price}코인</span></a></span>
             </li>
         </ul>
     </div>

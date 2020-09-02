@@ -388,6 +388,7 @@ input[type="number"]::-webkit-inner-spin-button {
 			$(".pay_end").click(function() {
 				var chk1 = $("#check").is(":checked");
 				var pw_val = $("#password").val();
+				var price = parseInt($(".coupon2").text().replace(",","").replace("원",""));
 				
 				//비밀번호 확인 여부
 				if (!pw_val) {
@@ -462,7 +463,9 @@ input[type="number"]::-webkit-inner-spin-button {
 						return false;
 					}
 				}
-				$(location).attr('href', 'MY_movie.jsp');
+				$.post('coin_add_ok.do',{price: price},function(){
+					location.href = document.referrer; 
+	            });
 			})
 		}); // $(function(){}) end
 	</script>

@@ -257,7 +257,7 @@ a {
 				<li>
 					<div class="area_card">
 						<img src="assets/img/coin.png" /><span
-							class="this_text"> 1,100코인</span> <a href="Coin_charge.jsp"
+							class="this_text"> 1,100코인</span> <a href="Coin_charge"
 							id="coin"
 							class="area_button_openCashPurchasePopup(soncash_1000_npay,1000.0)">
 							<strong class="this_number">1,000원</strong>
@@ -267,14 +267,14 @@ a {
 
 				<li class="area_card"><img
 					src="assets/img/coin.png" alt="코인" /><span
-					class="this_text"> 5,500코인</span> <a href="Coin_charge.jsp"
+					class="this_text"> 5,500코인</span> <a href="Coin_charge"
 					id="coin"
 					class="area_button_openCashPurchasePopup(soncash_1000_npay,1000.0)">
 						<strong class="this_number">5,000원</strong>
 				</a></li>
 				<li class="area_card"><img
 					src="assets/img/coin.png" alt="코인" /><span
-					class="this_text"> 11,000코인</span> <a href="Coin_charge.jsp"
+					class="this_text"> 11,000코인</span> <a href="Coin_charge"
 					id="coin"
 					class="area_button_openCashPurchasePopup(soncash_1000_npay,1000.0)">
 						<strong class="this_number">10,000원</strong>
@@ -282,7 +282,7 @@ a {
 
 				<li class="area_card"><img
 					src="assets/img/coin.png" alt="코인" /><span
-					class="this_text"> 55,000코인</span> <a href="Coin_charge.jsp"
+					class="this_text"> 55,000코인</span> <a href="Coin_charge"
 					id="coin"
 					class="area_button_openCashPurchasePopup(soncash_1000_npay,1000.0)">
 						<strong class="this_number">50,000원</strong>
@@ -290,7 +290,7 @@ a {
 
 				<li class="area_card"><img
 					src="assets/img/coin.png" alt="코인" /><span
-					class="this_text"> 110,000코인</span> <a href="Coin_charge.jsp"
+					class="this_text"> 110,000코인</span> <a href="Coin_charge"
 					id="coin"
 					class="area_button_openCashPurchasePopup(soncash_1000_npay,1000.0)">
 						<strong class="this_number">100,000원</strong>

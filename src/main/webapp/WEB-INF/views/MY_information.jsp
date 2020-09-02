@@ -222,6 +222,15 @@
 		//메일 발송
 		function sendEmail(email){
 			(function(){
+				
+				var gender = $(".info_item").eq(2);
+	            if(gender.text()=="M"){
+	               gender.text("남자");
+	            }else{
+	               gender.text("여자");
+	            }
+	         })
+	         
 				key = createRandomNumber();
 				var emailC = {
 					host: 'CLIP',

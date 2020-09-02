@@ -30,16 +30,7 @@ public class LoginServiceImpl implements LoginService {
 	/*세션에 회원정보 저장*/
 	 public void pushSession(HttpSession session, User user) {
 			session.setAttribute("id", user.getId());
-			session.setAttribute("pw", user.getPw());
-			session.setAttribute("name", user.getName());
 			session.setAttribute("user_no", user.getUser_no());
-			session.setAttribute("email", user.getEmail());
-			session.setAttribute("is_sendagree", user.getIs_sendagree());
-			session.setAttribute("coin", user.getCoin());
-			session.setAttribute("card", user.getCard());
-			session.setAttribute("birthdate", user.getBirthdate());
-			session.setAttribute("gender", user.getGender());
-			session.setAttribute("editdate", user.getEditdate());
 	   }
 	 
 	 

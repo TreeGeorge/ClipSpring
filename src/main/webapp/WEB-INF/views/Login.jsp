@@ -148,7 +148,6 @@
 	<script src="assets/plugins/ajax/ajax_helper.js"></script>
 	<script>
 		$(function(){
-			$(".bot_bar_icon").eq(0).attr("src", "assets/img/home_icon.png");
 			$("#submit_btn").click(function(e){
 				e.preventDefault();
 				var id_val = $("#user_id").val();

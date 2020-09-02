@@ -337,13 +337,13 @@ button{
 				<li class="area_list">
 					<span class="this_text">코인 충전<br>
 					<!-- 충전한 날짜 시간 -->
-					<span class="font">${item.date}</span><br>
+					<span id="date" class="font">${item.date}</span><br>
 					<!-- 충전한 금액 -->
-					<span class="font">금액 ${item.price}원</span></span>
+					<span class="font">금액 <span id="price">${item.price}</span>원</span>
+					</span>
 					<!--버튼 -->
-					 <div id="buy_bottom">
+					<div id="buy_bottom">
 						<button id="coin" name="movie_check" class="this_number">
-						<!-- class="area_button_openCashPurchasePopup(soncash_1000_npay,1000.0)" -->
 							구매취소
 						</button>
 					</div>
@@ -379,45 +379,61 @@ button{
 </div>
 	
 <script src="assets/js/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 
 <script>
 	
 // 삭제 버튼 클릭시
 $(function(){
-$(".this_number").click(function () {
-	var movie_e = $(this)
-	var value1="";
-	// 확인, 취소버튼에 따른 후속 처리 구현
-	swal({
-		html: "<b>선택하신 코인을 구매취소 하시겠습니까?</b>",  // 내용
-		type: "question",     // 종류
-		confirmButtonText: "확인",   // 확인버튼 표시 문구
-		showCancelButton: true, // 취소버튼 표시 여부
-		confirmButtonColor : "#ff3253",
-		cancelButtonText: "취소", // 취소버튼 표시 문구
-		}).then(function (result) {   // 버튼이 눌러졌을 경우의 콜백 연결
-		if (result.value) {     // 확인 버튼이 눌러진 경우
-			swal({
-                timer:1500,
-                html:"<div style='font-weight: bold; margin-bottom: 20px;'>구매취소 되었습니다.</div>",
-                type:"success",
-                allowOutsideClick: false,
-                showConfirmButton: false
-            }).then(function(){
-            	$(movie_e).parent().parent().remove();
-    			if(!$(".area_list")[0]) {  
-    				$("#top_bar_movie").remove(); 
-    			} 
-            	// 충전리스트가 비었다면
-    			if(!$(".area_list")[0]) {
-    				// 충전리스트 빈 화면
-    				$(".no_value").removeClass("hide");
-    				$("#top_bar_movie").removeClass("hide");
-    				$(".area_list").addClass("hide");
-    			}
-            })
-			}
-		});
+	// 충전리스트가 비었다면
+	if(!$(".area_list")[0]) {
+		// 충전리스트 빈 화면
+		$(".no_value").removeClass("hide");
+		$("#top_bar_movie").remove();
+		$(".area_list").addClass("hide");
+	}
+	$(".this_number").click(function () {
+		var date = $(this).parent().prev().children().eq(1).text();
+		var price = parseInt($(this).parent().prev().children().eq(3).children().text());
+		var nowDate = new Date();
+		nowDate.setDate(nowDate.getDate() - 7);
+		var buyTime = parseInt(date.replace("-","").replace(":","").replace("-","").replace(":","").replace(" ",""));
+		var nowTime = parseInt(moment(nowDate).format('YYYYMMDDHHmmss'));
+		// 확인, 취소버튼에 따른 후속 처리 구현
+		swal({
+			html: "<b>선택하신 코인을 구매취소 하시겠습니까?</b>",  // 내용
+			type: "question",     // 종류
+			confirmButtonText: "확인",   // 확인버튼 표시 문구
+			showCancelButton: true, // 취소버튼 표시 여부
+			confirmButtonColor : "#ff3253",
+			cancelButtonText: "취소", // 취소버튼 표시 문구
+			}).then(function (result) {   // 버튼이 눌러졌을 경우의 콜백 연결
+				if (result.value) {     // 확인 버튼이 눌러진 경우
+					if (buyTime < nowTime) {
+						swal({
+			                timer:1500,
+			                html:"<div style='font-weight: bold; margin-bottom: 20px;'>구매한지 일주일이 지난 상품은<br>구매 취소가 불가능합니다.</div>",
+			                type:"error",
+			                allowOutsideClick: false,
+			                showConfirmButton: false
+			            }).then(function(){
+			            	return false;
+			            })
+					} else {
+						swal({
+			                timer:1500,
+			                html:"<div style='font-weight: bold; margin-bottom: 20px;'>구매취소 되었습니다.</div>",
+			                type:"success",
+			                allowOutsideClick: false,
+			                showConfirmButton: false
+			            }).then(function(){
+				            $.post('coin_delete_ok.do',{date: date, price: price},function(){
+				            	location.reload();
+				            })
+			            })
+					}
+				}
+			});
 	});	
 });//삭제버튼 end
 </script>
