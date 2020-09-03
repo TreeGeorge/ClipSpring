@@ -206,6 +206,17 @@ input[type="number"]::-webkit-inner-spin-button {
 #check{
     margin-top : 8px;
 }
+#swal_pw {
+	display: block;
+	width: 100%;
+	background-color: #FFFBFC;
+	height: 40px;
+	border: 2px solid black;
+	line-height: 40px;
+	margin-top: 110px;
+	border-radius: 10px;
+	text-align: center;
+}
 </style>
 </head>
 
@@ -468,9 +479,61 @@ input[type="number"]::-webkit-inner-spin-button {
 						return false;
 					}
 				}
-				$.post('coin_add_ok.do',{price: price},function(){
-					location.href = document.referrer; 
-	            });
+				$.post('card_check.do', {card_no: "${card_no}"}, function(req){
+					if(req == 0) {
+						swal({
+			                timer:1500,
+			                html:"<div style='font-weight: bold; margin-bottom: 20px;'>등록된 카드가 없습니다.<br>카드정보를 등록해 주세요.</div>",
+			                type:"error",
+			                allowOutsideClick: false,
+			                showConfirmButton: false
+			            }).then(function(){
+			            	swal({
+							    showConfirmButton: true,
+							    showCancelButton: false,
+							    confirmButtonColor: "#FF3253",
+							    confirmButtonText: "<span style='color:#FFFBFC; font-weight:bold'>확인</span>",
+							    showCloseButton: true,
+							    allowOutsideClick: false,
+							    background: '#FFFBFC url(assets/img/logo_swal.png) no-repeat center 10px',
+								html : "<input type='password' id='swal_pw' class='swal_body' placeholder='비밀번호를 입력해주세요.'>"
+							}).then(function(e) {
+								var pw = $("#swal_pw").val(); //비밀번호
+								if (e.value) { // 확인 버튼 눌림
+									if (!pw) { //비밀번호 공란
+										swal({
+											showConfirmButton : false,
+											type : 'error',
+											html : "<b>비밀번호를 입력해주세요.</b>",
+											timer : 1500
+										}).then(function() {
+											$(".id_btn_my").click(); //비밀번호 확인 alert창 재실행
+										}) 
+									} else {	
+										$.post("pwCheck.do",{pw:pw},function(req){
+											if (req!="1") {
+												swal({
+													showConfirmButton : false,
+													type : 'error',
+													html : "<b>비밀번호가 틀렸습니다.</b>",
+													timer : 1500
+												}).then(function() {
+													$(".id_btn_my").click(); //비밀번호 확인 alert창 재실행
+												})
+											} else { //비밀번호 입력완료
+												$(location).attr('href','MY_information');
+											}
+										});
+									}
+								}
+							});
+			            });
+					} else {
+						$.post('coin_add_ok.do',{price: price},function(){
+							location.href = document.referrer; 
+			            });
+					}
+				});
 			})
 		}); // $(function(){}) end
 	</script>

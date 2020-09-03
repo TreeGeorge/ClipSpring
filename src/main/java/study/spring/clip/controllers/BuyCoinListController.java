@@ -61,6 +61,18 @@ public class BuyCoinListController {
 		return "Coin_charge";
 	}
 	
+	@ResponseBody
+	@RequestMapping(value = "card_check.do", method = RequestMethod.POST)
+	public int userCardCheck(Model model, HttpServletResponse response, HttpSession session,
+			@RequestParam(value="card_no") String card_no) {
+		
+		if (card_no.equals("카드 정보가 없습니다.")) {
+			return 0;
+		}
+		
+		return 1;
+	}
+	
 	@RequestMapping(value = "MY_coin_charge", method = RequestMethod.GET)
 	public String goMyCoinCharge(Model model, HttpServletResponse response, HttpSession session) {
 		
