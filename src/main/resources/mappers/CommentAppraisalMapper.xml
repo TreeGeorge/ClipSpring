@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="CommentAppraisalMapper">
+
+	<!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
+	<resultMap id="CommentAppraisalMap"
+		type="study.spring.clip.model.CommentAppraisal">
+		<!-- Beans의 멤버변수(property)이름과 대상 테이블의 컬럼(column)을 연결한다. -->
+		<result property="appraisal_no" column="appraisal_no" />
+		<result property="answer" column="answer" />
+		<result property="user_no" column="user_no" />
+		<result property="movie_comment_no " column="movie_comment_no " />
+	</resultMap>
+
+	<!-- 단일행 조회를 위한 기능 정의 -->
+	<select id="oneCommentAppraisal"
+		parameterType="study.spring.clip.model.CommentAppraisal"
+		resultMap="CommentAppraisalMap">
+		SELECT appraisal_no, answer, user_no, movie_comment_no
+		FROM comment_appraisal
+		WHERE user_no IN (SELECT user_no FROM user
+		WHERE user_no=#{user_no})
+	</select>
+</mapper>

@@ -71,7 +71,6 @@ li {
 /* 영화 썸네일 이미지 영역 박스 */
 #movie {
 	width: auto;
-	margin-right: 5px;
 	padding: 0px;
 }
 /* 한줄에 3개씩 가로배치 */
@@ -90,7 +89,7 @@ li {
 #movie .thumb img {
 	width: auto;
 	height: 150px;
-	display:block;
+	display: block;
 }
 /* 링크 안의 span을 block처리 */
 #movie li a span {
@@ -147,8 +146,8 @@ a:hover {
 
 		<!-- 총 n개 작품 , 드롭다운  -->
 		<div class="content clearfix">
-			<span class="total">총</span>
-			<span class="p">&nbsp;${total}</span>개 작품
+			<span class="total">총</span> <span class="p">&nbsp;${total}</span>개
+			작품
 
 			<!-- 드랍 다운 -->
 			<select class="form-control selcls" id="movie_select">
@@ -169,10 +168,12 @@ a:hover {
 					<c:set var="price" value="MoviePrice${status.index}" />
 					<c:set var="movie_no" value="MovieNo${status.index}" />
 					<c:set var="type" value="MovieType${status.index}" />
-					<li class="img"><a href="Movie_information.do?movie_no=${requestScope[movie_no]}"> 
-					<span class="thumb"> <img src="${requestScope[thumb]}" alt="${requestScope[movie_title]}" /></span> 
-					<span class="movie_title">${requestScope[movie_title]}</span>
-					<span class="price">${requestScope[type]}&nbsp;${requestScope[price]}<img src="assets/img/coin_icon.png"></span>
+					<li class="img"><a
+						href="Movie_information.do?movie_no=${requestScope[movie_no]}">
+							<span class="thumb"> <img src="${requestScope[thumb]}"
+								alt="${requestScope[movie_title]}" /></span> <span class="movie_title">${requestScope[movie_title]}</span>
+							<span class="price">${requestScope[type]}&nbsp;${requestScope[price]}<img
+								src="assets/img/coin_icon.png"></span>
 					</a></li>
 				</c:forEach>
 			</ul>

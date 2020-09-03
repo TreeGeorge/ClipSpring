@@ -13,11 +13,13 @@
 		<result property="thumbnail" column="thumbnail" />
 		<result property="price" column="price" />
 	</resultMap>
-	
+
 	<select id="oneTop100Slider"
 		parameterType="study.spring.clip.model.Top100Slider"
 		resultMap="Top100SliderMap">
-		SELECT movie_no, name, thumbnail, price FROM movie
+		SELECT *, dense_rank() over(order by buy_count_no desc) AS
+		ranking
+		FROM clip.buy_count
 	</select>
 
 </mapper>

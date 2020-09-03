@@ -1,5 +1,6 @@
 package study.spring.simplespring.service;
 
+import org.apache.ibatis.session.SqlSession;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,8 +11,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import lombok.extern.slf4j.Slf4j;
-import study.spring.clip.model.JangreSlider;
-import study.spring.clip.service.JangreSliderService;
+import study.spring.clip.model.CategoryType;
+import study.spring.clip.service.CategoryTypeService;
 
 /** Lombok의 Log4j 객체 */
 //import lombok.extern.slf4j.Slf4j;
@@ -29,27 +30,18 @@ import study.spring.clip.service.JangreSliderService;
 /** 메서드 이름순서로 실행하도록 설정 (설정하지 않을 경우 무작위 순서로 실행됨) */
 //import org.junit.FixMethodOrder;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class JangreServiceTest {
-
+public class CategoryTypeServiceTest {
+	
 	/** Service 객체 주입 설정 */
 	@Autowired
-	private JangreSliderService jangreSliderService;
+	private SqlSession sqlSession;
 	
 	/** 단일행 조회 테스트 */
 	@Test
 	public void testA() {
 		// 검색조건으로 사용될 POJO 클래스 객체
-		JangreSlider input = new JangreSlider();
-		input.setMovie_no(1);
-		
-		JangreSlider output = null;
-		
-		try {
-			output = jangreSliderService.getJangreSliderItem(input);
-			log.debug(output.toString());
-		} catch (Exception e) {
-			log.error(e.getLocalizedMessage());
-			e.printStackTrace();
-		}
+		CategoryType input = new CategoryType();
+		input.setType("G");
+		sqlSession.selectList("CategoryTypeMapper.OneCategoryType", input);
 	}
 }

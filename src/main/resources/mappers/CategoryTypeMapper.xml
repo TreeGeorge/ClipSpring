@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="CategoryTypeMapper">
+
+	<!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
+	<resultMap id="CategoryTypeMap"
+		type="study.spring.clip.model.CategoryType">
+		<!-- Beans의 멤버변수(property)이름과 대상 테이블의 컬럼(column)을 연결한다. -->
+		<result property="category_type_no" column="category_type_no" />
+		<result property="name" column="name" />
+		<result property="type" column="type" />
+	</resultMap>
+
+	<select id="OneCategoryType"
+		parameterType="study.spring.clip.model.CategoryType"
+		resultMap="CategoryTypeMap">
+		SELECT category_type_no, name, type 
+		FROM category_type
+		WHERE type = #{type}
+	</select>
+</mapper>

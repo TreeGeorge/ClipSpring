@@ -29,7 +29,6 @@
 	<!-- 데이터 삭제를 위한 기능 정의 -->
 	<delete id="deleteComment"
 		parameterType="study.spring.clip.model.MovieComment">
-		DELETE FROM movie_comment WHERE
-		movie_comment_no=#{movie_comment_no};
+		DELETE FROM movie_comment WHERE movie_comment_no=#{movie_comment_no};
 	</delete>
 </mapper>

@@ -5,23 +5,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
-import study.spring.clip.model.JangreSlider;
-import study.spring.clip.model.RecommandSlider;
-import study.spring.clip.service.JangreSliderService;
+import study.spring.clip.model.CategoryType;
+import study.spring.clip.service.CategoryTypeService;
 
 @Slf4j
 @Service
-public class JangreSliderServiceImpl implements JangreSliderService {
+public class CategoryTypeServieImpl implements CategoryTypeService {
 
 	@Autowired
 	SqlSession sqlSession;
 
 	@Override
-	public JangreSlider getJangreSliderItem(JangreSlider input) throws Exception {
-		JangreSlider result = null;
+	public CategoryType getCategoryTypeItem(CategoryType input) throws Exception {
+		CategoryType result = null;
 
 		try {
-			result = sqlSession.selectOne("JangreSliderMapper.oneJangreSlider", input);
+			result = sqlSession.selectOne("CategoryTypeMapper.OneCateogoryType", input);
 
 			if (result == null) {
 				throw new NullPointerException("resut=null");
