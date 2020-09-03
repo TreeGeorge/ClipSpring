@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
 import study.spring.clip.model.BuyCoinList;
+import study.spring.clip.model.User;
 import study.spring.clip.service.BuyCoinListService;
 
 @Slf4j
@@ -73,10 +74,18 @@ public class BuyCoinListServiceImpl implements BuyCoinListService {
 	}
 
 	@Override
-	public int getUserCoin(int user_no) {
-		
-		int result = sqlSession.selectOne("BuyCoinListMapper.getUserCoin", user_no);
-		
+	public boolean checkCoinList(BuyCoinList input) {
+
+		if (sqlSession.selectOne("BuyCoinListMapper.checkList", input) == null) {
+			return true;
+		}
+		return false;
+	}
+
+
+	@Override
+	public User getUserInfo(int user_no) {
+		User result = sqlSession.selectOne("UserMapper.selectUserInfo", user_no);
 		return result;
 	}
 

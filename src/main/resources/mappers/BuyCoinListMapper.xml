@@ -19,6 +19,12 @@
 		resultMap="buyCoinListMap">
 		SELECT date, price FROM buy_coin_list WHERE user_no = #{user_no};
 	</select>
+	
+	<select id="checkList"
+		parameterType="study.spring.clip.model.BuyCoinList"
+		resultMap="buyCoinListMap">
+		SELECT * FROM buy_coin_list WHERE user_no = #{user_no} AND date = #{date} AND price = #{price};
+	</select>
 
 	<delete id="deleteItem"
 		parameterType="study.spring.clip.model.BuyCoinList">
@@ -43,11 +49,5 @@
 		keyProperty="deptno">
 		INSERT INTO buy_coin_list (date, price, user_no) VALUES (now(), #{price}, #{user_no});
 	</insert>
-	
-	<select id="getUserCoin"
-		parameterType="study.spring.clip.model.BuyCoinList"
-		resultType="int">
-		SELECT coin FROM user WHERE user_no = #{user_no};
-	</select>
 	
 </mapper>

@@ -31,6 +31,11 @@
 			SELECT * FROM user WHERE id = #{id};
 	</select>
 	
+	<select id="selectUserInfo" parameterType="study.spring.clip.model.User"
+	resultMap="userMap">
+			SELECT * FROM user WHERE user_no = #{user_no};
+	</select>
+	
 	<delete id="deleteUser" parameterType="study.spring.clip.model.User">
 		DELETE FROM user WHERE user_no=#{user_no};
 	</delete>

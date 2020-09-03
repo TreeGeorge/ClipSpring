@@ -280,7 +280,7 @@ input[type="number"]::-webkit-inner-spin-button {
 			<!-- 계좌번호 비밀번호랑 카드번호 비밀번호 다르게 설정 -->
 			<p>
 				<input type="radio" id="paybox1" name="pay" class="coupon"
-					value="card" checked /> <label>카드 간편결제</label>
+					value="card" checked /> <label>${card_no}</label>
 			</p>
 			<hr />
 		</div>

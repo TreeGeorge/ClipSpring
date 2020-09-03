@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import study.spring.clip.model.BuyMovieList;
+import study.spring.clip.model.User;
 import study.spring.clip.service.BuyCoinListService;
 import study.spring.clip.service.BuyMovieListService;
 
@@ -44,7 +45,8 @@ public class BuyMovieListController {
     	}
     	
 		int user_no = (int)session.getAttribute("user_no");
-		int user_coin = buyCoinListService.getUserCoin(user_no);
+		User user_info = buyCoinListService.getUserInfo(user_no);
+		int user_coin = user_info.getCoin();
 		
 		List<BuyMovieList> output = buyMovieListService.getBuyMovieList(user_no);
 		
@@ -87,7 +89,8 @@ public class BuyMovieListController {
 			BuyMovieList input = new BuyMovieList();
 			
 			int user_no = (int)session.getAttribute("user_no");
-			int user_coin = buyCoinListService.getUserCoin(user_no);
+			User user_info = buyCoinListService.getUserInfo(user_no);
+			int user_coin = user_info.getCoin();
 			
 			input.setCoin(user_coin);
 			input.setPrice(price);

@@ -418,7 +418,7 @@ $(function(){
 			                showConfirmButton: false
 			            }).then(function(){
 			            	return false;
-			            })
+			            });
 					} else if (${user_coin} < (price * 1.1)) {
 						swal({
 			                timer:1500,
@@ -430,20 +430,32 @@ $(function(){
 			            	return false;
 			            })
 					} else {
-						swal({
-			                timer:1500,
-			                html:"<div style='font-weight: bold; margin-bottom: 20px;'>구매취소 되었습니다.</div>",
-			                type:"success",
-			                allowOutsideClick: false,
-			                showConfirmButton: false
-			            }).then(function(){
-				            $.post('coin_delete_ok.do',{date: date, price: price},function(){
-				            	location.reload();
-				            })
-			            })
-					}
+				      	$.post('coin_delete_ok.do',{date: date, price: price},function(req){
+				            if (req == 1) {
+				            	swal({
+						            timer:1500,
+						            html:"<div style='font-weight: bold; margin-bottom: 20px;'>구매취소 되었습니다.</div>",
+						            type:"success",
+						            allowOutsideClick: false,
+						            showConfirmButton: false
+						        }).then(function(){
+						            location.reload();
+						        });
+				            } else {
+				            	swal({
+						            timer:1500,
+						            html:"<div style='font-weight: bold; margin-bottom: 20px;'>개짓거리 하지 마십쇼 휴먼</div>",
+						            type:"error",
+						            allowOutsideClick: false,
+						            showConfirmButton: false
+						        }).then(function(){
+						            location.reload();
+						        });
+				            }
+			        })
 				}
-			});
+			}
+		});
 	});	
 });//삭제버튼 end
 </script>

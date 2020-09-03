@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import study.spring.clip.model.BuyCoinList;
+import study.spring.clip.model.User;
 import study.spring.clip.service.BuyCoinListService;
 
 @Controller
@@ -45,6 +46,16 @@ public class BuyCoinListController {
 			}
     	}
 		
+		int user_no = (int)session.getAttribute("user_no");
+		User user_info = buyCoinListService.getUserInfo(user_no);
+		String card_no = user_info.getCard();
+		
+		if (card_no == null) {
+			model.addAttribute("card_no", "카드 정보가 없습니다.");
+		} else {
+			model.addAttribute("card_no", "카드 " + card_no);
+		}
+		
 		model.addAttribute("check", check);
 		
 		return "Coin_charge";
@@ -63,9 +74,8 @@ public class BuyCoinListController {
     	}
 		
 		int user_no = (int)session.getAttribute("user_no");
-			
-		// 충전한 다음에도 값을 가져와야 하기 때문에 세션에 저장된 값을 가져오면 안됨
-		int user_coin = buyCoinListService.getUserCoin(user_no);
+		User user_info = buyCoinListService.getUserInfo(user_no);
+		int user_coin = user_info.getCoin();
 		
 		model.addAttribute("user_coin", user_coin);
 		
@@ -85,7 +95,8 @@ public class BuyCoinListController {
     	}
 		
 		int user_no = (int)session.getAttribute("user_no");
-		int user_coin = buyCoinListService.getUserCoin(user_no);
+		User user_info = buyCoinListService.getUserInfo(user_no);
+		int user_coin = user_info.getCoin();
 		
 		List<BuyCoinList> output = buyCoinListService.getBuyCoinList(user_no);
 		
@@ -95,22 +106,27 @@ public class BuyCoinListController {
 		return "MY_coin_purchase_list";
 	}
 	
-	// TODO 기간 비교해서 삭제되게 해야됨... 일주일 지나면 삭제 못하게..
 	@ResponseBody
 	@RequestMapping(value = "coin_delete_ok.do", method = RequestMethod.POST)
-	public void deleteBuyCoinListOk(Model model, HttpServletResponse response, HttpSession session,
+	public int deleteBuyCoinListOk(Model model, HttpServletResponse response, HttpSession session,
 			@RequestParam(value="date") String date,
 			@RequestParam(value="price") int price) {
 		// 데이터 삭제에 필요한 조건값을 Beans에 저장하기
 		BuyCoinList input = new BuyCoinList();
 		
 		int user_no = (int)session.getAttribute("user_no");
-		int user_coin = buyCoinListService.getUserCoin(user_no);
+		User user_info = buyCoinListService.getUserInfo(user_no);
+		int user_coin = user_info.getCoin();
 		
 		input.setCoin(user_coin);
 		input.setPrice(price);
 		input.setDate(date);
 		input.setUser_no(user_no);
+		
+		// 개발자도구로 나쁜짓하면 혼내주기
+		if (buyCoinListService.checkCoinList(input)) {
+			return 0;
+		}
 		
 		try {
 			// 데이터 삭제
@@ -119,8 +135,10 @@ public class BuyCoinListController {
 			e.printStackTrace();
 		}
 		
+		return 1;
 	}
 	
+	// TODO 리턴타입 int로 바꾸고 카드정보 없을때 내정보보기 창으로 넘어가기 구현해야함 ++ 비밀번호 비교해서 넘어가기
 	@ResponseBody
 	@RequestMapping(value = "coin_add_ok.do", method = RequestMethod.POST)
 	public void addBuyCoinListOk(Model model, HttpServletResponse response, HttpSession session, HttpServletRequest request,
@@ -130,19 +148,23 @@ public class BuyCoinListController {
 		BuyCoinList input = new BuyCoinList();
 		
 		int user_no = (int)session.getAttribute("user_no");
-		int user_coin = buyCoinListService.getUserCoin(user_no);
+		User user_info = buyCoinListService.getUserInfo(user_no);
+		int user_coin = user_info.getCoin();
 
 		input.setPrice(price);
 		input.setUser_no(user_no);
 		input.setCoin(user_coin);
 		
-		try {
-			// 데이터 저장 --> 데이터 저장에 성공하면 파라미터로 전달하는 input 객체에 PK값이 저장된다.
-			buyCoinListService.addBuyCoinList(input);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		String cardCheck = user_info.getCard();
 		
+		if (cardCheck != null) {
+			try {
+				// 데이터 저장 --> 데이터 저장에 성공하면 파라미터로 전달하는 input 객체에 PK값이 저장된다.
+				buyCoinListService.addBuyCoinList(input);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 }

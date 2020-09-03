@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.extern.slf4j.Slf4j;
+import study.spring.clip.model.User;
 import study.spring.clip.service.BuyCoinListService;
 import study.spring.clip.service.impl.LoginServiceImpl;
 
@@ -58,8 +59,9 @@ public class LoginController{
 		 
 		int user_no = (int)session.getAttribute("user_no");
 		 
+		User user_info = buyCoinListService.getUserInfo(user_no);
 		// 충전한 다음에도 값을 가져와야 하기 때문에 세션에 저장된 값을 가져오면 안됨
-		int user_coin = buyCoinListService.getUserCoin(user_no);
+		int user_coin = user_info.getCoin();
 			
 		model.addAttribute("user_coin", user_coin);
 			
@@ -79,8 +81,8 @@ public class LoginController{
 		 
 		 int user_no = (int)session.getAttribute("user_no");
 		 
-			// 충전한 다음에도 값을 가져와야 하기 때문에 세션에 저장된 값을 가져오면 안됨
-			int user_coin = buyCoinListService.getUserCoin(user_no);
+		 User user_info = buyCoinListService.getUserInfo(user_no);
+			int user_coin = user_info.getCoin();
 				
 			model.addAttribute("user_coin", user_coin);
 			
@@ -100,8 +102,9 @@ public class LoginController{
 		 
 		 int user_no = (int)session.getAttribute("user_no");
 		 
+		 	User user_info = buyCoinListService.getUserInfo(user_no);
 			// 충전한 다음에도 값을 가져와야 하기 때문에 세션에 저장된 값을 가져오면 안됨
-			int user_coin = buyCoinListService.getUserCoin(user_no);
+			int user_coin = user_info.getCoin();
 				
 			model.addAttribute("user_coin", user_coin);
 			
