@@ -22,13 +22,18 @@
 	
 	<insert id="createUser" parameterType="study.spring.clip.model.User"
 	useGeneratedKeys="true" keyProperty="user_no">
-		INSERT INTO user (user_no, id, pw, name, gender, birthdate, editdate, email, is_sendagree, coin, card)
-		VALUES (#{user_no}, #{id}, #{pw}, #{name}, #{gender}, #{birthdate}, #{editdate}, #{email}, #{is_sendagree}, #{coin}, #{card});
+		INSERT INTO user (user_no, id, pw, name, gender, birthdate, editdate, email, is_sendagree, coin)
+		VALUES (#{user_no}, #{id}, #{pw}, #{name}, #{gender}, #{birthdate}, #{editdate}, #{email}, #{is_sendagree}, 0);
 	</insert> 
 	
 	<select id="selectUser" parameterType="study.spring.clip.model.User"
 	resultMap="userMap">
 			SELECT * FROM user WHERE id = #{id};
+	</select>
+	
+	<select id="selectUserToEmail" parameterType="study.spring.clip.model.User"
+	resultMap="userMap">
+			SELECT * FROM user WHERE email = #{email};
 	</select>
 	
 	<select id="selectUserInfo" parameterType="study.spring.clip.model.User"
@@ -39,5 +44,9 @@
 	<delete id="deleteUser" parameterType="study.spring.clip.model.User">
 		DELETE FROM user WHERE user_no=#{user_no};
 	</delete>
+	
+	<update id="pwChange" parameterType="study.spring.clip.model.User">
+		UPDATE user SET pw = #{pw} WHERE id = #{id};
+	</update>
 	
 </mapper>

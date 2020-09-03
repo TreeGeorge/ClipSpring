@@ -159,6 +159,7 @@
             // 다음 버튼 클릭 이벤트
             $(".to_submit").click(function(){
                 var must = false;
+                var should = $("#should")[0].checked;
                 //must클래스를 가진 필수 동의 사항 체크박스 checked속성 검사
                 for(var i = 0; i < $("input[class=must]").length; i++){
                     if(!($("input[class=must]")[i].checked)){
@@ -177,9 +178,9 @@
                 }
                 //필수 동의 사항 체크한 경우
                 else{
-                    // 메일 수신 동의한 경우 if($("#should")[0].checked){ }
-
-                    $(location).attr('href','Sign_up_information.jsp');
+                   $.post("agree.do",{should:should},function(){
+                	   $(location).attr('href','Sign_up_information');
+                   });
                 }
             })
         </script>

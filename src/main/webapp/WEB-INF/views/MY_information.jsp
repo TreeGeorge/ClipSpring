@@ -186,7 +186,7 @@
             </div>
             <div class="clearfix" style ='padding-top:8px; padding-bottom:8px;'>
                 <div class="info_group">
-                    <p class="info_list">아이디<br><span class="info_item " >${id}</span></p>
+                    <p class="info_list">아이디<br><span class="info_item">${id}</span></p>
                     <p class="info_list">이름<br> <span class="info_item">${name}</span></p>
                     <p class="info_list">성별<br> <span class="info_item">${gender}</span></p>
                     <p class="info_list">생년월일<br><span class="info_item">${birthdate}</span></p>
@@ -217,20 +217,19 @@
     <script src="assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@2.4.1/dist/email.min.js"></script>
     <script>
-   
+   		$(function(){
+   			$(".bot_bar_icon").eq(3).attr("src", "assets/img/my_page_icon_selected.png");
+   			var gender = $(".info_item").eq(2);
+   			if(gender.text()=="M"){
+   				gender.text("남자");
+   			}else{
+   				gender.text("여자");
+   			}
+   		})
 
 		//메일 발송
 		function sendEmail(email){
 			(function(){
-				
-				var gender = $(".info_item").eq(2);
-	            if(gender.text()=="M"){
-	               gender.text("남자");
-	            }else{
-	               gender.text("여자");
-	            }
-	         })
-	         
 				key = createRandomNumber();
 				var emailC = {
 					host: 'CLIP',

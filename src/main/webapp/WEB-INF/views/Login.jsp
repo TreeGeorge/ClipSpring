@@ -118,11 +118,11 @@
 			<!-- logo text -->
 			<h1 class="to_home">CLIP</h1>
 			<!-- logo img -->
-			<a href="/"><img src="assets/img/logo.png"
+			<a href="home"><img src="assets/img/logo.png"
 				class="to_home"></a>
 		</div>
 		<!-- login box -->
-		<form name="login" class="form_horizontal" action="home" method="post">
+		<form name="login" class="form_horizontal" action="login.do" method="post">
 			<!-- ID text box -->
 			<input type="text" id="user_id" name="user_id" class="form_control id_control"
 				placeholder="아이디를 입력하세요"> <br>
@@ -134,9 +134,9 @@
 		</form>
 		<!-- page link -->
 		<div class="link">
-			<span><a href="Search_id_for_email.jsp">아이디 찾기&nbsp;</a></span> <span><a
-				href="Search_password_for_id.jsp">비밀번호 찾기&nbsp;</a></span> <span><a
-				href="Sign_up_agree.jsp">회원가입</a></span>
+			<span><a href="Search_id_for_email">아이디 찾기&nbsp;</a></span> <span><a
+				href="Search_password_for_id">비밀번호 찾기&nbsp;</a></span> <span><a
+				href="Sign_up_agree">회원가입</a></span>
 		</div>
 	</div>
 	<!-- BOT BAR -->
@@ -148,6 +148,7 @@
 	<script src="assets/plugins/ajax/ajax_helper.js"></script>
 	<script>
 		$(function(){
+			$(".bot_bar_icon").eq(0).attr("src", "assets/img/home_icon.png");
 			$("#submit_btn").click(function(e){
 				e.preventDefault();
 				var id_val = $("#user_id").val();

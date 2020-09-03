@@ -11,7 +11,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import lombok.extern.slf4j.Slf4j;
-import study.spring.clip.model.Movie;
 import study.spring.clip.model.User;
 
 /** Lombok의 Log4j 객체 */
@@ -39,27 +38,47 @@ public class UserTest {
 
 	/** 단일행 조회 테스트 */
 	
+	//유저생성 (회원가입) 파라미터 회원가입 폼 입력요소 + 약관동의 이메일수신여부 (상태유지 하여 넘겨 받기)
 	@Test
 	public void test5() {
 		User input = new User();
-		input.setId("KTH");
-		input.setPw("5678");
-		input.setName("김태희");
-		input.setGender("M");
+		//필수
+		input.setId("JWW");
+		//필수
+		input.setPw("0000");
+		//필수
+		input.setName("주영아");
+		//필수
+		input.setGender("F");
+		//필수
 		input.setBirthdate("19971018");
+		//필;수
 		input.setEditdate("20200901");
+		// 필수
 		input.setEmail("qq2222@gmail.com");
+		//약광동의 페이지 상태유지
 		input.setIs_sendagree("N");
-		input.setCoin(5500);
-		input.setCard("2345678908912341");
-		
 		 sqlSession.selectOne("UserMapper.createUser", input);
 	}
-    @Test
-    public void test6() {    
-        User input = new User();
-        input.setUser_no(3);
-        sqlSession.delete("UserMapper.deleteUser", input);
-    }
+	
+	
+	// //유저 삭제 (회원 탈퇴) 파라미터 세션 유저 넘버
+ //    @Test
+ //    public void test6() {    
+ //        User input = new User();
+ //        input.setUser_no(3);
+ //        sqlSession.delete("UserMapper.deleteUser", input);
+ //    }
+    
+	
+	// //유저 비밀번호 변경 / 파라미터  세션 유저 아이디(넘버)
+    
+ //    @Test
+ //    public void test7() {
+ //    	User input = new User();
+ //    	input.setId("master001");
+ //    	input.setPw("1234");
+ //    	sqlSession.update("UserMapper.pwChange", input);
+ //    }
 
 }

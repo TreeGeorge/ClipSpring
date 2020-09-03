@@ -320,11 +320,10 @@
 						return false;
 						//정상 값 입력시
 					} else {
-						$.post('api/search_id.do', {email : $("#email").val(), post : "overlap_email"
-						}, function(req) {
-								console.log(req.result);
+						$.post('emailOverlapCheck.do', {email : $("#email").val()}, 
+							function(req) {
 								console.log($("#email").val());
-							if(req.result!='-1'){
+							if(req=='1'){
 								swal({
 				                    html: "<b>중복된 이메일입니다.</b>",    // 내용
 				                    type: "error",  // 종류
@@ -345,9 +344,9 @@
 							$("#email").prop('disabled','true');
 							}
 						})
-				}
+					}
 
-			})
+				})
 				//인증번호 확인 클릭
 				$("#check_key").click(function() {
 					//값 일치 시
@@ -384,9 +383,7 @@
 					}
 					// 
 					else {
-						$.post('api/search_id.do', {
-							user_id : id_val, post : "overlap_id"
-						}, function(req) {
+						$.post('idOverlapCheck.do', {id : id_val}, function(req) {
 							if(!id_check){
 								swal({
 				                    html: "<b>아이디 입력 양식을 확인해주세요.</b>",    // 내용
@@ -394,7 +391,7 @@
 				                    confirmButtonText: "확인", // 확인버튼 표시 문구
 				                    confirmButtonColor: "#ff3253", // 확인버튼 색상
 				                });
-							}else if (req.result != '1') {
+							}else if (req != '1') {
 								swal({
 				                    html: "<b>사용 가능한 아이디 입니다.</b>",    // 내용
 				                    type: "success",  // 종류
@@ -526,7 +523,7 @@
 					var id_val = $("#user_id").val();
 					var pw_val = $("#user_pw").val();
 					var edit_val = "";
-					/*datepicker로 대체할것
+					
 					var date = new Date();
 					var yy = date.getFullYear();
 					var dd = date.getMonth() + 1;
@@ -534,7 +531,7 @@
 					var mm = date.getDate();
 					if(mm<10){ mm = "0" + mm }
 					edit_val = "" + yy+"-" + dd+"-" + mm;
-					*/
+					
 					var email_val = $("#email").val();
 					var name_val = $("#user_name").val();
 					var birth_val = $("#user_birth").val();
@@ -557,10 +554,19 @@
 		                });
 						return false;
 					}
-					$.post('api/search_id.do', {user_id : id_val, user_name : name_val,
-					email : email_val, user_pw : pw_val, user_edit: edit_val, user_birth : birth_val,
-					user_gender : gender_val, post : "signUp"}, 
-					function(req){
+					if(!pass_key){
+						swal({
+		                    html: "<b>이메일 인증을 진행해주세요.</b>",    // 내용
+		                    type: "error",  // 종류
+		                    confirmButtonText: "확인", // 확인버튼 표시 문구
+		                    confirmButtonColor: "#ff3253", // 확인버튼 색상
+		                });
+						return false;
+					}
+					$.post('signUp.do', {id : id_val, name : name_val,
+					email : email_val, pw : pw_val, edit: edit_val, birth : birth_val,
+					gender : gender_val}, 
+					function(){
 						//java signUP함수화시키고 1리턴 시켜서 swal포함 시키기
 						swal({
                             timer:1500,
@@ -569,7 +575,7 @@
                             allowOutsideClick: false,
                             showConfirmButton: false
                         }).then(function(){
-							location.href = "Login.jsp";
+							location.href = "Login";
 						})
 						})
 					
