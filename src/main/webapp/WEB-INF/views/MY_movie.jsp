@@ -5,16 +5,16 @@
 <html lang="ko">
 
 <head>
-<%@ include file="assets/inc/header.jsp" %>
-<script
-	src="assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
+<%@ include file="assets/inc/header.jsp"%>
+<script src="assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 
 <style>
 .container {
-	padding:0px;
-	margin-bottom:95px;
+	padding: 0px;
+	width: 100%;
+	margin-bottom: 95px;
 }
 
 .clear {
@@ -29,8 +29,8 @@
 }
 
 .content .movie_delete {
-	position:absolute;
-	color:black;
+	position: absolute;
+	color: black;
 	right: 100px;
 }
 
@@ -41,7 +41,7 @@
 	line-height: 35px;
 	border-bottom: 1px solid #d5d5d5;
 	padding: 0 10px 0 15px;
-	position:relative;
+	position: relative;
 }
 
 .total {
@@ -75,7 +75,7 @@
 	border-bottom: 1px solid #eee;
 	margin: 0px;
 	padding: 0px;
-	position:relative;
+	position: relative;
 }
 
 .movie li a {
@@ -86,7 +86,7 @@
 	text-decoration: none;
 	position: relative;
 	display: block;
-	width:85%;
+	width: 85%;
 }
 
 .movie li a .thumb {
@@ -132,7 +132,7 @@
 .movie .time {
 	font-size: 12px;
 	color: #aaa;
-	margin-top:-5px;
+	margin-top: -5px;
 }
 
 .movie .period {
@@ -155,24 +155,21 @@
 	position: absolute;
 	right: 20px;
 	top: 62.5px;
-
 }
 /* 전체선택 체크박스 */
 #check_box2 {
 	position: absolute;
-	top:11px;
-	left:90px;
-	
+	top: 11px;
+	left: 90px;
 }
 
 /* a태그에 hover시 밑줄 제거 */
 a:hover {
-	text-decoration:none;
+	text-decoration: none;
 }
 
-
 input[type=checkbox] {
-	margin:auto;
+	margin: auto;
 }
 
 /* hidden , hide */
@@ -240,34 +237,30 @@ input[type=checkbox] {
 }
 
 #bot_bar {
-	padding-bottom:50px;
+	padding-bottom: 50px;
 }
-
 </style>
 </head>
 
 <body>
 	<!-- 전체 컨테이너박스 -->
 	<div class="container">
-		<%@ include file="assets/inc/id_box.jsp" %>
-		
+		<%@ include file="assets/inc/id_box.jsp"%>
+
 		<!--TOP BAR-->
-		<%@ include file="assets/inc/my_top_bar.jsp" %>
-	
+		<%@ include file="assets/inc/my_top_bar.jsp"%>
+
 		<!-- 편집 , 전체선택 -->
 		<div class="content clearfix">
-			<span class="total"> 
-			<span class="click_edit">편집</span>
-			</span> 
-			<span class="delete_list"> 
-			<a class="toggleCheckbox_top hidden">전체선택
-			<input id="check_box2" class="hidden" type="checkbox" name="movie_check" />
-			</a>
-			<a class="movie_delete hidden">삭제</a>
-			</span> 
-			
-			
-		<!-- 드롭다운 옵션 -->
+			<span class="total"> <span class="click_edit">편집</span>
+			</span> <span class="delete_list"> <a
+				class="toggleCheckbox_top hidden">전체선택 <input id="check_box2"
+					class="hidden" type="checkbox" name="movie_check" />
+			</a> <a class="movie_delete hidden">삭제</a>
+			</span>
+
+
+			<!-- 드롭다운 옵션 -->
 			<select class="form-control selcls" id="movie_select">
 				<option>최신순</option>
 				<option>개봉순</option>
@@ -276,7 +269,7 @@ input[type=checkbox] {
 				<option>낮은가격순</option>
 			</select>
 		</div>
-	
+
 		<!-- 영화목록에 담긴 상품이 아무것도 없을 떄 -->
 		<div class="no_value hide">
 			<img src="assets/img/wish_list_none.png" />
@@ -284,146 +277,147 @@ input[type=checkbox] {
 				영화목록에 담겨진<br />상품이 없습니다.
 			</div>
 		</div>
-	
+
 		<!-- 내영상 목록에 담긴 영화 -->
-			<ul class="movie">
-			
-				<li class="movie_list wish_content">
-				<a href="Movie_information.jsp"> <span class="thumb">
-				<img src="assets/img/sample6.jpg" alt="영화포스터"></span>
-						<span class="movie_text"> 
-						<span class="movie_title">플로리다 프로젝트</span> 
-						<span class="time">120분</span> <span class="period">
-						<img src="assets/img/freecalendal.png"> 2020-09-25</span>
+		<ul class="movie">
+
+			<li class="movie_list wish_content"><a
+				href="Movie_information.jsp"> <span class="thumb"> <img
+						src="assets/img/sample6.jpg" alt="영화포스터"></span> <span
+					class="movie_text"> <span class="movie_title">플로리다
+							프로젝트</span> <span class="time">120분</span> <span class="period">
+							<img src="assets/img/freecalendal.png"> 2020-09-25
 					</span>
-				</a>
-					<!-- 편집 클릭시 체크박스 --> 
-					<input id="check_box" class="hidden"type="checkbox" name="movie_check" />
-				</li>
-		
-				<li class="movie_list wish_content"><a
-					href="Movie_information.jsp"> <span class="thumb"><img
-							src="assets/img/sample9.jpg" alt="영화포스터"></span>
-						<span class="movie_text"> <span class="movie_title">Baby
-								Driver</span> <span class="time">110분</span> <span class="period"><img
-								src="assets/img/freecalendal.png"> 2020-09-24</span>
-					</span>
-				</a>
-				<!-- 편집 클릭시 체크박스 --> 
-				<input id="check_box" class="hidden"
-						type="checkbox" name="movie_check" />
-				</li>
-				
-				<li class="movie_list wish_content"><a
-					href="Movie_information.jsp"> <span class="thumb"><img
-							src="assets/img/sample12.jpg" alt="영화포스터"></span>
-						<span class="movie_text"> <span class="movie_title">하울의 움직이는 성</span> <span class="time">130분</span> <span class="period"><img
-								src="assets/img/freecalendal.png"> 2020-09-23</span>
-					</span>
-				</a>
-				<!-- 편집 클릭시 체크박스 --> 
-				<input id="check_box" class="hidden"
-						type="checkbox" name="movie_check" />
-				</li>
-				
-				<li class="movie_list wish_content"><a
-					href="Movie_information.jsp"> <span class="thumb"><img
-							src="assets/img/sample15.jpg" alt="영화포스터"></span>
-						<span class="movie_text"> <span class="movie_title">아바타</span> <span class="time">150분</span> <span class="period"><img
-								src="assets/img/freecalendal.png"> 2020-09-20</span>
-					</span>
-				</a>
-				<!-- 편집 클릭시 체크박스 --> 
-				<input id="check_box" class="hidden"
-						type="checkbox" name="movie_check" />
-				</li>
-				
-				<li class="movie_list wish_content"><a
-					href="Movie_information.jsp"> <span class="thumb"><img
-							src="assets/img/sample16.jpg" alt="영화포스터"></span>
-						<span class="movie_text"> <span class="movie_title">어벤져스 : 인피니티 워</span> <span class="time">190분</span> <span class="period"><img
-								src="assets/img/freecalendal.png"> 2020-09-12</span>
-					</span>
-				</a>
-				<!-- 편집 클릭시 체크박스 --> 
-				<input id="check_box" class="hidden"
-						type="checkbox" name="movie_check" />
-				</li>
-				
-			</ul>
-			<!--  영화 목록 끝 -->
-		
+				</span>
+			</a> <!-- 편집 클릭시 체크박스 --> <input id="check_box" class="hidden"
+				type="checkbox" name="movie_check" /></li>
+
+			<li class="movie_list wish_content"><a
+				href="Movie_information.jsp"> <span class="thumb"><img
+						src="assets/img/sample9.jpg" alt="영화포스터"></span> <span
+					class="movie_text"> <span class="movie_title">Baby
+							Driver</span> <span class="time">110분</span> <span class="period"><img
+							src="assets/img/freecalendal.png"> 2020-09-24</span>
+				</span>
+			</a> <!-- 편집 클릭시 체크박스 --> <input id="check_box" class="hidden"
+				type="checkbox" name="movie_check" /></li>
+
+			<li class="movie_list wish_content"><a
+				href="Movie_information.jsp"> <span class="thumb"><img
+						src="assets/img/sample12.jpg" alt="영화포스터"></span> <span
+					class="movie_text"> <span class="movie_title">하울의
+							움직이는 성</span> <span class="time">130분</span> <span class="period"><img
+							src="assets/img/freecalendal.png"> 2020-09-23</span>
+				</span>
+			</a> <!-- 편집 클릭시 체크박스 --> <input id="check_box" class="hidden"
+				type="checkbox" name="movie_check" /></li>
+
+			<li class="movie_list wish_content"><a
+				href="Movie_information.jsp"> <span class="thumb"><img
+						src="assets/img/sample15.jpg" alt="영화포스터"></span> <span
+					class="movie_text"> <span class="movie_title">아바타</span> <span
+						class="time">150분</span> <span class="period"><img
+							src="assets/img/freecalendal.png"> 2020-09-20</span>
+				</span>
+			</a> <!-- 편집 클릭시 체크박스 --> <input id="check_box" class="hidden"
+				type="checkbox" name="movie_check" /></li>
+
+			<li class="movie_list wish_content"><a
+				href="Movie_information.jsp"> <span class="thumb"><img
+						src="assets/img/sample16.jpg" alt="영화포스터"></span> <span
+					class="movie_text"> <span class="movie_title">어벤져스 :
+							인피니티 워</span> <span class="time">190분</span> <span class="period"><img
+							src="assets/img/freecalendal.png"> 2020-09-12</span>
+				</span>
+			</a> <!-- 편집 클릭시 체크박스 --> <input id="check_box" class="hidden"
+				type="checkbox" name="movie_check" /></li>
+
+		</ul>
+		<!--  영화 목록 끝 -->
+
 		<!-- 휴지통 버튼 -->
 		<div class="wastebasket">
 			<a href="MY_movie_remove.jsp">휴지통으로 바로가기</a>
 		</div>
-	
+
 		<!-- BOT BAR -->
-		<%@ include file="assets/inc/bot_bar.jsp" %>
-	
+		<%@ include file="assets/inc/bot_bar.jsp"%>
+
 	</div>
 
 
 	<script src="assets/js/jquery.min.js"></script>
 	<script src="assets/js/bootstrap.min.js"></script>
 	<script>
-	$(".top_bar_list").eq(0).addClass("selected")
-	$(".bot_bar_icon").eq(3).attr("src", "assets/img/my_page_icon_selected.png");
-	    var isCheck = 2;
-        // 편집 버튼의 클릭 처리 
-        $(".click_edit").click(function(e) {
+		$(".top_bar_list").eq(0).addClass("selected")
+		$(".bot_bar_icon").eq(3).attr("src",
+				"assets/img/my_page_icon_selected.png");
+		var isCheck = 2;
+		// 편집 버튼의 클릭 처리 
+		$(".click_edit").click(function(e) {
 
-            // check 박스의 첫번째 인덱스의 classname이 hidden이면
-            if ($("input[name=movie_check]")[0].className == 'hidden') {
-                // 편집 버튼 클릭시, hidden 해놨던 checkbox클래스를 remove
-                $("input[name=movie_check]").removeClass('hidden');
-                $(".movie_delete").removeClass('hidden');
-                $(".toggleCheckbox_top").removeClass('hidden');
-                return;
-            }
-            // check 박스에 hidden 클래스를 추가
-            $("input[name=movie_check]").addClass('hidden');
-            $(".movie_delete").addClass('hidden');
-            $(".toggleCheckbox_top").addClass('hidden');
-        });
+			// check 박스의 첫번째 인덱스의 classname이 hidden이면
+			if ($("input[name=movie_check]")[0].className == 'hidden') {
+				// 편집 버튼 클릭시, hidden 해놨던 checkbox클래스를 remove
+				$("input[name=movie_check]").removeClass('hidden');
+				$(".movie_delete").removeClass('hidden');
+				$(".toggleCheckbox_top").removeClass('hidden');
+				return;
+			}
+			// check 박스에 hidden 클래스를 추가
+			$("input[name=movie_check]").addClass('hidden');
+			$(".movie_delete").addClass('hidden');
+			$(".toggleCheckbox_top").addClass('hidden');
+		});
 
-        // 전체선택 클릭 이벤트
-        $("#check_box2").click(function() {
-            // 전체선택 클릭시 모든 체크 박스 체크
-            if (isCheck % 2 == 0) {
-                $("input[name=movie_check]").prop("checked", true);
-            } else {
-                $("input[name=movie_check]").prop("checked", false);
-            }
-            isCheck++;
-        }); // end $("#check_box2").click();
+		// 전체선택 클릭 이벤트
+		$("#check_box2").click(function() {
+			// 전체선택 클릭시 모든 체크 박스 체크
+			if (isCheck % 2 == 0) {
+				$("input[name=movie_check]").prop("checked", true);
+			} else {
+				$("input[name=movie_check]").prop("checked", false);
+			}
+			isCheck++;
+		}); // end $("#check_box2").click();
 
-        // 삭제 버튼 클릭시
-        $(".movie_delete").click(function() {
-            var movie_d = $("input[name=movie_check]:checked");
-            // 확인, 취소버튼에 따른 후속 처리 구현
-            swal({
-                   html: "<b>선택하신 상품을 내영상에서 삭제하시겠습니까?</b>", // 내용
-                   type: "question", // 종류
-                   showCancelButton: true, // 취소버튼 표시 여부
-                   cancelButtonText:"취소",
-                   confirmButtonText:"확인",
-                   confirmButtonColor:"#ff3253",
-            }).then(function(result) { // 버튼이 눌러졌을 경우의 콜백 연결
-                if (result.value) { // 확인 버튼이 눌러진 경우
-                    // 선택된 상품 삭제
-                    movie_d.parent().remove();
-                    // 영화리스트가 비었다면
-                    if (!$(".movie_list")[0]) {
-                        // 영화리스트 빈 화면
-                        $(".no_value").removeClass("hide")
-                        $(".delete_list").addClass("hide");
-                        $(".movie_delete").addClass('hide');
-                        $(".click_edit").addClass('hide');
-                    }
-                }
-            });
-        }); // end $(".movie_delete").click()
+		// 삭제 버튼 클릭시
+		$(".movie_delete").click(function() {
+			var movie_d = $("input[name=movie_check]:checked");
+				// 삭제할 제품이 없으면
+				if (movie_d.length == 0) {
+					swal({
+						html : "<b>삭제할 상품이 없습니다.</b>", // 내용
+						type : "error", // 종류
+						confirmButtonText : "확인", // 확인버튼 표시 문구
+						confirmButtonColor : "#ff3253", // 확인버튼 색상
+					});
+					return false;
+				}	
+			// 확인, 취소버튼에 따른 후속 처리 구현
+			swal({
+				html : "<b>선택하신 상품을 내영상에서 삭제하시겠습니까?</b>", // 내용
+				type : "question", // 종류
+				showCancelButton : true, // 취소버튼 표시 여부
+				cancelButtonText : "취소",
+				confirmButtonText : "확인",
+				confirmButtonColor : "#ff3253",
+			}).then(function(result) { // 버튼이 눌러졌을 경우의 콜백 연결
+				if (result.value) { // 확인 버튼이 눌러진 경우
+					// 선택된 상품 삭제
+					movie_d.parent().remove();
+					// 영화리스트가 비었다면
+					if (!$(".movie_list")[0]) {
+						// 영화리스트 빈 화면
+						$(".no_value").removeClass("hide")
+						$(".delete_list").addClass("hide");
+						$(".movie_delete").addClass('hide');
+						$(".click_edit").addClass('hide');
+					}
+				}
+
+			});
+		}); // end $(".movie_delete").click()
 	</script>
 </body>
 

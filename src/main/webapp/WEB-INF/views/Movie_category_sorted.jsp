@@ -140,7 +140,6 @@ a:hover {
 </style>
 
 <body>
-	<div class="container">
 		<!-- 카테고리 제목 -->
 		<%@ include file="assets/inc/top_info.jsp"%>
 
@@ -178,8 +177,6 @@ a:hover {
 				</c:forEach>
 			</ul>
 		</div>
-	</div>
-
 	<!-- 인피니트 스크롤 -->
 	<script src="assets/js/bootstrap.min.js"></script>
 	<script>

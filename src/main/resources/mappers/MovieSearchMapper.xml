@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="MovieSearchMapper">
+
+	<!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
+	<resultMap id="MovieSearchMap"
+		type="study.spring.clip.model.MovieSearch">
+		<!-- Beans의 멤버변수(property)이름과 대상 테이블의 컬럼(column)을 연결한다. -->
+		<result property="thumbnail" column="thumbnail" />
+		<result property="name" column="name" />
+		<result property="age" column="age" />
+		<result property="type" column="type" />
+		<result property="price" column="price" />
+		<result property="director" column="director" />
+		<result property="actor_no" column="actor_no" />
+		<result property="movie_actor" column="movie_actor" />
+		<result property="director" column="director" />
+		<result property="movie_no" column="movie_no" />
+	</resultMap>
+
+	<!-- 단일행 조회(감독이름) 를 위한 기능 정의 -->
+	<select id="oneMovieSearch"
+		parameterType="study.spring.clip.model.MovieSearch"
+		resultMap="MovieSearchMap">
+		SELECT thumbnail, name, age, TYPE, price FROM movie
+		WHERE director
+		IN(SELECT director FROM movie WHERE director = #{director});
+	</select>
+
+	<!-- 단일행 조회(배우이름) 를 위한 기능 정의 -->
+	<select id="twoMovieSearch"
+		parameterType="study.spring.clip.model.MovieSearch"
+		resultMap="MovieSearchMap">
+		SELECT thumbnail, name, age, TYPE, price FROM movie
+		WHERE movie_no
+		IN(SELECT movie_no FROM movie_actor
+		WHERE actor_no IN(SELECT
+		actor_no FROM actor
+		WHERE name = #{name}));
+	</select>
+
+	<!-- 단일행 조회(영화제목) 을 위한 기능 정의 -->
+	<select id="threeMovieSearch"
+		parameterType="study.spring.clip.model.MovieSearch"
+		resultMap="MovieSearchMap">
+		SELECT thumbnail, name, age, TYPE, price FROM movie
+		WHERE name
+		IN(SELECT name FROM movie WHERE name = #{name});
+	</select>
+
+
+</mapper>

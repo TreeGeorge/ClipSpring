@@ -22,7 +22,7 @@
 		SELECT movie_no, name, thumbnail, price, sale FROM movie
 		where movie_no IN(select movie_no from movie_category
 		where category_type_no = #{category_type_no})
-		LIMIT 0,9;
+		LIMIT 0,10;
 	</select>
 
 </mapper>

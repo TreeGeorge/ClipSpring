@@ -16,6 +16,7 @@
 .container {
 	padding:0px;
 	margin-bottom: 50px;
+	width:100%:
 }
 
 #top_bar {
@@ -329,6 +330,18 @@ a.movie_delete {
 		// 삭제 버튼 클릭시
 		$(".movie_delete").click(function() {
 			var movie_d = $("input[name=movie_check]:checked");
+			
+			// 삭제할 제품이 없으면
+			if (movie_d.length == 0) {
+				swal({
+					html : "<b>삭제할 상품이 없습니다.</b>", // 내용
+					type : "error", // 종류
+					confirmButtonText : "확인", // 확인버튼 표시 문구
+					confirmButtonColor : "#ff3253", // 확인버튼 색상
+				});
+				return false;
+			}	
+			
 			// 확인, 취소버튼에 따른 후속 처리 구현
 			swal({
 				html : "<b>선택하신 상품을 휴지통에서 복원하시겠습니까?</b>", // 내용

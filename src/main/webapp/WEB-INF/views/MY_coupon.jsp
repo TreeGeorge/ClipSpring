@@ -56,6 +56,7 @@
 .container {
 	padding:0px;
 	padding-bottom:50px;
+	width:100%;
 }
 
 

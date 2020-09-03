@@ -218,6 +218,7 @@
 .container {
 	padding:0px;
 	margin-bottom:50px;
+	width:100%;
 }
 </style>
 </head>
