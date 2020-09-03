@@ -31,12 +31,14 @@
 		DELETE FROM buy_coin_list WHERE user_no = #{user_no} AND date = #{date};	
 	</delete>
 	
+	<!-- 코인 환불했을때 코인 차감 -->
 	<update id="userCoinDelete"
     	parameterType="study.spring.clip.model.BuyCoinList">
         UPDATE user SET coin = (#{coin} - (#{price} * 1.1))
 		WHERE user_no = #{user_no};
     </update>
     
+    <!-- 코인 결제했을때 코인 증가 -->
 	<update id="userCoinAdd"
     	parameterType="study.spring.clip.model.BuyCoinList">
         UPDATE user SET coin = (#{coin} + (#{price} * 1.1))

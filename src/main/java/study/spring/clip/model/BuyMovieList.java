@@ -13,4 +13,5 @@ public class BuyMovieList {
 	private int price;
 	private String thumbnail;
 	private int coin;
+	private String is_watched;
 }

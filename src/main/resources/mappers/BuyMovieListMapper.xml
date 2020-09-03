@@ -21,11 +21,31 @@
     <select id="buyList"
 		parameterType="study.spring.clip.model.BuyMovieList"
 		resultMap="buyMovieListMap">
-		SELECT name, price, date FROM movie m, buy_movie_list b WHERE b.movie_no = m.movie_no 
-		IN (SELECT movie_no FROM buy_movie_list WHERE user_no = #{user_no});
+		SELECT name, Floor(m.price / 100 * (100 - m.sale)) as price, b.date FROM movie m, buy_movie_list b WHERE b.movie_no = m.movie_no 
+		AND user_no = #{user_no};
 	</select>
 	
+	<select id="checkList"
+		parameterType="study.spring.clip.model.BuyMovieList"
+		resultType="String">
+		SELECT date FROM buy_movie_list b, movie m WHERE b.movie_no = m.movie_no AND user_no = #{user_no} AND date = #{date} AND Floor(m.price / 100 * (100 - m.sale)) = #{price};
+	</select>
+	
+	<select id="checkWatched"
+	 	parameterType="study.spring.clip.model.BuyMovieList"
+	 	resultType="String">
+	 	SELECT is_watched FROM buy_movie_list b, movie m WHERE b.movie_no = m.movie_no AND user_no = #{user_no} AND date = #{date} AND Floor(m.price / 100 * (100 - m.sale)) = #{price} AND is_watched = 'N';
+	</select>
+	
+	<!-- 영화 구매했을때 코인차감 -->
 	<update id="userCoinEdit"
+    	parameterType="study.spring.clip.model.BuyMovieList">
+        UPDATE user SET coin = (#{coin} - #{price})
+		WHERE user_no = #{user_no};
+    </update>
+    
+    <!-- 영화 환불했을때 코인 상승 -->
+    <update id="userMovieDelete"
     	parameterType="study.spring.clip.model.BuyMovieList">
         UPDATE user SET coin = (#{coin} + #{price})
 		WHERE user_no = #{user_no};

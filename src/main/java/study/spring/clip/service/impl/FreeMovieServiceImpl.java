@@ -116,9 +116,4 @@ public class FreeMovieServiceImpl implements FreeMovieService {
 		}
 	}
 
-	@Override
-	public void test(int user_no) {
-		
-	}
-
 }

@@ -18,6 +18,5 @@ public interface FreeMovieService {
 	
 	public void editSaleMovie();
 	
-	public void test(int user_no);
-	
+	// TODO 기간마다 할인영화 초기화시켜주기
 }

@@ -30,7 +30,7 @@ public class BuyMovieListServiceImpl implements BuyMovieListService {
 	public int deleteBuyMovieList(BuyMovieList input) throws Exception {
 		int result = 0;
 		
-		sqlSession.update("BuyMovieListMapper.userCoinEdit", input);
+		sqlSession.update("BuyMovieListMapper.userMovieDelete", input);
 		
 		try {
 			result = sqlSession.delete("BuyMovieListMapper.deleteItem", input);
@@ -47,6 +47,22 @@ public class BuyMovieListServiceImpl implements BuyMovieListService {
 		}
 		
 		return result;
+	}
+
+	@Override
+	public boolean checkBuyMovieList(BuyMovieList input) {
+		if (sqlSession.selectOne("BuyMovieListMapper.checkList", input) == null) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean checkWatched(BuyMovieList input) {
+		if (sqlSession.selectOne("BuyMovieListMapper.checkWatched", input) == null) {
+			return true;
+		}
+		return false;
 	}
 
 }

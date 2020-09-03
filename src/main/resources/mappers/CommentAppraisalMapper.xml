@@ -11,7 +11,7 @@
 		<result property="appraisal_no" column="appraisal_no" />
 		<result property="answer" column="answer" />
 		<result property="user_no" column="user_no" />
-		<result property="movie_comment_no " column="movie_comment_no " />
+		<result property="movie_comment_no" column="movie_comment_no " />
 	</resultMap>
 
 	<!-- 단일행 조회를 위한 기능 정의 -->

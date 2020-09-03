@@ -202,8 +202,8 @@ input[type='radio']:checked {
 	</div>
 	<script src="assets/js/jquery.min.js"></script>
 	<script src="assets/js/bootstrap.min.js"></script>
-	<script
-		src="assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
+	<script src="assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 	<script>
 	$(".top_bar_list").eq(3).addClass("selected")
     $(".bot_bar_icon").eq(3).attr("src", "assets/img/my_page_icon_selected.png");
@@ -232,8 +232,12 @@ input[type='radio']:checked {
 
         // 구매취소 버튼 클릭시
         $(".cancel").click(function() {
-            var c = $(".cancel pull-right");
-            var cancel = $(this)
+        	var date = $(this).next().next().text();
+    		var price = parseInt($(this).next().text());
+    		var nowDate = new Date();
+    		nowDate.setDate(nowDate.getDate() - 7);
+    		var buyTime = parseInt(date.replace("-","").replace(":","").replace("-","").replace(":","").replace(" ",""));
+    		var nowTime = parseInt(moment(nowDate).format('YYYYMMDDHHmmss'));
             // 확인, 취소버튼에 따른 후속 처리 구현
             swal({
                 html: "<b>선택하신 상품을 구매 취소하시겠습니까?</b>", // 내용
@@ -243,22 +247,53 @@ input[type='radio']:checked {
                 confirmButtonText:"확인",
                 confirmButtonColor:"#ff3253",
             }).then(function(result) { // 버튼이 눌러졌을 경우의 콜백 연결
-                if (result.value) { // 확인 버튼이 눌러진 경우
-                	swal({
-                        timer:1500,
-                        html:"<div style='font-weight: bold; margin-bottom: 20px;'>구매취소 되었습니다.</div>",
-                        type:"success",
-                        allowOutsideClick: false,
-                        showConfirmButton: false
-                    }).then(function(){
-                    	$(cancel).parent().remove();
-                        if ($(".plist.clear").length==0) {
-                            $(".no_movies").removeClass("hide");
-                            } else {
-                                $(".no_movies").addClass("hide");
-                        }
-                    })
-                }
+            	if (result.value) {     // 확인 버튼이 눌러진 경우
+					if (buyTime < nowTime) {
+						swal({
+			                timer:1500,
+			                html:"<div style='font-weight: bold; margin-bottom: 20px;'>구매한지 일주일이 지난 상품은<br>구매 취소가 불가능합니다.</div>",
+			                type:"error",
+			                allowOutsideClick: false,
+			                showConfirmButton: false
+			            }).then(function(){
+			            	return false;
+			            });
+					}  else {
+				      	$.post('movie_delete_ok.do',{date: date, price: price},function(req){
+				            if (req == 1) {
+				            	swal({
+						            timer:1500,
+						            html:"<div style='font-weight: bold; margin-bottom: 20px;'>구매취소 되었습니다.</div>",
+						            type:"success",
+						            allowOutsideClick: false,
+						            showConfirmButton: false
+						        }).then(function(){
+						            location.reload();
+						        });
+				            } else if (req == 2) {
+								swal({
+					                timer:1500,
+					                html:"<div style='font-weight: bold; margin-bottom: 20px;'>이미 시청하신 상품은<br>구매 취소가 불가능합니다.</div>",
+					                type:"error",
+					                allowOutsideClick: false,
+					                showConfirmButton: false
+					            }).then(function(){
+					            	return false;
+					            })
+				            } else {
+				            	swal({
+						            timer:1500,
+						            html:"<div style='font-weight: bold; margin-bottom: 20px;'>개짓거리 하지 마십쇼 휴먼</div>",
+						            type:"error",
+						            allowOutsideClick: false,
+						            showConfirmButton: false
+						        }).then(function(){
+						            location.reload();
+						        });
+				            }
+			        	})
+					}
+				}
             });
         }); // end of $(".cancel").click()
 	</script>

@@ -39,10 +39,5 @@ public class BuyCoinListServiceTest {
 		buyCoinListService.getBuyCoinList(3);
 	}
 	
-	@Test
-	public void testB() {
-		int a = buyCoinListService.getUserCoin(4);
-		System.out.println(a);
-	}
 
 }

@@ -82,7 +82,7 @@ public class BuyMovieListController {
 	// TODO 기간 비교해서 삭제되게 해야됨... 일주일 지나면 삭제 못하게..
 		@ResponseBody
 		@RequestMapping(value = "movie_delete_ok.do", method = RequestMethod.POST)
-		public void deleteBuyMovieListOk(Model model, HttpServletResponse response, HttpSession session,
+		public int deleteBuyMovieListOk(Model model, HttpServletResponse response, HttpSession session,
 				@RequestParam(value="date") String date,
 				@RequestParam(value="price") int price) {
 			// 데이터 삭제에 필요한 조건값을 Beans에 저장하기
@@ -97,6 +97,16 @@ public class BuyMovieListController {
 			input.setDate(date);
 			input.setUser_no(user_no);
 			
+			// 개발자도구로 나쁜짓하면 혼내주기
+			if (buyMovieListService.checkBuyMovieList(input)) {
+				return 0;
+			}
+			
+			// 시청했는지 확인
+			if (buyMovieListService.checkWatched(input)) {
+				return 2;
+			}
+			
 			try {
 				// 데이터 삭제
 				buyMovieListService.deleteBuyMovieList(input);
@@ -104,12 +114,7 @@ public class BuyMovieListController {
 				e.printStackTrace();
 			}
 			
-			// 확인할 대상이 삭제된 상태이므로 목록 페이지로 이동
-			try {
-				response.sendRedirect(contextPath + "/MY_coin_purchase_list");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			return 1;
 		}
 
 }

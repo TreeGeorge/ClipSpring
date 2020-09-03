@@ -75,7 +75,6 @@ public class BuyCoinListServiceImpl implements BuyCoinListService {
 
 	@Override
 	public boolean checkCoinList(BuyCoinList input) {
-
 		if (sqlSession.selectOne("BuyCoinListMapper.checkList", input) == null) {
 			return true;
 		}
