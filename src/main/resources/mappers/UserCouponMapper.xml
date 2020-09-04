@@ -4,19 +4,77 @@
 	
 <mapper namespace="UserCouponMapper">
 	<!-- model과 mapper 맵핑 처리 -->
-	<resultMap id="UserCouponMap" type="study.spring.clip.model.UserCoupon">
+	<resultMap id="userCouponMap" type="study.spring.clip.model.UserCoupon">
 		<result property="user_coupon_no" column="user_coupon_no"/>
 		<result property="is_used" column="is_used"/>
 		<result property="user_no" column="user_no"/>
-		<result property="coupon_list_no" column="coupon_list_no"/>
+		<result property="coupon_no" column="coupon_no"/>
+		<result property="price" column="price"/>
+		<result property="name" column="name"/>
+		<result property="period" column="period"/>
 	</resultMap>
 	
 	<!-- 기능 정의 -->
 	
-	<!-- 태희쨩이 추가함 이식 후에 주석 지워주삼-->
+	<!-- 쿠폰 한달에 한번 생성해서 그거 이벤트로 뿌려주기 (시간 남으면) -->
+	<!-- 위를 하는 이유는 관리자 페이지가 없기 때문에 쿠폰 생성이 불가능... -->
+	
+	<!-- user_no로 유저 쿠폰 객체 조회 -->
+    <select id="couponList"
+		parameterType="study.spring.clip.model.UserCoupon"
+		resultMap="userCouponMap">
+		SELECT period, name, is_used, price FROM user_coupon uc, coupon c WHERE uc.coupon_no = c.coupon_no
+		AND user_no = #{user_no};
+	</select>
+	
+	<!-- coupon_no로 쿠폰정보 가져오기 (컨트롤러에서 db 확인후 임의값 넣고 진행.. 관리자페이지가 없기 때문) -->
+	<select id="selectCouponInfo"
+		parameterType="study.spring.clip.model.UserCoupon"
+		resultMap="userCouponMap">
+		SELECT * FROM coupon WHERE coupon_no = #{coupon_no};
+	</select>
+	
+	<!-- 쿠폰 사용했을때 사용상태로 변경 -->
+	<update id="useCoupon"
+    	parameterType="study.spring.clip.model.UserCoupon">
+        UPDATE user_coupon SET is_used = 'Y'
+		WHERE user_no = #{user_no} AND name = #{name};
+    </update>
+    
+    <!-- 기간이 지난 쿠폰 삭제 -->
+    <delete id="deleteCouponList" parameterType="study.spring.clip.model.UserCoupon">
+		DELETE FROM user_coupon WHERE coupon_no IN (SELECT coupon_no FROM coupon WHERE <![CDATA[period <= now()]]>);
+	</delete>
+	<!-- 주의! 무조건 유저 쿠폰을 먼저 지운다음 쿠폰을 지워야함 -->
+	<delete id="deleteCoupon" parameterType="study.spring.clip.model.UserCoupon">
+		DELETE FROM coupon WHERE <![CDATA[period <= now()]]>;
+	</delete>
+    
+    <!-- 쿠폰 지급받았을때 쿠폰 추가 -->
+	<insert id="insertItem"
+		parameterType="study.spring.clip.model.UserCoupon"
+		useGeneratedKeys="true"
+		keyProperty="user_coupon_no">
+		INSERT INTO user_coupon (user_no, coupon_no) VALUES (#{user_no}, #{coupon_no});
+	</insert>
+	
+	<!-- 이미 쿠폰을 보유하고 있는지 체크 -->
+	<select id="duplicateCheck"
+		parameterType="study.spring.clip.model.UserCoupon"
+		resultMap="userCouponMap">
+		SELECT * FROM user_coupon WHERE user_no = #{user_no} AND coupon_no = (SELECT coupon_no FROM coupon WHERE name = #{name});
+	</select>
+	
+	<!-- 이미 쿠폰을 보유하고 있는지 체크 -->
+	<select id="searchCoupon"
+		parameterType="study.spring.clip.model.UserCoupon"
+		resultType="int">
+		SELECT coupon_no FROM coupon WHERE name = #{name};
+	</select>
+	
 	<!-- 행 삭제 -->
 	<delete id="deleteList" parameterType="study.spring.clip.model.UserCoupon">
-		DELETE FROM user_coupon WHERE user_no=#{user_no};
+		DELETE FROM user_coupon WHERE user_no = #{user_no};
 	</delete> 
 	
 	

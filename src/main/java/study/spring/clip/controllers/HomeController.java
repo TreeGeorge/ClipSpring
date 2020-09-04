@@ -5,6 +5,7 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 // import org.slf4j.Logger;
 // import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import lombok.extern.slf4j.Slf4j;
+import study.spring.clip.model.UserCoupon;
+import study.spring.clip.service.UserCouponService;
 
 /**
  * Handles requests for the application home page.
@@ -20,6 +23,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Controller
 public class HomeController {
+	
+	@Autowired
+	UserCouponService userCouponService;
 
 	// private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
@@ -91,14 +97,14 @@ public class HomeController {
 		String categoryTypeName[] = {"카테고리1","카테고리2","카테고리3","카테고리4","카테고리5","카테고리6","카테고리7","카테고리8","카테고리9","카테고리10"};
 		String categoryTypeIcon[] = {"아이콘 주소1","아이콘 주소2","아이콘 주소3","아이콘 주소4","아이콘 주소5","아이콘 주소6","아이콘 주소7","아이콘 주소8","아이콘 주소9","아이콘 주소10"};
 		
-		String couponName = "3000코인 할인 쿠폰";
-		int couponPrice = 3000;
-		String couponDate = "2020-09-25";
+		// 지환쓰 구현 부 -------- 삭제 금지
+		// 관리자 페이지가 없기때문에 파라미터값은 db에서 쿠폰 추가하고 개발자가 넣어줘야함...
+		UserCoupon input = userCouponService.getCouponInfo(3);
 		
-		couponDate = couponDate.substring(5,7) + "월" + couponDate.substring(8,10) + "일 까지";
-		movie.addAttribute("couponName", couponName);
-		movie.addAttribute("couponPrice", couponPrice);
-		movie.addAttribute("couponDate", couponDate);
+		movie.addAttribute("couponName", input.getName());
+		movie.addAttribute("couponPrice", input.getPrice());
+		movie.addAttribute("couponDate", input.getPeriod());
+		// 지환쓰 구현부 -------- 삭제금지 end
 		
 		for ( int i = 0 ; i < 20 ; i++ ) {
 			int price = 0;

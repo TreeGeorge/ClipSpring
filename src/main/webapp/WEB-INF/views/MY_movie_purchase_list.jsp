@@ -14,6 +14,10 @@
 <link rel="stylesheet"
 	href="assets/plugins/sweetalert/sweetalert2.min.css">
 <style>
+
+p {
+ margin: 0;
+}
 .clear {
 	content: "";
 	display: block;
@@ -38,6 +42,7 @@
 .plist {
 	border-bottom: 1px solid #d5d5d5;
 	padding: 10px;
+	height: 120px;
 }
 
 .movies .time {
@@ -53,21 +58,27 @@
 
 .movie_title {
 	font-weight: bold;
- 	line-height: 3px;
+ 	line-height: 40px;
  	font-size:16px;
- 	padding-top:20px;
+ 	height: 30px;
+ 	width: 80%;
+ 	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
 }
 
 .movies .price {
 	font-size: 14px;
-	padding-top:5px;
+	height: 40px;
+	line-height: 25px;
 }
 
 
 .movies .period {
 	font-size:12px;
 	color:#ff3253;
-	padding-top:5px;
+	height: 30px;
+	line-height: 20px;
 }
 
 .total p {
@@ -132,7 +143,7 @@ input[type='radio']:checked {
 	font-size: 13px;
 	font-weight: bold;
 	border-radius: 20px;
-	margin-top:8px;
+	margin-top: 5px;
 }
 
 .no_cancel {

@@ -36,6 +36,27 @@ public class BuyMovieListController {
 	@Value("#{servletContext.contextPath}")
 	String contextPath;
 	
+	/** 내 보유 영화 세션비교 후 값 노출*/
+	 @RequestMapping(value="MY_movie",method=RequestMethod.GET)
+	 public String enterMyMovie(Model model, HttpSession session, HttpServletResponse response) { 
+		 if ( session.getAttribute("id") == null ) {
+				try {
+					response.sendRedirect(contextPath + "/Login");
+					return "Login";
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+	    	}
+		 
+		 int user_no = (Integer)session.getAttribute("user_no");
+		 User user = loginService.randerUser(user_no);
+		 model.addAttribute("user_coin", user.getCoin());
+		 
+		 // TODO 영화 정보 가져와야됨. 휴지통도 구현해야함 ++ 상태 비교해서 휴지통 마이무비에 나타내줄지 정하기
+			
+		 return "MY_movie"; 
+	 }
+	
 	/** 내 영화 구매 목록 세션비교 후 값 노출 */
 	@RequestMapping(value = "MY_movie_purchase_list", method = RequestMethod.GET)
 	public String goMyMoviePurchaseList(Model movie, HttpServletResponse response, HttpSession session) {

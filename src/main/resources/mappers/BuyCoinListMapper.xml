@@ -54,7 +54,7 @@
 	<insert id="insertItem"
 		parameterType="study.spring.clip.model.BuyCoinList"
 		useGeneratedKeys="true"
-		keyProperty="deptno">
+		keyProperty="buy_coin_list_no">
 		INSERT INTO buy_coin_list (date, price, user_no) VALUES (now(), #{price}, #{user_no});
 	</insert>
 	
