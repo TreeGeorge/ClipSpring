@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import study.spring.clip.model.BuyCoinList;
 import study.spring.clip.model.User;
 import study.spring.clip.service.BuyCoinListService;
+import study.spring.clip.service.LoginService;
 
 @Controller
 public class BuyCoinListController {
@@ -28,11 +29,15 @@ public class BuyCoinListController {
 	@Autowired
 	BuyCoinListService buyCoinListService;
 	
+	@Autowired
+	LoginService loginService;
+	
 	/** "/프로젝트이름" 에 해당하는 ContextPath 변수 주입 */
 	// --> import org.springframework.beans.factory.annotation.Value;
 	@Value("#{servletContext.contextPath}")
 	String contextPath;
 	
+	/** 코인 충전 세션값 비교후 값 노출 */
 	@RequestMapping(value = "Coin_charge", method = RequestMethod.GET)
 	public String goCoinCharge(Model model, HttpServletResponse response, HttpSession session,
 			@RequestParam(value="check") int check) {
@@ -47,7 +52,7 @@ public class BuyCoinListController {
     	}
 		
 		int user_no = (int)session.getAttribute("user_no");
-		User user_info = buyCoinListService.getUserInfo(user_no);
+		User user_info = loginService.randerUser(user_no);
 		String card_no = user_info.getCard();
 		
 		if (card_no == null) {
@@ -61,6 +66,7 @@ public class BuyCoinListController {
 		return "Coin_charge";
 	}
 	
+	/** user의 카드 정보 유무 판별 */
 	@ResponseBody
 	@RequestMapping(value = "card_check.do", method = RequestMethod.POST)
 	public int userCardCheck(Model model, HttpServletResponse response, HttpSession session,
@@ -73,6 +79,7 @@ public class BuyCoinListController {
 		return 1;
 	}
 	
+	/** MY코인 충전 세션값 비교후 값 노출 */
 	@RequestMapping(value = "MY_coin_charge", method = RequestMethod.GET)
 	public String goMyCoinCharge(Model model, HttpServletResponse response, HttpSession session) {
 		
@@ -86,14 +93,14 @@ public class BuyCoinListController {
     	}
 		
 		int user_no = (int)session.getAttribute("user_no");
-		User user_info = buyCoinListService.getUserInfo(user_no);
-		int user_coin = user_info.getCoin();
+		User user_info = loginService.randerUser(user_no);
 		
-		model.addAttribute("user_coin", user_coin);
+		model.addAttribute("user_coin", user_info.getCoin());
 		
 		return "MY_coin_charge";
 	}
 	
+	/** 내 코인 충전 목록 세션값 비교후 값 노출 */
 	@RequestMapping(value = "MY_coin_purchase_list", method = RequestMethod.GET)
 	public String goMyCoinPurchaseList(HttpSession session, HttpServletResponse response, Model model) {
 		
@@ -107,17 +114,17 @@ public class BuyCoinListController {
     	}
 		
 		int user_no = (int)session.getAttribute("user_no");
-		User user_info = buyCoinListService.getUserInfo(user_no);
-		int user_coin = user_info.getCoin();
+		User user_info = loginService.randerUser(user_no);
 		
 		List<BuyCoinList> output = buyCoinListService.getBuyCoinList(user_no);
 		
 		model.addAttribute("output", output);
-		model.addAttribute("user_coin", user_coin);
+		model.addAttribute("user_coin", user_info.getCoin());
 		
 		return "MY_coin_purchase_list";
 	}
 	
+	/** 코인 환불검사 */
 	@ResponseBody
 	@RequestMapping(value = "coin_delete_ok.do", method = RequestMethod.POST)
 	public int deleteBuyCoinListOk(Model model, HttpServletResponse response, HttpSession session,
@@ -127,10 +134,9 @@ public class BuyCoinListController {
 		BuyCoinList input = new BuyCoinList();
 		
 		int user_no = (int)session.getAttribute("user_no");
-		User user_info = buyCoinListService.getUserInfo(user_no);
-		int user_coin = user_info.getCoin();
+		User user_info = loginService.randerUser(user_no);
 		
-		input.setCoin(user_coin);
+		input.setCoin(user_info.getCoin());
 		input.setPrice(price);
 		input.setDate(date);
 		input.setUser_no(user_no);
@@ -150,7 +156,7 @@ public class BuyCoinListController {
 		return 1;
 	}
 	
-	// TODO 리턴타입 int로 바꾸고 카드정보 없을때 내정보보기 창으로 넘어가기 구현해야함 ++ 비밀번호 비교해서 넘어가기
+	/** 카드정보 판별 후 코인 구매 */
 	@ResponseBody
 	@RequestMapping(value = "coin_add_ok.do", method = RequestMethod.POST)
 	public void addBuyCoinListOk(Model model, HttpServletResponse response, HttpSession session, HttpServletRequest request,
@@ -160,12 +166,11 @@ public class BuyCoinListController {
 		BuyCoinList input = new BuyCoinList();
 		
 		int user_no = (int)session.getAttribute("user_no");
-		User user_info = buyCoinListService.getUserInfo(user_no);
-		int user_coin = user_info.getCoin();
+		User user_info = loginService.randerUser(user_no);
 
 		input.setPrice(price);
 		input.setUser_no(user_no);
-		input.setCoin(user_coin);
+		input.setCoin(user_info.getCoin());
 		
 		String cardCheck = user_info.getCard();
 		

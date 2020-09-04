@@ -19,6 +19,7 @@ import study.spring.clip.model.BuyMovieList;
 import study.spring.clip.model.User;
 import study.spring.clip.service.BuyCoinListService;
 import study.spring.clip.service.BuyMovieListService;
+import study.spring.clip.service.LoginService;
 
 @Controller
 public class BuyMovieListController {
@@ -29,9 +30,13 @@ public class BuyMovieListController {
 	@Autowired
 	BuyCoinListService buyCoinListService;
 	
+	@Autowired
+	LoginService loginService;
+	
 	@Value("#{servletContext.contextPath}")
 	String contextPath;
 	
+	/** 내 영화 구매 목록 세션비교 후 값 노출 */
 	@RequestMapping(value = "MY_movie_purchase_list", method = RequestMethod.GET)
 	public String goMyMoviePurchaseList(Model movie, HttpServletResponse response, HttpSession session) {
 		
@@ -45,17 +50,19 @@ public class BuyMovieListController {
     	}
     	
 		int user_no = (int)session.getAttribute("user_no");
-		User user_info = buyCoinListService.getUserInfo(user_no);
-		int user_coin = user_info.getCoin();
+		User user_info = loginService.randerUser(user_no);
 		
 		List<BuyMovieList> output = buyMovieListService.getBuyMovieList(user_no);
 		
 		movie.addAttribute("output", output);
-		movie.addAttribute("user_coin", user_coin);
+		movie.addAttribute("user_coin", user_info.getCoin());
 		
 		return "MY_movie_purchase_list";
 	}
 	
+	// TODO 이미 보유중인 상품이면 구매 안되게 해야됨... 작스에서 얼럴창..
+	// TODO 파라미터값으로 무비넘버 가져와서 정제해서 유저 구매목록에 생성해줘야함
+	/** 영화 구매 세션비교 후 값 노출 */
 	@RequestMapping(value = "Movie_buy", method = RequestMethod.GET)
 	public String goBuyMovie(Model movie, HttpServletResponse response, HttpSession session) {
 		
@@ -77,44 +84,43 @@ public class BuyMovieListController {
 		return "Movie_buy";
 	}
 	
-	// TODO 이미 보유중인 상품이면 구매 안되게 해야됨... 작스에서 얼럴창..
-	
-	// TODO 기간 비교해서 삭제되게 해야됨... 일주일 지나면 삭제 못하게..
-		@ResponseBody
-		@RequestMapping(value = "movie_delete_ok.do", method = RequestMethod.POST)
-		public int deleteBuyMovieListOk(Model model, HttpServletResponse response, HttpSession session,
-				@RequestParam(value="date") String date,
-				@RequestParam(value="price") int price) {
-			// 데이터 삭제에 필요한 조건값을 Beans에 저장하기
-			BuyMovieList input = new BuyMovieList();
-			
-			int user_no = (int)session.getAttribute("user_no");
-			User user_info = buyCoinListService.getUserInfo(user_no);
-			int user_coin = user_info.getCoin();
-			
-			input.setCoin(user_coin);
-			input.setPrice(price);
-			input.setDate(date);
-			input.setUser_no(user_no);
-			
-			// 개발자도구로 나쁜짓하면 혼내주기
-			if (buyMovieListService.checkBuyMovieList(input)) {
-				return 0;
-			}
-			
-			// 시청했는지 확인
-			if (buyMovieListService.checkWatched(input)) {
-				return 2;
-			}
-			
-			try {
-				// 데이터 삭제
-				buyMovieListService.deleteBuyMovieList(input);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			
-			return 1;
+	/** 영화 환불 검사 */
+	@ResponseBody
+	@RequestMapping(value = "movie_delete_ok.do", method = RequestMethod.POST)
+	public int deleteBuyMovieListOk(Model model, HttpServletResponse response, HttpSession session,
+			@RequestParam(value="date") String date,
+			@RequestParam(value="price") int price) {
+		// 데이터 삭제에 필요한 조건값을 Beans에 저장하기
+		BuyMovieList input = new BuyMovieList();
+		
+		int user_no = (int)session.getAttribute("user_no");
+		User user_info = loginService.randerUser(user_no);
+		
+		input.setCoin(user_info.getCoin());
+		input.setPrice(price);
+		input.setDate(date);
+		input.setUser_no(user_no);
+		
+		// 개발자도구로 나쁜짓하면 혼내주기
+		if (buyMovieListService.checkBuyMovieList(input)) {
+			return 0;
 		}
+		
+		// 시청했는지 확인
+		if (buyMovieListService.checkWatched(input)) {
+			return 2;
+		}
+		
+		try {
+			// 데이터 삭제
+			buyMovieListService.deleteBuyMovieList(input);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return 1;
+	}
+	
+	// TODO My_movie_add_ok 만들어야함..
 
 }

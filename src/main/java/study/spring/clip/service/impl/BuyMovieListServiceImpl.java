@@ -18,6 +18,7 @@ public class BuyMovieListServiceImpl implements BuyMovieListService {
 	@Autowired
 	SqlSession sqlSession;
 
+	/** 영화 구매 리스트 조회 */
 	@Override
 	public List<BuyMovieList> getBuyMovieList(int user_no) {
 		
@@ -26,6 +27,7 @@ public class BuyMovieListServiceImpl implements BuyMovieListService {
 		return result;
 	}
 
+	/** 영화 환불(삭제) 및 유저 코인 변경 */
 	@Override
 	public int deleteBuyMovieList(BuyMovieList input) throws Exception {
 		int result = 0;
@@ -49,6 +51,7 @@ public class BuyMovieListServiceImpl implements BuyMovieListService {
 		return result;
 	}
 
+	/** 구매정보 db값 확인 */
 	@Override
 	public boolean checkBuyMovieList(BuyMovieList input) {
 		if (sqlSession.selectOne("BuyMovieListMapper.checkList", input) == null) {
@@ -57,6 +60,7 @@ public class BuyMovieListServiceImpl implements BuyMovieListService {
 		return false;
 	}
 
+	/** 시청 유무 확인 */
 	@Override
 	public boolean checkWatched(BuyMovieList input) {
 		if (sqlSession.selectOne("BuyMovieListMapper.checkWatched", input) == null) {

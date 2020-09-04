@@ -14,18 +14,23 @@
         <result property="coin" column="coin" />
     </resultMap>
     
+    <!-- 기능 정의 -->
+    
+    <!-- user_no로 코인구매내역 객체 조회 -->
     <select id="buyList"
 		parameterType="study.spring.clip.model.BuyCoinList"
 		resultMap="buyCoinListMap">
 		SELECT date, price FROM buy_coin_list WHERE user_no = #{user_no};
 	</select>
 	
+	<!-- 파라미터값으로 받아온 값이 db값과 일치하는지 확인하는 작업 -->
 	<select id="checkList"
 		parameterType="study.spring.clip.model.BuyCoinList"
 		resultMap="buyCoinListMap">
 		SELECT * FROM buy_coin_list WHERE user_no = #{user_no} AND date = #{date} AND price = #{price};
 	</select>
 
+	<!-- 파라미터값으로 받아온 값 비교후 행 삭제(환불) -->
 	<delete id="deleteItem"
 		parameterType="study.spring.clip.model.BuyCoinList">
 		DELETE FROM buy_coin_list WHERE user_no = #{user_no} AND date = #{date};	
@@ -45,6 +50,7 @@
 		WHERE user_no = #{user_no};
     </update>
 	
+	<!-- 코인 구매했을때 구매내역 추가 -->
 	<insert id="insertItem"
 		parameterType="study.spring.clip.model.BuyCoinList"
 		useGeneratedKeys="true"
@@ -52,7 +58,6 @@
 		INSERT INTO buy_coin_list (date, price, user_no) VALUES (now(), #{price}, #{user_no});
 	</insert>
 	
-	<!-- 태희쨩이 추가함 이식 후에 주석 지워주삼-->
 	<!-- 행 삭제 -->
 	<delete id="deleteList" parameterType="study.spring.clip.model.BuyCoinList">
 		DELETE FROM buy_coin_list WHERE user_no=#{user_no};

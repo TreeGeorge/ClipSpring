@@ -18,6 +18,9 @@
         <result property="coin" column="coin" />
     </resultMap>
     
+    <!-- 기능 정의 -->
+	
+	<!-- user_no로 구매한 영화 리스트 조회 -->
     <select id="buyList"
 		parameterType="study.spring.clip.model.BuyMovieList"
 		resultMap="buyMovieListMap">
@@ -25,12 +28,14 @@
 		AND user_no = #{user_no};
 	</select>
 	
+	<!-- 파라미터값으로 받아온 값이 db값과 일치하는지 확인하는 작업 -->
 	<select id="checkList"
 		parameterType="study.spring.clip.model.BuyMovieList"
 		resultType="String">
 		SELECT date FROM buy_movie_list b, movie m WHERE b.movie_no = m.movie_no AND user_no = #{user_no} AND date = #{date} AND Floor(m.price / 100 * (100 - m.sale)) = #{price};
 	</select>
 	
+	<!-- 환불할 영화가 시청했는지 확인하는 작업 -->
 	<select id="checkWatched"
 	 	parameterType="study.spring.clip.model.BuyMovieList"
 	 	resultType="String">
@@ -51,12 +56,12 @@
 		WHERE user_no = #{user_no};
     </update>
     
+    <!-- 해당 영화 환불 -->
     <delete id="deleteItem"
 		parameterType="study.spring.clip.model.BuyMovieList">
 		DELETE FROM buy_movie_list WHERE user_no = #{user_no} AND date = #{date};	
 	</delete>
 	
-	<!-- 태희쨩이 추가함 이식 후에 주석 지워주삼-->
 	<!-- 행 삭제 -->
 	<delete id="deleteList" parameterType="study.spring.clip.model.BuyMovieList">
 		DELETE FROM buy_movie_list WHERE user_no=#{user_no};

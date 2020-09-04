@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
 import study.spring.clip.model.BuyCoinList;
-import study.spring.clip.model.User;
 import study.spring.clip.service.BuyCoinListService;
 
 @Slf4j
@@ -18,7 +17,8 @@ public class BuyCoinListServiceImpl implements BuyCoinListService {
 	/** MyBatis 세션 객체 주입 설정 */
 	@Autowired
 	SqlSession sqlSession;
-
+	
+	/** 코인 구매 리스트 조회 */
 	@Override
 	public List<BuyCoinList> getBuyCoinList(int user_no) {
 		
@@ -27,6 +27,7 @@ public class BuyCoinListServiceImpl implements BuyCoinListService {
 		return result;
 	}
 
+	/** 코인 환불(삭제) 및 유저 코인 변경 */
 	@Override
 	public int deleteBuyCoinList(BuyCoinList input) throws Exception {
 		int result = 0;
@@ -49,7 +50,8 @@ public class BuyCoinListServiceImpl implements BuyCoinListService {
 		
 		return result;
 	}
-
+	
+	/** 코인 구매 및 유저 코인 변경 */
 	@Override
 	public int addBuyCoinList(BuyCoinList input) throws Exception {
 		int result = 0;
@@ -73,19 +75,13 @@ public class BuyCoinListServiceImpl implements BuyCoinListService {
 		return result;
 	}
 
+	/** 구매정보 db값 확인 */
 	@Override
 	public boolean checkCoinList(BuyCoinList input) {
 		if (sqlSession.selectOne("BuyCoinListMapper.checkList", input) == null) {
 			return true;
 		}
 		return false;
-	}
-
-
-	@Override
-	public User getUserInfo(int user_no) {
-		User result = sqlSession.selectOne("UserMapper.selectUserInfo", user_no);
-		return result;
 	}
 
 }
