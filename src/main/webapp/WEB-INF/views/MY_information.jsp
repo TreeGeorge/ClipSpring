@@ -217,7 +217,9 @@
     <script src="assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@2.4.1/dist/email.min.js"></script>
     <script>
+    var isSend = false;
    		$(function(){
+   			
    			$(".bot_bar_icon").eq(3).attr("src", "assets/img/my_page_icon_selected.png");
    			var gender = $(".info_item").eq(2);
    			if(gender.text()=="M"){
@@ -226,7 +228,15 @@
    				gender.text("여자");
    			}
    		})
-
+		//난수 생성
+   		function createRandomNumber() {
+				key = "";
+				for(var i = 0; i<6; i++){
+					key+=Math.floor(Math.random()* (9 - 0 + 1)) + 0;
+				}
+				console.log(key);
+				return key;
+			}
 		//메일 발송
 		function sendEmail(email){
 			(function(){
@@ -295,10 +305,10 @@
                     var new_pw = $("#swal_new_pw").val();
                     var new_pw_re = $("#swal_new_pw_re").val();
 
-                    //post통신하여 로그인되어있는 아이디 LSB001의 비밀번호와 기존비밀번호 입력값이 일치하는지 여부 판단  
-                    $.post("api/search_id.do",{user_id:id, user_pw:now_pw,post : "login"},function(req){
+                    //post통신하여 로그인되어있는 계정의 입력받은 비밀번호와 기존비밀번호 입력값이 일치하는지 여부 판단  
+                    $.post("pwCheck.do",{pw:now_pw},function(req){
                         //기존 비밀번호 입력값이 정상일 경우
-                        if(req.result=='1'){
+                        if(req=='1'){
                         	if(new_pw==""){
                         		swal({
                                     html : "<b>새로운 비밀번호를 입력해주세요.</b>",
@@ -321,15 +331,28 @@
                                     //error메시지 표시 후 재실행
                                     $("#pw_change").click();
                                 })
-                        	}else{
+                        	}else if(new_pw.length < 8 || new_pw.length > 16){
                         		swal({
-                        			html: "<b>비밀번호가 변경되었습니다.</b>",
-                        			 type : "success",
-                                     timer : 1400,
-                                     showConfirmButton: false,
-                                     allowOutsideClick: false
-                                 }).then(function(){
-                                	 //location.reload();
+                                    html : "<b>비밀번호는 8자 이상 16자 이하여야합니다.</b>",
+                                    type : "error",
+                                    timer : 1400,
+                                    showConfirmButton: false,
+                                    allowOutsideClick: false
+                                }).then(function(){
+                                    //error메시지 표시 후 재실행
+                                    $("#pw_change").click();
+                                })
+                        	}else{
+                        		$.post("pwChange.do",{pw:new_pw},function(){
+                        			swal({
+                            			html: "<b>비밀번호가 변경되었습니다.</b>",
+                            			 type : "success",
+                                         timer : 1400,
+                                         showConfirmButton: false,
+                                         allowOutsideClick: false
+                                     }).then(function(){
+                                    	 $(location).attr('href','MY_information');
+                            		})
                         		})
                         	}
                              
@@ -366,8 +389,8 @@
             }).then(function(e){
             	if(e.value){
             		var pw = $("#swal_pw").val();
-            		$.post('api/search_id.do',{user_id:id, user_pw:pw,post : "login"},function(req){
-            			if(req.result=='1'){ pw_pass = true; }
+            		$.post('pwCheck.do',{pw:pw},function(req){
+            			if(req=='1'){ pw_pass = true; }
             		})//end post
             		.then(function(){
             			if(pw_pass){
@@ -391,7 +414,7 @@
                                 
                                 $("#email_send_btn").click(function(){
                                 	var email_reg = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
-                                	
+                               
                                     if (!$("#swal_pw").val()) {
                                     	 $("#email_text").html("이메일을 입력해주세요."); 
                                     	 $("#swal_pw").focus();
@@ -403,18 +426,18 @@
                                        
                                         //정상 값 입력시
                                     } else {
-                                        $.post('api/search_id.do', {email : $("#swal_pw").val(), post : "overlap_email"
-                                        }, function(req) {
-                                            if(req.result!='-1'){
+                                        $.post('emailOverlapCheck.do', {email : $("#swal_pw").val()}, function(req) {
+                                            if(req=='1'){
                                             	$("#email_text").html("이미 사용중인 이메일입니다.");
                                                 $("#swal_pw").val("");
                                                 $("#swal_pw").focus();
                                             }
                                             else{
-                                            $("#email_text").html("메일이 발송되었습니다. 인증번호를 입력해 주세요.");
-                                            sendEmail($("#swal_pw").val());
-                                            console.log(key);
-                                            $("#swal_pw").prop('disabled','true');
+	                                            $("#email_text").html("메일이 발송되었습니다. 인증번호를 입력해 주세요.");
+	                                            sendEmail($("#swal_pw").val());
+	                                            console.log(key);
+	                                            $("#swal_pw").prop('disabled','true');
+	                                            isSend = true;
                                             }
                                         })
                                      }
@@ -427,24 +450,27 @@
                                 
                                 $("#email_key_check_btn").click(function(){
                                 	//송신 여부 판별용 변수가 true가 아니라면
-                                	if(key=="none"){
+                                	if(!isSend){
                                 		$("#email_text").html("메일전송 버튼을 눌러주세요");
+                                		
                                 		return;
                                 	}
                                 	//인증키 값이 올바르지않다면
                                 	if(key!=$("#swal_new_pw").val()){
                                 		$("#email_text").html("인증번호가 올바르지 않습니다.");
                                 	}else{//인증키 값이 올바르다면
-                                		$(".info_item").eq(4).text($(swal_pw).val());
-                                		swal({
-                                  		  html : "<b>이메일이 변경되었습니다.</b>",
-                                  		  type : "success",
-                                  		  timer : 1500,
-                                  		  allowOutsideClick: false,
-                                  		  showConfirmButton : false
-	                                  	  }).then(function(){
-	                                  		  //location.reload();
-	                                  	  })
+                                		$.post("emailChange.do",{email:$("#swal_pw").val()},function(){
+                                			swal({
+                                        		  html : "<b>이메일이 변경되었습니다.</b>",
+                                        		  type : "success",
+                                        		  timer : 1500,
+                                        		  allowOutsideClick: false,
+                                        		  showConfirmButton : false
+      	                                  	  }).then(function(){
+      	                                  		 $(location).attr('href','MY_information');
+      	                                  	  })
+                                		})
+                                		
                                 	}
                                 })
                                 

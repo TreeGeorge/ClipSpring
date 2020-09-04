@@ -26,9 +26,6 @@ public class LoginController{
 	@Autowired
 	LoginServiceImpl loginService; //로그인 서비스 객체 주입
 	
-	@Autowired
-	BuyCoinListService buyCoinListService;
-	
 	/** "/프로젝트이름" 에 해당하는 ContextPath 변수 주입 */
 	// --> import org.springframework.beans.factory.annotation.Value;
 	@Value("#{servletContext.contextPath}")
@@ -174,7 +171,6 @@ public class LoginController{
 	  @RequestMapping(value="emailOverlapCheck.do",method=RequestMethod.POST)
 	  public String emailOverlapCheck(HttpServletResponse response,
 			  @RequestParam(value="email") String email) { 
-		  log.debug("1112"+email);
 		  if(loginService.emailOverlapCheck(email)) {return "1";}
 		  return "0";
 	  }
@@ -211,11 +207,31 @@ public class LoginController{
 		  String agree = (String)session.getAttribute("should");
 		  loginService.signUp(agree, id, name, email, pw, edit, birth, gender);
 	  }
+	  
+	  /*회원 탈퇴*/
 	  @ResponseBody
 	  @RequestMapping(value="deleteUser.do",method=RequestMethod.GET)
 	  public void deleteUser(HttpSession session) { 
 		 int user_no = (Integer)session.getAttribute("user_no");
 		 loginService.deleteUser(user_no);
 		 session.invalidate();
+	  }
+	  
+	  /*비밀번호 변경*/
+	  @ResponseBody
+	  @RequestMapping(value="pwChange.do",method=RequestMethod.POST)
+	  public void pwChange(HttpServletResponse response, HttpSession session,
+			  @RequestParam(value="pw") String pw) { 
+		  int user_no = (Integer)session.getAttribute("user_no");
+		  loginService.pwChange(user_no, pw);	 
+	  }
+	  
+	  /*이메일 변경*/
+	  @ResponseBody
+	  @RequestMapping(value="emailChange.do",method=RequestMethod.POST)
+	  public void emailChange(HttpServletResponse response, HttpSession session,
+			  @RequestParam(value="email") String email) { 
+		  int user_no = (Integer)session.getAttribute("user_no");
+		  loginService.emailChange(user_no, email);
 	  }
 }

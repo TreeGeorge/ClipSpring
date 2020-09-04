@@ -14,4 +14,6 @@ public interface LoginService {
     public boolean pwCheck(String id, String pw);
 	public User randerUser(int user_no);
 	public void deleteUser(int user_no);
+	public void pwChange(int user_no, String pw);
+	public void emailChange(int user_no, String email);
 }

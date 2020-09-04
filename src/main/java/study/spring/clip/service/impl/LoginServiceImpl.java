@@ -68,7 +68,6 @@ public class LoginServiceImpl implements LoginService {
 	 /*이메일 중복 검사*/
 	 public boolean emailOverlapCheck(String email){
 		 User input = new User();
-		 log.debug("333"+email);
 		 input.setEmail(email);
 		 User result =  sqlSession.selectOne("UserMapper.selectUserToEmail",input);
 		 
@@ -92,6 +91,7 @@ public class LoginServiceImpl implements LoginService {
 			sqlSession.selectOne("UserMapper.createUser", input);
 	 }
 	 
+	 /*회원 탈퇴 처리*/
 	 public void deleteUser(int user_no) {
 		 User input = new User();
 		 input.setUser_no(user_no);
@@ -109,5 +109,22 @@ public class LoginServiceImpl implements LoginService {
 		 
 		 /*회원 테이블 삭제(탈퇴)*/
 		 sqlSession.selectOne("UserMapper.deleteUser", input);
+	 }
+	 
+	 /*비밀번호 변경*/
+	 public void pwChange(int user_no, String pw) {
+		 User input = new User();
+		 input.setUser_no(user_no);
+		 input.setPw(pw);
+		 sqlSession.selectOne("UserMapper.pwChange", input);
+	 }
+	 
+	 /*이메일 변경*/
+	 public void emailChange(int user_no, String email) {
+		 User input = new User();
+		 input.setUser_no(user_no);
+		 input.setEmail(email);
+		 		
+		 sqlSession.selectOne("UserMapper.emailChange", input);		
 	 }
 }

@@ -56,9 +56,14 @@
 		DELETE FROM user WHERE user_no=#{user_no};
 	</delete>
 	
-	<!--  -->
+	<!-- 비밀번호 변경 -->
 	<update id="pwChange" parameterType="study.spring.clip.model.User">
-		UPDATE user SET pw = #{pw} WHERE id = #{id};
+		UPDATE user SET pw = #{pw} WHERE user_no = #{user_no};
+	</update>
+	
+	<!-- 이메일 변경 -->
+	<update id="emailChange" parameterType="study.spring.clip.model.User">
+		UPDATE user SET email = #{email} WHERE user_no = #{user_no};
 	</update>
 	
 </mapper>
