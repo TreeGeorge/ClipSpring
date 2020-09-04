@@ -31,4 +31,10 @@
 		parameterType="study.spring.clip.model.MovieComment">
 		DELETE FROM movie_comment WHERE movie_comment_no=#{movie_comment_no};
 	</delete>
+	
+	<!-- 태희쨩이 추가함 이식 후에 주석 지워주삼-->
+	<!-- user_no null처리 -->
+	<update id="nullList" parameterType="study.spring.clip.model.MovieComment">
+		UPDATE movie_comment SET user_no=null WHERE user_no=#{user_no};
+	</update>
 </mapper>

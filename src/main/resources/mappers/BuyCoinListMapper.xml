@@ -52,4 +52,10 @@
 		INSERT INTO buy_coin_list (date, price, user_no) VALUES (now(), #{price}, #{user_no});
 	</insert>
 	
+	<!-- 태희쨩이 추가함 이식 후에 주석 지워주삼-->
+	<!-- 행 삭제 -->
+	<delete id="deleteList" parameterType="study.spring.clip.model.BuyCoinList">
+		DELETE FROM buy_coin_list WHERE user_no=#{user_no};
+	</delete>
+	
 </mapper>

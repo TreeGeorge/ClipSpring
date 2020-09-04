@@ -20,31 +20,43 @@
 	
 	<!-- 기능 정의 -->
 	
+	<!-- 유저 생성 -->
 	<insert id="createUser" parameterType="study.spring.clip.model.User"
 	useGeneratedKeys="true" keyProperty="user_no">
 		INSERT INTO user (user_no, id, pw, name, gender, birthdate, editdate, email, is_sendagree, coin)
 		VALUES (#{user_no}, #{id}, #{pw}, #{name}, #{gender}, #{birthdate}, #{editdate}, #{email}, #{is_sendagree}, 0);
 	</insert> 
 	
+	<!-- id로 유저 객체 조회 -->
 	<select id="selectUser" parameterType="study.spring.clip.model.User"
 	resultMap="userMap">
 			SELECT * FROM user WHERE id = #{id};
 	</select>
 	
+	<!-- user_no로 유저 객체 조회 -->
+	<select id="selectUserToNumber" parameterType="study.spring.clip.model.User"
+	resultMap="userMap">
+			SELECT * FROM user WHERE user_no = #{user_no};
+	</select>
+	
+	<!-- email로 유저 객체 조회 -->
 	<select id="selectUserToEmail" parameterType="study.spring.clip.model.User"
 	resultMap="userMap">
 			SELECT * FROM user WHERE email = #{email};
 	</select>
 	
+	<!-- selectUserToNumber로 대체 서비스화 -->
 	<select id="selectUserInfo" parameterType="study.spring.clip.model.User"
 	resultMap="userMap">
 			SELECT * FROM user WHERE user_no = #{user_no};
 	</select>
 	
+	<!-- 유저 객체 삭제 -->
 	<delete id="deleteUser" parameterType="study.spring.clip.model.User">
 		DELETE FROM user WHERE user_no=#{user_no};
 	</delete>
 	
+	<!--  -->
 	<update id="pwChange" parameterType="study.spring.clip.model.User">
 		UPDATE user SET pw = #{pw} WHERE id = #{id};
 	</update>

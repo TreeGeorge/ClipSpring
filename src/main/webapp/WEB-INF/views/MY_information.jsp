@@ -595,15 +595,17 @@
             .then(function(e){
                 if(e.value){
                 	if($("#del_messege").val()=="동의합니다"){
-                		swal({
-                    		  html : "<b>탈퇴되었습니다.</b>",
-                    		  type : "warning",
-                    		  timer : 1500,
-                    		  allowOutsideClick: false,
-                    		  showConfirmButton : false
-                    	  }).then(function(){
-                    		  location.href = "index.jsp";
-                    	  })
+                		$.get("deleteUser.do",function(){
+                			swal({
+                        		  html : "<b>탈퇴되었습니다.</b>",
+                        		  type : "warning",
+                        		  timer : 1500,
+                        		  allowOutsideClick: false,
+                        		  showConfirmButton : false
+                        	  }).then(function(){
+                        		  location.href = "home";
+                        	  })
+                		})
                 	}else{
                 		swal({
                     		  html : "<b>잘못 입력하였습니다.</b>",

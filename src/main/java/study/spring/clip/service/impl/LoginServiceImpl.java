@@ -18,11 +18,7 @@ public class LoginServiceImpl implements LoginService {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	public void createUser(User input){
-		sqlSession.selectOne("UserMapper.createUser",input);
-	}
-
-	/*로그인*/
+	/*로그인 후 세션 생성*/
 	public boolean loginCheck(HttpSession session, String id, String pw) {
 		User input = new User();		
 		User result = new User();
@@ -33,6 +29,7 @@ public class LoginServiceImpl implements LoginService {
 		else { pushSession(session, result); return true; }
 	}
 	
+	/*세션 id랑 비밀번호 검사*/
     public boolean pwCheck(String id, String pw){
     	User input = new User();
 		User result = new User();
@@ -40,6 +37,15 @@ public class LoginServiceImpl implements LoginService {
 		result = sqlSession.selectOne("UserMapper.selectUser",input);
 		if(pw.equals(result.getPw())){return true;}
 		return false;
+    }
+    
+    /*유저 객체 리턴*/
+    public User randerUser(int user_no) {
+    	User input = new User();
+    	User result = new User();
+    	input.setUser_no(user_no);
+    	result = sqlSession.selectOne("UserMapper.selectUserToNumber", input);
+    	return result;
     }
 
 	
@@ -84,5 +90,24 @@ public class LoginServiceImpl implements LoginService {
 			input.setEmail(email);
 			input.setIs_sendagree(agree);
 			sqlSession.selectOne("UserMapper.createUser", input);
+	 }
+	 
+	 public void deleteUser(int user_no) {
+		 User input = new User();
+		 input.setUser_no(user_no);
+		 /*삭제 테이블*/
+		 sqlSession.selectList("WishListMapper.deleteList",input);
+		 sqlSession.selectList("BuyCoinListMapper.deleteList",input);
+		 sqlSession.selectList("InterestMapper.deleteList",input);
+		 sqlSession.selectList("UserCouponMapper.deleteList",input);
+		 sqlSession.selectList("BuyMovieListMapper.deleteList",input);
+		 
+		 /*null 처리*/
+		 sqlSession.selectList("CommentAppraisalMapper.nullList",input);
+		 sqlSession.selectList("MovieCommentMapper.nullList",input);
+		 sqlSession.selectList("StarRatingMapper.nullList",input);
+		 
+		 /*회원 테이블 삭제(탈퇴)*/
+		 sqlSession.selectOne("UserMapper.deleteUser", input);
 	 }
 }

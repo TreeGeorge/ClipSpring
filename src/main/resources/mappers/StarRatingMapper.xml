@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="StarRatingMapper">
+	<!-- model과 mapper 맵핑 처리 -->
+	<resultMap id="StarRatingMap" type="study.spring.clip.model.StarRating">
+		<result property="user_no" column="user_no"/>
+		<result property="star_rating_number" column="star_rating_number"/>
+		<result property="movie_no" column="movie_no"/>
+	</resultMap>
+	
+	<!-- 기능 정의 -->
+	
+	<!-- 태희쨩이 추가함 이식 후에 주석 지워주삼-->
+	<!-- user_no null처리 -->
+	<update id="nullList" parameterType="study.spring.clip.model.StarRating">
+		UPDATE star_rating SET user_no=null WHERE user_no=#{user_no};
+	</update>
+	
+	
+	
+</mapper>

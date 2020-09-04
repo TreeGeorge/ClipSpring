@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="UserCouponMapper">
+	<!-- model과 mapper 맵핑 처리 -->
+	<resultMap id="UserCouponMap" type="study.spring.clip.model.UserCoupon">
+		<result property="user_coupon_no" column="user_coupon_no"/>
+		<result property="is_used" column="is_used"/>
+		<result property="user_no" column="user_no"/>
+		<result property="coupon_list_no" column="coupon_list_no"/>
+	</resultMap>
+	
+	<!-- 기능 정의 -->
+	
+	<!-- 태희쨩이 추가함 이식 후에 주석 지워주삼-->
+	<!-- 행 삭제 -->
+	<delete id="deleteList" parameterType="study.spring.clip.model.UserCoupon">
+		DELETE FROM user_coupon WHERE user_no=#{user_no};
+	</delete> 
+	
+	
+	
+</mapper>
