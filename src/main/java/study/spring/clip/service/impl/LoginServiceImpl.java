@@ -41,10 +41,7 @@ public class LoginServiceImpl implements LoginService {
     
     /*유저 객체 리턴*/
     public User randerUser(int user_no) {
-    	User input = new User();
-    	User result = new User();
-    	input.setUser_no(user_no);
-    	result = sqlSession.selectOne("UserMapper.selectUserToNumber", input);
+    	User result = sqlSession.selectOne("UserMapper.selectUserToNumber", user_no);
     	return result;
     }
 

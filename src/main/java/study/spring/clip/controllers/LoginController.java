@@ -17,14 +17,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import lombok.extern.slf4j.Slf4j;
 import study.spring.clip.model.User;
 import study.spring.clip.service.BuyCoinListService;
-import study.spring.clip.service.impl.LoginServiceImpl;
+import study.spring.clip.service.LoginService;
 
 @Slf4j
 @Controller
 public class LoginController{
 
 	@Autowired
-	LoginServiceImpl loginService; //로그인 서비스 객체 주입
+	LoginService loginService; //로그인 서비스 객체 주입
 	
 	/** "/프로젝트이름" 에 해당하는 ContextPath 변수 주입 */
 	// --> import org.springframework.beans.factory.annotation.Value;
