@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <%@ page trimDirectiveWhitespaces="true"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -233,13 +236,13 @@
 		<!-- 드롭다운 옵션 -->
 		<div class="content clearfix">
 			<span class="delete_list"> <a class="toggleCheckbox_top hidden">전체선택</a>
-				<a class="movie_delete hidden">삭제</a></span> <select
+				<a class="movie_delete hidden">삭제</a></span> <select name="asdf"
 				class="form-control selcls" id="movie_select">
-				<option>최신순</option>
-				<option>개봉순</option>
+				<option value="최신순">최신순</option>
 				<option>평점순</option>
-				<option>판매순</option>
-				<option>낮은가격순</option>
+				<option>구매순</option>
+				<option value="낮은 가격순">낮은가격순</option>
+				<option>높은가격순</option>
 			</select>
 		</div>
 		<!-- 영화목록에 담긴 상품이 아무것도 없을 떄 -->
@@ -249,65 +252,24 @@
 				관심영화 목록에 담겨진<br />상품이 없습니다.
 			</div>
 		</div>
-	
+	<div id="asd">
 		<ul class="movie">
+		<c:forEach var="item" items="${output}" varStatus="status">
 			<li class="movie_list wish_content"><a
-				href="Movie_information.jsp"> <img
+				href="Movie_information?movieNo=${item.movie_no}"> <img
 					src="assets/img/sample7.jpg" alt="영화제목 썸네일">
-					<span class="movie_title">머드라</span> <span class="age">전체 관람가<span>
-							| 80분</span></span> <span class="act">머였지</span>
+					<span class="movie_title">${item.name}</span> <span class="age">${item.age}<span>
+							| ${item.runtime}</span></span> <span class="act">배우받아오기</span>
 			</a> <!-- 편집 클릭시 체크박스 -->
 				<div class="star">
 					<img src="assets/img/star2.png"
 						alt="interest_button">
 				</div></li>
+				</c:forEach>
 				
-					<li class="movie_list wish_content"><a
-				href="Movie_information.jsp"> <img
-					src="assets/img/sample4.jpg" alt="영화제목 썸네일">
-					<span class="movie_title">마녀</span> <span class="age">전체 관람가<span>
-							| 80분</span></span> <span class="act">김다미</span>
-			</a> <!-- 편집 클릭시 체크박스 -->
-				<div class="star">
-					<img src="assets/img/star2.png"
-						alt="interest_button">
-				</div></li>
-				
-				<li class="movie_list wish_content"><a
-				href="Movie_information.jsp"> <img
-					src="assets/img/sample1.jpg" alt="영화제목 썸네일">
-					<span class="movie_title">백두산</span> <span class="age">19세 관람가<span>
-							| 100분</span></span> <span class="act">수지</span>
-			</a> <!-- 편집 클릭시 체크박스 -->
-				<div class="star">
-					<img src="assets/img/star2.png"
-						alt="interest_button">
-				</div></li>
-				
-				<li class="movie_list wish_content"><a
-				href="Movie_information.jsp"> <img
-					src="assets/img/sample12.jpg" alt="영화제목 썸네일">
-					<span class="movie_title">하울의 움직이는 성</span> <span class="age">전체 관람가<span>
-							| 120분</span></span> <span class="act">하울</span>
-			</a> <!-- 편집 클릭시 체크박스 -->
-				<div class="star">
-					<img src="assets/img/star2.png"
-						alt="interest_button">
-				</div></li>
-				
-				<li class="movie_list wish_content"><a
-				href="Movie_information.jsp"> <img
-					src="assets/img/sample16.jpg" alt="영화제목 썸네일">
-					<span class="movie_title">어벤져스 : 인피니티 워</span> <span class="age">15세 관람가<span>
-							| 90분</span></span> <span class="act">토니 스타크</span>
-			</a> <!-- 편집 클릭시 체크박스 -->
-				<div class="star">
-					<img src="assets/img/star2.png"
-						alt="interest_button">
-				</div></li>
-				
-				
+					
 		</ul>
+		</div>
 	
 		<!-- BOT BAR -->
 		<%@ include file="assets/inc/bot_bar.jsp" %>
@@ -349,6 +311,33 @@
         $(".star").click(function() {
             // 별모양의 부모를 지움
         }); // end $(".star").click()
+     	$(document).click(function(e){ 
+     		console.log($("#movie_select option")[0])
+     		console.log($("#movie_select option").eq(4))
+     	})
+     	
+     	$("select[name='asdf']").change(function() {
+         if($(this).val()=="최신순"){
+             console.log("123");
+             
+             $.post("recent",{output:"${output}"},function(req){
+            	 
+         	})
+           } else if ($(this).val()=="낮은 가격순") {
+        	 console.log("456");
+        	 $(".movie").remove();
+        	 $.post("rowprice",{},function(req){
+        		 console.log("421421");
+        		 console.log("${output2}")
+        		 console.log("${output}")
+        		 
+				$("#asd").append().html('<ul class="movie"> <c:forEach var="item" items="${output2}" varStatus="status"> <li class="movie_list wish_content"><a href="Movie_information?movieNo=${item.movie_no}"> <img src="assets/img/sample7.jpg" alt="영화제목 썸네일"> <span class="movie_title">${item.name}</span> <span class="age">${item.age}<span> | ${item.runtime}</span></span> <span class="act">배우받아오기</span></a> <!-- 편집 클릭시 체크박스 --><div class="star"><img src="assets/img/star2.png" alt="interest_button"></div></li></c:forEach></ul>')
+         	})
+           }
+     	});
+        
+
+      
 
          
 	</script>

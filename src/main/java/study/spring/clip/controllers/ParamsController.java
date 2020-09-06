@@ -21,40 +21,40 @@ public class ParamsController {
 	@Value("#{servletContext.contextPath}")
 	String contextPath;
 	
-	/** GET 방식의 파라미터를 전송받기 위한 컨트롤러 메서드 */
-	// 변수값을 View에게 전달할 필요가 있는 경우 Model 파라미터를 정의한다.
-	// import org.springframework.ui.Model;
-	@RequestMapping(value = "Movie_information", method = RequestMethod.GET)
-	public String getMovieInfo(Model movie,
-			// GET, POST 파라미터 받기
-			@RequestParam(value="movieNo", defaultValue="영화 번호") String movieNo) {
-		String movieTitle = "임시 제목";
-		int price = 2000;		// 임시 가격
-		String director = "임시 감독";
-		String actor = "임시 배우";
-		int runTime = 120;		// 임시 관람 시간
-		String summary = "임시 줄거리";
-		String preview = "임시 예고편 링크";
-		double rating = 4.2;	// 임시 별점
-		int ratingCount = 12;	// 임시 별점을 준 사람 수
-				
-		// db 값을 위에 선언해준 변수에 담기.
-		// db에서 movieNo 가 무비 프라이머리키 
-		
-		// 파라미터값을 View에게 전달한다
-		movie.addAttribute("price",price);
-		movie.addAttribute("movieTitle",movieTitle);
-		movie.addAttribute("director",director);
-		movie.addAttribute("actor",actor);
-		movie.addAttribute("runTime",runTime);
-		movie.addAttribute("summary",summary);
-		movie.addAttribute("preview",preview);
-		movie.addAttribute("rating",rating);
-		movie.addAttribute("ratingCount",ratingCount);
-		
-		// "/src/main/webapp/WEB-INF/views/params/get.jsp" 파일로 View로 지정한다
-		return "Movie_information";
-	}
+//	/** GET 방식의 파라미터를 전송받기 위한 컨트롤러 메서드 */
+//	// 변수값을 View에게 전달할 필요가 있는 경우 Model 파라미터를 정의한다.
+//	// import org.springframework.ui.Model;
+//	@RequestMapping(value = "Movie_information", method = RequestMethod.GET)
+//	public String getMovieInfo(Model movie,
+//			// GET, POST 파라미터 받기
+//			@RequestParam(value="movieNo", defaultValue="영화 번호") String movieNo) {
+//		String movieTitle = "임시 제목";
+//		int price = 2000;		// 임시 가격
+//		String director = "임시 감독";
+//		String actor = "임시 배우";
+//		int runTime = 120;		// 임시 관람 시간
+//		String summary = "임시 줄거리";
+//		String preview = "임시 예고편 링크";
+//		double rating = 4.2;	// 임시 별점
+//		int ratingCount = 12;	// 임시 별점을 준 사람 수
+//				
+//		// db 값을 위에 선언해준 변수에 담기.
+//		// db에서 movieNo 가 무비 프라이머리키 
+//		
+//		// 파라미터값을 View에게 전달한다
+//		movie.addAttribute("price",price);
+//		movie.addAttribute("movieTitle",movieTitle);
+//		movie.addAttribute("director",director);
+//		movie.addAttribute("actor",actor);
+//		movie.addAttribute("runTime",runTime);
+//		movie.addAttribute("summary",summary);
+//		movie.addAttribute("preview",preview);
+//		movie.addAttribute("rating",rating);
+//		movie.addAttribute("ratingCount",ratingCount);
+//		
+//		// "/src/main/webapp/WEB-INF/views/params/get.jsp" 파일로 View로 지정한다
+//		return "Movie_information";
+//	}
 	
 	@RequestMapping(value = "Youth_protection_policy", method = RequestMethod.GET)
 	public String goYouthProtectionPolicy() {
@@ -125,49 +125,49 @@ public class ParamsController {
 		return "Movie_category_sorted";
 	}
 	
-	/** POST 방식의 파라미터를 전송받기 위한 컨트롤러 메서드 */
-	// 추가적인 파라미터가 필요하다면 콤마(,)로 구분하여 나열한다.
-	@RequestMapping(value = "Wish_list", method = RequestMethod.GET)
-	public String post(Model model, HttpSession session, HttpServletResponse response) {
-		
-//		if ( session.getAttribute("id") == null ) {
-//			try {
-//				response.sendRedirect(contextPath + "/Login");
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//		 }
-//		// 세빈쓰 도움되라고 해놨음 이 user_no가지고 값 받아와서 쓰면됨
-//		int user_no = (int)session.getAttribute("user_no");
+//	/** POST 방식의 파라미터를 전송받기 위한 컨트롤러 메서드 */
+//	// 추가적인 파라미터가 필요하다면 콤마(,)로 구분하여 나열한다.
+////	@RequestMapping(value = "Wish_list", method = RequestMethod.GET)
+////	public String post(Model model, HttpSession session, HttpServletResponse response) {
+////		
+////		if ( session.getAttribute("id") == null ) {
+////			try {
+////				response.sendRedirect(contextPath + "/Login");
+////			} catch (IOException e) {
+////				e.printStackTrace();
+////			}
+////		 }
+////		// 세빈쓰 도움되라고 해놨음 이 user_no가지고 값 받아와서 쓰면됨
+////		int user_no = (int)session.getAttribute("user_no");
+////		
+////		int[] movieNo = {1,2,3,4};
+////		String[] movieType = {"대여","구매","구매","대여"};
+////		String[] movieTitle = {"제목1","제목2","제목3","제목4"};
+////		String[] movieThumbnail = {"썸네일 주소1","썸네일 주소2","썸네일 주소3","썸네일 주소4"};
+////		int[] moviePrice = {2000,3000,4200,8100};
+////		int[] movieSale = {50,20,0,25};
+////		int price = 0;
+////		
+//		// TODO post 아이디 값 받아서 DB 비교 해서 위시 리스트 목록 객체 추가 후 할당
 //		
-		int[] movieNo = {1,2,3,4};
-		String[] movieType = {"대여","구매","구매","대여"};
-		String[] movieTitle = {"제목1","제목2","제목3","제목4"};
-		String[] movieThumbnail = {"썸네일 주소1","썸네일 주소2","썸네일 주소3","썸네일 주소4"};
-		int[] moviePrice = {2000,3000,4200,8100};
-		int[] movieSale = {50,20,0,25};
-		int price = 0;
-		
-		// TODO post 아이디 값 받아서 DB 비교 해서 위시 리스트 목록 객체 추가 후 할당
-		
-
-		
-		
-		// 파라미터값을 View에게 전달한다.
-		for ( int i = 0 ; i < movieNo.length ; i++ ) {
-			price = moviePrice[i] / 100 * (100 - movieSale[i]);
-			model.addAttribute("movieNo"+i,movieNo[i]);
-			model.addAttribute("movieType"+i,movieType[i]);
-			model.addAttribute("movieTitle"+i,movieTitle[i]);
-			model.addAttribute("movieThumbnail"+i,movieThumbnail[i]);
-			model.addAttribute("moviePrice"+i,price);
-		}
-		
-		// TODO 장바구니 삭제 로직에서 DB에서도 삭제되는 로직 추가
-		
-		// "/src/main/webapp/WEB-INF/views/Wish_list.jsp" 파일을 View로 지정한다.
-		return "Wish_list";
-	}
+//
+//		
+//		
+//		// 파라미터값을 View에게 전달한다.
+////		for ( int i = 0 ; i < movieNo.length ; i++ ) {
+////			price = moviePrice[i] / 100 * (100 - movieSale[i]);
+////			model.addAttribute("movieNo"+i,movieNo[i]);
+////			model.addAttribute("movieType"+i,movieType[i]);
+////			model.addAttribute("movieTitle"+i,movieTitle[i]);
+////			model.addAttribute("movieThumbnail"+i,movieThumbnail[i]);
+////			model.addAttribute("moviePrice"+i,price);
+////		}
+////		
+////		// TODO 장바구니 삭제 로직에서 DB에서도 삭제되는 로직 추가
+////		
+////		// "/src/main/webapp/WEB-INF/views/Wish_list.jsp" 파일을 View로 지정한다.
+////		return "Wish_list";
+////	}
 //	
 //	/** PATH 파라미터를 전송받기 위한 컨트롤러 메서드 (1) */
 //	// import org.springframework.web.bind.annotation.PathVariable;
