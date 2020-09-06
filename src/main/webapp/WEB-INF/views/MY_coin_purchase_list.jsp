@@ -9,7 +9,6 @@
 <head>
 <%@ include file="assets/inc/header.jsp" %>
 <script src="assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
-<link rel="stylesheet" href="assets/css/top_info.css">
 <style type="text/css">
 * {
     font-family: 'Nanum Gothic', sans-serif;
@@ -17,6 +16,10 @@
 /*a 밑줄 제거*/
 a{
 	text-decoration: none;
+}
+
+body {
+	height: 0;
 }
 
 .top_info {
@@ -75,6 +78,12 @@ a{
 	text-align: left;
 }
 
+#top_bar_movie {
+	min-height:240px;
+	margin-top:80px;
+	margin-bottom:20px;
+}
+
 /*날짜시간 폰트설정*/
 #top_bar_movie .pull_center .cash{
 	font-size: 20px;
@@ -98,15 +107,7 @@ a{
 	text-align: left;
 	font-weight:10px;
 }
-/*이용약관 컬러및 폰트사이즈 설정*/
-.footer ul {
-	color: #b8b8b8;
-	font-size: 10px;
-}
-.movie{
-	min-height:240px;
-	margin-top:70px;
-}
+
 #top_bar_movie .pull_center{
 	vertical-align:middle;
 	display:inline-block;
@@ -155,14 +156,7 @@ line-height: 18px;
 	-webkit-box-sizing: border-box;
 	padding: 15px 105px 15px 16px;
 }
-#footer p{
-	color: #888888;
-	padding:0 0 0 11px;
-	width: 350px;
-    margin: auto;
-	font-size: 0.7em;
-	line-height: 18px;
-}
+
 .str span{
 	font-size:20px;
 	font-weight: bold;
@@ -171,6 +165,7 @@ line-height: 18px;
 	padding: 5px;
 	color: #888888;
 	font-size: 12px;
+	line-height: 15px;
 }
 #buy_bottom{
 	font-weight: 1px;
@@ -197,6 +192,7 @@ line-height: 18px;
     top: 40px;
     border-bottom: 1px solid #b8b8b8;
 	position: fixed;
+	z-index: 100;
 }
 .no_list {
 	display: block;
@@ -294,6 +290,7 @@ button{
     letter-spacing: 0px;
     text-align: center;
     letter-spacing: -0.5px;
+    font-weight: bold;
 }
 .no_value .text {
 	font-weight: bold;
@@ -313,10 +310,8 @@ button{
             src="assets/img/left.png" alt="뒤로">
          </a><span id="top_info_value">내 코인</span>
       </div>
-
-			<hr />
 			<!-- 탭영역 -->
-			<div id="top_bar">
+	<div id="top_bar">
 		<ul class="clearfix">
 			<li class="pull_left"><a href="MY_coin_charge"><span>코인충전</span></a></li>
 			<li class="pull_left"><a href="MY_coin_purchase_list"><span class="selected">충전내역</span></a></li>
@@ -339,43 +334,22 @@ button{
 					<!-- 충전한 날짜 시간 -->
 					<span id="date" class="font">${item.date}</span><br>
 					<!-- 충전한 금액 -->
-					<span class="font">금액 <span id="price">${item.price}</span>원</span>
+					<span class="font">금액 <span id="price"><fmt:formatNumber value="${item.price}" pattern="#,###" /></span>원</span>
 					</span>
 					<!--버튼 -->
 					<div id="buy_bottom">
 						<button id="coin" name="movie_check" class="this_number">
 							구매취소
 						</button>
+						<input id="buy_coin_list_no" type="hidden" value="${item.buy_coin_list_no}"/>
 					</div>
 				</li>
 			</c:forEach>
 		</ul>
 	</div>	
 
-
-	<!--하단 이용약관-->
+	<%@ include file="assets/inc/footer.jsp" %>
 	
-		<div id="footer" class="str">
-		
-			<br><span> &nbsp;이용안내</span><br><br>
-			<div class="tab">
-			&#8226;충전된 코인은 클립 에서 이용 가능합니다
-			</div>
-			<div class="tab">
-			&#8226;직접 입력한 충전 금액은 100~500,000 코인<br/>
-			&nbsp;&nbsp;&nbsp;사이로 충전 가능하며,
-			<br/>&nbsp;&nbsp;&nbsp;카드사별 결제 한도가 코인 충전 한도와 다를수 
-			<br/>&nbsp;&nbsp;&nbsp;있습니다
-			</div>
-			<div class="tab">
-			&#8226;충전한 코인은 'MY > 코인충전 > 충전내역' 에서 
-			<br/>&nbsp;&nbsp;&nbsp;확인할 수 있습니다
-			</div>
-			<div class="tab">
-			&#8226;코인의 가격은 부가가치세가 포함된 가격입니다
-			</div>
-			
-		</div>
 </div>
 	
 <script src="assets/js/jquery.min.js"></script>
@@ -393,12 +367,7 @@ $(function(){
 		$(".area_list").addClass("hide");
 	}
 	$(".this_number").click(function () {
-		var date = $(this).parent().prev().children().eq(1).text();
-		var price = parseInt($(this).parent().prev().children().eq(3).children().text());
-		var nowDate = new Date();
-		nowDate.setDate(nowDate.getDate() - 7);
-		var buyTime = parseInt(date.replace("-","").replace(":","").replace("-","").replace(":","").replace(" ",""));
-		var nowTime = parseInt(moment(nowDate).format('YYYYMMDDHHmmss'));
+		var buy_coin_list_no = $(this).next().val();
 		// 확인, 취소버튼에 따른 후속 처리 구현
 		swal({
 			html: "<b>선택하신 코인을 구매취소 하시겠습니까?</b>",  // 내용
@@ -409,56 +378,59 @@ $(function(){
 			cancelButtonText: "취소", // 취소버튼 표시 문구
 			}).then(function (result) {   // 버튼이 눌러졌을 경우의 콜백 연결
 				if (result.value) {     // 확인 버튼이 눌러진 경우
-					if (buyTime < nowTime) {
-						swal({
-			                timer:1500,
-			                html:"<div style='font-weight: bold; margin-bottom: 20px;'>구매한지 일주일이 지난 상품은<br>구매 취소가 불가능합니다.</div>",
-			                type:"error",
-			                allowOutsideClick: false,
-			                showConfirmButton: false
-			            }).then(function(){
-			            	return false;
-			            });
-					} else if (${user_coin} < (price * 1.1)) {
-						swal({
-			                timer:1500,
-			                html:"<div style='font-weight: bold; margin-bottom: 20px;'>보유하신 코인이 모자라<br>구매 취소가 불가능합니다.</div>",
-			                type:"error",
-			                allowOutsideClick: false,
-			                showConfirmButton: false
-			            }).then(function(){
-			            	return false;
-			            })
-					} else {
-				      	$.post('coin_delete_ok.do',{date: date, price: price},function(req){
-				            if (req == 1) {
-				            	swal({
-						            timer:1500,
-						            html:"<div style='font-weight: bold; margin-bottom: 20px;'>구매취소 되었습니다.</div>",
-						            type:"success",
-						            allowOutsideClick: false,
-						            showConfirmButton: false
-						        }).then(function(){
-						            location.reload();
-						        });
-				            } else {
-				            	swal({
-						            timer:1500,
-						            html:"<div style='font-weight: bold; margin-bottom: 20px;'>개짓거리 하지 마십쇼 휴먼</div>",
-						            type:"error",
-						            allowOutsideClick: false,
-						            showConfirmButton: false
-						        }).then(function(){
-						            location.reload();
-						        });
-				            }
-			        })
+					$.post('coin_delete_ok.do',{buy_coin_list_no: buy_coin_list_no},function(req){
+				        if (req == 0) {
+				            swal({
+					            timer:1500,
+						        html:"<div style='font-weight: bold; margin-bottom: 20px;'>구매취소 되었습니다.</div>",
+					            type:"success",
+					            allowOutsideClick: false,
+					            showConfirmButton: false
+					        }).then(function(){
+					            location.reload();
+					        });
+			            } else if (req == 1) {
+			            	swal({
+					            timer:1500,
+					            html:"<div style='font-weight: bold; margin-bottom: 20px;'>개짓거리 하지 마십쇼 휴먼</div>",
+					            type:"error",
+					            allowOutsideClick: false,
+					            showConfirmButton: false
+					        }).then(function(){
+					            location.reload();
+					        });
+			            } else if (req == 2) {
+			            	swal({
+				                timer:1500,
+				                html:"<div style='font-weight: bold; margin-bottom: 20px;'>구매한지 일주일이 지난 상품은<br>구매 취소가 불가능합니다.</div>",
+				                type:"error",
+				                allowOutsideClick: false,
+				                showConfirmButton: false
+				            }).then(function(){
+				            	return false;
+				            });
+			            } else if (req == 3) {
+			            	swal({
+				                timer:1500,
+				                html:"<div style='font-weight: bold; margin-bottom: 20px;'>보유하신 코인이 모자라<br>구매 취소가 불가능합니다.</div>",
+				                type:"error",
+				                allowOutsideClick: false,
+				                showConfirmButton: false
+				            }).then(function(){
+				            	return false;
+				            })
+			            }
+			        });
 				}
-			}
+			});
 		});
 	});	
-});//삭제버튼 end
 </script>
 </body>
+<style type="text/css">
+		#footer {
+			margin-bottom: 0;
+		}
+</style>
 
 </html>

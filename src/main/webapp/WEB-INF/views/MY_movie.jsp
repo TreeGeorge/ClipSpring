@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <%@ page trimDirectiveWhitespaces="true"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -30,8 +33,15 @@
 
 .content .movie_delete {
 	position: absolute;
-	color: black;
-	right: 100px;
+    color: #222;
+    right: 110px;
+    display: block;
+    border: 1px solid #d5d5d5;
+    width: 40px;
+    height: 22px;
+    bottom: 6px;
+    text-align: center;
+    line-height: 22px;
 }
 
 .content {
@@ -60,9 +70,9 @@
 	-moz-box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 8px;
 	-webkit-box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 8px;
 	width: 85px;
-	height: 28px;
+	height: 27px;
 	float: right;
-	margin-top: 3px;
+	margin-top: 4px;
 	font-size: 12px;
 }
 /** 영화 목록 **/
@@ -78,7 +88,7 @@
 	position: relative;
 }
 
-.movie li a {
+.movie .movie_item {
 	display: block;
 	width: auto;
 	padding: 10px;
@@ -89,7 +99,7 @@
 	width: 85%;
 }
 
-.movie li a .thumb {
+.movie li .thumb {
 	width: 85px;
 	height: 125px;
 	display: block;
@@ -116,32 +126,27 @@
 	text-overflow: ellipsis
 }
 
-.movie .movie_text .desc {
-	font-size: 0.8em;
-	line-height: 150%;
-}
-
 .movie .movie_title {
 	font-size: 16px;
-	padding-top: 5px;
-	padding-bottom: 10px;
 	color: #222;
 	font-weight: bold;
 }
 
 .movie .time {
-	font-size: 12px;
+	font-size: 14px;
 	color: #aaa;
-	margin-top: -5px;
+	margin-top: 2px;
 }
 
 .movie .period {
-	padding-top: 10px;
+	margin-top: 30px;
 	font-size: 12px;
 	background-color: #fff;
 	font-size: 12px;
 	color: #ff3253;
-	padding-left: 10px;
+}
+.movie .type {
+	margin-top: 3px;
 }
 /* 영화 남은기간 아이콘 */
 .movie .period img {
@@ -154,7 +159,7 @@
 #check_box {
 	position: absolute;
 	right: 20px;
-	top: 62.5px;
+	top: 67px;
 }
 /* 전체선택 체크박스 */
 #check_box2 {
@@ -204,7 +209,6 @@ input[type=checkbox] {
 }
 /** 영상리스트의 내용물이 없을때 */
 .no_value {
-	height: 300px;
 	text-align: center;
 }
 
@@ -252,18 +256,20 @@ input[type=checkbox] {
 
 		<!-- 편집 , 전체선택 -->
 		<div class="content clearfix">
-			<span class="total"> <span class="click_edit">편집</span>
-			</span> <span class="delete_list"> <a
-				class="toggleCheckbox_top hidden">전체선택 <input id="check_box2"
-					class="hidden" type="checkbox" name="movie_check" />
-			</a> <a class="movie_delete hidden">삭제</a>
+			<span class="total">
+				<span class="click_edit">편집</span>
+			</span> 
+			<span class="delete_list">
+				<span class="toggleCheckbox_top hidden">전체선택
+					<input id="check_box2" class="hidden" type="checkbox" name="movie_check" />
+				</span>
+				<span class="movie_delete hidden">삭제</span>
 			</span>
 
 
 			<!-- 드롭다운 옵션 -->
 			<select class="form-control selcls" id="movie_select">
 				<option>최신순</option>
-				<option>개봉순</option>
 				<option>평점순</option>
 				<option>판매순</option>
 				<option>낮은가격순</option>
@@ -280,64 +286,51 @@ input[type=checkbox] {
 
 		<!-- 내영상 목록에 담긴 영화 -->
 		<ul class="movie">
-
-			<li class="movie_list wish_content"><a
-				href="Movie_information.jsp"> <span class="thumb"> <img
-						src="assets/img/sample6.jpg" alt="영화포스터"></span> <span
-					class="movie_text"> <span class="movie_title">플로리다
-							프로젝트</span> <span class="time">120분</span> <span class="period">
-							<img src="assets/img/freecalendal.png"> 2020-09-25
-					</span>
-				</span>
-			</a> <!-- 편집 클릭시 체크박스 --> <input id="check_box" class="hidden"
-				type="checkbox" name="movie_check" /></li>
-
-			<li class="movie_list wish_content"><a
-				href="Movie_information.jsp"> <span class="thumb"><img
-						src="assets/img/sample9.jpg" alt="영화포스터"></span> <span
-					class="movie_text"> <span class="movie_title">Baby
-							Driver</span> <span class="time">110분</span> <span class="period"><img
-							src="assets/img/freecalendal.png"> 2020-09-24</span>
-				</span>
-			</a> <!-- 편집 클릭시 체크박스 --> <input id="check_box" class="hidden"
-				type="checkbox" name="movie_check" /></li>
-
-			<li class="movie_list wish_content"><a
-				href="Movie_information.jsp"> <span class="thumb"><img
-						src="assets/img/sample12.jpg" alt="영화포스터"></span> <span
-					class="movie_text"> <span class="movie_title">하울의
-							움직이는 성</span> <span class="time">130분</span> <span class="period"><img
-							src="assets/img/freecalendal.png"> 2020-09-23</span>
-				</span>
-			</a> <!-- 편집 클릭시 체크박스 --> <input id="check_box" class="hidden"
-				type="checkbox" name="movie_check" /></li>
-
-			<li class="movie_list wish_content"><a
-				href="Movie_information.jsp"> <span class="thumb"><img
-						src="assets/img/sample15.jpg" alt="영화포스터"></span> <span
-					class="movie_text"> <span class="movie_title">아바타</span> <span
-						class="time">150분</span> <span class="period"><img
-							src="assets/img/freecalendal.png"> 2020-09-20</span>
-				</span>
-			</a> <!-- 편집 클릭시 체크박스 --> <input id="check_box" class="hidden"
-				type="checkbox" name="movie_check" /></li>
-
-			<li class="movie_list wish_content"><a
-				href="Movie_information.jsp"> <span class="thumb"><img
-						src="assets/img/sample16.jpg" alt="영화포스터"></span> <span
-					class="movie_text"> <span class="movie_title">어벤져스 :
-							인피니티 워</span> <span class="time">190분</span> <span class="period"><img
-							src="assets/img/freecalendal.png"> 2020-09-12</span>
-				</span>
-			</a> <!-- 편집 클릭시 체크박스 --> <input id="check_box" class="hidden"
-				type="checkbox" name="movie_check" /></li>
-
+			<c:forEach var="item" items="${output}" varStatus="status">
+				<c:choose>
+					<c:when test="${item.type == '대여' and item.is_delete == 'N'}">
+						<li class="movie_list">
+							<div class="movie_item">
+								<span class="thumb">
+									<img src="${item.thumbnail}" alt="${item.name} 포스터">
+								</span>
+								<span class="movie_text">
+									<span class="movie_title">${item.name}</span>
+									<span class="time">${item.runtime} | ${item.age}</span>
+									<span class="type">${item.type}</span>
+									<span class="period">${item.end_date} 까지</span>
+								</span>
+							</div>
+							<!-- 편집 클릭시 체크박스 -->
+							<input id="check_box" class="hidden" type="checkbox" name="movie_check" />
+							<input id="buy_movie_list_no" type="hidden" value="${item.buy_movie_list_no}"/>
+						</li>
+					</c:when>
+					<c:when test="${item.type == '구매' and item.is_delete == 'N'}">
+						<li class="movie_list">
+							<div class="movie_item">
+								<span class="thumb">
+									<img src="${item.thumbnail}" alt="${item.name} 포스터">
+								</span>
+								<span class="movie_text">
+									<span class="movie_title">${item.name}</span>
+									<span class="time">${item.runtime} | ${item.age}</span>
+									<span class="type">${item.type}</span>
+								</span>
+							</div>
+							<!-- 편집 클릭시 체크박스 -->
+							<input id="check_box" class="hidden" type="checkbox" name="movie_check" />
+							<input id="buy_movie_list_no" type="hidden" value="${item.buy_movie_list_no}"/>
+						</li>
+					</c:when>
+				</c:choose>
+			</c:forEach>
 		</ul>
 		<!--  영화 목록 끝 -->
 
 		<!-- 휴지통 버튼 -->
 		<div class="wastebasket">
-			<a href="MY_movie_remove.jsp">휴지통으로 바로가기</a>
+			<a href="MY_movie_remove">휴지통으로 바로가기</a>
 		</div>
 
 		<!-- BOT BAR -->
@@ -352,6 +345,13 @@ input[type=checkbox] {
 		$(".top_bar_list").eq(0).addClass("selected")
 		$(".bot_bar_icon").eq(3).attr("src",
 				"assets/img/my_page_icon_selected.png");
+		if (!$(".movie_list")[0]) {
+			// 영화리스트 빈 화면
+			$(".no_value").removeClass("hide")
+			$(".delete_list").addClass("hide");
+			$(".movie_delete").addClass('hide');
+			$(".click_edit").addClass('hide');
+		}
 		var isCheck = 2;
 		// 편집 버튼의 클릭 처리 
 		$(".click_edit").click(function(e) {
@@ -380,7 +380,12 @@ input[type=checkbox] {
 			}
 			isCheck++;
 		}); // end $("#check_box2").click();
-
+		
+		// 시청할지, 시청했으면 이어보기 구현~
+		$(".movie_item").click(function() {
+			//$.post(시청할지 ~ 했으면 이어볼지~)
+		})
+		
 		// 삭제 버튼 클릭시
 		$(".movie_delete").click(function() {
 			var movie_d = $("input[name=movie_check]:checked");
@@ -396,7 +401,7 @@ input[type=checkbox] {
 				}	
 			// 확인, 취소버튼에 따른 후속 처리 구현
 			swal({
-				html : "<b>선택하신 상품을 내영상에서 삭제하시겠습니까?</b>", // 내용
+				html : "<b>선택하신 상품을 휴지통으로 보내시겠습니까?</b>", // 내용
 				type : "question", // 종류
 				showCancelButton : true, // 취소버튼 표시 여부
 				cancelButtonText : "취소",
@@ -404,16 +409,7 @@ input[type=checkbox] {
 				confirmButtonColor : "#ff3253",
 			}).then(function(result) { // 버튼이 눌러졌을 경우의 콜백 연결
 				if (result.value) { // 확인 버튼이 눌러진 경우
-					// 선택된 상품 삭제
-					movie_d.parent().remove();
-					// 영화리스트가 비었다면
-					if (!$(".movie_list")[0]) {
-						// 영화리스트 빈 화면
-						$(".no_value").removeClass("hide")
-						$(".delete_list").addClass("hide");
-						$(".movie_delete").addClass('hide');
-						$(".click_edit").addClass('hide');
-					}
+					//$.post(휴지통 보내기) (체크된 친구 인덱스값 구해서 벨류 인덱스값도 가져오기 ㅎㅎ 포문돌리기(포문은 밖에서))
 				}
 
 			});

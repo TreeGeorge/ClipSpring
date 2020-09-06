@@ -63,6 +63,16 @@ public class UserCouponController {
 	 @RequestMapping(value = "coupon_add_ok.do", method = RequestMethod.POST)
 	 public int addUserCouponOk(Model model, HttpServletResponse response, HttpSession session,
 	 		@RequestParam(value="name") String name) {
+		 
+		 if ( session.getAttribute("id") == null ) {
+				try {
+					response.sendRedirect(contextPath + "/Login");
+					return 3;
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+		 }
+		 
 	 	// 데이터 삭제에 필요한 조건값을 Beans에 저장하기
 	 	UserCoupon input = new UserCoupon();
 	 	

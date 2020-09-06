@@ -13,5 +13,7 @@ public interface BuyMovieListService {
 	public boolean checkBuyMovieList(BuyMovieList input);
 	
 	public boolean checkWatched(BuyMovieList input);
+	
+	public boolean checkDate(BuyMovieList input);
 
 }

@@ -84,4 +84,24 @@ public class BuyCoinListServiceImpl implements BuyCoinListService {
 		return false;
 	}
 
+	/** 구매 한지 일주일 지났는지 비교 */
+	@Override
+	public boolean checkDate(BuyCoinList input) {
+		if (sqlSession.selectOne("BuyCoinListMapper.dateCheck", input) != null) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean checkCoin(BuyCoinList input) {
+		
+		int result = sqlSession.selectOne("BuyCoinListMapper.coinCheck", input);
+		
+		if ( result < 0 ) {
+			return true;
+		}
+		return false;
+	}
+
 }

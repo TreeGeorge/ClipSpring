@@ -36,7 +36,7 @@ public class BuyMovieListController {
 	@Value("#{servletContext.contextPath}")
 	String contextPath;
 	
-	/** 내 보유 영화 세션비교 후 값 노출*/
+	 /** 내 보유 영화 세션비교 후 값 노출*/
 	 @RequestMapping(value="MY_movie",method=RequestMethod.GET)
 	 public String enterMyMovie(Model model, HttpSession session, HttpServletResponse response) { 
 		 if ( session.getAttribute("id") == null ) {
@@ -50,11 +50,38 @@ public class BuyMovieListController {
 		 
 		 int user_no = (Integer)session.getAttribute("user_no");
 		 User user = loginService.randerUser(user_no);
+		 List<BuyMovieList> input = buyMovieListService.getBuyMovieList(user_no);
+		 
+		 
 		 model.addAttribute("user_coin", user.getCoin());
+		 model.addAttribute("output", input);
 		 
 		 // TODO 영화 정보 가져와야됨. 휴지통도 구현해야함 ++ 상태 비교해서 휴지통 마이무비에 나타내줄지 정하기
 			
 		 return "MY_movie"; 
+	 }
+	 
+	 /** 내 보유 영화 세션비교 후 값 노출*/
+	 @RequestMapping(value="MY_movie_remove",method=RequestMethod.GET)
+	 public String enterMyMovieRemove(Model model, HttpSession session, HttpServletResponse response) { 
+		 if ( session.getAttribute("id") == null ) {
+				try {
+					response.sendRedirect(contextPath + "/Login");
+					return "Login";
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+	    	}
+		 
+		 int user_no = (Integer)session.getAttribute("user_no");
+		 List<BuyMovieList> input = buyMovieListService.getBuyMovieList(user_no);
+		 
+		 
+		 model.addAttribute("output", input);
+		 
+		 // TODO 영화 정보 가져와야됨. 휴지통도 구현해야함 ++ 상태 비교해서 휴지통 마이무비에 나타내줄지 정하기
+			
+		 return "MY_movie_remove"; 
 	 }
 	
 	/** 내 영화 구매 목록 세션비교 후 값 노출 */
@@ -96,11 +123,11 @@ public class BuyMovieListController {
 			}
     	}
     	
-		int user_no = (int)session.getAttribute("user_no");
-		
-		List<BuyMovieList> output = buyMovieListService.getBuyMovieList(user_no);
-		
-		movie.addAttribute("output", output);
+//		int user_no = (int)session.getAttribute("user_no");
+//		
+//		List<BuyMovieList> output = buyMovieListService.getBuyMovieList(user_no);
+//		
+//		movie.addAttribute("output", output);
 		
 		return "Movie_buy";
 	}
@@ -109,8 +136,7 @@ public class BuyMovieListController {
 	@ResponseBody
 	@RequestMapping(value = "movie_delete_ok.do", method = RequestMethod.POST)
 	public int deleteBuyMovieListOk(Model model, HttpServletResponse response, HttpSession session,
-			@RequestParam(value="date") String date,
-			@RequestParam(value="price") int price) {
+			@RequestParam(value="buy_movie_list_no") int buy_movie_list_no) {
 		// 데이터 삭제에 필요한 조건값을 Beans에 저장하기
 		BuyMovieList input = new BuyMovieList();
 		
@@ -118,18 +144,22 @@ public class BuyMovieListController {
 		User user_info = loginService.randerUser(user_no);
 		
 		input.setCoin(user_info.getCoin());
-		input.setPrice(price);
-		input.setDate(date);
 		input.setUser_no(user_no);
+		input.setBuy_movie_list_no(buy_movie_list_no);
 		
 		// 개발자도구로 나쁜짓하면 혼내주기
 		if (buyMovieListService.checkBuyMovieList(input)) {
-			return 0;
+			return 1;
 		}
 		
 		// 시청했는지 확인
 		if (buyMovieListService.checkWatched(input)) {
 			return 2;
+		}
+		
+		// 환불 기간이 지났는지 확인
+		if (buyMovieListService.checkDate(input)) {
+			return 3;
 		}
 		
 		try {
@@ -139,7 +169,7 @@ public class BuyMovieListController {
 			e.printStackTrace();
 		}
 		
-		return 1;
+		return 0;
 	}
 	
 	// TODO My_movie_add_ok 만들어야함..

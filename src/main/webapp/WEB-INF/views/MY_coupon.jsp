@@ -89,31 +89,31 @@
 	
 		<div>
 			<c:forEach var="item" items="${output}" varStatus="status">
-			<c:choose>
-				<c:when test="${item.is_used == 'N'}">
-					<ul class="clear coupon_box">
-						<li class="pull_left coupon_box1">
-							<h5 style="font-weight: bold; margin: 0; width:80%;
-								text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">${item.name}</h5>
-							<span style="font-size: 12px; color: #aaa;">구매/대여시<br>${item.period} 까지<br>쿠폰한 장당 1회만 결제 가능</span>
-						</li>
-						<li class="pull_left coupon_box2">
-							<span>${item.price}코인<br>할인</span>
-						</li>
-					</ul>
-				</c:when>
-				<c:otherwise>
-					<ul class="clear coupon_box" style="opacity: 0.7;">
-						<li class="pull_left coupon_box1">
-							<h5 style="font-weight: bold; margin: 0; width:80%;
-								text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">${item.name}</h5>
-							<span style="font-size: 12px; color: #aaa;">구매/대여시<br>${item.period} 까지<br>쿠폰한 장당 1회만 결제 가능</span>
-						</li>
-						<li class="pull_left coupon_box3">
-							<span>${item.price}코인<br>할인</span>
-						</li>
-					</ul>
-				</c:otherwise>
+				<c:choose>
+					<c:when test="${item.is_used == 'N'}">
+						<ul class="clear coupon_box">
+							<li class="pull_left coupon_box1">
+								<h5 style="font-weight: bold; margin: 0; width:80%;
+									text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">${item.name}</h5>
+								<span style="font-size: 12px; color: #aaa;">구매/대여시<br>${item.period} 까지<br>쿠폰한 장당 1회만 결제 가능</span>
+							</li>
+							<li class="pull_left coupon_box2">
+								<span><fmt:formatNumber value="${item.price}" pattern="#,###" />코인<br>할인</span>
+							</li>
+						</ul>
+					</c:when>
+					<c:otherwise>
+						<ul class="clear coupon_box" style="opacity: 0.7;">
+							<li class="pull_left coupon_box1">
+								<h5 style="font-weight: bold; margin: 0; width:80%;
+									text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">${item.name}</h5>
+								<span style="font-size: 12px; color: #aaa;">구매/대여시<br>${item.period} 까지<br>쿠폰한 장당 1회만 결제 가능</span>
+							</li>
+							<li class="pull_left coupon_box3">
+								<span><fmt:formatNumber value="${item.price}" pattern="#,###" />코인<br>할인</span>
+							</li>
+						</ul>
+					</c:otherwise>
 				</c:choose>
 			</c:forEach>
 		</div>

@@ -20,26 +20,40 @@
     <select id="buyList"
 		parameterType="study.spring.clip.model.BuyCoinList"
 		resultMap="buyCoinListMap">
-		SELECT date, price FROM buy_coin_list WHERE user_no = #{user_no};
+		SELECT date, price, buy_coin_list_no FROM buy_coin_list WHERE user_no = #{user_no};
+	</select>
+	
+	<!-- 날짜 비교 하기 -->
+	<select id="dateCheck"
+		parameterType="study.spring.clip.model.BuyCoinList"
+		resultMap="buyCoinListMap">
+		SELECT * FROM buy_coin_list WHERE buy_coin_list_no = #{buy_coin_list_no} AND <![CDATA[DATE_ADD(date, INTERVAL 1 WEEK) <= now()]]>;
+	</select>
+	
+	<!-- 코인 체크 하기 -->
+	<select id="coinCheck"
+		parameterType="study.spring.clip.model.BuyCoinList"
+		resultType="int">
+		SELECT SUM(u.coin - (b.price * 1.1)) FROM user u, buy_coin_list b WHERE u.user_no = #{user_no} AND b.buy_coin_list_no = #{buy_coin_list_no};
 	</select>
 	
 	<!-- 파라미터값으로 받아온 값이 db값과 일치하는지 확인하는 작업 -->
 	<select id="checkList"
 		parameterType="study.spring.clip.model.BuyCoinList"
 		resultMap="buyCoinListMap">
-		SELECT * FROM buy_coin_list WHERE user_no = #{user_no} AND date = #{date} AND price = #{price};
+		SELECT * FROM buy_coin_list WHERE user_no = #{user_no} AND buy_coin_list_no = #{buy_coin_list_no};
 	</select>
 
 	<!-- 파라미터값으로 받아온 값 비교후 행 삭제(환불) -->
 	<delete id="deleteItem"
 		parameterType="study.spring.clip.model.BuyCoinList">
-		DELETE FROM buy_coin_list WHERE user_no = #{user_no} AND date = #{date};	
+		DELETE FROM buy_coin_list WHERE user_no = #{user_no} AND buy_coin_list_no = #{buy_coin_list_no};	
 	</delete>
 	
 	<!-- 코인 환불했을때 코인 차감 -->
 	<update id="userCoinDelete"
     	parameterType="study.spring.clip.model.BuyCoinList">
-        UPDATE user SET coin = (#{coin} - (#{price} * 1.1))
+        UPDATE user SET coin = (#{coin} - ((SELECT price FROM buy_coin_list WHERE buy_coin_list_no = #{buy_coin_list_no}) * 1.1))
 		WHERE user_no = #{user_no};
     </update>
     
@@ -60,7 +74,7 @@
 	
 	<!-- 행 삭제 -->
 	<delete id="deleteList" parameterType="study.spring.clip.model.BuyCoinList">
-		DELETE FROM buy_coin_list WHERE user_no=#{user_no};
+		DELETE FROM buy_coin_list WHERE user_no = #{user_no};
 	</delete>
 	
 </mapper>

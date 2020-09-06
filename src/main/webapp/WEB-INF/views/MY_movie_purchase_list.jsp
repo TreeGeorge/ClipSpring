@@ -190,15 +190,32 @@ input[type='radio']:checked {
 
 	<div class="movies">
 		<c:forEach var="item" items="${output}" varStatus="status">
-			<div class="plist clear">
-				<p class="movie_title">${item.name}</p>
-				<button style="display: block;" class="cancel pull-right"
-					onclick="return false;">구매취소</button>
-				<p class="price">
-					${item.price}<img src="assets/img/coin_icon.png">
-				</p>
-				<p class="period">${item.date}</p>
-			</div>
+			<c:choose>
+				<c:when test="${item.price != 0}">
+					<div class="plist clear">
+						<p class="movie_title">${item.name}</p>
+						<button style="display: block;" class="cancel pull-right"
+							onclick="return false;">구매취소</button>
+							<input id="buy_movie_list_no" type="hidden" value="${item.buy_movie_list_no}"/>
+						<p class="price">
+							<fmt:formatNumber value="${item.price}" pattern="#,###" /><img src="assets/img/coin_icon.png">
+						</p>
+						<p class="period">${item.date}</p>
+					</div>
+				</c:when>
+				<c:otherwise>
+				<div class="plist clear">
+						<p class="movie_title">${item.name}</p>
+						<button style="display: block;" class="cancel pull-right"
+							onclick="return false;">구매취소</button>
+							<input id="buy_movie_list_no" type="hidden" value="${item.buy_movie_list_no}"/>
+						<p class="price">
+							무료
+						</p>
+						<p class="period">${item.date}</p>
+					</div>
+				</c:otherwise>
+			</c:choose>
 		</c:forEach>
 	</div>
 	<div class="no_movies hide">
@@ -243,12 +260,7 @@ input[type='radio']:checked {
 
         // 구매취소 버튼 클릭시
         $(".cancel").click(function() {
-        	var date = $(this).next().next().text();
-    		var price = parseInt($(this).next().text());
-    		var nowDate = new Date();
-    		nowDate.setDate(nowDate.getDate() - 7);
-    		var buyTime = parseInt(date.replace("-","").replace(":","").replace("-","").replace(":","").replace(" ",""));
-    		var nowTime = parseInt(moment(nowDate).format('YYYYMMDDHHmmss'));
+        	var buy_movie_list_no = $(this).next().val();
             // 확인, 취소버튼에 따른 후속 처리 구현
             swal({
                 html: "<b>선택하신 상품을 구매 취소하시겠습니까?</b>", // 내용
@@ -259,51 +271,49 @@ input[type='radio']:checked {
                 confirmButtonColor:"#ff3253",
             }).then(function(result) { // 버튼이 눌러졌을 경우의 콜백 연결
             	if (result.value) {     // 확인 버튼이 눌러진 경우
-					if (buyTime < nowTime) {
-						swal({
-			                timer:1500,
-			                html:"<div style='font-weight: bold; margin-bottom: 20px;'>구매한지 일주일이 지난 상품은<br>구매 취소가 불가능합니다.</div>",
-			                type:"error",
-			                allowOutsideClick: false,
-			                showConfirmButton: false
-			            }).then(function(){
-			            	return false;
-			            });
-					}  else {
-				      	$.post('movie_delete_ok.do',{date: date, price: price},function(req){
-				            if (req == 1) {
-				            	swal({
-						            timer:1500,
-						            html:"<div style='font-weight: bold; margin-bottom: 20px;'>구매취소 되었습니다.</div>",
-						            type:"success",
-						            allowOutsideClick: false,
-						            showConfirmButton: false
-						        }).then(function(){
-						            location.reload();
-						        });
-				            } else if (req == 2) {
-								swal({
-					                timer:1500,
-					                html:"<div style='font-weight: bold; margin-bottom: 20px;'>이미 시청하신 상품은<br>구매 취소가 불가능합니다.</div>",
-					                type:"error",
-					                allowOutsideClick: false,
-					                showConfirmButton: false
-					            }).then(function(){
-					            	return false;
-					            })
-				            } else {
-				            	swal({
-						            timer:1500,
-						            html:"<div style='font-weight: bold; margin-bottom: 20px;'>개짓거리 하지 마십쇼 휴먼</div>",
-						            type:"error",
-						            allowOutsideClick: false,
-						            showConfirmButton: false
-						        }).then(function(){
-						            location.reload();
-						        });
-				            }
-			        	})
-					}
+            		$.post('movie_delete_ok.do',{buy_movie_list_no: buy_movie_list_no},function(req){
+			            if (req == 0) {
+			            	swal({
+					            timer:1500,
+					            html:"<div style='font-weight: bold; margin-bottom: 20px;'>구매취소 되었습니다.</div>",
+					            type:"success",
+					            allowOutsideClick: false,
+					            showConfirmButton: false
+					        }).then(function(){
+					            location.reload();
+					        });
+			            } else if (req == 1) {
+			            	swal({
+					            timer:1500,
+					            html:"<div style='font-weight: bold; margin-bottom: 20px;'>개짓거리 하지 마십쇼 휴먼</div>",
+					            type:"error",
+					            allowOutsideClick: false,
+					            showConfirmButton: false
+					        }).then(function(){
+					            location.reload();
+					        });
+			            } else if (req == 2) {
+							swal({
+				                timer:1500,
+				                html:"<div style='font-weight: bold; margin-bottom: 20px;'>이미 시청하신 상품은<br>구매 취소가 불가능합니다.</div>",
+				                type:"error",
+				                allowOutsideClick: false,
+				                showConfirmButton: false
+				            }).then(function(){
+				            	return false;
+				            })
+			            } else if (req == 3 ){
+			            	swal({
+				                timer:1500,
+				                html:"<div style='font-weight: bold; margin-bottom: 20px;'>구매한지 일주일이 지난 상품은<br>구매 취소가 불가능합니다.</div>",
+				                type:"error",
+				                allowOutsideClick: false,
+				                showConfirmButton: false
+				            }).then(function(){
+				            	return false;
+				            });
+			            }
+		        	});
 				}
             });
         }); // end of $(".cancel").click()
