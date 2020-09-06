@@ -16,13 +16,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.extern.slf4j.Slf4j;
 import study.spring.clip.model.Interest;
+import study.spring.clip.model.User;
 import study.spring.clip.service.InterestService;
+import study.spring.clip.service.LoginService;
 @Slf4j
 @Controller
 public class InterestController {
 	
 	@Autowired
 	InterestService interestService;
+	
+	@Autowired
+	LoginService loginService;
 	
 	@Value("#{servletContext.contextPath}")
 	String contextPath;
@@ -33,6 +38,9 @@ public class InterestController {
 			) {
 
 		int x = (Integer)session.getAttribute("user_no");
+		User user = loginService.randerUser(x);
+		 // id_box의 유저 코인정보
+		 model.addAttribute("user_coin", user.getCoin());
 
 		List<Interest> output = interestService.getInterestList(x);
 		model.addAttribute("output",output);
