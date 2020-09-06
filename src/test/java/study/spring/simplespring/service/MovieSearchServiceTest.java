@@ -37,7 +37,7 @@ public class MovieSearchServiceTest {
 
 	@Test
 	public void testA() {
-		// 검색조건으로 사용될 POJO 클래스 객체
+		// 감독 이름으로 검색
 		MovieSearch input = new MovieSearch();
 		input.setDirector("홍원찬");
 
@@ -46,7 +46,7 @@ public class MovieSearchServiceTest {
 	
 	@Test
 	public void testB() {
-		// 검색조건으로 사용될 POJO 클래스 객체
+		// 배우 이름으로 검색
 		MovieSearch input = new MovieSearch();
 		input.setName("이선빈");
 
@@ -55,7 +55,7 @@ public class MovieSearchServiceTest {
 	
 	@Test
 	public void testC() {
-		// 검색조건으로 사용될 POJO 클래스 객체
+		// 영화 제목으로 검색
 		MovieSearch input = new MovieSearch();
 		input.setName("반도");
 

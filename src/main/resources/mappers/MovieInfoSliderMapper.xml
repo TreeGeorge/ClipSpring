@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="MovieInfoSliderMapper">
+
+	<!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
+	<resultMap id="MovieInfoSliderMap"
+		type="study.spring.clip.model.MovieInfoSlider">
+		<!-- Beans의 멤버변수(property)이름과 대상 테이블의 컬럼(column)을 연결한다. -->
+		<result property="movie_no" column="movie_no" />
+		<result property="name" column="name" />
+		<result property="thumbnail" column="thumbnail" />
+		<result property="actor_no" column="actor_no" />
+		<result property="category_type_no" column="category_type_no" />
+	</resultMap>
+
+	<!-- 출연진이 출연한 다른 영화 -->
+	<select id="ActorMovieInfoSlider"
+		parameterType="study.spring.clip.model.MovieInfoSlider"
+		resultMap="MovieInfoSliderMap">
+		SELECT movie_no, NAME, thumbnail FROM movie
+		WHERE movie_no
+		IN(SELECT movie_no FROM movie_actor
+		WHERE actor_no
+		IN(SELECT actor_no
+		FROM actor WHERE name = #{name}))
+	</select>
+
+	<!-- 이 장르의 인기 영화 -->
+	<select id="JangreMovieInfoSlider"
+		parameterType="study.spring.clip.model.MovieInfoSlider"
+		resultMap="MovieInfoSliderMap">
+		SELECT movie_no, NAME,thumbnail FROM movie
+		WHERE movie_no
+		IN (select movie_no from movie_category 
+		WHERE category_type_no=#{category_type_no})
+		LIMIT 10
+
+	</select>
+</mapper>

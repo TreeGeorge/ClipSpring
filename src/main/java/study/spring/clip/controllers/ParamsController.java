@@ -76,55 +76,55 @@ public class ParamsController {
 		return "Customer_service";
 	}
 	
-	@RequestMapping(value = "Category_list", method = RequestMethod.GET)
-	public String goCategoryList(Model movie) {
-		int categoryTypeNo[] = {1,2,3,4,5,6,7,8,9,10,100,101,102,103,104,105,1000,1001,1002};
-		String categoryTypeName[] = {"카테고리1","카테고리2","카테고리3","카테고리4","카테고리5","카테고리6","카테고리7","카테고리8","카테고리9","카테고리10","카테고리11","카테고리12","카테고리13","카테고리14","카테고리15","카테고리16","카테고리17","카테고리18","카테고리19"};
-		String categoryTypeIcon[] = {"아이콘 주소1","아이콘 주소2","아이콘 주소3","아이콘 주소4","아이콘 주소5","아이콘 주소6","아이콘 주소7","아이콘 주소8","아이콘 주소9","아이콘 주소10","아이콘 주소11","아이콘 주소12","아이콘 주소13","아이콘 주소14","아이콘 주소15","아이콘 주소16","아이콘 주소17","아이콘 주소18","아이콘 주소19"};
-		
-		for ( int i = 0 ; i < categoryTypeNo.length ; i++ ) {
-			movie.addAttribute("categoryTypeName"+i, categoryTypeName[i]);
-			movie.addAttribute("categoryTypeIcon"+i, categoryTypeIcon[i]);
-			movie.addAttribute("categoryTypeNo"+i, categoryTypeNo[i]);
-		}
-		return "Movie_category_list";
-	}
-	
-	@RequestMapping(value = "Category_sorted", method = RequestMethod.GET)
-	public String getCategoryInfo(Model movie,
-			// GET, POST 파라미터 받기
-			@RequestParam(value = "categoryTypeNo", defaultValue = "카테고리 번호") String categoryTypeNo) {
-		int[] MovieNo = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-		int total = MovieNo.length;
-		String[] MovieTitle = { "액션영화1", "액션영화2", "액션영화3", "액션영화4", "액션영화5", "액션영화6", "액션영화7", "액션영화8", "액션영화9",
-				"액션영화10" };
-		String[] MovieThumbnail = { "액션 영화 썸네일 주소1", "액션 영화 썸네일 주소2", "액션 영화 썸네일 주소3", "액션 영화 썸네일 주소4", "액션 영화 썸네일 주소5",
-				"액션 영화 썸네일 주소6", "액션 영화 썸네일 주소7", "액션 영화 썸네일 주소8", "액션 영화 썸네일 주소9", "액션 영화 썸네일 주소10" };
-		String[] MovieType = { "구매", "대여", "대여", "구매", "대여", "구매", "대여", "구매", "구매", "대여" };
-		int[] MoviePrice = { 2000, 3000, 5000, 2000, 2000, 2000, 3000, 5000, 4000, 7000 };
-		int[] MovieSale = { 50, 20, 0, 10, 0, 15, 20, 33, 55, 0 };
-		// TODO 할인율이 0 이면(가격이 똑같다면) script에서 할인전 가격 리무브 해주기
-		
-		
-		for (int i = 0; i < 10; i++) {
-			int price = 0;
-			if (MovieSale[i] == 0) {
-				price = MoviePrice[i];
-			} else {
-				price = MoviePrice[i] / 100 * MovieSale[i];
-			}
-			movie.addAttribute("MovieNo" + i, MovieNo[i]);
-			movie.addAttribute("MovieThumbnail" + i, MovieThumbnail[i]);
-			movie.addAttribute("MovieTitle" + i, MovieTitle[i]);
-			movie.addAttribute("MovieType" + i, MovieType[i]);
-			movie.addAttribute("MoviePrice" + i, price);
-		}
-			movie.addAttribute("total" , total);
-
-		// "/src/main/webapp/WEB-INF/views/params/get.jsp" 파일로 View로 지정한다
-		return "Movie_category_sorted";
-	}
-	
+//	@RequestMapping(value = "Category_list", method = RequestMethod.GET)
+//	public String goCategoryList(Model movie) {
+//		int categoryTypeNo[] = {1,2,3,4,5,6,7,8,9,10,100,101,102,103,104,105,1000,1001,1002};
+//		String categoryTypeName[] = {"카테고리1","카테고리2","카테고리3","카테고리4","카테고리5","카테고리6","카테고리7","카테고리8","카테고리9","카테고리10","카테고리11","카테고리12","카테고리13","카테고리14","카테고리15","카테고리16","카테고리17","카테고리18","카테고리19"};
+//		String categoryTypeIcon[] = {"아이콘 주소1","아이콘 주소2","아이콘 주소3","아이콘 주소4","아이콘 주소5","아이콘 주소6","아이콘 주소7","아이콘 주소8","아이콘 주소9","아이콘 주소10","아이콘 주소11","아이콘 주소12","아이콘 주소13","아이콘 주소14","아이콘 주소15","아이콘 주소16","아이콘 주소17","아이콘 주소18","아이콘 주소19"};
+//		
+//		for ( int i = 0 ; i < categoryTypeNo.length ; i++ ) {
+//			movie.addAttribute("categoryTypeName"+i, categoryTypeName[i]);
+//			movie.addAttribute("categoryTypeIcon"+i, categoryTypeIcon[i]);
+//			movie.addAttribute("categoryTypeNo"+i, categoryTypeNo[i]);
+//		}
+//		return "Movie_category_list";
+//	}
+//	
+//	@RequestMapping(value = "Category_sorted", method = RequestMethod.GET)
+//	public String getCategoryInfo(Model movie,
+//			// GET, POST 파라미터 받기
+//			@RequestParam(value = "categoryTypeNo", defaultValue = "카테고리 번호") String categoryTypeNo) {
+//		int[] MovieNo = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+//		int total = MovieNo.length;
+//		String[] MovieTitle = { "액션영화1", "액션영화2", "액션영화3", "액션영화4", "액션영화5", "액션영화6", "액션영화7", "액션영화8", "액션영화9",
+//				"액션영화10" };
+//		String[] MovieThumbnail = { "액션 영화 썸네일 주소1", "액션 영화 썸네일 주소2", "액션 영화 썸네일 주소3", "액션 영화 썸네일 주소4", "액션 영화 썸네일 주소5",
+//				"액션 영화 썸네일 주소6", "액션 영화 썸네일 주소7", "액션 영화 썸네일 주소8", "액션 영화 썸네일 주소9", "액션 영화 썸네일 주소10" };
+//		String[] MovieType = { "구매", "대여", "대여", "구매", "대여", "구매", "대여", "구매", "구매", "대여" };
+//		int[] MoviePrice = { 2000, 3000, 5000, 2000, 2000, 2000, 3000, 5000, 4000, 7000 };
+//		int[] MovieSale = { 50, 20, 0, 10, 0, 15, 20, 33, 55, 0 };
+//		// TODO 할인율이 0 이면(가격이 똑같다면) script에서 할인전 가격 리무브 해주기
+//		
+//		
+//		for (int i = 0; i < 10; i++) {
+//			int price = 0;
+//			if (MovieSale[i] == 0) {
+//				price = MoviePrice[i];
+//			} else {
+//				price = MoviePrice[i] / 100 * MovieSale[i];
+//			}
+//			movie.addAttribute("MovieNo" + i, MovieNo[i]);
+//			movie.addAttribute("MovieThumbnail" + i, MovieThumbnail[i]);
+//			movie.addAttribute("MovieTitle" + i, MovieTitle[i]);
+//			movie.addAttribute("MovieType" + i, MovieType[i]);
+//			movie.addAttribute("MoviePrice" + i, price);
+//		}
+//			movie.addAttribute("total" , total);
+//
+//		// "/src/main/webapp/WEB-INF/views/params/get.jsp" 파일로 View로 지정한다
+//		return "Movie_category_sorted";
+//	}
+//	
 //	/** POST 방식의 파라미터를 전송받기 위한 컨트롤러 메서드 */
 //	// 추가적인 파라미터가 필요하다면 콤마(,)로 구분하여 나열한다.
 ////	@RequestMapping(value = "Wish_list", method = RequestMethod.GET)

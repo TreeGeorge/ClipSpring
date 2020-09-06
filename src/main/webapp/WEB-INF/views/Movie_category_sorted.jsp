@@ -1,7 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ page trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -140,43 +141,36 @@ a:hover {
 </style>
 
 <body>
-		<!-- 카테고리 제목 -->
-		<%@ include file="assets/inc/top_info.jsp"%>
+	<!-- 카테고리 제목 -->
+	<%@ include file="assets/inc/top_info.jsp"%>
 
-		<!-- 총 n개 작품 , 드롭다운  -->
-		<div class="content clearfix">
-			<span class="total">총</span> <span class="p">&nbsp;${total}</span>개
-			작품
+	<!-- 총 n개 작품 , 드롭다운  -->
+	<div class="content clearfix">
+		<span class="total">총</span> <span class="p">&nbsp;${TotalCount}</span>개 작품
 
-			<!-- 드랍 다운 -->
-			<select class="form-control selcls" id="movie_select">
-				<option>최신순</option>
-				<option>개봉순</option>
-				<option>평점순</option>
-				<option>판매순</option>
-				<option>낮은가격순</option>
-			</select>
-		</div>
+		<!-- 드랍 다운 -->
+		<select class="form-control selcls" id="movie_select">
+			<option>최신순</option>
+			<option>개봉순</option>
+			<option>평점순</option>
+			<option>판매순</option>
+			<option>낮은가격순</option>
+		</select>
+	</div>
 
-		<!-- 썸네일 이미지 내용 -->
-		<div id="body">
-			<ul id="movie" class="infinite_scroll">
-				<c:forEach var="i" begin="0" end="9" step="1" varStatus="status">
-					<c:set var="thumb" value="MovieThumbnail${status.index}" />
-					<c:set var="movie_title" value="MovieTitle${status.index}" />
-					<c:set var="price" value="MoviePrice${status.index}" />
-					<c:set var="movie_no" value="MovieNo${status.index}" />
-					<c:set var="type" value="MovieType${status.index}" />
-					<li class="img"><a
-						href="Movie_information.do?movie_no=${requestScope[movie_no]}">
-							<span class="thumb"> <img src="${requestScope[thumb]}"
-								alt="${requestScope[movie_title]}" /></span> <span class="movie_title">${requestScope[movie_title]}</span>
-							<span class="price">${requestScope[type]}&nbsp;${requestScope[price]}<img
-								src="assets/img/coin_icon.png"></span>
-					</a></li>
-				</c:forEach>
-			</ul>
-		</div>
+	<!-- 썸네일 이미지 내용 -->
+	<div id="body">
+		<ul id="movie" class="infinite_scroll">
+			<c:forEach var="item" items="${categorySorted}" varStatus="status">
+				<li class="img"><a href="Movie_information.do?movie_no=${item.movie_no}"> 
+				<span class="thumb"> <img src="${item.thumbnail}" alt="${item.name} 썸네일" /></span> 
+				<span class="movie_title">${item.name}</span>
+				<span class="price">${item.type}&nbsp;${item.price}<img src="assets/img/coin_icon.png"></span>
+				</a></li>
+			</c:forEach>
+		</ul>
+	</div>
+	
 	<!-- 인피니트 스크롤 -->
 	<script src="assets/js/bootstrap.min.js"></script>
 	<script>
@@ -194,7 +188,7 @@ a:hover {
 							console.log(num);
 						}
 					})
-		});
+				});
 	</script>
 </body>
 

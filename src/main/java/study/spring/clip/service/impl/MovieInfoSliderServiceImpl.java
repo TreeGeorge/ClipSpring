@@ -5,23 +5,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
-import study.spring.clip.model.MovieCategoryJoin;
-import study.spring.clip.service.MovieCategoryJoinService;
+import study.spring.clip.model.MovieInfoSlider;
+import study.spring.clip.service.MovieInfoSliderService;
 
 @Slf4j
 @Service
-public class MovieCategoryJoinServiceImpl implements MovieCategoryJoinService {
+public class MovieInfoSliderServiceImpl implements MovieInfoSliderService {
 
 	@Autowired
 	SqlSession sqlSession;
 
 	@Override
-	public MovieCategoryJoin getMovieCategoryJoinItem(MovieCategoryJoin input) throws Exception {
-		MovieCategoryJoin result = null;
+	public MovieInfoSlider getMovieInfoSliderItem(MovieInfoSlider input) throws Exception {
+		MovieInfoSlider result = null;
 
 		try {
-			result = sqlSession.selectOne("MovieCategoryJoinMapper.oneMovieCategoryJoin", input);
-				
+			result = sqlSession.selectOne("MovieInfoSliderMapper.ActionMovieInfoSlider", input);
+
 			if (result == null) {
 				throw new NullPointerException("resut=null");
 			}
