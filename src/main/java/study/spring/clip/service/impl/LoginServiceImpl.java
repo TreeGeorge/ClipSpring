@@ -62,6 +62,20 @@ public class LoginServiceImpl implements LoginService {
 		 return false;
 	 }
 	 
+	 /*아이디 중복 검사, 세션 저장*/
+	 public boolean idOverlapCheck(String id, HttpSession session) {
+		 User input = new User();
+		 input.setId(id);
+		 User result =  sqlSession.selectOne("UserMapper.selectUser",input);
+		 
+		
+		 if(result != null) {
+			 session.setAttribute("id", result.getId());
+			 return true;
+		}
+		 return false;
+	 }
+	 
 	 /*이메일 중복 검사*/
 	 public boolean emailOverlapCheck(String email){
 		 User input = new User();
@@ -123,5 +137,51 @@ public class LoginServiceImpl implements LoginService {
 		 input.setEmail(email);
 		 		
 		 sqlSession.selectOne("UserMapper.emailChange", input);		
+	 }
+	 
+	 /*카드정보 등록/변경*/
+	 public void cardChange(int user_no, String card) {
+		 User input = new User();
+		 input.setUser_no(user_no);
+		 input.setCard(card);
+		 
+		 sqlSession.selectOne("UserMapper.cardChange", input);	
+	 }
+	 
+	 public boolean emailCheckToName(String name, String email) {
+		 User input = new User();
+		 input.setName(name);
+		 input.setEmail(email);
+		 if(sqlSession.selectOne("UserMapper.SelectUserNameAndEmail",input)==null) {
+			 return true;
+		 }
+		 return false;
+	 }
+	 
+	 public User randerID(String email) {
+		 User input = new User();
+		 input .setEmail(email);
+		 User result =  sqlSession.selectOne("UserMapper.selectUserToEmail",input);
+		 return result;
+	 }
+	 
+	 public boolean searchUserToChangePW(String id, String email, String name) {
+		 User input = new User();
+		 input.setId(id);
+		 input.setEmail(email);
+		 input.setName(name);
+		 if(sqlSession.selectOne("UserMapper.searchUserToChangePW",input)==null) {return false;}
+		 return true;
+	 }
+	 
+	 public void searchpwToChange(String id, String pw){
+		 User input = new User();
+		 input.setId(id);
+		 User result1 = sqlSession.selectOne("UserMapper.selectUser",input);
+		 User result2 = new User();
+		 result2.setUser_no((result1.getUser_no()));
+		 result2.setPw(pw);
+		 
+		 sqlSession.selectOne("UserMapper.pwChange",result2);
 	 }
 }

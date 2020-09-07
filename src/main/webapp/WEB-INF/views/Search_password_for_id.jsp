@@ -138,13 +138,10 @@
                         confirmButtonColor: "#ff3253", // 확인버튼 색상
                     });
                 } else {
-                    $.post('api/search_id.do', {
-                            user_id: id_val,
-                            post: "idCheck"
-                        }, function(req) {
+                    $.post('idCheck.do', {id: id_val}, function(req) {
                             //아이디 검색될시
-                            if (req.result == '1') {
-                                location.href = 'Search_password_for_email.jsp';
+                            if (req == '1') {
+                            	$(location).attr('href','Search_password_for_email');
                             } else { //일치하는 아이디 없는 경우
                                 swal({
                                     html: "<b>일치하는 아이디가 없습니다.</b>",    // 내용

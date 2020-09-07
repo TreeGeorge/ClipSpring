@@ -199,7 +199,7 @@
                    받을 수 있습니다.</p>
                    <div id="id_box"class="form-group">
                     <label for="user_name" style="width: 45px">이름</label>
-                    <input type="text" name="user_name" id="user_name">
+                    <input type="text" name="user_name" id="user_name" >
                     <span class="input_Explanation hidden" id="name_guide">이름이 한글이 아닙니다.</span>
                 </div>
                 <div id="email_box"class="form-group">
@@ -227,6 +227,7 @@
 <script src="assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@2.4.1/dist/email.min.js"></script>
 <script>
+	var sessionID = "${id}";
     var email_reg = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
             var key = "3122311#@@#3";//메일 인증번호 난수
             var isSend = false;//메일 보냈는지 체크
@@ -317,9 +318,9 @@
                 //이메일 양식에 맞는 값 입력시
             } else {
                 //post통신
-                $.post('api/search_id.do',{user_name:name_val, email:email_val, post:"emailCheck"},function(req){
+                $.post('searchUserToChangePW.do',{name:name_val, email:email_val, id:sessionID},function(req){
                     //입력받은 이름과 이메일이 회원정보와 일치할 경우
-                    if(req.result == '1'){
+                    if(req == '1'){
                         swal({
                             html: "<b>이메일 발송 완료</b>",    // 내용
                             type: "success",  // 종류
@@ -333,7 +334,7 @@
                 }else{
                     //입력받은 이름과 이메일이 회원정보와 일치하지 않는 경우
                   swal({
-                      html: "<b>가입하셨던 이메일과 일치해야합니다.</b>",    // 내용
+                      html: "<b>아이디와 이름이 가입하셨던 이메일과 일치해야합니다.</b>",    // 내용
                       type: "error",  // 종류
                       confirmButtonText: "확인", // 확인버튼 표시 문구
                       confirmButtonColor: "#ff3253", // 확인버튼 색상
@@ -454,25 +455,17 @@
 	                            $("#to_submit").click();//비밀번호 변경 alert창 재실행
 	                        })
                     }else{//비밀번호 변경 실행
-                    $.post('api/search_id.do',{email : $("#email").val(), user_pw : pw, post : "pwChange"},function(req){
-                        if(req.result == '1'){
-                        	swal({
-                        		html : "<b>비밀번호가 변경되었습니다.</b>",
-                        		type : "success",
-                        		showConfirmButton: false,
-                        		timer : 2000
-                        	}).then(function(){
-                        		location.href = "Login.jsp";//변경완료 후 로그인 페이지로 이동
-                        	})
-                        }else{
-                        	swal({
-                                html: "<b>오류 : 관리자에게 문의하세요.</b>",    // 내용
-                                type: "error",  // 종류
-                                confirmButtonText: "확인", // 확인버튼 표시 문구
-                                confirmButtonColor: "#ff3253", // 확인버튼 색상
-                            });
-                        }
-                    })
+                    	$.post("searchpwToChange.do",{pw:pw},function(){
+                			swal({
+                    			html: "<b>비밀번호가 변경되었습니다.</b>",
+                    			 type : "success",
+                                 timer : 1400,
+                                 showConfirmButton: false,
+                                 allowOutsideClick: false
+                             }).then(function(){
+                            	 $(location).attr('href','Login');
+                    		})
+                		})
                 }
                 }
 

@@ -218,7 +218,7 @@
                 </div>
                 <div id="next_box"class="form-group">
                     <div class="submit_box">
-                        <input type="submit" name="submit" id="to_submit" value="다음">
+                        <input type="submit" name="submit" id="to_submit" value="확인">
                     </div>
                 </div>
                
@@ -233,8 +233,33 @@
             var key = "3122311#@@#3";//메일 인증번호 난수
             var isSend = false;//메일 보냈는지 체크
             var pass_key = false;
-        //난수 생성 함수
-        function createRandomNumber() {
+            var item;
+            function randerUserInfo(){
+            	swal({
+	                showConfirmButton: true,
+	                showCancelButton: true,
+	                confirmButtonColor:  "#FF3253",
+	                confirmButtonText: "<span style='color:#FFFBFC; font-weight:bold' >로그인</span>",
+	                cancelButtonColor:  "#FF3253",
+	                cancelButtonText: "<span style='color:#FFFBFC; font-weight:bold'; >비밀번호 찾기</span>",
+	                showCloseButton: true,
+	                allowOutsideClick: false,
+	                background: '#FFFBFC url(assets/img/logo_swal.png) no-repeat center 10px',
+	
+	                html:"<div id='swal_name' class='swal_body'><span>&nbsp;&nbsp;아이디 : " + item[0] + "</span></div>"+
+	                    "<div id='swal_date'class='swal_body'><span>&nbsp;&nbsp;가입일 : " + item[1] + "</span></div>"
+	                
+	            }).then(function(e){
+	                if(e.value){
+	                	$(location).attr('href','Login');
+	                }else if(e.dismiss=='cancel'){
+	                	$(location).attr('href','Search_password_for_id');
+	                }
+	            })
+            }
+            
+        	//난수 생성 함수
+        	function createRandomNumber() {
             key = "";
             for(var i = 0; i<6; i++){
                 key+=Math.floor(Math.random()* 10);
@@ -313,8 +338,8 @@
                 $("#email").focus();
                 return false;
             } else {
-                $.post('api/search_id.do',{user_name:name_val, email:email_val, post:"emailCheck"},function(req){
-                    if(req.result == '1'){
+                $.post('emailCheckToName.do',{name:name_val, email:email_val},function(req){
+                    if(req == '1'){
                         swal({
                             html: "<b>이메일 발송 완료.</b>",    // 내용
                             type: "success",  // 종류
@@ -340,13 +365,16 @@
 
         })
         $("#check_key").click(function() {
+        	var email = $("#email").val();
             if($("#key_num").val() == key) {
                 swal({
                     html: "<b>인증되었습니다.</b>",    // 내용
                     type: "success",  // 종류
                     confirmButtonText: "확인", // 확인버튼 표시 문구
                     confirmButtonColor: "#ff3253", // 확인버튼 색상
-                });
+                }).then(function(){
+                	 $.post('randerID.do',{email:email},function(req){ item = req; });
+                })
                 pass_key = true;
                 $("#key_num").prop('disabled','true');
                 
@@ -363,7 +391,7 @@
         //버튼 각각 로그인 페이지랑 비밀번호찾기로 연결
         $("#to_submit").click(function(e){
             e.preventDefault();
-                var email_val = $("#email").val();
+                var email = $("#email").val();
                 var name = $('input[name=user_name]');
                 if(!/^[가-힣]*$/i.test(name.val())
                         ||!name.val()){
@@ -389,37 +417,13 @@
                         confirmButtonColor: "#ff3253", // 확인버튼 색상
                     });
                 }else{
-                    
-            swal({
-
-                showConfirmButton: true,
-                showCancelButton: true,
-                confirmButtonColor:  "#FF3253",
-                confirmButtonText: "<span style='color:#FFFBFC; font-weight:bold' >로그인</span>",
-                cancelButtonColor:  "#FF3253",
-                cancelButtonText: "<span style='color:#FFFBFC; font-weight:bold'; >비밀번호 찾기</span>",
-                showCloseButton: true,
-                allowOutsideClick: false,
-                background: '#FFFBFC url(assets/img/logo_swal.png) no-repeat center 10px',
-
-                html:"<div id='swal_name' class='swal_body'></div>"+
-                    "<div id='swal_date'class='swal_body'></div>"
-                
-
-            }).then(function(e){
-                if(e.value){
-                    location.href = 'Login.jsp';
-                }else if(e.dismiss=='cancel'){
-                    location.href = 'Search_password_for_id.jsp';
-                }
-            })
-            
-            //post통신 id  email 출력
-            $.post('api/search_id.do',{email:email_val, post:'submit'},function(req){
-                        $("#swal_name").html("<span>&nbsp;&nbsp;아이디 : " + req.id_val + "</span>");
-                        $("#swal_date").html("<span>&nbsp;&nbsp;가입일 : " + req.editdate_val + "</span>");
-              })
-           
+                	
+                	
+                   
+                    		
+                   
+                    randerUserInfo();
+		           
          }
     });
 

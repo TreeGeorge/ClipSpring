@@ -138,7 +138,7 @@ public class LoginController{
 		 model.addAttribute("gender",user.getGender());
 		 model.addAttribute("birthdate",user.getBirthdate());
 		 model.addAttribute("email",user.getEmail());
-		 
+		 model.addAttribute("card",user.getCard());
 		 return "MY_information"; 
 	 }
 	 
@@ -233,5 +233,83 @@ public class LoginController{
 			  @RequestParam(value="email") String email) { 
 		  int user_no = (Integer)session.getAttribute("user_no");
 		  loginService.emailChange(user_no, email);
+	  }
+	  
+	  /*카드 등록/변경*/
+	  @ResponseBody
+	  @RequestMapping(value="cardChange.do",method=RequestMethod.POST)
+	  public void cardChange(HttpServletResponse response, HttpSession session,
+			  @RequestParam(value="card") String card) { 
+		  int user_no = (Integer)session.getAttribute("user_no");
+		  loginService.cardChange(user_no, card);
+	  }
+	  
+	  /*회원정보 기입 페이지*/
+	  @RequestMapping(value="Search_id_for_email",method=RequestMethod.GET)
+	  public String enterSearchId() {
+			 
+		  return "Search_id_for_email"; 
+	  }
+	  
+	  /*회원정보 기입 페이지*/
+	  @RequestMapping(value="Search_password_for_id",method=RequestMethod.GET)
+	  public String enterSearchPw() {
+			 
+		  return "Search_password_for_id"; 
+	  }
+	  
+	  /*회원정보 기입 페이지*/
+	  @RequestMapping(value="Search_password_for_email",method=RequestMethod.GET)
+	  public String enterSearchPwToEmail() {
+			 
+		  return "Search_password_for_email"; 
+	  }
+	  
+	  /*카드 등록/변경*/
+	  @ResponseBody
+	  @RequestMapping(value="emailCheckToName.do",method=RequestMethod.POST)
+	  public String emailCheckToName(HttpServletResponse response, HttpSession session,
+			  @RequestParam(value="name") String name,
+			  @RequestParam(value="email") String email) { 
+		  
+		  if(loginService.emailCheckToName(name, email)) { return "0"; }
+		  return "1";
+	  }
+	  
+	  /*아이디찾기*/
+	  @ResponseBody
+	  @RequestMapping(value="randerID.do",method=RequestMethod.POST)
+	  public String [] randerID(HttpServletResponse response, HttpSession session,
+			  @RequestParam(value="email") String email) { 
+		  User user = loginService.randerID(email);
+		  String [] item = {user.getId(),user.getEditdate()};
+		  return item;
+	  }
+	  
+	  /*비밀번호찾기 아이디 검사*/
+	  @ResponseBody
+	  @RequestMapping(value="idCheck.do",method=RequestMethod.POST)
+	  public String idCheck(HttpServletResponse response, HttpSession session,
+			  @RequestParam(value="id") String id) { 
+		  if(loginService.idOverlapCheck(id, session)) {return "1";}
+		  return "0";
+	  }
+	  
+	  @ResponseBody
+	  @RequestMapping(value="searchUserToChangePW.do",method=RequestMethod.POST)
+	  public String searchUserToChangePW(HttpServletResponse response,
+			  @RequestParam(value="id") String id,
+			  @RequestParam(value="email") String email,
+			  @RequestParam(value="name") String name) { 
+		  if(loginService.searchUserToChangePW(id, email, name)) {return "1";}
+		  return "0";
+	  }
+	  
+	  @ResponseBody
+	  @RequestMapping(value="searchpwToChange.do",method=RequestMethod.POST)
+	  public void searchpwToChange(HttpServletResponse response, HttpSession session,
+			  @RequestParam(value="pw") String pw) { 
+		  String id = (String)session.getAttribute("id");
+		  loginService.searchpwToChange(id, pw);
 	  }
 }

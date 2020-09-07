@@ -105,8 +105,7 @@
 .card_body{
     padding-top: 70px;
     height: 200px;
-    text-align: left;
-
+    text-align: auto;
 }
 /*카드번호 입력요소 영역*/
 .card_box{
@@ -188,7 +187,7 @@
                 <div class="info_group">
                     <p class="info_list">아이디<br><span class="info_item">${id}</span></p>
                     <p class="info_list">이름<br> <span class="info_item">${name}</span></p>
-                    <p class="info_list">성별<br> <span class="info_item">${gender}</span></p>
+                    <p class="info_list">성별<br> <span class="info_item"></span></p>
                     <p class="info_list">생년월일<br><span class="info_item">${birthdate}</span></p>
                     <p class="info_list">이메일<br> <span class="info_item">${email}</span></p>
                 </div>
@@ -202,9 +201,9 @@
             </div>
             <div class="clearfix" style="border-bottom: 1px solid #b8b8b8; padding-top:8px; padding-bottom:8px;">
                 <div class="info_group">
-                    <p class="info_list">카드<br><span class="info_item">Ezen Card</span></p>
+                    <p class="info_list">카드<br><span class="info_item"></span></p>
                 </div>
-                <div class="btn_box"><input type="button" value="카드정보 등록" class="change_btn" id="card_change"></div>
+                <div class="btn_box"><input type="button" value="" class="change_btn" id="card_change"></div>
             </div>
         </div>
             <!-- footer -->
@@ -217,15 +216,30 @@
     <script src="assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/emailjs-com@2.4.1/dist/email.min.js"></script>
     <script>
-    var isSend = false;
+	    var isSend = false;//이메일 전송 이메일 전송 유무
+	    var isCard = false;
+	   
    		$(function(){
    			
+   		 	/*카드정보 등록 유무 판별*/
+   		    if(""!="${card}"){
+   		    	$(".info_item").eq(5).text("Ezen Card");
+   		    	$("#card_change").val("카드정보 변경");
+   		    	isCard = true;
+   		    }
+   		    else{
+   		    	$(".info_item").eq(5).text("카드정보를 등록해주세요");
+   		    	$("#card_change").val("카드정보 등록");
+   		    	isCard = false;
+   		    }
+   		 	
    			$(".bot_bar_icon").eq(3).attr("src", "assets/img/my_page_icon_selected.png");
-   			var gender = $(".info_item").eq(2);
-   			if(gender.text()=="M"){
-   				gender.text("남자");
+   			
+   			/*성별 판별*/
+   			if("${gender}"=="M"){
+   				$(".info_item").eq(2).text("남자");
    			}else{
-   				gender.text("여자");
+   				$(".info_item").eq(2).text("여자");
    			}
    		})
 		//난수 생성
@@ -518,9 +532,9 @@
                     var pw_pass = false;
              		
                     //로그인 되어있는 아이디와 비밀번호의 일치 여부검사
-                    $.post('api/search_id.do',{user_id:id, user_pw:pw,post : "login"},function(req){
+                    $.post('pwCheck.do',{pw:pw},function(req){
                     	//비밀번호 일치하면 pw_pass -> true;
-                        if(req.result == '1'){ pw_pass = true; }
+                        if(req == '1'){ pw_pass = true; }
                         }).then(function(){
                         	 //비밀번호 일치할시
                         	 if(pw_pass){
@@ -536,7 +550,7 @@
                                      background: '#FFFBFC url(assets/img/logo_swal.png) no-repeat center 10px',
                                      html:"<div class='card_body'>"+
                                      "<form>"+
-                                     "<label style='font-weight:bold; font-size:0.8em;'>&nbsp;카드번호</label><br>"+
+                                     "<label style='font-weight:bold; font-size:0.8em; padding-right:230px;'>카드번호</label><br>"+
                                      "<div class='card_box'>"+
                                          "<input type='text' class='card_input' maxlength='4' style='IME-MODE:disabled;' onkeypress='if((event.keyCode<48)||(event.keyCode>57)) event.returnValue=false;'>"+" - "+
                                          "<input type='text' class='card_input' maxlength='4' style='IME-MODE:disabled;' onkeypress='if((event.keyCode<48)||(event.keyCode>57)) event.returnValue=false;'>"+" - "+
@@ -544,7 +558,7 @@
                                          "<input type='text' class='card_input' maxlength='4' id='last_num' style='IME-MODE:disabled;' onkeypress='if((event.keyCode<48)||(event.keyCode>57)) event.returnValue=false;'>"+
                                      "</div>"+"<br>"+
                                      "<div class='card_box'>"+
-                                         "<label style='font-weight:bold; font-size:0.8em;'>&nbsp;사용기한</label>"+
+                                         "<label style='font-weight:bold; font-size:0.8em; padding-right:5px;'>사용기한</label>"+
                                          "<label style='font-weight:bold; font-size:0.8em;' id='swal_pd'>비밀번호</label><br>"+
                                          "<input type='text' class='card_input' placeholder='YY'  maxlength='2' id='first_num' style='IME-MODE:disabled;' onkeypress='if((event.keyCode<48)||(event.keyCode>57)) event.returnValue=false;'>"+" - "+
                                          "<input type='text' class='card_input' placeholder='MM' maxlength='2' style='IME-MODE:disabled;' onkeypress='if((event.keyCode<48)||(event.keyCode>57)) event.returnValue=false;'>"+
@@ -563,16 +577,20 @@
                                              $("#card_text").html("값을 모두 입력해 주세요.");
                                       }else{
                                     	  card_pass = true;
-                                 
-                                    	  swal({
-                                    		  html : "<b>결제정보가 등록되었습니다.</b>",
-                                    		  type : "success",
-                                    		  timer : 1500,
-                                    		  allowOutsideClick: false,
-                                    		  showConfirmButton : false
-                                    	  }).then(function(){
-                                    		  location.reload();
-                                    	  })
+                           				var post_card_num = $(".card_input").eq(0).val()+$(".card_input").eq(1).val()+$(".card_input").eq(2).val() + $(".card_input").eq(3).val();
+                           	
+                           				$.post("cardChange.do",{card:post_card_num},function(){
+                           					swal({
+                                      		  html : "<b>결제정보가 등록되었습니다.</b>",
+                                      		  type : "success",
+                                      		  timer : 1500,
+                                      		  allowOutsideClick: false,
+                                      		  showConfirmButton : false
+                                      	  }).then(function(){
+                                      		 $(location).attr('href','MY_information');
+                                      	  })
+                           				})
+                                    	  
                                       }
                                  })
                                  
@@ -593,17 +611,12 @@
                         })
                 }
             })
-           
+           	
+            /*입력 자리수에 따라 다음 칸으로 자동 이동*/
             $(document).keyup(function(e){
             		nextFocus(e);
              })
-             
-             /*디버깅용 클릭 이벤트*/
-             $(document).click(function(e){
-            	 console.log(e.target);
-            	
-            	
-             })
+           
         })
        
 

@@ -54,11 +54,11 @@
 
 <div id="header">
 	<div class="top_bar clearfix">
-		<a href="clip" class="logo">CLIP</a>
+		<a href="home" class="logo">CLIP</a>
 		<div class="link">
 			<span><a href="home">Home&nbsp;</a></span>
-			<span><a href="Sign_up_agree.jsp">회원가입&nbsp;</a></span>
-			<span><a href="Login.jsp">로그인</a></span>
+			<span><a href="Sign_up_agree">회원가입&nbsp;</a></span>
+			<span><a href="Login">로그인</a></span>
 		</div>
 	</div>
 </div>
