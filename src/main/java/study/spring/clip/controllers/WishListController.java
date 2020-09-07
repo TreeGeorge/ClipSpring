@@ -53,7 +53,12 @@ public class WishListController {
 	@ResponseBody
 	@RequestMapping(value="wishListInsert.do",method=RequestMethod.POST)
 	public int insertWishList(HttpServletResponse response,
-			HttpSession session,@RequestParam(value="movieNo") int movie_no) {
+			HttpSession session,
+			@RequestParam(value="movieNo") int movie_no) {
+		if ( session.getAttribute("id") == null ) {
+			return 2;
+		}	
+		
 		int x = (Integer)session.getAttribute("user_no");
 		WishList input = new WishList();
 		input.setUser_no(x);

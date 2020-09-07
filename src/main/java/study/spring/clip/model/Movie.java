@@ -15,4 +15,6 @@ public class Movie {
     private String summary;
     private String runtime;
     private String age;
+    private int movie_like_no;
+    private double score;
 }

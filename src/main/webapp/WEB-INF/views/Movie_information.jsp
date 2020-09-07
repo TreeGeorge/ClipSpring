@@ -296,13 +296,13 @@
                 <ul>
                     <li id="movie_name" style="font-size: 18px; font-weight:bold">${movie_name}</li>
                     <!-- 평점 및 평점인원 -->
-                    <li style="line-height:30px; font-size: 16px; color:#E61A3F">★&nbsp;<span id="grade" style=" font-size: 12px; font-weight: bold;">${rating}</span>&nbsp;<span id="rate_people"style="color : black; font-size: 12px;" >${ratingCount}</span><span style="color : black; font-size: 12px;">명</span><a id="rate" href="" style="color: #E61A3F; font-size: 12px; font-weight: bold;">&nbsp;별점주기></a></li>
+                    <li style="line-height:30px; font-size: 16px; color:#E61A3F">★&nbsp;<span id="grade" style=" font-size: 12px; font-weight: bold;">${movie_star}</span>&nbsp;<span id="rate_people"style="color : black; font-size: 12px;" >${movie_people}</span><span style="color : black; font-size: 12px;">명</span><a id="rate" href="" style="color: #E61A3F; font-size: 12px; font-weight: bold;">&nbsp;별점주기></a></li>
                     <!-- 감독 -->
                     <li class="m_info_content">감독&nbsp;<span id="authoer">${movie_director}</span></li>
                     <!-- 주연 -->
                     <li class="m_info_content">주연&nbsp;<span id="actress">${actor}</span></li>
                     <!-- 상영시간 -->
-                    <li class="m_info_content">${runTime}&nbsp;<span id="run_time">&nbsp;분</span></li>
+                    <li class="m_info_content">상영시간&nbsp;${movie_runtime}&nbsp;</li>
 
                 </ul>
 
@@ -320,7 +320,7 @@
             
             <!-- 구매버튼 -->
             <li class="btn1_1_2">
-                <span style="font-weight: bold;"><a href="Movie_buy">구매<span class="price">&nbsp;&nbsp;${price}코인</span></a></span>
+                <span style="font-weight: bold;"><a href="Movie_buy">${movie_type}<span class="price">&nbsp;&nbsp;${movie_price}코인</span></a></span>
             </li>
         </ul>
     </div>
@@ -329,15 +329,15 @@
         <ul class="clearfix">
             <!-- 좋아요버튼 -->
             <li class="btn2_1">
-                <button type="button"><img  id="like" src="assets/img/like_icon.png" data-img="assets/img/like_icon_after.png"><br><span>개수</span></button>
+                <button type="button"><img  id="like" src="assets/img/like_icon.png" data-img="assets/img/like_icon_after.png"><br><span>${movie_like}</span></button>
             </li>
             <!-- 덧글버튼 -->
             <li class="btn2_1">
-                <button type="button" onclick="location.href='Movie_comment.jsp'"><img src="assets/img/comment_icon.png"><br><span>댓글</span></button>
+                <button type="button" onclick="location.href='Movie_comment'"><img src="assets/img/comment_icon.png"><br><span>댓글</span></button>
             </li>
             <!-- 관심버튼 -->
             <li class="btn2_1">
-                <button type="button"><img id="interest" src="assets/img/interest_icon.png" data-img="assets/img/interest_icon_after.png"><br><span>관심</span></button>
+                <button id="interestbtn" type="button"><img id="interestimg"src="assets/img/interest_icon.png" data-img="assets/img/interest_icon_after.png"><br><span>관심</span></button>
             </li>
             <!-- 공유버튼 -->
             <li class="btn2_1">
@@ -482,6 +482,20 @@
     <div style="height: 50px;"></div>
     
     <script>
+    $.get("MY_interest_movie",{movieNo:"${movie_no}"},function(req){
+		if(req=="a"){
+			return;
+		}else{
+			console.log(999)
+			var tmp = $("#interestimg").attr("src");
+            var img = $("#interestimg").data("img");
+            $("#interestimg").attr("src", img);
+            $("#interestimg").data("img", tmp);
+		}
+    })
+    
+    
+    
         var count = 0; //평점을 준 사람
         var rate = 0; // 평점
         var total = 0;
@@ -502,7 +516,8 @@
                             $("#rate_people").empty(); // 있던값을 지워주고
                             $("#rate_people").prepend(count); // 증가된 사람수를 추가
                             $("#grade").empty(); // 있던값을 지워주고
-                            $("#grade").append((total / count).toFixed(1)); //평점이랑사람수 나누어 소숫점 1자리수 출력
+                            $("#grade").append((total / count).toFixed(1));
+                            //평점이랑사람수 나누어 소숫점 1자리수 출력
                         }
                     });
                     $(".my-rating-4").starRating({ // 별점기능의 CSS 및 기본 속성(사이트에 나와있습니다)
@@ -523,7 +538,7 @@
                     });
 
                 }) //별점주기 끝
-
+        })
             $(".slides").slick({
                 slidesToShow: 3,
                 slidesToScroll: 3,
@@ -543,7 +558,6 @@
             })
 
             $("#wish").click(function() {
-            	console.log("${movie_no}");
             	$.post("wishListInsert.do",{movieNo:"${movie_no}"},function(req){
             		if(req==1){
             			swal({
@@ -560,7 +574,7 @@
                                 location.href = "Wish_list";
                             }
                         })
-            		}else{
+            		}else if(req==0){
             			swal({
                             title: "이미 장바구니에",
                             text: "담겨있는 상품입니다.",
@@ -569,6 +583,21 @@
                             showCancelButton: false,
                             confirmButtonColor:"#aaa",
                             cancelButtonColor: "#FF3253"
+                        })
+            		}else {
+            			swal({
+                            title: "로그인이",
+                            text: "필요한 서비스입니다.",
+                            type: "error",
+                            confirmButtonText: "확인",
+                            showCancelButton: true,
+                            cancelButtonText: "로그인 하기",
+                            confirmButtonColor:"#aaa",
+                            cancelButtonColor: "#FF3253"
+                        }).then(function(result) {
+                            if (result.dismiss === "cancel") {
+                                location.href = "Login";
+                            }
                         })
             		}
             	})
@@ -596,22 +625,78 @@
             });
            
 
-            $("#interest").click(function() {
-                var tmp = $(this).attr("src");
-                var img = $(this).data("img");
-                $(this).attr("src", img);
-                $(this).data("img", tmp);
-            })
-            $("#like").click(function() {
-                var tmp = $(this).attr("src");
-                var img = $(this).data("img");
-                $(this).attr("src", img);
-                $(this).data("img", tmp);
+//            $("#interest").click(function() {
+//                var tmp = $("").attr("src");
+//                var img = $(this).data("img");
+//                $(this).attr("src", img);
+//                $(this).data("img", tmp);
+//            })
+//            $("#like").click(function() {
+//                var tmp = $(this).attr("src");
+//                var img = $(this).data("img");
+//                $(this).attr("src", img);
+//                $(this).data("img", tmp);
+//            })
+
+        
+		$("#interestbtn").click(function() {
+            	$.post("interestInsert.do",{movieNo:"${movie_no}"},function(req){
+            		if(req==1){
+            			console.log(123)           			
+            			swal({
+            				title: "관심목록에",
+                            text: "추가되었습니다.",
+                            type: "success",
+                            confirmButtonText: "확인",
+                            showCancelButton: false,
+                            confirmButtonColor:"#aaa",
+                            cancelButtonColor: "#FF325"                 
+                        })
+                        var tmp = $("#interestimg").attr("src");
+                        var img = $("#interestimg").data("img");
+                        $("#interestimg").attr("src", img);
+                        $("#interestimg").data("img", tmp);
+            		}else if(req==0){
+            			console.log(456)
+            			swal({
+                            title: "정말 관심목록에서",
+                            text: "삭제하시겠습니까?.",
+                            type: "error",
+                            confirmButtonText: "확인",
+                            showCancelButton: false,
+                            confirmButtonColor:"#aaa",
+                            cancelButtonColor: "#FF3253"
+                        }).then(function(result) {
+                        	$.post("interestDelete.do",{movieNo:"${movie_no}"},function(req){
+                        		console.log(456)
+                        	})
+                        })
+                        var tmp = $("#interestimg").attr("src");
+                        var img = $("#interestimg").data("img");
+                        $("#interestimg").attr("src", img);
+                        $("#interestimg").data("img", tmp);
+
+            		}else {
+            			swal({
+                            title: "로그인이",
+                            text: "필요한 서비스입니다.",
+                            type: "error",
+                            confirmButtonText: "확인",
+                            showCancelButton: true,
+                            cancelButtonText: "로그인 하기",
+                            confirmButtonColor:"#aaa",
+                            cancelButtonColor: "#FF3253"
+                        }).then(function(result) {
+                            if (result.dismiss === "cancel") {
+                                location.href = "Login";
+                            }
+                        })
+            		}
+            	})
+                
             })
 
-        })
-
-    </script>
+ </script>
 
 
 </body>

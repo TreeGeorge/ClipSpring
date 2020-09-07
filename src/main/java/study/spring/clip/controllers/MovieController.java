@@ -33,14 +33,25 @@ public class MovieController {
 			// 조회필요값 빈즈에저장
 			Movie input =new Movie();
 			input.setMovie_no(movie_no);
+			Movie input1=new Movie();
+			input1.setMovie_no(movie_no);
+			Movie input2=new Movie();
+			input2.setMovie_no(movie_no);
+			Movie input3=new Movie();
+			input3.setMovie_no(movie_no);
 			
 			// 조회결과를 저장할 객체 선언
 			Movie output = null;
+			int output1 = 0;
+			double output2 = 0;
+			int output3  =0;
 			
 			try {
 				//데이터조회
 				output = movieService.getMovieItem(input);
-				System.out.println(12333);
+				output1 = movieService.getMovieLike(input1);
+				output2 = movieService.getMovieStar(input2);
+				output3 = movieService.getMoviePeople(input3);
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
@@ -50,6 +61,10 @@ public class MovieController {
 			model.addAttribute("movie_director",output.getDirector());		
 			model.addAttribute("movie_runtime",output.getRuntime());
 			model.addAttribute("movie_price", output.getPrice());
+			model.addAttribute("movie_like",output1);
+			model.addAttribute("movie_star",output2);
+			model.addAttribute("movie_people",output3);
+			model.addAttribute("movie_type",output.getType());
 			
 			
 			

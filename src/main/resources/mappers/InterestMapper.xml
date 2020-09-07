@@ -24,6 +24,13 @@
 		WHERE movie_no IN (SELECT movie_no FROM interest WHERE user_no= #{user_no});
 	</select>
 	
+	<select id="interestInsertCheck"
+		parameterType="study.spring.clip.model.Interest"
+		resultMap="InterestMap">
+		SELECT movie_no from interest
+		where user_no = #{user_no} AND movie_no = #{movie_no};
+	</select>
+	
 	<select id="interestInsert"
 		parameterType="study.spring.clip.model.Interest"
 		resultMap="InterestMap">

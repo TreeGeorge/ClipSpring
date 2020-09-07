@@ -37,4 +37,65 @@ public class MovieServiceImpl implements MovieService {
 		return result;
 	}
 
+	@Override
+	public int getMovieLike(Movie input1) throws Exception {
+		int result = 0;
+		
+		try {
+			result = sqlSession.selectOne("MovieMapper.likeMovie", input1);
+			System.out.println("=========================================");
+			System.out.println(result);
+			if (result == 0) {
+				throw new NullPointerException("resut=0");
+			}
+		} catch (NullPointerException e) {
+			log.error(e.getLocalizedMessage());
+			throw new Exception("조회된 데이터가 없습니다.");
+		} catch (Exception e) {
+			log.error(e.getLocalizedMessage());
+			throw new Exception("데이터 조회에 실패했습니다.");
+		}
+		return result;
+	}
+
+	@Override
+	public double getMovieStar(Movie input2) throws Exception {
+		double result = 0;
+		
+		try {
+			result = sqlSession.selectOne("MovieMapper.starMovie", input2);
+
+			if (result == 0) {
+				throw new NullPointerException("resut=0");
+			}
+		} catch (NullPointerException e) {
+			log.error(e.getLocalizedMessage());
+			throw new Exception("조회된 데이터가 없습니다.");
+		} catch (Exception e) {
+			log.error(e.getLocalizedMessage());
+			throw new Exception("데이터 조회에 실패했습니다.");
+		}
+		return result;
+	}
+
+	@Override
+	public int getMoviePeople(Movie input3) throws Exception {
+		int result = 0;
+		
+		try {
+			result = sqlSession.selectOne("MovieMapper.peopleMovie", input3);
+
+			if (result == 0) {
+				throw new NullPointerException("resut=0");
+			}
+		} catch (NullPointerException e) {
+			log.error(e.getLocalizedMessage());
+			throw new Exception("조회된 데이터가 없습니다.");
+		} catch (Exception e) {
+			log.error(e.getLocalizedMessage());
+			throw new Exception("데이터 조회에 실패했습니다.");
+		}
+		return result;
+	}
+
 }

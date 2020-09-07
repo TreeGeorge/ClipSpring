@@ -20,6 +20,8 @@
         <result property="summary" column="summary" />
         <result property="runtime" column="runtime" />
         <result property="age" column="age" />
+        <result property="movie_like_no" column="movie_like_no" />
+        <result property="score" column="score" />
     </resultMap>
 
     <!-- 단일행 조회를 위한 기능 정의 -->
@@ -45,5 +47,25 @@
 			</if>
 		</where>
 	</select>
+	
+	<!-- 라이크개수 -->
+	<select id="likeMovie" parameterType="study.spring.clip.model.Movie"
+        resultType="int">
+        SELECT COUNT(movie_like_no) FROM movie_like
+        WHERE movie_no=#{movie_no};
+    </select>
+
+	<!-- 해당영화평점평균 -->
+    <select id="starMovie" parameterType="study.spring.clip.model.Movie"
+        resultType="double">
+        SELECT COUNT(*) ,ROUND((SUM(score)/COUNT(*)),1) FROM star_rating
+        WHERE movie_no=#{movie_no}; 
+    </select>
+    <!-- 참여자수 -->
+    <select id="peopleMovie" parameterType="study.spring.clip.model.Movie"
+        resultType="int">
+        SELECT COUNT(*) FROM star_rating
+        WHERE movie_no=#{movie_no}; 
+    </select>
 
 </mapper>
