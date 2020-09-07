@@ -2,13 +2,11 @@ package study.spring.clip.model;
 
 import lombok.Data;
 
-// 무비 + 카테고리
 @Data
-public class MovieCategoryJoin {
+public class MovieInfoSlider {
 	private int movie_no;
 	private String name;
-    private String thumbnail;
-	private int price;
-	private int sale;
+	private String thumbnail;
+	private int actor_no;
 	private int category_type_no;
 }

@@ -6,8 +6,7 @@ import lombok.Data;
 public class Movie {
 	private int movie_no;
     private String name;
-    private String is_rent;
-    private String is_buy;    
+    private String type;    
     private String director;
     private int price;
     private int sale;

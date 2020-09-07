@@ -1,27 +1,35 @@
 package study.spring.clip.service.impl;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
-import study.spring.clip.model.RecommandSlider;
-import study.spring.clip.service.RecommandSliderService;
-
+import study.spring.clip.model.HomeMovieSlider;
+import study.spring.clip.service.HomeMovieSliderService;
 
 @Slf4j
 @Service
-public class RecommandSliderServiceImpl implements RecommandSliderService {
+public class HomeMovieSliderServiceImpl implements HomeMovieSliderService {
 
 	@Autowired
 	SqlSession sqlSession;
-	
+
 	@Override
-	public RecommandSlider getRecommandSliderItem(RecommandSlider input) throws Exception {
-		RecommandSlider result = null;
+	public List<HomeMovieSlider> getHomeMovieSliderList() {
+
+		List<HomeMovieSlider> result = sqlSession.selectList("HomeMovieSliderMapper.RecommandHomeMovieSlider");
+		return result;
+		}
+
+	@Override
+	public HomeMovieSlider getHomeMovieSliderItem(HomeMovieSlider input) throws Exception {
+		HomeMovieSlider result = null;
 
 		try {
-			result = sqlSession.selectOne("RecommandSliderMapper.oneRecommandSlider", input);
+			result = sqlSession.selectOne("HomeMovieSliderMapper.ActionHomeMovieSlider", input);
 
 			if (result == null) {
 				throw new NullPointerException("resut=null");
@@ -36,5 +44,7 @@ public class RecommandSliderServiceImpl implements RecommandSliderService {
 
 		return result;
 	}
+
+
 
 }

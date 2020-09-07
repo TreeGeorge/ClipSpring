@@ -18,6 +18,16 @@
 		resultMap="CategoryTypeMap">
 		SELECT category_type_no, name, type 
 		FROM category_type
-		WHERE type = #{type}
+		WHERE category_type_no
+		LIMIT 0,10;
+	</select>
+	
+	<select id="TwoCategoryType"
+		parameterType="study.spring.clip.model.CategoryType"
+		resultMap="CategoryTypeMap">
+		SELECT category_type_no, name, type 
+		FROM category_type
+		WHERE category_type_no
+		LIMIT 10,16;
 	</select>
 </mapper>

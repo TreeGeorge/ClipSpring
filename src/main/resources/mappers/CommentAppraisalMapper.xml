@@ -24,7 +24,6 @@
 		WHERE user_no=#{user_no})
 	</select>
 	
-	<!-- 태희쨩이 추가함 이식 후에 주석 지워주삼-->
 	<!-- user_no null처리 -->
 	<update id="nullList" parameterType="study.spring.clip.model.CommentAppraisal">
 		UPDATE comment_appraisal SET user_no=null WHERE user_no=#{user_no};

@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ page trimDirectiveWhitespaces="true" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 
 <html lang="ko">
@@ -291,11 +294,11 @@
             <!-- 무비네임 -->
             <div class="m_info2">
                 <ul>
-                    <li id="movie_name" style="font-size: 18px; font-weight:bold">${movieTitle}</li>
+                    <li id="movie_name" style="font-size: 18px; font-weight:bold">${movie_name}</li>
                     <!-- 평점 및 평점인원 -->
                     <li style="line-height:30px; font-size: 16px; color:#E61A3F">★&nbsp;<span id="grade" style=" font-size: 12px; font-weight: bold;">${rating}</span>&nbsp;<span id="rate_people"style="color : black; font-size: 12px;" >${ratingCount}</span><span style="color : black; font-size: 12px;">명</span><a id="rate" href="" style="color: #E61A3F; font-size: 12px; font-weight: bold;">&nbsp;별점주기></a></li>
                     <!-- 감독 -->
-                    <li class="m_info_content">감독&nbsp;<span id="authoer">${director}</span></li>
+                    <li class="m_info_content">감독&nbsp;<span id="authoer">${movie_director}</span></li>
                     <!-- 주연 -->
                     <li class="m_info_content">주연&nbsp;<span id="actress">${actor}</span></li>
                     <!-- 상영시간 -->
@@ -312,7 +315,7 @@
             
         <!-- 담기버튼 -->
             <li class="btn1_1_1">
-                <span style="font-weight: bold;"><a id="wish" href="#" onclick="return false" ><img  src=""alt="">담기</a></span>
+                <span style="font-weight: bold;"><a id="wish" href="" onclick="return false" ><img  src=""alt="">담기</a></span>
             </li>
             
             <!-- 구매버튼 -->
@@ -499,7 +502,7 @@
                             $("#rate_people").empty(); // 있던값을 지워주고
                             $("#rate_people").prepend(count); // 증가된 사람수를 추가
                             $("#grade").empty(); // 있던값을 지워주고
-                            $("#grade").append((total / count).toFixed(1)); // 평점/사람수 나누어 소숫점 1자리수 출력
+                            $("#grade").append((total / count).toFixed(1)); //평점이랑사람수 나누어 소숫점 1자리수 출력
                         }
                     });
                     $(".my-rating-4").starRating({ // 별점기능의 CSS 및 기본 속성(사이트에 나와있습니다)
@@ -540,21 +543,38 @@
             })
 
             $("#wish").click(function() {
-                swal({
-                    title: "총 1개의 컨텐츠를",
-                    text: "장바구니에 담았습니다.",
-                    type: "success",
-                    confirmButtonText: "이전",
-                    showCancelButton: true,
-                    cancelButtonText: "장바구니 보기",
-                    confirmButtonColor:"#aaa",
-                    cancelButtonColor: "#FF3253"
-                }).then(function(result) {
-                    if (result.dismiss === "cancel") {
-                        location.href = "Wish_list.jsp";
-                    }
-                })
+            	console.log("${movie_no}");
+            	$.post("wishListInsert.do",{movieNo:"${movie_no}"},function(req){
+            		if(req==1){
+            			swal({
+                            title: "총 1개의 컨텐츠를",
+                            text: "장바구니에 담았습니다.",
+                            type: "success",
+                            confirmButtonText: "이전",
+                            showCancelButton: true,
+                            cancelButtonText: "장바구니 보기",
+                            confirmButtonColor:"#aaa",
+                            cancelButtonColor: "#FF3253"
+                        }).then(function(result) {
+                            if (result.dismiss === "cancel") {
+                                location.href = "Wish_list";
+                            }
+                        })
+            		}else{
+            			swal({
+                            title: "이미 장바구니에",
+                            text: "담겨있는 상품입니다.",
+                            type: "error",
+                            confirmButtonText: "확인",
+                            showCancelButton: false,
+                            confirmButtonColor:"#aaa",
+                            cancelButtonColor: "#FF3253"
+                        })
+            		}
+            	})
+                
             })
+            
             $("#share").click(function() {
 
                 swal({

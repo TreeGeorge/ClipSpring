@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <%@ page trimDirectiveWhitespaces="true"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -33,7 +36,7 @@
 	margin-top: 10px;
 }
 
-.coupon_box li:first-child {
+.coupon_box1 {
 	width: 66%;
 	height: 100px;
 	padding-left: 15px;
@@ -42,11 +45,22 @@
 	border-right: none;
 }
 
-.coupon_box li:last-child {
+.coupon_box2 {
 	width: 33%;
 	height: 100px;
 	text-align: center;
 	background-color: #E61A3F;
+	color: #fff;
+	font-size: 15px;
+	font-weight: bold;
+	padding-top: 31px;
+}
+
+.coupon_box3 {
+	width: 33%;
+	height: 100px;
+	text-align: center;
+	background-color: #aaa;
 	color: #fff;
 	font-size: 15px;
 	font-weight: bold;
@@ -74,19 +88,36 @@
 		<div class="content">사용가능 쿠폰</div>
 	
 		<div>
-			<ul class="clear coupon_box">
-				<li class="pull_left coupon_box1">
-					<h5 style="font-weight: bold; margin: 0;">3000코인 할인 쿠폰</h5> <span
-					style="font-size: 12px; color: #aaa;">구매/대여시<br>9월 20일까지<br>쿠폰
-						한 장당 1회만 결제 가능
-				</span>
-				</li>
-				<li class="pull_left coupon_box2"><span>3000코인<br>할인
-				</span></li>
-			</ul>
-			
-			
+			<c:forEach var="item" items="${output}" varStatus="status">
+				<c:choose>
+					<c:when test="${item.is_used == 'N'}">
+						<ul class="clear coupon_box">
+							<li class="pull_left coupon_box1">
+								<h5 style="font-weight: bold; margin: 0; width:80%;
+									text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">${item.name}</h5>
+								<span style="font-size: 12px; color: #aaa;">구매/대여시<br>${item.period} 까지<br>쿠폰한 장당 1회만 결제 가능</span>
+							</li>
+							<li class="pull_left coupon_box2">
+								<span><fmt:formatNumber value="${item.price}" pattern="#,###" />코인<br>할인</span>
+							</li>
+						</ul>
+					</c:when>
+					<c:otherwise>
+						<ul class="clear coupon_box" style="opacity: 0.7;">
+							<li class="pull_left coupon_box1">
+								<h5 style="font-weight: bold; margin: 0; width:80%;
+									text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">${item.name}</h5>
+								<span style="font-size: 12px; color: #aaa;">구매/대여시<br>${item.period} 까지<br>쿠폰한 장당 1회만 결제 가능</span>
+							</li>
+							<li class="pull_left coupon_box3">
+								<span><fmt:formatNumber value="${item.price}" pattern="#,###" />코인<br>할인</span>
+							</li>
+						</ul>
+					</c:otherwise>
+				</c:choose>
+			</c:forEach>
 		</div>
+		
 		<div class="footer"
 			style="font-size: 12px; color: #aaa; padding: 20px;">
 			&#8226;쿠폰의 유효기간을 꼭 확인해 주세요<br> &#8226;유효기간이 만료된 쿠폰은 자동으로 삭제됩니다<br> &#8226;쿠폰에 표기된 금액보다
@@ -112,8 +143,8 @@
 		if (!$(".movie_list")[0]) {
 			$(".no_value").removeClass("hide");
             $(".delete_list").addClass("hide");
-			}
-		});
+		}
+	});
 	</script>
 </body>
 

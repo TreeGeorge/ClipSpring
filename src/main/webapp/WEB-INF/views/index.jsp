@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ page trimDirectiveWhitespaces="true" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -287,8 +289,6 @@
     <%@ include file="assets/inc/bot_bar.jsp" %>
 </div>
   <script>
-  	// 쿠폰 임시 테스트
-  	var test = 0;
 
     // 영화 박스 슬라이더
     var swiper = new Swiper('.swiper-container', {
@@ -351,30 +351,34 @@
                 html:'<div>' +
                         '<ul class="clear coupon">' +
                             '<li class="pull_left coupon_left">' +
-                                '<h5 style="font-weight: bold; margin: 0; height:25px; line-height: 25px;">${couponName}</h5><span style="display: block; font-size: 12px; color: #aaa; line-height:18px; height:18px;">구매/대여시</span><span style="display: block; font-size: 12px; color: #aaa; line-height:18px; height:18px;">${couponDate}</span><span style="display:block; font-size: 12px; color: #aaa; line-height:18px; height:18px;">쿠폰 한 장당 1회만 결제 가능</span></li>' +
-                            '<li class="pull_left coupon_right"><span style="display: block; margin-top:31px;">${couponPrice}코인</span><span style="display: block;">할인</span></li>' +
+                                '<h4 style="font-weight: bold; margin: 0; height:25px; line-height: 25px;text-overflow: ellipsis;white-space: nowrap;overflow: hidden; font-size:0.9em;">${couponName}</h4><span style="display: block; font-size: 12px; color: #aaa; line-height:18px; height:18px;">구매/대여시</span><span style="display: block; font-size: 12px; color: #aaa; line-height:18px; height:18px;">${couponDate} 까지</span><span style="display:block; font-size: 12px; color: #aaa; line-height:18px; height:18px;">쿠폰 한 장당 1회만 결제 가능</span></li>' +
+                            '<li class="pull_left coupon_right"><span style="display: block; margin-top:31px;"><fmt:formatNumber value="${couponPrice}" pattern="#,###" />코인</span><span style="display: block;">할인</span></li>' +
                         '</ul>' +
                     '</div>'
                 }).then(function(result){
-                    if (result.value && test == 0) {     // 확인 버튼이 눌러진 경우
-                      //  swal("쿠폰 지급 성공!", "성공적으로 지급되었습니다.", "success");
-                        swal({
-                            timer:1500,
-                            html:"<div style='font-weight: bold; margin-bottom: 20px;'>쿠폰 지급 성공!<br/>성공적으로 지급되었습니다.</div>",
-                            type:"success",
-                            allowOutsideClick: false,
-                            showConfirmButton: false
-                        });
-                    	test += 1;
-                        // TODO 중복된 아이디는 재지급 x 구현해야함
-                    } else if (test != 0 && result.value) {
-                    	swal({
-                            timer:1500,
-                            html:"<div style='font-weight: bold; margin-bottom: 20px;'>이미 쿠폰이 지급되었습니다.</div>",
-                            type:"error",
-                            allowOutsideClick: false,
-                            showConfirmButton: false
-                        })
+                    if (result.value) {     // 확인 버튼이 눌러진 경우
+                    	$.post('coupon_add_ok.do',{name: "${couponName}"},function(req){
+                    		if (req == 1) {
+                    			//  swal("쿠폰 지급 성공!", "성공적으로 지급되었습니다.", "success");
+                                swal({
+                                    timer:1500,
+                                    html:"<div style='font-weight: bold; margin-bottom: 20px;'>쿠폰 지급 성공!<br/>성공적으로 지급되었습니다.</div>",
+                                    type:"success",
+                                    allowOutsideClick: false,
+                                    showConfirmButton: false
+                                });
+                    		} else if (req == 0){
+                    			swal({
+                                    timer:1500,
+                                    html:"<div style='font-weight: bold; margin-bottom: 20px;'>이미 쿠폰이 지급되었습니다.</div>",
+                                    type:"error",
+                                    allowOutsideClick: false,
+                                    showConfirmButton: false
+                                })
+                    		} else {
+                    			$(location).attr('href','Login');
+                    		}
+                    	});
                     } else if (result.dismiss === "cancel") {   // 취소버튼이 눌러진 경우
                         // swal("취소", "삭제가 취소되었습니다.", "error");
                     }

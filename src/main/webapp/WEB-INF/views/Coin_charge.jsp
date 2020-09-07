@@ -420,120 +420,132 @@ input[type="number"]::-webkit-inner-spin-button {
 					})
 					return false;
 				}
-				if(pw_val != "master001"){
-					swal({
-						html : "<b>비밀번호가 틀렸습니다.</b>", // 내용
-						type : "error", // 종류
-						confirmButtonText : "확인", // 확인버튼 표시 문구
-						confirmButtonColor : "#ff3253",
-						showCancelButton : false, // 취소버튼 표시 여부
-					}).then(function(){
-						$("#password").val("");
-						$("#password").focus();
-					})
-					return false;
-				}//비밀번호 틀렷을때
-				//약관동의 여부 확인
-				if (!chk1) {
-					swal({
-						html : "<b>약관을 동의해 주세요.</b>", // 내용
-						type : "error", // 종류
-						confirmButtonText : "확인", // 확인버튼 표시 문구
-						confirmButtonColor : "#ff3253",
-						showCancelButton : false, // 취소버튼 표시 여부
-					})
-					return false;
-				}
-				
-				if ($("#coinbox5").is(":checked")) {
-					var currentVal = $(".this_textbox").val();
-					
-					var math = Math.round((currentVal%100) * 100 == 0);
-				 	if(!math){
+				$.post("pwCheck.do", {pw: pw_val}, function(req) {
+					if(req == 0){
 						swal({
-							html : "<b>최소 입력단위는 100원입니다.</b>", // 내용
+							html : "<b>비밀번호가 틀렸습니다.</b>", // 내용
 							type : "error", // 종류
 							confirmButtonText : "확인", // 확인버튼 표시 문구
 							confirmButtonColor : "#ff3253",
 							showCancelButton : false, // 취소버튼 표시 여부
 						}).then(function(){
-							$("#custom_payment").val("");
-							$("#custom_payment").focus();
-							$(".coupon2").html("원");
+							$("#password").val("");
+							$("#password").focus();
 						})
 						return false;
-				 	}
-				 	var test = parseInt($(".this_textbox").val())
-					if(!currentVal || !test){
-						 swal({
-							html : "<b>금액을 입력해주세요.</b>", // 내용
-							type : "error", // 종류
-							confirmButtonText : "확인", // 확인버튼 표시 문구
-							confirmButtonColor : "#ff3253",
-							showCancelButton : false, // 취소버튼 표시 여부
-						}).then(function(){
-							$("#custom_payment").val("");
-							$("#custom_payment").focus();
-							$(".coupon2").html("원");
-						})
-						return false;
-					}
-				}
-				$.post('card_check.do', {card_no: "${card_no}"}, function(req){
-					if(req == 0) {
-						swal({
-			                timer:1500,
-			                html:"<div style='font-weight: bold; margin-bottom: 20px;'>등록된 카드가 없습니다.<br>카드정보를 등록해 주세요.</div>",
-			                type:"error",
-			                allowOutsideClick: false,
-			                showConfirmButton: false
-			            }).then(function(){
-			            	swal({
-							    showConfirmButton: true,
-							    showCancelButton: false,
-							    confirmButtonColor: "#FF3253",
-							    confirmButtonText: "<span style='color:#FFFBFC; font-weight:bold'>확인</span>",
-							    showCloseButton: true,
-							    allowOutsideClick: false,
-							    background: '#FFFBFC url(assets/img/logo_swal.png) no-repeat center 10px',
-								html : "<input type='password' id='swal_pw' class='swal_body' placeholder='비밀번호를 입력해주세요.'>"
-							}).then(function(e) {
-								var pw = $("#swal_pw").val(); //비밀번호
-								if (e.value) { // 확인 버튼 눌림
-									if (!pw) { //비밀번호 공란
-										swal({
-											showConfirmButton : false,
-											type : 'error',
-											html : "<b>비밀번호를 입력해주세요.</b>",
-											timer : 1500
-										}).then(function() {
-											$(".id_btn_my").click(); //비밀번호 확인 alert창 재실행
-										}) 
-									} else {	
-										$.post("pwCheck.do",{pw:pw},function(req){
-											if (req!="1") {
+					} else {
+						//약관동의 여부 확인
+						if (!chk1) {
+							swal({
+								html : "<b>약관을 동의해 주세요.</b>", // 내용
+								type : "error", // 종류
+								confirmButtonText : "확인", // 확인버튼 표시 문구
+								confirmButtonColor : "#ff3253",
+								showCancelButton : false, // 취소버튼 표시 여부
+							})
+							return false;
+						}
+						
+						if ($("#coinbox5").is(":checked")) {
+							var currentVal = $(".this_textbox").val();
+							
+							var math = Math.round((currentVal%100) * 100 == 0);
+						 	if(!math){
+								swal({
+									html : "<b>최소 입력단위는 100원입니다.</b>", // 내용
+									type : "error", // 종류
+									confirmButtonText : "확인", // 확인버튼 표시 문구
+									confirmButtonColor : "#ff3253",
+									showCancelButton : false, // 취소버튼 표시 여부
+								}).then(function(){
+									$("#custom_payment").val("");
+									$("#custom_payment").focus();
+									$(".coupon2").html("원");
+								})
+								return false;
+						 	}
+						 	var test = parseInt($(".this_textbox").val())
+							if(!currentVal || !test){
+								 swal({
+									html : "<b>금액을 입력해주세요.</b>", // 내용
+									type : "error", // 종류
+									confirmButtonText : "확인", // 확인버튼 표시 문구
+									confirmButtonColor : "#ff3253",
+									showCancelButton : false, // 취소버튼 표시 여부
+								}).then(function(){
+									$("#custom_payment").val("");
+									$("#custom_payment").focus();
+									$(".coupon2").html("원");
+								})
+								return false;
+							}
+						}
+						
+						$.post('card_check.do', {card_no: "${card_no}"}, function(req){
+							if(req == 0) {
+								swal({
+					                timer:1500,
+					                html:"<div style='font-weight: bold; margin-bottom: 20px;'>등록된 카드가 없습니다.<br>카드정보를 등록해 주세요.</div>",
+					                type:"error",
+					                allowOutsideClick: false,
+					                showConfirmButton: false
+					            }).then(function(){
+					            	swal({
+									    showConfirmButton: true,
+									    showCancelButton: false,
+									    confirmButtonColor: "#FF3253",
+									    confirmButtonText: "<span style='color:#FFFBFC; font-weight:bold'>확인</span>",
+									    showCloseButton: true,
+									    allowOutsideClick: false,
+									    background: '#FFFBFC url(assets/img/logo_swal.png) no-repeat center 10px',
+										html : "<input type='password' id='swal_pw' class='swal_body' placeholder='비밀번호를 입력해주세요.'>"
+									}).then(function(e) {
+										var pw = $("#swal_pw").val(); //비밀번호
+										if (e.value) { // 확인 버튼 눌림
+											if (!pw) { //비밀번호 공란
 												swal({
 													showConfirmButton : false,
 													type : 'error',
-													html : "<b>비밀번호가 틀렸습니다.</b>",
+													html : "<b>비밀번호를 입력해주세요.</b>",
 													timer : 1500
 												}).then(function() {
 													$(".id_btn_my").click(); //비밀번호 확인 alert창 재실행
-												})
-											} else { //비밀번호 입력완료
-												$(location).attr('href','MY_information');
+												}) 
+											} else {	
+												$.post("pwCheck.do",{pw:pw},function(req){
+													if (req!="1") {
+														swal({
+															showConfirmButton : false,
+															type : 'error',
+															html : "<b>비밀번호가 틀렸습니다.</b>",
+															timer : 1500
+														}).then(function() {
+															$(".id_btn_my").click(); //비밀번호 확인 alert창 재실행
+														})
+													} else { //비밀번호 입력완료
+														$(location).attr('href','MY_information');
+													}
+												});
 											}
-										});
-									}
-								}
-							});
-			            });
-					} else {
-						$.post('coin_add_ok.do',{price: price},function(){
-							location.href = document.referrer; 
-			            });
+										}
+									});
+					            });
+							} else {
+								$.post('coin_add_ok.do',{price: price},function(){
+									swal({
+							            timer:1500,
+							            html:"<div style='font-weight: bold; margin-bottom: 20px;'>코인 구매에 성공하셨습니다.</div>",
+							            type:"success",
+							            allowOutsideClick: false,
+							            showConfirmButton: false
+							        }).then(function(){
+							        	location.href = document.referrer; 
+							        });
+					            });
+							}
+						});
 					}
-				});
+				})
 			})
 		}); // $(function(){}) end
 	</script>

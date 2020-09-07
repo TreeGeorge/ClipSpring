@@ -248,22 +248,18 @@
         </div>
 
         <ul class="wish_list">
-        	<c:forEach var="i" begin="0" end="3" step="1" varStatus="status"> 
-	        	<c:set var="MovieNo" value="movieNo${status.index}" />
-	            <c:set var="MovieTitle" value="movieTitle${status.index}" />
-	            <c:set var="MovieThumbnail" value="movieThumbnail${status.index}" />
-	            <c:set var="MovieType" value="movieType${status.index}" />
-	            <c:set var="MoviePrice" value="moviePrice${status.index}" />
+        	<c:forEach var="item" items="${output}" varStatus="status">
                 <li class="wish_list_content">
 	                <label for="movie_number" class="wish_content"></label>
 	                <input name="wish_content_check" id="movie_number" type="checkbox" class="wish_content_check" checked />
-	                <a href="Movie_information?movieNo=${requestScope[MovieNo]}">
+	                <a href="Movie_information?movieNo=${item.movie_no}">
 	                    <img src="${requestScope[MovieThumbnail]}" alt="${requestScope[MovieThumbnail]} 썸네일">
-	                    <span class="movie_title">${requestScope[MovieTitle]}</span>
-	                    <span class="info"><span id="type">${requestScope[MovieType]}</span><span class="price">${requestScope[MoviePrice]}</span><img id="coin" src="assets/img/coin_icon.png"/></span>
+	                    <span class="movie_title">${item.name}</span>
+	                    <span class="info"><span id="type">${item.type}</span><span class="price">${item.price}</span><img id="coin" src="assets/img/coin_icon.png"/></span>
 	                </a>
 	            </li>
-	        </c:forEach>
+	       	</c:forEach>
+	        
         </ul>
 
         <div class="total">

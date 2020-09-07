@@ -14,4 +14,8 @@ public interface BuyCoinListService {
 	
 	public boolean checkCoinList(BuyCoinList input);
 	
+	public boolean checkDate(BuyCoinList input);
+	
+	public boolean checkCoin(BuyCoinList input);
+	
 }

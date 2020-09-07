@@ -69,4 +69,12 @@ public class BuyMovieListServiceImpl implements BuyMovieListService {
 		return false;
 	}
 
+	@Override
+	public boolean checkDate(BuyMovieList input) {
+		if (sqlSession.selectOne("BuyMovieListMapper.dateCheck", input) != null) {
+			return true;
+		}
+		return false;
+	}
+
 }

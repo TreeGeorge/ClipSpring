@@ -85,7 +85,7 @@ button:focus {
 			</ul>
 		</div>
 		<div class="id_box2">
-			<span>보유코인&nbsp;</span><span>${user_coin}코인</span> <a href="MY_coin_charge">충전하기 ></a>
+			<span>보유코인&nbsp;</span><span><fmt:formatNumber value="${user_coin}" pattern="#,###" />코인</span> <a href="MY_coin_charge">충전하기 ></a>
 </div>
 <script>
 	//내 정보보기 클릭시 얼럴창
@@ -140,7 +140,7 @@ button:focus {
 			confirmButtonText : "확인",
 			confirmButtonColor : "#ff3253",
 			type : 'question',
-			html : "로그아웃 하시겠습니까?",
+			html : "<b>로그아웃 하시겠습니까?</b>",
 		}).then(function(result) {
 			if (result.value) {
 				$(location).attr('href','logout.do');

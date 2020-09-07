@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ page trimDirectiveWhitespaces="true" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -152,14 +154,11 @@ html, body {
         <!-- 장르별 카테고리 -->
         <div class="category_page_genre">
             <ul>
-           		<c:forEach var="i" begin="0" end="9" step="1" varStatus="status"> 
-	                <c:set var="categoryTypeNo" value="categoryTypeNo${status.index}" />
-	                <c:set var="categoryTypeName" value="categoryTypeName${status.index}" />
-	                <c:set var="categoryTypeIcon" value="categoryTypeIcon${status.index}" />
+           		<c:forEach var="item" items="${categoryTypeG}" varStatus="status"> 
                     <li class="clearfix">
-	                    <a href="Category_sorted?categoryTypeNo=${requestScope[categoryTypeNo]}">
+	                    <a href="Movie_category_sorted?categoryTypeNo=${item.category_type_no}">
 	                        <img class="icon" src="${requestScope[categoryTypeIcon]}" />
-	                        <span class="list">${requestScope[categoryTypeName]}</span>
+	                        <span class="list">${item.name}</span>
 	                        <img src="assets/img/right.png" class="right" />
 	                    </a>
                 	</li>
@@ -170,14 +169,11 @@ html, body {
         <!-- 브랜드별 카테고리 -->
         <div class="category_page_brand hide">
             <ul>
-            	<c:forEach var="i" begin="10" end="15" step="1" varStatus="status"> 
-	                <c:set var="categoryTypeNo" value="categoryTypeNo${status.index}" />
-	                <c:set var="categoryTypeName" value="categoryTypeName${status.index}" />
-	                <c:set var="categoryTypeIcon" value="categoryTypeIcon${status.index}" />
+            	<c:forEach var="item" items="${categoryTypeB}" varStatus="status"> 
                     <li class="clearfix">
-	                    <a href="Category_sorted?categoryTypeNo=${requestScope[categoryTypeNo]}">
+	                    <a href="Category_sorted?categoryTypeNo=${item.category_type_no}">
 	                        <img class="icon" src="${requestScope[categoryTypeIcon]}" />
-	                        <span class="list">${requestScope[categoryTypeName]}</span>
+	                        <span class="list">${item.name}</span>
 	                        <img src="assets/img/right.png" class="right" />
 	                    </a>
                 	</li>
@@ -188,14 +184,11 @@ html, body {
         <!-- 상품별 카테고리 -->
         <div class="category_page_product hide">
             <ul>
-                <c:forEach var="i" begin="16" end="18" step="1" varStatus="status"> 
-	                <c:set var="categoryTypeNo" value="categoryTypeNo${status.index}" />
-	                <c:set var="categoryTypeName" value="categoryTypeName${status.index}" />
-	                <c:set var="categoryTypeIcon" value="categoryTypeIcon${status.index}" />
+                <c:forEach var="item" items="${categoryType}" varStatus="status"> 
                     <li class="clearfix">
-	                    <a href="Category_sorted?categoryTypeNo=${requestScope[categoryTypeNo]}">
+	                    <a href="Category_sorted?categoryTypeNo=${item.category_type_no}">
 	                        <img class="icon" src="${requestScope[categoryTypeIcon]}" />
-	                        <span class="list">${requestScope[categoryTypeName]}</span>
+	                        <span class="list">${item.name}</span>
 	                        <img src="assets/img/right.png" class="right" />
 	                    </a>
                 	</li>

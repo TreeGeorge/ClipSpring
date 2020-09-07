@@ -43,4 +43,14 @@ public class CategorySortedServiceTest {
 		input.setCategory_type_no(1);
 		sqlSession.selectList("CategorySortedMapper.OneCategorySorted",input);
 	}
+	
+	@Test
+	public void testB() {
+		// 검색조건으로 사용될 POJO 클래스 객체
+		CategorySorted input = new CategorySorted();
+		// 카테고리 목록에서 액션에 해당되는 카테고리만 조회
+		input.setCategory_type_no(1);
+		sqlSession.selectOne("CategorySortedMapper.TotalCategorySorted",input);
+	}
+	
 }

@@ -15,6 +15,10 @@
 a {
 	text-decoration: none;
 }
+
+body {
+	height: 0;
+}
 .top_info {
    	position: fixed;
     top: 0;
@@ -38,11 +42,13 @@ a {
     width: 26px;
     margin: 7px;
 }
+#top_bar_cash {
+	margin-top: 80px;
+}
 #top_bar_cash .pull_center {
 	text-align: center;
 	background-color: #e5e5e5;
 	padding: 20px;
-	margin-top: 79px;
 }
 /* 폰트값 크기 설정 */
 #top_bar_cash .pull_center p {
@@ -227,7 +233,7 @@ a {
          </a><span id="top_info_value">내 코인</span>
       </div>
 
-	</div>
+	
 
 	<!-- 탭영역 -->
 	<div id="top_bar">
@@ -244,8 +250,8 @@ a {
 				<ul>
 					<!--코인잔여 보여주는 곳-->
 					<li>
-						<p style="font-weight: bold;">보유코인</p> <br /> <img
-						src="assets/img/coin.png" alt="코인" /><span>&nbsp;${user_coin}코인</span>
+						<p style="font-weight: bold;">보유코인</p> <br /><span><img
+						src="assets/img/coin.png" alt="코인" />&nbsp;<fmt:formatNumber value="${user_coin}" pattern="#,###" />코인</span>
 					</li>
 
 				</ul>
@@ -296,24 +302,26 @@ a {
 	<!--하단 이용안내-->
 
 	<div id="footer" class="str">
-
-		<br> <span> &nbsp;이용안내</span><br> <br>
-
-		<div class="tab">&#8226;충전된 코인은 클립 에서 이용 가능합니다</div>
-
-		<div class="tab">
-			&#8226;직접 입력한 충전 금액은 1,000~500,000 원<br /> &nbsp;&nbsp;&nbsp;사이로 충전
-			가능하며, <br />&nbsp;&nbsp;&nbsp;카드사별 결제 한도가 코인 충전 한도와 다를수 <br />&nbsp;&nbsp;&nbsp;있습니다
-		</div>
-
-		<div class="tab">
-			&#8226;충전한 코인은 'MY > 코인충전 > 충전내역' 에서 <br />&nbsp;&nbsp;&nbsp;확인할 수
-			있습니다
-		</div>
-
-		<div class="tab">&#8226;코인의 가격은 부가가치세가 포함된 가격입니다</div>
+			<br>
+			<span> &nbsp;이용안내</span><br><br>
+			<div class="tab">
+			&#8226;충전된 코인은 <b>CLIP</b>에서 이용 가능합니다
+			</div>
+			<div class="tab">
+			&#8226;직접 입력한 충전 금액은 <b>100 ~ 500,000 원</b><br/>
+			&nbsp;&nbsp;&nbsp;사이로 충전 가능하며, 충전시 <b>10%</b>의 
+			<br/>&nbsp;&nbsp;&nbsp;추가 코인을 얻을 수 있습니다.
+			
+			</div>
+			<div class="tab">
+			&#8226;충전한 코인은 <b>'MY > 코인충전 > 충전내역'</b> 에서 
+			<br/>&nbsp;&nbsp;&nbsp;확인할 수 있습니다
+			</div>
+			<div class="tab">
+			&#8226;코인의 가격은 부가가치세가 포함된 가격입니다
+			</div>	
 	</div>
-
+</div>
 
 </body>
 </html>

@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.extern.slf4j.Slf4j;
 import study.spring.clip.model.User;
-import study.spring.clip.service.BuyCoinListService;
 import study.spring.clip.service.LoginService;
 
 @Slf4j
@@ -53,64 +52,25 @@ public class LoginController{
 			e.printStackTrace();
 		}
 	 }
-	
-	 /*내정보보기 세션비교 후 값 노출*/
-	 @RequestMapping(value="MY_movie",method=RequestMethod.GET)
-	 public String enterMyMovie(Model model, HttpSession session, HttpServletResponse response) { 
-		 if ( session.getAttribute("id") == null ) {
-				try {
-					response.sendRedirect(contextPath + "/Login");
-					return "Login";
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-	    	}
-		 
-		 int user_no = (Integer)session.getAttribute("user_no");
-		 User user = loginService.randerUser(user_no);
-		 model.addAttribute("user_coin", user.getCoin());
-			
-		 return "MY_movie"; 
-	 }
 	 
-	 /*관심작품 세션비교 후 값 노출*/
-	 @RequestMapping(value="MY_interest_movie",method=RequestMethod.GET)
-	 public String enterMyInterest(Model model, HttpSession session, HttpServletResponse response) { 
-		 if ( session.getAttribute("id") == null ) {
-				try {
-					response.sendRedirect(contextPath + "/Login");
-					return "Login";
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-	    	}
-		 
-		 int user_no = (Integer)session.getAttribute("user_no");
-		 User user = loginService.randerUser(user_no);
-		 model.addAttribute("user_coin", user.getCoin());
-			
-		 return "MY_interest_movie"; 
-	 }
-	 
-	 /*쿠폰 세션비교 후 값 노출*/
-	 @RequestMapping(value="MY_coupon",method=RequestMethod.GET)
-	 public String enterMyCoupon(Model model, HttpSession session, HttpServletResponse response) { 
-		 if ( session.getAttribute("id") == null ) {
-				try {
-					response.sendRedirect(contextPath + "/Login");
-					return "Login";
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-	    	}
-		 
-		 int user_no = (Integer)session.getAttribute("user_no");
-		 User user = loginService.randerUser(user_no);
-		 model.addAttribute("user_coin", user.getCoin());
-			
-		 return "MY_coupon"; 
-	 }
-	 
+//	 /*관심작품 세션비교 후 값 노출*/
+//	 @RequestMapping(value="MY_interest_movie",method=RequestMethod.GET)
+//	 public String enterMyInterest(Model model, HttpSession session, HttpServletResponse response) { 
+//		 if ( session.getAttribute("id") == null ) {
+//				try {
+//					response.sendRedirect(contextPath + "/Login");
+//					return "Login";
+//				} catch (IOException e) {
+//					e.printStackTrace();
+//				}
+//	    	}
+//		 
+//		 int user_no = (Integer)session.getAttribute("user_no");
+//		 User user = loginService.randerUser(user_no);
+//		 model.addAttribute("user_coin", user.getCoin());
+//			
+//		 return "MY_interest_movie"; 
+//	 }
 	 
 	 /*로그인 페이지로 이동*/
 	 @RequestMapping(value="Login",method=RequestMethod.GET)

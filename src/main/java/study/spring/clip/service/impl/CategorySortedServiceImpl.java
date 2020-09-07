@@ -1,5 +1,7 @@
 package study.spring.clip.service.impl;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,26 +17,23 @@ public class CategorySortedServiceImpl implements CategorySortedService {
 	@Autowired
 	SqlSession sqlSession;
 
+	@Override
+	public List<CategorySorted> getCategorySorted(int category_type_no) {
+
+		List<CategorySorted> result = sqlSession.selectList("CategorySortedMapper.OneCategorySorted", category_type_no);
+
+		return result;
+
+	}
 
 	@Override
-	public CategorySorted getMovieCategorySortedItem(CategorySorted input) throws Exception {
+	public int getTotalCount(int category_type_no) {
 		
-		CategorySorted result = null;
-		
-		try {
-			result = sqlSession.selectOne("CategorySortedMapper.OneCategorySorted", input);
-				
-			if (result == null) {
-				throw new NullPointerException("resut=null");
-			}
-		} catch (NullPointerException e) {
-			log.error(e.getLocalizedMessage());
-			throw new Exception("조회된 데이터가 없습니다.");
-		} catch (Exception e) {
-			log.error(e.getLocalizedMessage());
-			throw new Exception("데이터 조회에 실패했습니다.");
-		}
+		int result = sqlSession.selectOne("CategorySortedMapper.TotalCategorySorted", category_type_no);
 
 		return result;
 	}
+
+	
+
 }

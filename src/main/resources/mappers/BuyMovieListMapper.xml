@@ -16,6 +16,10 @@
         <result property="price" column="price" />
         <result property="thumbnail" column="thumbnail" />
         <result property="coin" column="coin" />
+        <result property="runtime" column="runtime" />
+        <result property="type" column="type" />
+        <result property="end_date" column="end_date" />
+        <result property="age" column="age" />
     </resultMap>
     
     <!-- 기능 정의 -->
@@ -24,47 +28,73 @@
     <select id="buyList"
 		parameterType="study.spring.clip.model.BuyMovieList"
 		resultMap="buyMovieListMap">
-		SELECT name, Floor(m.price / 100 * (100 - m.sale)) as price, b.date FROM movie m, buy_movie_list b WHERE b.movie_no = m.movie_no 
+		SELECT m.movie_no, IF(age='12', '12세 이용가', IF(age='15', '15세 이용가', IF(age='19', '청소년 관람 불가', '전체 이용가'))) as age, is_delete, IF(m.type = 'B', "구매", "대여") AS type, runtime, DATE_ADD(date, INTERVAL 1 WEEK) AS end_date, thumbnail, name, b.price, date, buy_movie_list_no
+		FROM movie m, buy_movie_list b 
+		WHERE b.movie_no = m.movie_no 
 		AND user_no = #{user_no};
 	</select>
 	
 	<!-- 파라미터값으로 받아온 값이 db값과 일치하는지 확인하는 작업 -->
 	<select id="checkList"
 		parameterType="study.spring.clip.model.BuyMovieList"
-		resultType="String">
-		SELECT date FROM buy_movie_list b, movie m WHERE b.movie_no = m.movie_no AND user_no = #{user_no} AND date = #{date} AND Floor(m.price / 100 * (100 - m.sale)) = #{price};
+		resultMap="buyMovieListMap">
+		SELECT * FROM buy_movie_list WHERE user_no = #{user_no} AND buy_movie_list_no = #{buy_movie_list_no};
 	</select>
 	
 	<!-- 환불할 영화가 시청했는지 확인하는 작업 -->
 	<select id="checkWatched"
 	 	parameterType="study.spring.clip.model.BuyMovieList"
-	 	resultType="String">
-	 	SELECT is_watched FROM buy_movie_list b, movie m WHERE b.movie_no = m.movie_no AND user_no = #{user_no} AND date = #{date} AND Floor(m.price / 100 * (100 - m.sale)) = #{price} AND is_watched = 'N';
+	 	resultMap="buyMovieListMap">
+	 	SELECT * FROM buy_movie_list WHERE user_no = #{user_no} AND buy_movie_list_no = #{buy_movie_list_no} AND is_watched = 'N';
 	</select>
 	
-	<!-- 영화 구매했을때 코인차감 -->
+	<!-- 날짜 비교 하기 -->
+	<select id="dateCheck"
+		parameterType="study.spring.clip.model.BuyMovieList"
+		resultMap="buyMovieListMap">
+		SELECT * FROM buy_movie_list WHERE buy_movie_list_no = #{buy_movie_list_no} AND <![CDATA[DATE_ADD(date, INTERVAL 1 WEEK) <= now()]]>;
+	</select>
+	
+	<!-- 영화 구매했을때 코인차감 ***********************-->
 	<update id="userCoinEdit"
     	parameterType="study.spring.clip.model.BuyMovieList">
-        UPDATE user SET coin = (#{coin} - #{price})
+        UPDATE user SET coin = (#{coin} - ((SELECT Floor(price / 100 * (100 - sale)) as price FROM movie WHERE movie_no = #{movie_no}) * 1.1))
 		WHERE user_no = #{user_no};
     </update>
     
     <!-- 영화 환불했을때 코인 상승 -->
     <update id="userMovieDelete"
     	parameterType="study.spring.clip.model.BuyMovieList">
-        UPDATE user SET coin = (#{coin} + #{price})
+        UPDATE user SET coin = (#{coin} + (SELECT price FROM buy_movie_list WHERE buy_movie_list_no = #{buy_movie_list_no}))
 		WHERE user_no = #{user_no};
     </update>
+    
+    <!-- 구매내역에만 남아있을ㄸ깨 판별해서 대여영화 구매 가능하게 하기. -->
+    
+    <!-- 대여기간 지난 영화 구매내역에만 남게 하기 ****************************자정마다 실행되게 하되(스케쥴러) 유저가 (마이무비나, 휴지통들어갈떄) 변경하거나 시청 하려고 할때(post로) 도 실행시키기 *****-->
+    <update id="userMovieEnd"
+    	parameterType="study.spring.clip.model.BuyMovieList">
+        UPDATE buy_movie_list SET is_delete = 'D'
+		WHERE <![CDATA[DATE_ADD(date, INTERVAL 1 WEEK) <= now()]]> AND movie_no IN (SELECT movie_no FROM movie WHERE type = 'R');
+    </update>
+    
+    
+    
+    <!-- 영화 시청했을때 ************** 시청할건지 물어보고 바뀌게 하고 이미 시청한 제품인지 체크해서 이어 보시겠습니까 나오게 하기 -->
+   
+    
+    
     
     <!-- 해당 영화 환불 -->
     <delete id="deleteItem"
 		parameterType="study.spring.clip.model.BuyMovieList">
-		DELETE FROM buy_movie_list WHERE user_no = #{user_no} AND date = #{date};	
+		DELETE FROM buy_movie_list WHERE user_no = #{user_no} AND buy_movie_list_no = #{buy_movie_list_no};	
 	</delete>
 	
 	<!-- 행 삭제 -->
-	<delete id="deleteList" parameterType="study.spring.clip.model.BuyMovieList">
-		DELETE FROM buy_movie_list WHERE user_no=#{user_no};
+	<delete id="deleteList" 
+		parameterType="study.spring.clip.model.BuyMovieList">
+		DELETE FROM buy_movie_list WHERE user_no = #{user_no};
 	</delete>
     
 </mapper>

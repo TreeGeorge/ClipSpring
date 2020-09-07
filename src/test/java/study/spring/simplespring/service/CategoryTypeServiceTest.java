@@ -31,17 +31,17 @@ import study.spring.clip.service.CategoryTypeService;
 //import org.junit.FixMethodOrder;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class CategoryTypeServiceTest {
-	
-	/** Service 객체 주입 설정 */
 	@Autowired
 	private SqlSession sqlSession;
-	
+
 	/** 단일행 조회 테스트 */
 	@Test
 	public void testA() {
 		// 검색조건으로 사용될 POJO 클래스 객체
 		CategoryType input = new CategoryType();
+		// 카테고리 목록에서 액션에 해당되는 카테고리만 조회
 		input.setType("G");
 		sqlSession.selectList("CategoryTypeMapper.OneCategoryType", input);
 	}
+
 }

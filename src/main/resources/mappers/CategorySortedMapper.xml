@@ -20,8 +20,16 @@
 	<select id="OneCategorySorted"
 		parameterType="study.spring.clip.model.CategorySorted"
 		resultMap="CategorySortedMap">
-		SELECT movie_no, name, type, sale, price, thumbnail FROM movie
+		SELECT movie_no, name, type, sale, Floor(price / 100 * (100 - sale)) as price, thumbnail FROM movie
 		WHERE movie_no IN(select movie_no from movie_category
-		WHERE category_type_no = #{category_type_no})
+		WHERE category_type_no = #{category_type_no});
+	</select>
+
+	<select id="TotalCategorySorted"
+		parameterType="study.spring.clip.model.CategorySorted"
+		resultType="int">
+		SELECT COUNT(movie_no) FROM movie WHERE movie_no
+		IN(select movie_no from movie_category
+		WHERE category_type_no = #{category_type_no});
 	</select>
 </mapper>

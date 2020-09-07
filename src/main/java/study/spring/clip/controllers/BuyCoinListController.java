@@ -58,7 +58,7 @@ public class BuyCoinListController {
 		if (card_no == null) {
 			model.addAttribute("card_no", "카드 정보가 없습니다.");
 		} else {
-			model.addAttribute("card_no", "카드 " + card_no);
+			model.addAttribute("card_no", "카드 Ezen Card");
 		}
 		
 		model.addAttribute("check", check);
@@ -128,22 +128,31 @@ public class BuyCoinListController {
 	@ResponseBody
 	@RequestMapping(value = "coin_delete_ok.do", method = RequestMethod.POST)
 	public int deleteBuyCoinListOk(Model model, HttpServletResponse response, HttpSession session,
-			@RequestParam(value="date") String date,
-			@RequestParam(value="price") int price) {
+			@RequestParam(value="buy_coin_list_no") int buy_coin_list_no) {
 		// 데이터 삭제에 필요한 조건값을 Beans에 저장하기
 		BuyCoinList input = new BuyCoinList();
 		
 		int user_no = (int)session.getAttribute("user_no");
 		User user_info = loginService.randerUser(user_no);
 		
-		input.setCoin(user_info.getCoin());
-		input.setPrice(price);
-		input.setDate(date);
+
+		input.setBuy_coin_list_no(buy_coin_list_no);
 		input.setUser_no(user_no);
+		input.setCoin(user_info.getCoin());
 		
 		// 개발자도구로 나쁜짓하면 혼내주기
 		if (buyCoinListService.checkCoinList(input)) {
-			return 0;
+			return 1;
+		}
+		
+		// 일주일이 지난 제품인지 판별
+		if (buyCoinListService.checkDate(input)) {
+			return 2;
+		}
+		
+		// 보유 코인이 모자란지 판별
+		if (buyCoinListService.checkCoin(input)) {
+			return 3;
 		}
 		
 		try {
@@ -153,7 +162,7 @@ public class BuyCoinListController {
 			e.printStackTrace();
 		}
 		
-		return 1;
+		return 0;
 	}
 	
 	/** 카드정보 판별 후 코인 구매 */
@@ -172,16 +181,15 @@ public class BuyCoinListController {
 		input.setUser_no(user_no);
 		input.setCoin(user_info.getCoin());
 		
-		String cardCheck = user_info.getCard();
-		
-		if (cardCheck != null) {
-			try {
-				// 데이터 저장 --> 데이터 저장에 성공하면 파라미터로 전달하는 input 객체에 PK값이 저장된다.
-				buyCoinListService.addBuyCoinList(input);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+		try {
+			// 데이터 저장 --> 데이터 저장에 성공하면 파라미터로 전달하는 input 객체에 PK값이 저장된다.
+			buyCoinListService.addBuyCoinList(input);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+		
 	}
+	
+	// TODO 정렬 고민...
 	
 }

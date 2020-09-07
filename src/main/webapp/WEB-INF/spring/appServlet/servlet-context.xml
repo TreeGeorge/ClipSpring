@@ -46,6 +46,7 @@
 	<!-- 생성한 스케쥴러 객체에 대한 작업 스케쥴 지정 -->
 	<task:scheduled-tasks>
 		<task:scheduled ref="scheduleJob" method="everyMidnight" cron="0 0 0 * * ?"/>
+		<task:scheduled ref="scheduleJob" method="everyMidnightCoupon" cron="0 0 0 * * ?"/>
 	</task:scheduled-tasks>
 	
 </beans:beans>

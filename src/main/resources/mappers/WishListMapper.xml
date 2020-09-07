@@ -3,21 +3,50 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 	
 <mapper namespace="WishListMapper">
-	<!-- model과 mapper 맵핑 처리 -->
-	<resultMap id="WishListMap" type="study.spring.clip.model.WishList">
-		<result property="user_no" column="user_no"/>
-		<result property="wish_list_no" column="wish_list_no"/>
-		<result property="movie_no" column="movie_no"/>
-	</resultMap>
+
+    <!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
+    <resultMap id="WishListMap" type="study.spring.clip.model.WishList">
+        <!-- Beans의 멤버변수(property)이름과 대상 테이블의 컬럼(column)을 연결한다. -->
+        <result property="wish_list_no" column="wish_list_no" />
+        <result property="movie_no" column="movie_no" />
+        <result property="user_no" column="user_no" />
+        <result property="name" column="name" />
+        <result property="thumbnail" column="thumbnail" />
+        <result property="runtime" column="runtime" />
+        <result property="price" column="price" />
+        <result property="type" column="type" />
+        
+    </resultMap>
+    
+	<select id="wishListList"
+		parameterType="study.spring.clip.model.WishList"
+		resultMap="WishListMap">
+		SELECT movie_no, IF(type='B',"구매","대여") AS type, name, price, runtime, thumbnail FROM movie
+		WHERE movie_no IN (SELECT movie_no FROM wish_list WHERE user_no= #{user_no});
+	</select>
 	
-	<!-- 기능 정의 -->
+	<select id="wishListInsertCheck"
+		parameterType="study.spring.clip.model.WishList"
+		resultMap="WishListMap">
+		SELECT movie_no from wish_list
+		where user_no = #{user_no} AND movie_no = #{movie_no};
+	</select>
 	
-	<!-- 태희쨩이 추가함 이식 후에 주석 지워주삼-->
-	<!-- 행 삭제 -->
-	<delete id="deleteList" parameterType="study.spring.clip.model.WishList">
-		DELETE FROM wish_list WHERE user_no=#{user_no};
-	</delete> 
+	<select id="wishListInsert"
+		parameterType="study.spring.clip.model.WishList"
+		resultMap="WishListMap">
+		INSERT INTO wish_list (movie_no ,user_no)
+		VALUES (#{movie_no},#{user_no});
+	</select>
+	
+	<select id="wishListDelete"
+		parameterType="study.spring.clip.model.WishList"
+		resultMap="WishListMap">
+		DELETE FROM wish_list
+		WHERE (movie_no=#{movie_no} and user_no=#{user_no});
+	</select>
 	
 	
 	
+
 </mapper>
