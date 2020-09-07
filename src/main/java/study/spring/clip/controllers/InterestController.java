@@ -34,11 +34,9 @@ public class InterestController {
 	@Value("#{servletContext.contextPath}")
 	String contextPath;
 	
-	@ResponseBody
 	@RequestMapping(value="MY_interest_movie", method = RequestMethod.GET)
 	public String goInterestMovie(Model model, HttpServletResponse response,
-			HttpSession session,
-			@RequestParam(value="movieNo") int movie_no
+			HttpSession session			
 			) {
 
 		int x = (Integer)session.getAttribute("user_no");
@@ -46,17 +44,7 @@ public class InterestController {
 		 // id_box의 유저 코인정보
 		 model.addAttribute("user_coin", user.getCoin());
 		 
-		 Interest input = new Interest();
-		 input.setUser_no(x);
-		 input.setMovie_no(movie_no);
-		 if ( session.getAttribute("id") == null ) {
-				
-			 	return "a";
-			 
-		 }else if(interestService.checkInterest(input)) {
 
-				return "s";
-			}
 		List<Interest> output = interestService.getInterestList(x);
 		model.addAttribute("output",output);
 		List<Interest> output1 = interestService.getrecentList(x);

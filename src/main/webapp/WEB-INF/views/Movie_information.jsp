@@ -482,17 +482,17 @@
     <div style="height: 50px;"></div>
     
     <script>
-    $.get("MY_interest_movie",{movieNo:"${movie_no}"},function(req){
-		if(req=="a"){
-			return;
-		}else{
-			console.log(999)
-			var tmp = $("#interestimg").attr("src");
-            var img = $("#interestimg").data("img");
-            $("#interestimg").attr("src", img);
-            $("#interestimg").data("img", tmp);
-		}
-    })
+//    $.get("MY_interest_movie",{movieNo:"${movie_no}"},function(req){
+//		if(req=="a"){
+//			return;
+//		}else{
+//			console.log(999)
+//			var tmp = $("#interestimg").attr("src");
+//            var img = $("#interestimg").data("img");
+//            $("#interestimg").attr("src", img);
+//            $("#interestimg").data("img", tmp);
+//		}
+//    })
     
     
     
