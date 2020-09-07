@@ -227,7 +227,7 @@
 <script src="assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@2.4.1/dist/email.min.js"></script>
 <script>
-	var sessionID = "${id}";
+	var sessionID = "${id_check}";
     var email_reg = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
             var key = "3122311#@@#3";//메일 인증번호 난수
             var isSend = false;//메일 보냈는지 체크

@@ -269,7 +269,7 @@ public class LoginController{
 	  @RequestMapping(value="searchpwToChange.do",method=RequestMethod.POST)
 	  public void searchpwToChange(HttpServletResponse response, HttpSession session,
 			  @RequestParam(value="pw") String pw) { 
-		  String id = (String)session.getAttribute("id");
+		  String id = (String)session.getAttribute("id_check");
 		  loginService.searchpwToChange(id, pw);
 	  }
 }

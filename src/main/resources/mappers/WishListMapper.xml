@@ -46,7 +46,10 @@
 		WHERE (movie_no=#{movie_no} and user_no=#{user_no});
 	</select>
 	
-	
+	<!-- 회원 탈퇴 행 삭제 -->
+	<delete id="deleteList" parameterType="study.spring.clip.model.WishList">
+		DELETE FROM wish_list WHERE user_no = #{user_no};
+	</delete>
 	
 
 </mapper>

@@ -70,7 +70,7 @@ public class LoginServiceImpl implements LoginService {
 		 
 		
 		 if(result != null) {
-			 session.setAttribute("id", result.getId());
+			 session.setAttribute("id_check", result.getId());
 			 return true;
 		}
 		 return false;

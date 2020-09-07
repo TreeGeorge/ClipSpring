@@ -59,4 +59,9 @@
 		WHERE movie_no IN (SELECT movie_no FROM interest WHERE user_no= #{user_no}) 
 		ORDER BY price asc;
 	</select>
+	
+	<!-- 회원 탈퇴 행 삭제 -->
+	<delete id="deleteList" parameterType="study.spring.clip.model.Interest">
+		DELETE FROM interest WHERE user_no = #{user_no};
+	</delete>
 </mapper>
