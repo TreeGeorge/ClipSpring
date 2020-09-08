@@ -177,6 +177,7 @@ a.toggleCheckbox_top {
 	font-size: 16px;
 	color: #222;
 	font-weight: bold;
+	width: 180px;
 }
 
 .movie .time {

@@ -121,7 +121,6 @@
 
 .movie .movie_text span {
 	display: block;
-	width: 50%;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -131,6 +130,7 @@
 	font-size: 16px;
 	color: #222;
 	font-weight: bold;
+	width: 180px;
 }
 
 .movie .time {
