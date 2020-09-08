@@ -73,42 +73,42 @@ body {
 
 }
 /*폰트 굵기설정*/
-#top_bar_movie .pull_center p{
+#buy_coin_list .pull_center p{
 	font-weight: 50px;
 	text-align: left;
 }
 
-#top_bar_movie {
+#buy_coin_list {
 	min-height:240px;
 	margin-top:80px;
 	margin-bottom:20px;
 }
 
 /*날짜시간 폰트설정*/
-#top_bar_movie .pull_center .cash{
+#buy_coin_list .pull_center .cash{
 	font-size: 20px;
 	font-weight: bold;
 }
 /*폰트값 크기 설정*/
-#top_bar_movie .pull_center p{
+#buy_coin_list .pull_center p{
 	font-size: 20px;
     color: #b8b8b8;
 }
 
 /*탑바캐쉬리스트 클리어*/
-#top_bar_movie_list .clear {
+#buy_coin_list_list .clear {
 	content: '';
 	display: block;
 	float: none;
 	clear: both;
 }
 /*코인잔여 글씨 위치설정*/
-#top_bar_movie .aharge{
+#buy_coin_list .aharge{
 	text-align: left;
 	font-weight:10px;
 }
 
-#top_bar_movie .pull_center{
+#buy_coin_list .pull_center{
 	vertical-align:middle;
 	display:inline-block;
 	width: 100%;
@@ -117,11 +117,11 @@ body {
     margin-top: 10px;
 }
 
-#top_bar_movie .font{
+#buy_coin_list .font{
 	font-size: 10px;
 	color: #888888;
 }
-#top_bar_movie .day{
+#buy_coin_list .day{
 	font-size: 10px;
 	color: #888888;
 }
@@ -149,7 +149,7 @@ line-height: 18px;
 	float: none;
 	clear: both;
 }
-#top_bar_movie .area_list{
+#buy_coin_list .area_list{
 	position: relative;
 	width: 100%;
 	border-bottom: 1px solid #e5e5e5;
@@ -326,7 +326,7 @@ button{
 		</div>
 		
 		
-	<div id="top_bar_movie" class="clear">
+	<div id="buy_coin_list" class="clear">
 		<ul class="movie">
 			<c:forEach var="item" items="${output}" varStatus="status">
 				<li class="area_list">
@@ -363,8 +363,7 @@ $(function(){
 	if(!$(".area_list")[0]) {
 		// 충전리스트 빈 화면
 		$(".no_value").removeClass("hide");
-		$("#top_bar_movie").remove();
-		$(".area_list").addClass("hide");
+		$("#buy_coin_list").remove();
 	}
 	$(".this_number").click(function () {
 		var buy_coin_list_no = $(this).next().val();

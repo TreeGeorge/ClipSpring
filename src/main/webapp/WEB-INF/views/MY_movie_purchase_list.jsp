@@ -233,15 +233,13 @@ input[type='radio']:checked {
 	<script src="assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 	<script>
-	$(".top_bar_list").eq(3).addClass("selected")
-    $(".bot_bar_icon").eq(3).attr("src", "assets/img/my_page_icon_selected.png");
-   
-   // 구입내역에 아무것도 없을때
-   $(document).ready(function(){
-	   if ($(".plist.clear").length==0) {
+   $(function(){
+	   $(".top_bar_list").eq(3).addClass("selected")
+	   $(".bot_bar_icon").eq(3).attr("src", "assets/img/my_page_icon_selected.png");
+	   if (!$(".plist.clear")[0]) {
 	      $(".no_movies").removeClass("hide");
-	         }
-	   })
+	   }
+   })
    
       // 정렬 swal 창
         function sort(){

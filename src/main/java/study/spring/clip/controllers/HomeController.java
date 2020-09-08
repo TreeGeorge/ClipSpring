@@ -101,9 +101,10 @@ public class HomeController {
 		// 관리자 페이지가 없기때문에 파라미터값은 db에서 쿠폰 추가하고 개발자가 넣어줘야함...
 		UserCoupon input = userCouponService.getCouponInfo(3);
 		
-		movie.addAttribute("couponName", input.getName());
-		movie.addAttribute("couponPrice", input.getPrice());
-		movie.addAttribute("couponDate", input.getPeriod());
+		movie.addAttribute("coupon_no", input.getCoupon_no());
+		movie.addAttribute("coupon_name", input.getName());
+		movie.addAttribute("coupon_price", input.getPrice());
+		movie.addAttribute("coupon_date", input.getPeriod());
 		// 지환쓰 구현부 -------- 삭제금지 end
 		
 		for ( int i = 0 ; i < 20 ; i++ ) {

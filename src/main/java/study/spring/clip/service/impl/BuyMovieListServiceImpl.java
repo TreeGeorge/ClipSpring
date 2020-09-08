@@ -51,15 +51,6 @@ public class BuyMovieListServiceImpl implements BuyMovieListService {
 		return result;
 	}
 
-	/** 구매정보 db값 확인 */
-	@Override
-	public boolean checkBuyMovieList(BuyMovieList input) {
-		if (sqlSession.selectOne("BuyMovieListMapper.checkList", input) == null) {
-			return true;
-		}
-		return false;
-	}
-
 	/** 시청 유무 확인 */
 	@Override
 	public boolean checkWatched(BuyMovieList input) {
@@ -69,11 +60,52 @@ public class BuyMovieListServiceImpl implements BuyMovieListService {
 		return false;
 	}
 
+	// 일주일 지났는지 확인
 	@Override
 	public boolean checkDate(BuyMovieList input) {
 		if (sqlSession.selectOne("BuyMovieListMapper.dateCheck", input) != null) {
 			return true;
 		}
+		return false;
+	}
+
+	// 영상 삭제, 복원시
+	@Override
+	public void changeStatus(BuyMovieList input) {
+		if (input.getIs_delete().equals("N")) {
+			sqlSession.update("BuyMovieListMapper.goRemove", input);
+		} else {
+			sqlSession.update("BuyMovieListMapper.restoreMovie", input);
+		}
+	}
+
+	// 실제 db값과 가져온 값 확인작업
+	@Override
+	public BuyMovieList checkBuyMovieList(BuyMovieList input) {
+		BuyMovieList result = sqlSession.selectOne("BuyMovieListMapper.checkList", input);
+		return result;
+	}
+	
+	// 영상 시청시
+	@Override
+	public void watchMovie(int buy_movie_list_no) {
+		sqlSession.selectOne("BuyMovieListMapper.watchMovie", buy_movie_list_no);
+	}
+
+	// 대여 기간이 끝났을때
+	@Override
+	public void rentalEnd() {
+		sqlSession.update("BuyMovieListMapper.userMovieEnd");
+	}
+
+	// 이미 구매한 제품이라면
+	@Override
+	public boolean duplicateCheck(BuyMovieList input) {
+		// 이미 구매 했다면
+		if (sqlSession.selectOne("BuyMovieListMapper.duplicateCheck", input) != null) {
+			return true;
+		}
+		// 기간이 지났거나 구매하지 않은 상품인경우
 		return false;
 	}
 

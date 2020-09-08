@@ -53,25 +53,6 @@ public class LoginController{
 		}
 	 }
 	 
-//	 /*관심작품 세션비교 후 값 노출*/
-//	 @RequestMapping(value="MY_interest_movie",method=RequestMethod.GET)
-//	 public String enterMyInterest(Model model, HttpSession session, HttpServletResponse response) { 
-//		 if ( session.getAttribute("id") == null ) {
-//				try {
-//					response.sendRedirect(contextPath + "/Login");
-//					return "Login";
-//				} catch (IOException e) {
-//					e.printStackTrace();
-//				}
-//	    	}
-//		 
-//		 int user_no = (Integer)session.getAttribute("user_no");
-//		 User user = loginService.randerUser(user_no);
-//		 model.addAttribute("user_coin", user.getCoin());
-//			
-//		 return "MY_interest_movie"; 
-//	 }
-	 
 	 /*로그인 페이지로 이동*/
 	 @RequestMapping(value="Login",method=RequestMethod.GET)
 	 public String enterLogin() { 

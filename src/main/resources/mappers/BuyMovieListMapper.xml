@@ -71,19 +71,40 @@
     
     <!-- 구매내역에만 남아있을ㄸ깨 판별해서 대여영화 구매 가능하게 하기. -->
     
-    <!-- 대여기간 지난 영화 구매내역에만 남게 하기 ****************************자정마다 실행되게 하되(스케쥴러) 유저가 (마이무비나, 휴지통들어갈떄) 변경하거나 시청 하려고 할때(post로) 도 실행시키기 *****-->
+    
+	<select id="duplicateCheck"
+		parameterType="study.spring.clip.model.BuyMovieList"
+		resultMap="buyMovieListMap">
+		SELECT * FROM buy_movie_list WHERE movie_no = #{movie_no} AND user_no = #{user_no} AND is_delete != 'D';
+	</select>
+    
+    <!-- 대여기간 지난 영화 구매내역에만 남게 하기 -->
     <update id="userMovieEnd"
     	parameterType="study.spring.clip.model.BuyMovieList">
         UPDATE buy_movie_list SET is_delete = 'D'
 		WHERE <![CDATA[DATE_ADD(date, INTERVAL 1 WEEK) <= now()]]> AND movie_no IN (SELECT movie_no FROM movie WHERE type = 'R');
     </update>
     
+    <!-- 영화 시청했을때 -->
+    <update id="watchMovie"
+    	parameterType="study.spring.clip.model.BuyMovieList">
+        UPDATE buy_movie_list SET is_watched = 'Y'
+		WHERE buy_movie_list_no = #{buy_movie_list_no};
+    </update>
     
+    <!-- 영화 휴지통으로 -->
+   	<update id="goRemove"
+    	parameterType="study.spring.clip.model.BuyMovieList">
+        UPDATE buy_movie_list SET is_delete = 'Y'
+		WHERE buy_movie_list_no = #{buy_movie_list_no};
+    </update>
     
-    <!-- 영화 시청했을때 ************** 시청할건지 물어보고 바뀌게 하고 이미 시청한 제품인지 체크해서 이어 보시겠습니까 나오게 하기 -->
-   
-    
-    
+    <!-- 영화 복원 -->
+   	<update id="restoreMovie"
+    	parameterType="study.spring.clip.model.BuyMovieList">
+        UPDATE buy_movie_list SET is_delete = 'N'
+		WHERE buy_movie_list_no = #{buy_movie_list_no};
+    </update>
     
     <!-- 해당 영화 환불 -->
     <delete id="deleteItem"

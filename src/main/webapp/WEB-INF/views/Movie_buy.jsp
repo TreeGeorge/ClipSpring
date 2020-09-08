@@ -1,44 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <%@ page trimDirectiveWhitespaces="true"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="ko">
 
 <head>
-<%@ include file="assets/inc/header.jsp" %>
+<%@ include file="assets/inc/header.jsp"%>
 <script src="assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
 <style type="text/css">
-* {
-	font-family: 'Nanum Gothic', sans-serif;
-}
-/*탑 로고 크기*/
-#top_logo {
-	background-color: white;
-	position: fixed;
-	z-index: 100;
-	width: 100%;
-	border-bottom: 1px solid #575757;
-	top: 0;
-	left: 0;
-}
-/* 액션 타이틀 글씨 */
-#top_logo h1 {
-	height: 0px;
-	text-align: center;
-	font-size: 18px;
-	margin-bottom: 1px;
-	margin-top: 8px;
-}
-/* 액션타이틀 좌측 화살표 이미지*/
-#top_logo img {
-	background: url(assets/img/left.png) no repeat;
-	height: 25px;
-	left: 100px;
-	top: 10px;
-	margin-bottom: 5px;
-	margin-left: 5px;
-}
-
 html {
 	background-color: rgb(231, 231, 231);
 }
@@ -47,61 +19,39 @@ a {
 	text-decoration: none;
 }
 
-.movie_name {
-	margin-top: 70px;
-}
-
-.couponbox_first {
+.content_box {
 	width: 90%;
 	margin: auto;
 }
 
-.couponbox_first h5 {
+h5 {
 	margin: 20px 0 5px 0;
 }
 
-.couponbox_first p {
-	margin: 0 0 10px 0;
-}
-
-.coupon {
+.white_box {
 	position: relative;
 	border: 1px solid red;
 	padding: 5px;
 	background: #fff;
 }
 
-.coupun_radio {
-	margin: 0;
-}
-
-.coupon span {
+.white_box span {
 	position: absolute;
 	right: 10px
 }
 
-.passworld {
-	width: 90%;
-	margin: auto;
-}
-
-#tbody h5 {
-	margin: 20px 0 5px 0;
-}
-
-.set_payment {
+.password {
+	box-sizing: border-box;
 	border: 1px solid #E61A3F;
-	width: 95%; /* 원하는 너비 설정 */
-	height: auto; /* 높이값 초기화 */
+	width: 100%;
+	margin: auto;
 	line-height: normal; /* line-height 초기화 */
 	padding: .8em .5em; /* 원하는 여백 설정, 상하단 여백으로 높이를 조절 */
-	font-family: inherit; /* 폰트 상속 */
 	outline-style: none; /* 포커스시 발생하는 효과 제거를 원한다면 */
-	-webkit-appearance: none; /* 브라우저별 기본 스타일링 제거 */
 	appearance: none;
 }
 
-.pay_end1 {
+.cancel {
 	width: 45%;
 	border: 1px solid #333;
 	background-color: #FF7688;
@@ -135,10 +85,6 @@ a {
 	height: 55px;
 }
 
-.Conditions {
-	margin-bottom: 15px;
-}
-
 .tab {
 	margin-bottom: 10px;
 	font-size: 9px;
@@ -152,19 +98,30 @@ input[type="radio" i] {
 	margin: 1px 0 0 5px;
 }
 
-.coupun_radio {
-	content: '';
-	display: inline;
-	float: right;
-	clear: both;
-}
-
 .logo_pay {
 	line-height: 30px
 }
 
-.coupon div {
-	margin: 10px 0 10px 0;
+.white_box div {
+	height: 30px;
+    line-height: 30px;
+    width: 60%;
+    text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.movie_title {
+	height: 30px;
+	line-height: 30px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.agree {
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
 </style>
 </head>
@@ -172,205 +129,215 @@ input[type="radio" i] {
 <body>
 	<!--전체박스-->
 	<div id="container">
-		<!--상단바 이름-->
 
-		<div id="container">
-			<!--탑 바-->
-			<%@ include file="assets/inc/top_info.jsp" %>
+		<!--탑 바-->
+		<%@ include file="assets/inc/top_info.jsp"%>
 
+		<div class="content_box" style="margin-top: 60px;">
+			<div class="movie_title">${movie_title}</div>
+			<div>
+				<fmt:formatNumber value="${price}" pattern="#,###" />코인
+			</div>
 		</div>
 
-
-		<div id="movie" class="movie_name">
-			<div class="couponbox_first">
-				<div class="coupon1">
-					<p>[영화] 어벤져스 : 엔드게임 </p>
-					<p>
-						<span id="coin_first">10,000</span>코인
-					</p>
+		<div class="content_box">
+			<h5>구매정보</h5>
+			<div class="white_box">
+				<div>보유코인
+					<span>
+						<fmt:formatNumber value="${user_coin}" pattern="#,###" />코인
+					</span>
+				</div>
+				<div>부족한 코인
+					<span>
+						<c:choose>
+							<c:when test="${price - user_coin < 0}">
+								0코인
+							</c:when>
+							<c:otherwise>
+								<fmt:formatNumber value="${price - user_coin}" pattern="#,###" />코인
+							</c:otherwise>
+						</c:choose>
+					</span>
 				</div>
 			</div>
+		</div>
 
-			<div class="couponbox_first">
-				<h5>구매정보</h5>
-				<div class="couponbox">
-					<div class="coupon">
-						<div>
-							<!-- 7천원 보유 -->
-							보유코인<span id="coin_info">7,000코인</span>
-						</div>
-						<div>
-							부족한 코인<span id="coin_insufficient">3,000코인</span>
-						</div>
+		<div class="content_box">
+			<h5>쿠폰적용</h5>
+			<div class="white_box">
+				<div>
+					<span>선택안함 
+						<input id="coin" class="white_box" name="coin" type="radio" checked />
+					</span>
+				</div>
+				<c:forEach var="item" items="${coupon}" varStatus="status">
+					<div>${item.name}
+						<span><fmt:formatNumber value="${item.price}" pattern="#,###" />코인
+						<input id="coin" class="white_box" name="coin" type="radio" value="${item.user_coupon_no}" />
+						</span>
 					</div>
-				</div>
+				</c:forEach>
 			</div>
+		</div>
 
-			<div class="couponbox_first">
-				<h5>쿠폰적용</h5>
-				<div class="couponbox">
-					<div class="coupon">
-						<div>
-							 &nbsp;<span class="coupun_radio"> 선택안함<input id="no_coin"
-								class="coupon" name="coin" type="radio" checked />
-							</span>
-						</div>
-						<div>
-							보유한 쿠폰<span id="coin_coupon" class="coupun_radio"> 3,000코인<input
-								id="coin" class="coupon" name="coin" type="radio" />
-							</span>
-						</div>
-						<div>
-							보유한 쿠폰<span id="coin_coupon" class="coupun_radio"> 2,000코인<input
-								id="coin1" class="coupon" name="coin" type="radio" />
-							</span>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="couponbox_first">
-				<h5>충전 코인</h5>
-				<div class="couponbox">
-					<div class="coupon">
-						<div>
-							충전할 코인<span id="coin_charge">3,000코인</span>
-						</div>
-					</div>
+		<div class="content_box">
+			<h5>충전 코인</h5>
+			<div class="white_box">
+				<div>충전할 코인
+					<span id="total_charge_coin">
+						<c:choose>
+							<c:when test="${price - user_coin < 0}">
+								0코인
+							</c:when>
+							<c:otherwise>
+								<fmt:formatNumber value="${price - user_coin}" pattern="#,###" />코인
+							</c:otherwise>
+						</c:choose>
+					</span>
 				</div>
 			</div>
 		</div>
-		<!-- 상위 박스 end -->
-	</div>
 
-	<div id="tbody" class="passworld">
-		<h5>비밀번호 확인</h5>
-		<!-- 비밀번호 입력 하고 현재 아이디와 비밀번호가 맞는지 확인 -->
-		<div class="pass">
-			<form id="" name="form">
-				<input type="password" class="set_payment" placeholder="비밀번호 확인"
-					id="custom_payment" name="pw_re" />
-			</form>
-		</div>
-		<div class="Conditions">
-			<form id="naver" name="frmJoin" style="margin-top: 7px;">
-				<a><input id="check" name="Conditions" type="checkbox"
-					class="check_char" /> <span>위 구매조건 확인 및 결제 진행 동의</span></a>
-			</form>
-		</div>
+		<div class="content_box">
+			<h5>비밀번호 확인</h5>
+				<input type="password" class="password" placeholder="비밀번호 확인" id="password" name="password" />
+			<div class="agree">
+				<input id="agree" name="agree" type="checkbox" class="check_char" />
+				위 구매조건 확인 및 결제 진행 동의
+			</div>
+
+			<div id="footer">
+				<p class="tab">&#8226;콘텐츠 결제를 위해 CLIP코인이 필요합니다</p>
+				<p class="tab">&#8226;코인은 CLIP에서 영화 컨텐츠 구매시 사용하는결제수단입니다.</p>
+				<p class="tab">&#8226;충전한 코인은 'MY > 코인충전 > 충전내역'에서확인할 수
+					있으며,환불은결제하신</p>
+				<p class="tab">&nbsp;&nbsp;&nbsp;수단으로 환불됩니다</p>
+				<p class="tab">&#8226;코인의 가격은 부가가치세가 포함된 가격입니다</p>
 
 
-
-		<!--하단 이용안내-->
-
-		<div id="footer" class="str">
-
-			<p class="tab">&#8226;콘텐츠 결제를 위해 CLIP코인이 필요합니다</p>
-			<p class="tab">&#8226;코인은 CLIP에서 영화 컨텐츠 구매시 사용하는결제수단입니다.</p>
-			<p class="tab">&#8226;충전한 코인은 'MY > 코인충전 > 충전내역'에서확인할 수
-				있으며,환불은결제하신</p>
-			<p class="tab">&nbsp;&nbsp;&nbsp;수단으로 환불됩니다</p>
-			<p class="tab">&#8226;코인의 가격은 부가가치세가 포함된 가격입니다</p>
-
-
-			<div class="box">
-				<a href="#" onclick="history.back(); return false;" id="coin"> <input
-					class="pay_end1" type="button" value="취소" /></a> <input class="pay_end"
-					type="button" value="구매하기" />
+				<div class="box">
+					<input class="cancel" type="button" value="취소" />
+					<input class="pay_end" type="button" value="구매하기" />
+				</div>
 			</div>
 		</div>
 	</div>
 
-
-	<!-- 비밀번호 확인 -->
 	<script type="text/javascript">
-	/* 비밀번호 확인 */
-	$(function() {
-		$("#top_info_value").html("영화 결제하기");
-		
-		$(".pay_end").click(function() {
-            var chk1 = document.frmJoin.Conditions.checked;
-            var pw_val = $("#custom_payment").val();
-            if (!pw_val) {
-				swal({
-                        html: "<b>비밀번호를 입력해주세요.</b>",    // 내용
-                        type: "error",  // 종류
-                        confirmButtonText: "확인", // 확인버튼 표시 문구
-                        confirmButtonColor: "#ff3253", // 확인버튼 색상
-                });
-				return false;
-			}
-			if(pw_val != "master001"){
-				swal({
-                        html: "<b>비밀번호가 틀렸습니다.</b>",    // 내용
-                        type: "error",  // 종류
-                        confirmButtonText: "확인", // 확인버튼 표시 문구
-                        confirmButtonColor: "#ff3253", // 확인버튼 색상
-                });
-				return false;
-			}//비밀번호 틀렷을때
-			//약관동의 여부 확인
-            if (!chk1) {
-                swal({
-                        html: "<b>약관을 동의해 주세요.</b>",    // 내용
-                        type: "error",  // 종류
-                        confirmButtonText: "확인", // 확인버튼 표시 문구
-                        confirmButtonColor: "#ff3253", // 확인버튼 색상
-                });
-                return false;
-            }
-            
-            var novalue = $("#no_coin").is(":checked");
-            var chkcoupon = $("#coin1").is(":checked");
-			if(chkcoupon || novalue){
-		    swal({
-                html: "<b>보유하신 코인이 부족합니다.<br>코인을 충전하러 가시겠습니까?</b>",// 내용
-                type : "error", // 종류
-                confirmButtonText : "확인", // 확인버튼 표시 문구
-                confirmButtonColor : "#ff3253",
-                showCancelButton : true, // 취소버튼 표시 여부
-                cancelButtonText : "취소"
-            	}).then(function(result) {
-            		if (result.value) {
-            			$(location).attr('href', 'Coin_charge');
-            		}
-            	})
-            return false;
-			}
 
-            $(location).attr('href', 'MY_movie.jsp');
-
-        })
-}); //.pay_end(end)
 		$(function() {
-			$("#coin").click(function() {
-				var chkcoupon = $("#coin").is(":checked");
-				if (chkcoupon) {
-					$("#coin_charge").html("0"+"코인");
+			var user_coupon_no = 0;
+			$("input[name='coin']").change(function() {
+				user_coupon_no = parseInt($("input[name='coin']:checked").val());
+				var coupon_price = parseInt($("input[name='coin']:checked").parent().text().replace(",", "").replace("코인",""));
+				var text;
+				if (${price - user_coin} - coupon_price < 0) {
+					$("#total_charge_coin").text("0코인");
+				} else if (!coupon_price) {
+					if (${price - user_coin} < 0) {
+						$("#total_charge_coin").text("0코인");
+					} else {
+						text = ${price - user_coin} + "";
+						$("#total_charge_coin").text(text.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "코인");
+					}
+				} else {
+					text = (${price - user_coin} - coupon_price) + "";
+					$("#total_charge_coin").text(text.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "코인");
 				}
-			})
-		});//3000원 쿠폰적용
-		$(function() {
-			$("#coin1").click(function() {
-				var chkcoupon = $("#coin1").is(":checked");
-				if (chkcoupon) {
-					$("#coin_charge").html("1,000"+"코인");
-				}
-				
-			})
+			});
 			
-		});//2000원 쿠폰적용
-
-		$(function() {
-			$("#no_coin").click(function() {
-				var chkno = $("#no_coin").is(":checked");
-				if (chkno) {
-					$("#coin_charge").html("3,000"+"코인");
+			$(".pay_end").click(function() {
+				var pw_val = $("#password").val();
+				if (!pw_val) {
+					swal({
+						html : "<b>비밀번호를 입력해주세요.</b>", // 내용
+						type : "error", // 종류
+						confirmButtonText : "확인", // 확인버튼 표시 문구
+						confirmButtonColor : "#ff3253", // 확인버튼 색상
+					});
+					return false;
 				}
-			})
-		});//쿠폰 선택안함
+
+				$.post("pwCheck.do", {pw : pw_val}, function(req) {
+					if (req == 0) {
+						swal({
+							html : "<b>비밀번호가 틀렸습니다.</b>", // 내용
+							type : "error", // 종류
+							confirmButtonText : "확인", // 확인버튼 표시 문구
+							confirmButtonColor : "#ff3253",
+							showCancelButton : false, // 취소버튼 표시 여부
+						}).then(function() {
+							$("#password").val("");
+							$("#password").focus();
+						})
+						return false;
+					} else {
+						//약관동의 여부 확인
+						if (!$("#agree").is(":checked")) {
+							swal({
+								html : "<b>약관을 동의해 주세요.</b>", // 내용
+								type : "error", // 종류
+								confirmButtonText : "확인", // 확인버튼 표시 문구
+								confirmButtonColor : "#ff3253",
+								showCancelButton : false, // 취소버튼 표시 여부
+							})
+							return false;
+						}
+						
+						if ($("#total_charge_coin").text().trim() != "0코인") {
+							swal({
+								html : "<b>보유하신 코인이 부족합니다.<br>코인을 충전하러 가시겠습니까?</b>",// 내용
+								type : "error", // 종류
+								confirmButtonText : "확인", // 확인버튼 표시 문구
+								confirmButtonColor : "#ff3253",
+								showCancelButton : true, // 취소버튼 표시 여부
+								cancelButtonText : "취소"
+							}).then(function(result) {
+								if (result.value) {
+									$(location).attr('href', 'Coin_charge');
+								}
+							})
+							return false;
+						}
+						//$.post('movie.add') <-- 이거 안에 들어가야함
+						if (user_coupon_no) {
+							$.post('use_coupon_check.do', {user_coupon_no: user_coupon_no}, function(req) {
+								if (req == 1) {
+									swal({
+							            timer:1500,
+							            html:"<div style='font-weight: bold; margin-bottom: 20px;'>개짓거리 하지 마십쇼 휴먼</div>",
+							            type:"error",
+							            allowOutsideClick: false,
+							            showConfirmButton: false
+							        }).then(function(){
+							            location.reload();
+							        });
+								} else if (req == 0) {
+									swal({
+										html : "<b>쿠폰을 사용하시겠습니까?</b>", // 내용
+										type : "question", // 종류
+										showCancelButton : true, // 취소버튼 표시 여부
+										cancelButtonText : "취소",
+										confirmButtonText : "확인",
+										confirmButtonColor : "#ff3253",
+									}).then(function(result) {
+										if (result.value) {
+											$.post('use_coupon.do', {user_coupon_no: user_coupon_no}, function(){});
+										}
+									});
+								} 
+							});
+						} // user_coupon end
+					}
+				});
+			});
+		}); //.pay_end(end)
 		
+		$(".cancel").click(function(){
+			history.back();
+		})
 		
-	
 	</script>
 
 </body>

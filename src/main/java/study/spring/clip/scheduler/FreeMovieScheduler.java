@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import lombok.extern.slf4j.Slf4j;
+import study.spring.clip.service.BuyMovieListService;
 import study.spring.clip.service.FreeMovieService;
 import study.spring.clip.service.UserCouponService;
 
@@ -16,6 +17,14 @@ public class FreeMovieScheduler {
 	
 	@Autowired
 	UserCouponService userCouponService;
+	
+	@Autowired
+	BuyMovieListService buyMovieListService;
+	
+	public void everyMidnightEndRental() {
+		buyMovieListService.rentalEnd();
+		log.debug("기간이 지난 대여상품 삭제 완료!");
+	}
 	
 	public void everyMidnightCoupon() {
 		userCouponService.deleteUserCouponList();

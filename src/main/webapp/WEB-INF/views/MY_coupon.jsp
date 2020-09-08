@@ -73,6 +73,28 @@
 	width:100%;
 }
 
+	.no_value {
+        height: 250px;
+        text-align: center;
+    }
+
+    .no_value img {
+        padding-top: 75px;
+        width: 100px;
+        margin: auto;
+    }
+
+    .no_value .text {
+        font-weight: bold;
+        padding-top: 10px;
+        line-height: 25px;
+        font-size: 16px;
+    }
+
+    .hide {
+        display: none;
+    }
+
 
 </style>
 </head>
@@ -86,6 +108,11 @@
 		<%@ include file="assets/inc/my_top_bar.jsp" %>
 	
 		<div class="content">사용가능 쿠폰</div>
+		
+		<div class="no_value hide">
+            <img src="assets/img/wish_list_none.png" />
+            <div class="text">사용 가능한 쿠폰이 없습니다.</div>
+        </div>
 	
 		<div>
 			<c:forEach var="item" items="${output}" varStatus="status">
@@ -140,9 +167,8 @@
 		$(".bot_bar_icon").eq(3).attr("src", "assets/img/my_page_icon_selected.png");
 		$(".top_bar_list").eq(2).addClass("selected");
 		
-		if (!$(".movie_list")[0]) {
+		if (!$(".coupon_box")[0]) {
 			$(".no_value").removeClass("hide");
-            $(".delete_list").addClass("hide");
 		}
 	});
 	</script>

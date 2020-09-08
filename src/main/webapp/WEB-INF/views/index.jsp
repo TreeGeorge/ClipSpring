@@ -351,13 +351,13 @@
                 html:'<div>' +
                         '<ul class="clear coupon">' +
                             '<li class="pull_left coupon_left">' +
-                                '<h4 style="font-weight: bold; margin: 0; height:25px; line-height: 25px;text-overflow: ellipsis;white-space: nowrap;overflow: hidden; font-size:0.9em;">${couponName}</h4><span style="display: block; font-size: 12px; color: #aaa; line-height:18px; height:18px;">구매/대여시</span><span style="display: block; font-size: 12px; color: #aaa; line-height:18px; height:18px;">${couponDate} 까지</span><span style="display:block; font-size: 12px; color: #aaa; line-height:18px; height:18px;">쿠폰 한 장당 1회만 결제 가능</span></li>' +
-                            '<li class="pull_left coupon_right"><span style="display: block; margin-top:31px;"><fmt:formatNumber value="${couponPrice}" pattern="#,###" />코인</span><span style="display: block;">할인</span></li>' +
+                                '<h4 style="font-weight: bold; margin: 0; height:25px; line-height: 25px;text-overflow: ellipsis;white-space: nowrap;overflow: hidden; font-size:0.9em;">${coupon_name}</h4><span style="display: block; font-size: 12px; color: #aaa; line-height:18px; height:18px;">구매/대여시</span><span style="display: block; font-size: 12px; color: #aaa; line-height:18px; height:18px;">${coupon_date} 까지</span><span style="display:block; font-size: 12px; color: #aaa; line-height:18px; height:18px;">쿠폰 한 장당 1회만 결제 가능</span></li>' +
+                            '<li class="pull_left coupon_right"><span style="display: block; margin-top:31px;"><fmt:formatNumber value="${coupon_price}" pattern="#,###" />코인</span><span style="display: block;">할인</span></li>' +
                         '</ul>' +
                     '</div>'
                 }).then(function(result){
                     if (result.value) {     // 확인 버튼이 눌러진 경우
-                    	$.post('coupon_add_ok.do',{name: "${couponName}"},function(req){
+                    	$.post('coupon_add_ok.do',{coupon_no: "${coupon_no}"},function(req){
                     		if (req == 1) {
                     			//  swal("쿠폰 지급 성공!", "성공적으로 지급되었습니다.", "success");
                                 swal({

@@ -140,18 +140,11 @@ public class BuyCoinListController {
 		input.setUser_no(user_no);
 		input.setCoin(user_info.getCoin());
 		
-		// 개발자도구로 나쁜짓하면 혼내주기
-		if (buyCoinListService.checkCoinList(input)) {
+		if (buyCoinListService.checkCoinList(input)) {		// 개발자도구로 나쁜짓하면 혼내주기
 			return 1;
-		}
-		
-		// 일주일이 지난 제품인지 판별
-		if (buyCoinListService.checkDate(input)) {
+		} else if (buyCoinListService.checkDate(input)) {	// 일주일이 지난 제품인지 판별
 			return 2;
-		}
-		
-		// 보유 코인이 모자란지 판별
-		if (buyCoinListService.checkCoin(input)) {
+		} else if (buyCoinListService.checkCoin(input)) {	// 보유 코인이 모자란지 판별
 			return 3;
 		}
 		

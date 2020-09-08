@@ -123,7 +123,7 @@
 	display: block;
 	white-space: nowrap;
 	overflow: hidden;
-	text-overflow: ellipsis
+	text-overflow: ellipsis;
 }
 
 .movie .movie_title {
@@ -261,7 +261,7 @@ input[type=checkbox] {
 			</span> 
 			<span class="delete_list">
 				<span class="toggleCheckbox_top hidden">전체선택
-					<input id="check_box2" class="hidden" type="checkbox" name="movie_check" />
+					<input id="check_box2" class="hidden" type="checkbox" name="check_all" />
 				</span>
 				<span class="movie_delete hidden">삭제</span>
 			</span>
@@ -301,9 +301,7 @@ input[type=checkbox] {
 									<span class="period">${item.end_date} 까지</span>
 								</span>
 							</div>
-							<!-- 편집 클릭시 체크박스 -->
-							<input id="check_box" class="hidden" type="checkbox" name="movie_check" />
-							<input id="buy_movie_list_no" type="hidden" value="${item.buy_movie_list_no}"/>
+							<input id="check_box" class="hidden" type="checkbox" name="movie_check" value="${item.buy_movie_list_no}" />
 						</li>
 					</c:when>
 					<c:when test="${item.type == '구매' and item.is_delete == 'N'}">
@@ -319,8 +317,7 @@ input[type=checkbox] {
 								</span>
 							</div>
 							<!-- 편집 클릭시 체크박스 -->
-							<input id="check_box" class="hidden" type="checkbox" name="movie_check" />
-							<input id="buy_movie_list_no" type="hidden" value="${item.buy_movie_list_no}"/>
+							<input id="check_box" class="hidden" type="checkbox" name="movie_check" value="${item.buy_movie_list_no}" />
 						</li>
 					</c:when>
 				</c:choose>
@@ -342,7 +339,7 @@ input[type=checkbox] {
 	<script src="assets/js/jquery.min.js"></script>
 	<script src="assets/js/bootstrap.min.js"></script>
 	<script>
-		$(".top_bar_list").eq(0).addClass("selected")
+		$(".top_bar_list").eq(0).addClass("selected");
 		$(".bot_bar_icon").eq(3).attr("src",
 				"assets/img/my_page_icon_selected.png");
 		if (!$(".movie_list")[0]) {
@@ -355,17 +352,18 @@ input[type=checkbox] {
 		var isCheck = 2;
 		// 편집 버튼의 클릭 처리 
 		$(".click_edit").click(function(e) {
-
 			// check 박스의 첫번째 인덱스의 classname이 hidden이면
-			if ($("input[name=movie_check]")[0].className == 'hidden') {
+			if ($("input[name=check_all]")[0].className == 'hidden') {
 				// 편집 버튼 클릭시, hidden 해놨던 checkbox클래스를 remove
 				$("input[name=movie_check]").removeClass('hidden');
+				$("input[name=check_all]").removeClass('hidden');
 				$(".movie_delete").removeClass('hidden');
 				$(".toggleCheckbox_top").removeClass('hidden');
 				return;
 			}
 			// check 박스에 hidden 클래스를 추가
 			$("input[name=movie_check]").addClass('hidden');
+			$("input[name=check_all]").addClass('hidden');
 			$(".movie_delete").addClass('hidden');
 			$(".toggleCheckbox_top").addClass('hidden');
 		});
@@ -381,16 +379,76 @@ input[type=checkbox] {
 			isCheck++;
 		}); // end $("#check_box2").click();
 		
-		// 시청할지, 시청했으면 이어보기 구현~
+		// 시청할지, 시청했으면 이어보기
 		$(".movie_item").click(function() {
-			//$.post(시청할지 ~ 했으면 이어볼지~)
+			var buy_movie_list_no = parseInt($(this).next().val());
+			$.post('movie_watch_check.do', {buy_movie_list_no: buy_movie_list_no}, function(req) {
+				if (req == 1) {
+					swal({
+			            timer:1500,
+			            html:"<div style='font-weight: bold; margin-bottom: 20px;'>개짓거리 하지 마십쇼 휴먼</div>",
+			            type:"error",
+			            allowOutsideClick: false,
+			            showConfirmButton: false
+			        }).then(function(){
+			            location.reload();
+			        });
+				} else if (req == 2) {
+					swal({
+						html : "<b>이미 시청하신 상품입니다.<br>이어서 시청하시겠습니까?</b>", // 내용
+						type : "question", // 종류
+						showCancelButton : true, // 취소버튼 표시 여부
+						cancelButtonText : "취소",
+						confirmButtonText : "확인",
+						confirmButtonColor : "#ff3253",
+					}).then(function(result) {
+						if (result.value) {
+							swal({
+								html : "<b>영상 재생중....(영상 미구현)</b>", // 내용
+								type : "success", // 종류
+								confirmButtonText : "확인",
+								confirmButtonColor : "#ff3253"
+							})
+						}
+					})
+				} else if (req == 3) {
+					swal({
+			            timer:1500,
+			            html:"<div style='font-weight: bold; margin-bottom: 20px;'>대여 기간이 지난 상품입니다.</div>",
+			            type:"error",
+			            allowOutsideClick: false,
+			            showConfirmButton: false
+			        }).then(function(){
+			            location.reload();
+			        });
+				} else if (req == 0) {
+					swal({
+						html : "<b>영상을 시청하시겠습니까?<br>주의! 시청시 환불이 불가능합니다.</b>", // 내용
+						type : "question", // 종류
+						showCancelButton : true, // 취소버튼 표시 여부
+						cancelButtonText : "취소",
+						confirmButtonText : "확인",
+						confirmButtonColor : "#ff3253",
+					}).then(function(result) {
+						if (result.value) {
+							$.post('movie_watch.do', {buy_movie_list_no: buy_movie_list_no}, function() {
+								swal({
+									html : "<b>영상 재생중....(영상 미구현)</b>", // 내용
+									type : "success", // 종류
+									confirmButtonText : "확인",
+									confirmButtonColor : "#ff3253"
+								})
+							})
+						}
+					})
+				}
+			})
 		})
 		
 		// 삭제 버튼 클릭시
 		$(".movie_delete").click(function() {
-			var movie_d = $("input[name=movie_check]:checked");
 				// 삭제할 제품이 없으면
-				if (movie_d.length == 0) {
+				if (!$("input[name=movie_check]:checked")) {
 					swal({
 						html : "<b>삭제할 상품이 없습니다.</b>", // 내용
 						type : "error", // 종류
@@ -409,9 +467,34 @@ input[type=checkbox] {
 				confirmButtonColor : "#ff3253",
 			}).then(function(result) { // 버튼이 눌러졌을 경우의 콜백 연결
 				if (result.value) { // 확인 버튼이 눌러진 경우
-					//$.post(휴지통 보내기) (체크된 친구 인덱스값 구해서 벨류 인덱스값도 가져오기 ㅎㅎ 포문돌리기(포문은 밖에서))
+					for ( var i = 0 ; i < $("input:checkbox[name=movie_check]").length ; i++ ) {
+						if ($("input:checkbox[name=movie_check]").eq(i).is(":checked") == true) {
+							var buy_movie_list_no = parseInt($("input:checkbox[name=movie_check]").eq(i).val());
+							$.post('movie_status_change.do', {buy_movie_list_no: buy_movie_list_no},function(req){
+								if (req == 1) {
+									swal({
+							            timer:1500,
+							            html:"<div style='font-weight: bold; margin-bottom: 20px;'>개짓거리 하지 마십쇼 휴먼</div>",
+							            type:"error",
+							            allowOutsideClick: false,
+							            showConfirmButton: false
+							        }).then(function(){
+							            location.reload();
+							        });
+								}
+							});
+						}
+					}
+					swal({
+			            timer:1500,
+			            html:"<div style='font-weight: bold; margin-bottom: 20px;'>삭제 되었습니다.</div>",
+			            type:"success",
+			            allowOutsideClick: false,
+			            showConfirmButton: false
+			        }).then(function(){
+			            location.reload();
+			        });
 				}
-
 			});
 		}); // end $(".movie_delete").click()
 	</script>

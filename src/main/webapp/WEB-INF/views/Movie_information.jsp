@@ -320,7 +320,7 @@
             
             <!-- 구매버튼 -->
             <li class="btn1_1_2">
-                <span style="font-weight: bold;"><a href="Movie_buy">${movie_type}<span class="price">&nbsp;&nbsp;${movie_price}코인</span></a></span>
+                <span style="font-weight: bold;"><a href="Movie_buy?movieNo=${movie_no}">${movie_type}<span class="price">&nbsp;&nbsp;${movie_price}코인</span></a></span>
             </li>
         </ul>
     </div>

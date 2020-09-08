@@ -83,11 +83,24 @@ public class UserCouponServiceImpl implements UserCouponService {
 		sqlSession.update("UserCouponMapper.useCoupon", input);
 	}
 
-	/** 쿠폰 번호 찾기 */
+	/** 사용하지 않은 쿠폰 */
 	@Override
-	public int searchCoupon(String name) {
-		int result = sqlSession.selectOne("UserCouponMapper.searchCoupon", name);
+	public List<UserCoupon> getUnusedCouponList(int user_no) {
+		
+		List<UserCoupon> result = sqlSession.selectList("UserCouponMapper.unusedCouponList", user_no);
+		
 		return result;
+	}
+
+	/** 받아온 값과 db값 비교 */
+	@Override
+	public boolean checkUseCoupon(UserCoupon input) {
+		// 보유중이지 않다면
+		if (sqlSession.selectOne("UserCouponMapper.useCouponCheck", input) == null) {
+			return true;
+		}
+		// 보유중이라면
+		return false;
 	}
 
 }

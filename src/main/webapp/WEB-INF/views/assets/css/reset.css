@@ -9,6 +9,7 @@
 * {
 	-webkit-text-size-adjust: none;
     font-family: 'Nanum Gothic', sans-serif;
+    -webkit-appearance: none;
 }
 
 /** 추가내용: 웹 브라우저 기본 사이즈 정의 */

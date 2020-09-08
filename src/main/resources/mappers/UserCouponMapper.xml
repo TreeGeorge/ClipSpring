@@ -23,22 +23,30 @@
     <select id="couponList"
 		parameterType="study.spring.clip.model.UserCoupon"
 		resultMap="userCouponMap">
-		SELECT period, name, is_used, price FROM user_coupon uc, coupon c WHERE uc.coupon_no = c.coupon_no
+		SELECT DATE_ADD(period, INTERVAL -1 DAY) AS period, name, is_used, price FROM user_coupon uc, coupon c WHERE uc.coupon_no = c.coupon_no
 		AND user_no = #{user_no};
+	</select>
+	
+	<!-- user_no로 사용하지 않은 유저 쿠폰 객체 조회 -->
+    <select id="unusedCouponList"
+		parameterType="study.spring.clip.model.UserCoupon"
+		resultMap="userCouponMap">
+		SELECT name, price, user_coupon_no FROM user_coupon uc, coupon c WHERE uc.coupon_no = c.coupon_no
+		AND user_no = #{user_no} AND is_used = 'N';
 	</select>
 	
 	<!-- coupon_no로 쿠폰정보 가져오기 (컨트롤러에서 db 확인후 임의값 넣고 진행.. 관리자페이지가 없기 때문) -->
 	<select id="selectCouponInfo"
 		parameterType="study.spring.clip.model.UserCoupon"
 		resultMap="userCouponMap">
-		SELECT * FROM coupon WHERE coupon_no = #{coupon_no};
+		SELECT coupon_no, price, name, DATE_ADD(period, INTERVAL -1 DAY) AS period FROM coupon WHERE coupon_no = #{coupon_no};
 	</select>
 	
 	<!-- 쿠폰 사용했을때 사용상태로 변경 -->
 	<update id="useCoupon"
     	parameterType="study.spring.clip.model.UserCoupon">
         UPDATE user_coupon SET is_used = 'Y'
-		WHERE user_no = #{user_no} AND name = #{name};
+		WHERE user_coupon_no = #{user_coupon_no};
     </update>
     
     <!-- 기간이 지난 쿠폰 삭제 -->
@@ -62,14 +70,14 @@
 	<select id="duplicateCheck"
 		parameterType="study.spring.clip.model.UserCoupon"
 		resultMap="userCouponMap">
-		SELECT * FROM user_coupon WHERE user_no = #{user_no} AND coupon_no = (SELECT coupon_no FROM coupon WHERE name = #{name});
+		SELECT * FROM user_coupon WHERE user_no = #{user_no} AND coupon_no = #{coupon_no};
 	</select>
 	
-	<!-- 이미 쿠폰을 보유하고 있는지 체크 -->
-	<select id="searchCoupon"
+	<!-- 사용하지 않은 쿠폰인지 체크 -->
+	<select id="useCouponCheck"
 		parameterType="study.spring.clip.model.UserCoupon"
-		resultType="int">
-		SELECT coupon_no FROM coupon WHERE name = #{name};
+		resultMap="userCouponMap">
+		SELECT * FROM user_coupon WHERE user_no = #{user_no} AND user_coupon_no = #{user_coupon_no} AND is_used = 'N';
 	</select>
 	
 	<!-- 행 삭제 -->

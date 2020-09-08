@@ -16,6 +16,31 @@
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 <style>
+
+.top_info {
+   	position: fixed;
+    top: 0;
+    width: 100%;
+    height: 40px;
+    border-bottom: 1px solid #b8b8b8;
+    text-align: center;
+    line-height: 40px;
+    box-sizing: border-box;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #fff;
+    z-index: 100;
+}
+
+.top_info img {
+    display: block;
+    position: absolute;
+    float: left;
+    height: 26px;
+    width: 26px;
+    margin: 7px;
+}
+
 .container {
 	padding:0px;
 	margin-bottom: 50px;
@@ -238,7 +263,12 @@ a.toggleCheckbox_top {
 	<div class="container">
 	
 		<!-- 카테고리 제목 -->
-		<%@ include file="assets/inc/top_info.jsp" %>
+		<div class="top_info">
+			<a href="MY_movie">
+				<img src="assets/img/left.png" alt="뒤로">
+			</a>
+			<span id="top_info_value">휴지통</span>
+		</div>
 	
 		<!-- 드롭다운 옵션 -->
 		<div class="content clearfix">
@@ -246,7 +276,7 @@ a.toggleCheckbox_top {
 			</span> 
 			<span class="delete_list"> 
 			<a class="toggleCheckbox_top hidden">전체선택
-			<input id="check_box2" class="hidden" type="checkbox" name="movie_check" />
+			<input id="check_box2" class="hidden" type="checkbox" name="check_all" />
 			</a></span>
 			<a class="movie_delete hidden">복원</a>
 				<select class="form-control selcls" id="movie_select">
@@ -270,7 +300,7 @@ a.toggleCheckbox_top {
 				<c:choose>
 					<c:when test="${item.type == '대여' and item.is_delete == 'Y'}">
 						<li class="movie_list">
-							<div class="movie_item">
+							<a href="Movie_information?movieNo=${item.movie_no}" class="movie_item">
 								<span class="thumb">
 									<img src="${item.thumbnail}" alt="${item.name} 포스터">
 								</span>
@@ -280,14 +310,13 @@ a.toggleCheckbox_top {
 									<span class="type">${item.type}</span>
 									<span class="period">${item.end_date} 까지</span>
 								</span>
-							</div>
-							<!-- 편집 클릭시 체크박스 -->
-							<input id="check_box" class="hidden" type="checkbox" name="movie_check" />
+							</a>
+							<input id="check_box" class="hidden" type="checkbox" name="movie_check" value="${item.buy_movie_list_no}" />
 						</li>
 					</c:when>
 					<c:when test="${item.type == '구매' and item.is_delete == 'Y'}">
 						<li class="movie_list">
-							<div class="movie_item">
+							<a href="Movie_information?movieNo=${item.movie_no}" class="movie_item">
 								<span class="thumb">
 									<img src="${item.thumbnail}" alt="${item.name} 포스터">
 								</span>
@@ -296,10 +325,8 @@ a.toggleCheckbox_top {
 									<span class="time">${item.runtime} | ${item.age}</span>
 									<span class="type">${item.type}</span>
 								</span>
-							</div>
-							<!-- 편집 클릭시 체크박스 -->
-							<input id="check_box" class="hidden" type="checkbox" name="movie_check" />
-							<input id="buy_movie_list_no" type="hidden" value="${item.buy_movie_list_no}"/>
+							</a>
+							<input id="check_box" class="hidden" type="checkbox" name="movie_check" value="${item.buy_movie_list_no}" />
 						</li>
 					</c:when>
 				</c:choose>
@@ -314,22 +341,30 @@ a.toggleCheckbox_top {
 	<script src="assets/js/jquery.min.js"></script>
 	<script src="assets/js/bootstrap.min.js"></script>
 	<script>
-		$("#top_info_value").html("휴지통");
 	 	$(".bot_bar_icon").eq(3).attr("src","assets/img/my_page_icon_selected.png");
+	 	if (!$(".movie_list")[0]) {
+			// 영화리스트 빈 화면
+			$(".no_value").removeClass("hide")
+			$(".delete_list").addClass("hide");
+			$(".movie_delete").addClass('hide');
+			$(".click_edit").addClass('hide');
+		}
 		var isCheck = 2;
 		// 편집 버튼의 클릭 처리 
 		$(".click_edit").click(function(e) {
 
 			// check 박스의 첫번째 인덱스의 classname이 hidden이면
-			if ($("input[name=movie_check]")[0].className == 'hidden') {
+			if ($("input[name=check_all]")[0].className == 'hidden') {
 				// 편집 버튼 클릭시, hidden 해놨던 checkbox클래스를 remove
 				$("input[name=movie_check]").removeClass('hidden');
+				$("input[name=check_all]").removeClass('hidden');
 				$(".movie_delete").removeClass('hidden');
 				$(".toggleCheckbox_top").removeClass('hidden');
 				return;
 			}
 			// check 박스에 hidden 클래스를 추가
 			$("input[name=movie_check]").addClass('hidden');
+			$("input[name=check_all]").addClass('hidden');
 			$(".movie_delete").addClass('hidden');
 			$(".toggleCheckbox_top").addClass('hidden');
 		});
@@ -370,16 +405,33 @@ a.toggleCheckbox_top {
 				confirmButtonColor : "#ff3253",
 			}).then(function(result) { // 버튼이 눌러졌을 경우의 콜백 연결
 				if (result.value) { // 확인 버튼이 눌러진 경우
-					// 선택된 상품 삭제
-					movie_d.parent().remove();
-					// 영화리스트가 비었다면
-					if (!$(".movie_list")[0]) {
-						// 영화리스트 빈 화면
-						$(".no_value").removeClass("hide")
-						$(".delete_list").addClass("hide");
-						$(".movie_delete").addClass('hide');
-						$(".click_edit").addClass('hide');
+					for ( var i = 0 ; i < $("input:checkbox[name=movie_check]").length ; i++ ) {
+						if ($("input:checkbox[name=movie_check]").eq(i).is(":checked") == true) {
+							var buy_movie_list_no = parseInt($("input:checkbox[name=movie_check]").eq(i).val());
+							$.post('movie_status_change.do', {buy_movie_list_no: buy_movie_list_no},function(req){
+								if (req == 1) {
+									swal({
+							            timer:1500,
+							            html:"<div style='font-weight: bold; margin-bottom: 20px;'>개짓거리 하지 마십쇼 휴먼</div>",
+							            type:"error",
+							            allowOutsideClick: false,
+							            showConfirmButton: false
+							        }).then(function(){
+							            location.reload();
+							        });
+								}
+							});
+						}
 					}
+					swal({
+			            timer:1500,
+			            html:"<div style='font-weight: bold; margin-bottom: 20px;'>복원 되었습니다.</div>",
+			            type:"success",
+			            allowOutsideClick: false,
+			            showConfirmButton: false
+			        }).then(function(){
+			            location.reload();
+			        });
 				}
 			});
 		}); // end $(".movie_delete").click()

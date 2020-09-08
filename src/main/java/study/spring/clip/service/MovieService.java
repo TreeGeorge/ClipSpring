@@ -6,7 +6,7 @@ public interface MovieService {
 	/**
 	 * 영화 데이터 상세 조회
 	 */
-	public Movie getMovieItem(Movie input) throws Exception;
+	public Movie getMovieItem(Movie input);
 	// 해당영화 좋아요개수
 	public int getMovieLike(Movie input1) throws Exception;
 	// 해당영화 평점 평균

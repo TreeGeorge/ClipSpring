@@ -291,7 +291,6 @@ input[type="number"]::-webkit-inner-spin-button {
 			<img src="assets/img/Payment.png" /><span
 				class="movie_text1">결제수단</span>
 			<hr />
-			<!-- 계좌번호 비밀번호랑 카드번호 비밀번호 다르게 설정 -->
 			<p>
 				<input type="radio" id="paybox1" name="pay" class="coupon"
 					value="card" checked /> <label>${card_no}</label>
@@ -301,7 +300,6 @@ input[type="number"]::-webkit-inner-spin-button {
 
 
 		<div class="coin_text">
-			<!-- 현 아이디 비밀번호 입력 하고 결제하기 눌렀을때 아니면 얼럴 맞으면 마이페이지 이동-->
 			<br>
 			<p class="text">비밀번호 입력</p>
 			<br> <input type="password" class="set_payment"
@@ -402,7 +400,6 @@ input[type="number"]::-webkit-inner-spin-button {
 			})	// 직접입력
 			
 			$(".pay_end").click(function() {
-				var chk1 = $("#check").is(":checked");
 				var pw_val = $("#password").val();
 				var price = parseInt($(".coupon2").text().replace(",","").replace("원",""));
 				
@@ -435,7 +432,7 @@ input[type="number"]::-webkit-inner-spin-button {
 						return false;
 					} else {
 						//약관동의 여부 확인
-						if (!chk1) {
+						if (!$("#check").is(":checked")) {
 							swal({
 								html : "<b>약관을 동의해 주세요.</b>", // 내용
 								type : "error", // 종류

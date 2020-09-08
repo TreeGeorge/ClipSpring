@@ -47,6 +47,7 @@
 	<task:scheduled-tasks>
 		<task:scheduled ref="scheduleJob" method="everyMidnight" cron="0 0 0 * * ?"/>
 		<task:scheduled ref="scheduleJob" method="everyMidnightCoupon" cron="0 0 0 * * ?"/>
+		<task:scheduled ref="scheduleJob" method="everyMidnightEndRental" cron="0 0 0 * * ?"/>
 	</task:scheduled-tasks>
 	
 </beans:beans>

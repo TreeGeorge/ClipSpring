@@ -17,23 +17,8 @@ public class MovieServiceImpl implements MovieService {
 	SqlSession sqlSession;
 	
 	@Override
-	public Movie getMovieItem(Movie input) throws Exception {
-		Movie result = null;
-		
-		try {
-			result = sqlSession.selectOne("MovieMapper.oneMovie", input);
-			
-			if (result == null) {
-				throw new NullPointerException("resut=null");
-			}
-		} catch (NullPointerException e) {
-			log.error(e.getLocalizedMessage());
-			throw new Exception("조회된 데이터가 없습니다.");
-		} catch (Exception e) {
-			log.error(e.getLocalizedMessage());
-			throw new Exception("데이터 조회에 실패했습니다.");
-		}
-		
+	public Movie getMovieItem(Movie input){
+		Movie result = sqlSession.selectOne("MovieMapper.oneMovie", input);
 		return result;
 	}
 

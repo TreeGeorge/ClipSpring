@@ -62,7 +62,7 @@ public class UserCouponController {
 	 @ResponseBody
 	 @RequestMapping(value = "coupon_add_ok.do", method = RequestMethod.POST)
 	 public int addUserCouponOk(Model model, HttpServletResponse response, HttpSession session,
-	 		@RequestParam(value="name") String name) {
+	 		@RequestParam(value="coupon_no") int coupon_no) {
 		 
 		 if ( session.getAttribute("id") == null ) {
 				try {
@@ -78,17 +78,14 @@ public class UserCouponController {
 	 	
 	 	int user_no = (int)session.getAttribute("user_no");
 			
-	 	input.setName(name);
+	 	input.setCoupon_no(coupon_no);
 	 	input.setUser_no(user_no);
 			
 	 	// 이미 쿠폰을 보유중이라면
 	 	if (userCouponService.checkCouponList(input)) {
 	 		return 0;
 	 	}
-	 	
-	 	// 쿠폰 번호 찾기
-	 	input.setCoupon_no(userCouponService.searchCoupon(name));
-			
+
 	 	try {
 	 		// 데이터 추가
 	 		userCouponService.addUserCouponList(input);
@@ -97,5 +94,38 @@ public class UserCouponController {
 	 	}
 			
 	 	return 1;
+	 }
+	 
+	 /** 쿠폰 사용 체크 */
+	 @ResponseBody
+	 @RequestMapping(value = "use_coupon_check.do", method = RequestMethod.POST)
+	 public int useCouponCheck(HttpSession session,
+	 		 @RequestParam(value="user_coupon_no") int user_coupon_no) {
+		 
+		 UserCoupon input = new UserCoupon();
+		 
+		 int user_no = (int)session.getAttribute("user_no");
+		 input.setUser_no(user_no);
+		 input.setUser_coupon_no(user_coupon_no);
+		 
+		 // db값과 다시한번 비교
+		 if(userCouponService.checkUseCoupon(input)) {
+			 return 1;
+		 }
+	 	 return 0;
+	 }
+	 
+	 /** 쿠폰 사용 */
+	 @ResponseBody
+	 @RequestMapping(value = "use_coupon.do", method = RequestMethod.POST)
+	 public void useCoupon(
+	 		 @RequestParam(value="user_coupon_no") int user_coupon_no) {
+		 
+		 UserCoupon input = new UserCoupon();
+
+		 input.setUser_coupon_no(user_coupon_no);
+		 
+		 // 쿠폰을 사용상태로 바꾼다
+	 	 userCouponService.useCoupon(input);
 	 }
 }

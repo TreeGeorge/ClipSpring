@@ -10,10 +10,18 @@ public interface BuyMovieListService {
 	
 	public int deleteBuyMovieList(BuyMovieList input) throws Exception;
 	
-	public boolean checkBuyMovieList(BuyMovieList input);
+	public BuyMovieList checkBuyMovieList(BuyMovieList input);
 	
 	public boolean checkWatched(BuyMovieList input);
 	
 	public boolean checkDate(BuyMovieList input);
+	
+	public boolean duplicateCheck(BuyMovieList input);
+	
+	public void changeStatus(BuyMovieList input);
+	
+	public void watchMovie(int buy_movie_list_no);
+	
+	public void rentalEnd();
 
 }

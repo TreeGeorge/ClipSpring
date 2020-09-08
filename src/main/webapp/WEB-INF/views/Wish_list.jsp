@@ -251,7 +251,7 @@
         	<c:forEach var="item" items="${output}" varStatus="status">
                 <li class="wish_list_content">
 	                <label for="movie_number" class="wish_content"></label>
-	                <input name="wish_content_check" id="movie_number" type="checkbox" class="wish_content_check" checked />
+	                <input name="wish_content_check" id="movie_number" type="checkbox" class="wish_content_check" value="${item.movie_no}" checked />
 	                <a href="Movie_information?movieNo=${item.movie_no}">
 	                    <img src="${requestScope[MovieThumbnail]}" alt="${requestScope[MovieThumbnail]} 썸네일">
 	                    <span class="movie_title">${item.name}</span>
@@ -270,8 +270,8 @@
                 총 결제금액 <span class="total_coin">n코인</span>
             </div>
             <p>무료 상품은 별도 지불없이 이용하실 수 있습니다.</p>
-            <a href="index.jsp">다른 상품 보기</a>
-            <a href="Movie_buy.jsp">구매하기</a>
+            <a href="home">다른 상품 보기</a>
+            <a id="buy">구매하기</a>
         </div>
 
         <!--footer-->
@@ -312,6 +312,28 @@
         	$(".bot_bar_icon").eq(2).attr("src", "assets/img/wish_icon_selected.png");
             total();
 			check();
+			
+			// 구매버튼 클릭 이벤트
+			$("#buy").click(function() {
+				// 선택된 상품이 없을때
+				if (!$("input:checkbox[name=wish_content_check]")) {
+					swal({
+                        html: "<b>선택된 상품이 없습니다.</b>",    // 내용
+                        type: "error",  // 종류
+                        confirmButtonText: "확인", // 확인버튼 표시 문구
+                        confirmButtonColor: "#ff3253", // 확인버튼 색상
+                    });
+            		return false;
+				}
+				
+				var url = "Movie_buy?"
+				for ( var i = 0 ; i < $("input:checkbox[name=wish_content_check]").length ; i++ ) {
+					if ($("input:checkbox[name=wish_content_check]").eq(i).is(":checked") == true) {
+						url += "movieNo=" + $("input:checkbox[name=wish_content_check]").eq(i).val() + "&";
+					}
+				}
+				$(location).attr('href',url);
+			});
 
             // 전체선택 클릭 이벤트
             $(".wish_check").click(function(){

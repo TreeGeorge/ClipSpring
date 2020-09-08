@@ -149,7 +149,7 @@
 			<div class="Free_movie_box">
 				<!-- 무료 영화 목록 -->
 				<c:forEach var="item" items="${output}" varStatus="status">
-					<a class="Free_movie" href="Movie_information.do?Movie_no=${item.movie_no}"> 
+					<a class="Free_movie" href="Movie_information.do?movieNo=${item.movie_no}"> 
 					<img src="${item.thumbnail}" alt="${item.name} 썸네일"> 
 					<span class="Movie_title">${item.name}</span> 
 					<span class="Age">
