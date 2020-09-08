@@ -61,21 +61,20 @@
              <!--추천 카테고리 박스-->
             <div class="movie_box">
                  <!-- 해당 추천 카테고리 링크(ex. 영화와 함께 힐링 여행!) -->
-                <a href="Movie_category_sorted.jsp" class="movie_box_header clearfix"><span class="title">손발에 땀이나는 액션 무비!</span><img src="assets/img/right.png" class="right" /></a>
+                <a href="Movie_category_sorted.jsp" class="movie_box_header clearfix">
+                <span class="title">손발에 땀이나는 액션 무비!</span><img src="assets/img/right.png" class="right" /></a>
                  <!-- 해당 추천 카테고리 영화 리스트 -->
                 <div class="movie_list">
                     <!-- Swiper -->
                     <div class="swiper-container">
                         <div class="swiper-wrapper">
-	                        <c:forEach var="i" begin="0" end="9" step="1" varStatus="status"> 
-	                    		<c:set var="MovieNo" value="actionMovieNo${status.index}" />
-	                    		<c:set var="MovieTitle" value="actionMovieTitle${status.index}" />
-	                    		<c:set var="MovieThumbnail" value="actionMovieThumbnail${status.index}" />
-	                    		<c:set var="MovieType" value="actionMovieType${status.index}" />
-	                    		<c:set var="MoviePrice" value="actionMoviePrice${status.index}" />
-	                    		<c:set var="MovieSalePrice" value="actionMovieSalePrice${status.index}" />
-	                    		<div class="swiper-slide"><a href="Movie_information?movieNo=${requestScope[MovieNo]}" class="gallbox"><img
-	                            src="${requestScope[MovieThumbnail]}" alt="${requestScope[MovieTitle]} 썸네일"><span class="movie_title">${requestScope[MovieTitle]}</span><span class="type">${requestScope[MovieType]}</span><span class="price">${requestScope[MovieSalePrice]}<img id="coin" src="assets/img/coin_icon.png"/></span><del class="sale">${requestScope[MoviePrice]}<img id="coin" src="assets/img/coin_icon.png"/></del></a></div>
+	                        <c:forEach var="item" items="${homeMovieSlider}" varStatus="status"> 
+	                    		<div class="swiper-slide"><a href="Movie_information?movieNo=${item.movie_no}" class="gallbox">
+	                    		<img src="${item.thumbnail}" alt="${item.name} 썸네일">
+	                    		<span class="movie_title">${item.name}</span>
+	                    		<span class="type">${item.type}</span>
+	                    		<span class="price">${item.price}<img id="coin" src="assets/img/coin_icon.png"/></span>
+	                    		<del class="sale">${item.sale}<img id="coin" src="assets/img/coin_icon.png"/></del></a></div>
 	                    	</c:forEach>
                         </div>
                     <!-- Add Pagination -->
@@ -280,6 +279,7 @@
             </div>
             <div class="category_more"><span class="add">더보기 +</span><span class="remove hidden_category">접기 -</span></div>
         </div>
+       
 
 
     <!--footer-->

@@ -36,4 +36,12 @@
 	<update id="nullList" parameterType="study.spring.clip.model.MovieComment">
 		UPDATE movie_comment SET user_no=null WHERE user_no=#{user_no};
 	</update>
+	
+	<!-- 데이터 삽입 -->
+	<select id="insertComment"
+		parameterType="study.spring.clip.model.MovieComment"
+		resultMap="MovieCommentMap">
+		INSERT INTO movie_comment (movie_comment_no, editdate, content, userid, user_no, movie_no)
+		VALUES (#{movie_comment_no},#{editdate},#{content},#{userid},#{user_no},#{movie_no});
+	</select>
 </mapper>

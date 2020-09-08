@@ -14,7 +14,8 @@ public interface HomeMovieSliderService {
 	/**
 	 * 액션 영화 슬라이더 조회
 	 * */
-	public List<HomeMovieSlider> getJangreMovieSliderList(String category_type);
+	public List<HomeMovieSlider> getJangreMovieSliderList(String name);
+	
 
 }
 

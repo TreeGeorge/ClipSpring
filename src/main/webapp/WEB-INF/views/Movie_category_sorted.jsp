@@ -165,7 +165,7 @@ a:hover {
 				<li class="img"><a href="Movie_information.do?movie_no=${item.movie_no}"> 
 				<span class="thumb"> <img src="${item.thumbnail}" alt="${item.name} 썸네일" /></span> 
 				<span class="movie_title">${item.name}</span>
-				<span class="price">${item.type}&nbsp;${item.price}<img src="assets/img/coin_icon.png"></span>
+				<span class="price">${item.type}&nbsp;<span class="cost">${item.price}</span><img src="assets/img/coin_icon.png"></span>
 				</a></li>
 			</c:forEach>
 		</ul>
@@ -175,6 +175,13 @@ a:hover {
 	<script src="assets/js/bootstrap.min.js"></script>
 	<script>
 		$(function() {
+			var cost = $(".cost");
+				for(var i = 0; i< cost.length; i++) {
+					if(cost.eq(i).text()=="0"){
+						cost.eq(i).text("무료");
+					}
+				}
+			
 			$("#top_info_value").html("카테고리 종류");
 
 			var num = 0;

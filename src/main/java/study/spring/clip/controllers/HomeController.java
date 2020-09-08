@@ -1,11 +1,13 @@
 package study.spring.clip.controllers;
 
+import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 // import org.slf4j.Logger;
 // import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -14,7 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import lombok.extern.slf4j.Slf4j;
+import study.spring.clip.model.CategoryType;
+import study.spring.clip.model.HomeMovieSlider;
 import study.spring.clip.model.UserCoupon;
+import study.spring.clip.service.CategoryTypeService;
+import study.spring.clip.service.HomeMovieSliderService;
 import study.spring.clip.service.UserCouponService;
 
 /**
@@ -28,6 +34,16 @@ public class HomeController {
 	UserCouponService userCouponService;
 
 	// private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+	
+
+	@Autowired
+	HomeMovieSliderService homeMovieSliderService;
+	
+	@Autowired
+	CategoryTypeService categoryTypeService;
+
+	@Value("#{servletContext.contextPath}")
+	String contextPath;
 
 	/**
 	 * Simply selects the home view to render by returning its name.
@@ -40,16 +56,22 @@ public class HomeController {
 		log.debug("Locale : " + locale.getDisplayLanguage());	// 언어 이름 (한국어)
 		log.debug("Locale : " + locale.getDisplayCountry());	// 국가 이름 (대한민국)
 		
+		List<HomeMovieSlider> homeMovieSlider = homeMovieSliderService.getJangreMovieSliderList("액션"); // 액션영화조회
+		
+
+		movie.addAttribute("homeMovieSlider", homeMovieSlider);
+	
+		
 		int[] recommendMovieNo = {1,2,3,4,5,6,7,8,9,10};
 		String[] recommendMovieTitle = {"추천영화1","추천영화2","추천영화3","추천영화4","추천영화5","추천영화6","추천영화7","추천영화8","추천영화9","추천영화10"};
 		String[] recommendMovieThumbnail = {"영화 썸네일 주소","영화 썸네일 주소2","영화 썸네일 주소3","영화 썸네일 주소4","영화 썸네일 주소5","영화 썸네일 주소6","영화 썸네일 주소7","영화 썸네일 주소8","영화 썸네일 주소9","영화 썸네일 주소10"};		
 		
-		int[] actionMovieNo = {11,12,13,14,15,16,17,18,19,20};
-		String[] actionMovieTitle = {"액션영화1","액션영화2","액션영화3","액션영화4","액션영화5","액션영화6","액션영화7","액션영화8","액션영화9","액션영화10"};
-		String[] actionMovieThumbnail = {"액션 영화 썸네일 주소1","액션 영화 썸네일 주소2","액션 영화 썸네일 주소3","액션 영화 썸네일 주소4","액션 영화 썸네일 주소5","액션 영화 썸네일 주소6","액션 영화 썸네일 주소7","액션 영화 썸네일 주소8","액션 영화 썸네일 주소9","액션 영화 썸네일 주소10"};
-		String[] actionMovieType = {"구매","대여","대여","구매","대여","구매","대여","구매","구매","대여"};
-		int[] actionMoviePrice = {2000,3000,5000,2000,2000,2000,3000,5000,4000,7000};
-		int[] actionMovieSale = {50,20,0,10,0,15,20,33,55,0};
+//		int[] actionMovieNo = {11,12,13,14,15,16,17,18,19,20};
+//		String[] actionMovieTitle = {"액션영화1","액션영화2","액션영화3","액션영화4","액션영화5","액션영화6","액션영화7","액션영화8","액션영화9","액션영화10"};
+//		String[] actionMovieThumbnail = {"액션 영화 썸네일 주소1","액션 영화 썸네일 주소2","액션 영화 썸네일 주소3","액션 영화 썸네일 주소4","액션 영화 썸네일 주소5","액션 영화 썸네일 주소6","액션 영화 썸네일 주소7","액션 영화 썸네일 주소8","액션 영화 썸네일 주소9","액션 영화 썸네일 주소10"};
+//		String[] actionMovieType = {"구매","대여","대여","구매","대여","구매","대여","구매","구매","대여"};
+//		int[] actionMoviePrice = {2000,3000,5000,2000,2000,2000,3000,5000,4000,7000};
+//		int[] actionMovieSale = {50,20,0,10,0,15,20,33,55,0};
 		
 		int[] top100MovieNo = {21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40};
 		String[] top100MovieTitle = {"top100영화1","top100영화2","top100영화3","top100영화4","top100영화5","top100영화6","top100영화7","top100영화8","top100영화9","top100영화10","top100영화11","top100영화12","top100영화13","top100영화14","top100영화15","top100영화16","top100영화17","top100영화18","top100영화19","top100영화20"};
@@ -139,17 +161,17 @@ public class HomeController {
 				movie.addAttribute("recommendMovieThumbnail"+i, recommendMovieThumbnail[i]);
 				movie.addAttribute("recommendMovieNo"+i, recommendMovieNo[i]);
 				
-				if (actionMovieSale[i] == 0) {
-					price = actionMoviePrice[i];
-				} else {
-					price = actionMoviePrice[i] / 100 * (100 - actionMovieSale[i]);
-				}
-				movie.addAttribute("actionMovieTitle"+i, actionMovieTitle[i]);
-				movie.addAttribute("actionMovieThumbnail"+i, actionMovieThumbnail[i]);
-				movie.addAttribute("actionMovieType"+i, actionMovieType[i]);
-				movie.addAttribute("actionMoviePrice"+i, actionMoviePrice[i]);
-				movie.addAttribute("actionMovieNo"+i, actionMovieNo[i]);
-				movie.addAttribute("actionMovieSalePrice"+i, price);
+//				if (actionMovieSale[i] == 0) {
+//					price = actionMoviePrice[i];
+//				} else {
+//					price = actionMoviePrice[i] / 100 * (100 - actionMovieSale[i]);
+//				}
+//				movie.addAttribute("actionMovieTitle"+i, actionMovieTitle[i]);
+//				movie.addAttribute("actionMovieThumbnail"+i, actionMovieThumbnail[i]);
+//				movie.addAttribute("actionMovieType"+i, actionMovieType[i]);
+//				movie.addAttribute("actionMoviePrice"+i, actionMoviePrice[i]);
+//				movie.addAttribute("actionMovieNo"+i, actionMovieNo[i]);
+//				movie.addAttribute("actionMovieSalePrice"+i, price);
 				
 				price = saleMoviePrice[i] / 100 * (100 - saleMovieSale[i]);
 				movie.addAttribute("saleMovieTitle"+i, saleMovieTitle[i]);

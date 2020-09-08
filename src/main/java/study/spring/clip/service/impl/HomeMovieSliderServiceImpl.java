@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
+import study.spring.clip.model.CategorySorted;
 import study.spring.clip.model.HomeMovieSlider;
 import study.spring.clip.service.HomeMovieSliderService;
 
@@ -25,8 +26,11 @@ public class HomeMovieSliderServiceImpl implements HomeMovieSliderService {
 		}
 
 	@Override
-	public List<HomeMovieSlider> getJangreMovieSliderList(String category_type) {
-		List<HomeMovieSlider> result = sqlSession.selectList("HomeMovieSliderMapper.JangreMovieSlider");
+	public List<HomeMovieSlider> getJangreMovieSliderList(String name) {
+		
+		HomeMovieSlider input = new HomeMovieSlider();
+		input.setName(name);
+		List<HomeMovieSlider> result = sqlSession.selectList("HomeMovieSliderMapper.JangreMovieSlider",input);
 		return result;
 	}
 

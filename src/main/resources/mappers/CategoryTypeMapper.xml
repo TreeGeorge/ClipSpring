@@ -18,8 +18,7 @@
 		resultMap="CategoryTypeMap">
 		SELECT category_type_no, name, type 
 		FROM category_type
-		WHERE category_type_no
-		LIMIT 0,10;
+		WHERE TYPE = #{type};
 	</select>
 	
 	<select id="TwoCategoryType"
@@ -27,7 +26,6 @@
 		resultMap="CategoryTypeMap">
 		SELECT category_type_no, name, type 
 		FROM category_type
-		WHERE category_type_no
-		LIMIT 10,16;
+		WHERE TYPE = #{type};
 	</select>
 </mapper>

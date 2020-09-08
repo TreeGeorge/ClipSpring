@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
 import study.spring.clip.model.CategoryType;
+import study.spring.clip.model.HomeMovieSlider;
 import study.spring.clip.service.CategoryTypeService;
 
 @Slf4j
@@ -18,15 +19,19 @@ public class CategoryTypeServieImpl implements CategoryTypeService {
 	SqlSession sqlSession;
 
 	@Override
-	public List<CategoryType> getCategoryTypeListG() {
-		List<CategoryType> result = sqlSession.selectList("CategoryTypeMapper.OneCategoryType");
+	public List<CategoryType> getCategoryTypeListG(String type) {
+		CategoryType input = new CategoryType();
+		input.setType(type);
+		List<CategoryType> result = sqlSession.selectList("CategoryTypeMapper.OneCategoryType",input);
 
 		return result;
 	}
 
 	@Override
-	public List<CategoryType> getCategoryTypeListB() {
-		List<CategoryType> result = sqlSession.selectList("CategoryTypeMapper.TwoCategoryType");
+	public List<CategoryType> getCategoryTypeListB(String type) {
+		CategoryType input = new CategoryType();
+		input.setType(type);
+		List<CategoryType> result = sqlSession.selectList("CategoryTypeMapper.TwoCategoryType",input);
 		
 		return result;
 	}

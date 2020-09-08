@@ -10,4 +10,5 @@ public class HomeMovieSlider {
 	private int price;
 	private int sale;
 	private int category_type_no;
+	private String type;
 }

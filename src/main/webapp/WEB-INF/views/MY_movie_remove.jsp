@@ -8,43 +8,41 @@
 <html lang="ko">
 
 <head>
-<%@ include file="assets/inc/header.jsp" %>
-<script
-	src="assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
+<%@ include file="assets/inc/header.jsp"%>
+<script src="assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
 <link rel="stylesheet" type="text/css"
 	href="assets/css/bootstrap.min.css" />
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 <style>
-
 .top_info {
-   	position: fixed;
-    top: 0;
-    width: 100%;
-    height: 40px;
-    border-bottom: 1px solid #b8b8b8;
-    text-align: center;
-    line-height: 40px;
-    box-sizing: border-box;
-    font-size: 18px;
-    font-weight: bold;
-    background-color: #fff;
-    z-index: 100;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	height: 40px;
+	border-bottom: 1px solid #b8b8b8;
+	text-align: center;
+	line-height: 40px;
+	box-sizing: border-box;
+	font-size: 18px;
+	font-weight: bold;
+	background-color: #fff;
+	z-index: 100;
 }
 
 .top_info img {
-    display: block;
-    position: absolute;
-    float: left;
-    height: 26px;
-    width: 26px;
-    margin: 7px;
+	display: block;
+	position: absolute;
+	float: left;
+	height: 26px;
+	width: 26px;
+	margin: 7px;
 }
 
 .container {
-	padding:0px;
+	padding: 0px;
 	margin-bottom: 50px;
-	width:100%:
+	width: 100%;
 }
 
 #top_bar {
@@ -58,7 +56,7 @@
 
 /* a태그에 hover시 밑줄 제거 */
 a:hover {
-	text-decoration:none;
+	text-decoration: none;
 }
 
 .clear {
@@ -78,15 +76,15 @@ a.toggleCheckbox_top {
 
 .movie_delete {
 	position: absolute;
-    color: #222;
-    right: 110px;
-    display: block;
-    border: 1px solid #d5d5d5;
-    width: 40px;
-    height: 22px;
-    top: 46px;
-    text-align: center;
-    line-height: 22px;
+	color: #222;
+	right: 110px;
+	display: block;
+	border: 1px solid #d5d5d5;
+	width: 40px;
+	height: 22px;
+	top: 46px;
+	text-align: center;
+	line-height: 22px;
 }
 
 /* 드롭다운, n개작품 박스 */
@@ -193,6 +191,7 @@ a.toggleCheckbox_top {
 	font-size: 12px;
 	color: #ff3253;
 }
+
 .movie .type {
 	margin-top: 3px;
 }
@@ -213,9 +212,8 @@ a.toggleCheckbox_top {
 /* 전체선택 체크박스 */
 #check_box2 {
 	position: absolute;
-	top:47px;
-	left:90px;
-	
+	top: 47px;
+	left: 90px;
 }
 /* hidden , hide */
 .hidden {
@@ -226,7 +224,6 @@ a.toggleCheckbox_top {
 	display: none;
 }
 /** 휴지통의 내용물이 없을때 */
-
 .no_value {
 	height: 300px;
 	text-align: center;
@@ -262,25 +259,20 @@ a.toggleCheckbox_top {
 <body>
 	<!-- 전체 박스 -->
 	<div class="container">
-	
 		<!-- 카테고리 제목 -->
 		<div class="top_info">
-			<a href="MY_movie">
-				<img src="assets/img/left.png" alt="뒤로">
-			</a>
-			<span id="top_info_value">휴지통</span>
+			<a href="MY_movie"> <img src="assets/img/left.png" alt="뒤로">
+			</a> <span id="top_info_value">휴지통</span>
 		</div>
-	
+
 		<!-- 드롭다운 옵션 -->
 		<div class="content clearfix">
 			<span class="total"> <span class="click_edit">편집</span>
-			</span> 
-			<span class="delete_list"> 
-			<a class="toggleCheckbox_top hidden">전체선택
-			<input id="check_box2" class="hidden" type="checkbox" name="check_all" />
-			</a></span>
-			<a class="movie_delete hidden">복원</a>
-				<select class="form-control selcls" id="movie_select">
+			</span> <span class="delete_list"> <a
+				class="toggleCheckbox_top hidden">전체선택 <input id="check_box2"
+					class="hidden" type="checkbox" name="check_all" />
+			</a></span> <a class="movie_delete hidden">복원</a> <select
+				class="form-control selcls" id="movie_select">
 				<option>최신순</option>
 				<option>평점순</option>
 				<option>판매순</option>
@@ -294,56 +286,48 @@ a.toggleCheckbox_top {
 				휴지통에 담겨진<br />상품이 없습니다.
 			</div>
 		</div>
-		
+
 		<!-- 휴지통에 들어간 영화 리스트 -->
 		<ul class="movie">
-		<c:forEach var="item" items="${output}" varStatus="status">
+			<c:forEach var="item" items="${output}" varStatus="status">
 				<c:choose>
 					<c:when test="${item.type == '대여' and item.is_delete == 'Y'}">
-						<li class="movie_list">
-							<a href="Movie_information?movieNo=${item.movie_no}" class="movie_item">
-								<span class="thumb">
-									<img src="${item.thumbnail}" alt="${item.name} 포스터">
-								</span>
-								<span class="movie_text">
-									<span class="movie_title">${item.name}</span>
-									<span class="time">${item.runtime} | ${item.age}</span>
-									<span class="type">${item.type}</span>
-									<span class="period">${item.end_date} 까지</span>
-								</span>
-							</a>
-							<input id="check_box" class="hidden" type="checkbox" name="movie_check" value="${item.buy_movie_list_no}" />
-						</li>
+						<li class="movie_list"><a
+							href="Movie_information?movieNo=${item.movie_no}"
+							class="movie_item"> <span class="thumb"> <img
+									src="${item.thumbnail}" alt="${item.name} 포스터">
+							</span> <span class="movie_text"> <span class="movie_title">${item.name}</span>
+									<span class="time">${item.runtime} | ${item.age}</span> <span
+									class="type">${item.type}</span> <span class="period">${item.end_date}
+										까지</span>
+							</span>
+						</a> <input id="check_box" class="hidden" type="checkbox"
+							name="movie_check" value="${item.buy_movie_list_no}" /></li>
 					</c:when>
 					<c:when test="${item.type == '구매' and item.is_delete == 'Y'}">
-						<li class="movie_list">
-							<a href="Movie_information?movieNo=${item.movie_no}" class="movie_item">
-								<span class="thumb">
-									<img src="${item.thumbnail}" alt="${item.name} 포스터">
-								</span>
-								<span class="movie_text">
-									<span class="movie_title">${item.name}</span>
-									<span class="time">${item.runtime} | ${item.age}</span>
-									<span class="type">${item.type}</span>
-								</span>
-							</a>
-							<input id="check_box" class="hidden" type="checkbox" name="movie_check" value="${item.buy_movie_list_no}" />
-						</li>
+						<li class="movie_list"><a
+							href="Movie_information?movieNo=${item.movie_no}"
+							class="movie_item"> <span class="thumb"> <img
+									src="${item.thumbnail}" alt="${item.name} 포스터">
+							</span> <span class="movie_text"> <span class="movie_title">${item.name}</span>
+									<span class="time">${item.runtime} | ${item.age}</span> <span
+									class="type">${item.type}</span>
+							</span>
+						</a> <input id="check_box" class="hidden" type="checkbox"
+							name="movie_check" value="${item.buy_movie_list_no}" /></li>
 					</c:when>
 				</c:choose>
 			</c:forEach>
 		</ul>
-		
-		
-	
-		<!-- BOT BAR -->
-		<%@ include file="assets/inc/bot_bar.jsp" %>
-	</div>
+	<!-- BOT BAR -->
+	<%@ include file="assets/inc/bot_bar.jsp"%>
+</div>
 	<script src="assets/js/jquery.min.js"></script>
 	<script src="assets/js/bootstrap.min.js"></script>
 	<script>
-	 	$(".bot_bar_icon").eq(3).attr("src","assets/img/my_page_icon_selected.png");
-	 	if (!$(".movie_list")[0]) {
+		$(".bot_bar_icon").eq(3).attr("src",
+				"assets/img/my_page_icon_selected.png");
+		if (!$(".movie_list")[0]) {
 			// 영화리스트 빈 화면
 			$(".no_value").removeClass("hide")
 			$(".delete_list").addClass("hide");
@@ -382,60 +366,82 @@ a.toggleCheckbox_top {
 		}); // end $("#check_box2").click();
 
 		// 삭제 버튼 클릭시
-		$(".movie_delete").click(function() {
-			var movie_d = $("input[name=movie_check]:checked");
-			
-			// 삭제할 제품이 없으면
-			if (movie_d.length == 0) {
-				swal({
-					html : "<b>복원할 상품이 없습니다.</b>", // 내용
-					type : "error", // 종류
-					confirmButtonText : "확인", // 확인버튼 표시 문구
-					confirmButtonColor : "#ff3253", // 확인버튼 색상
-				});
-				return false;
-			}	
-			
-			// 확인, 취소버튼에 따른 후속 처리 구현
-			swal({
-				html : "<b>선택하신 상품을 휴지통에서 복원하시겠습니까?</b>", // 내용
-				type : "question", // 종류
-				showCancelButton : true, // 취소버튼 표시 여부
-				cancelButtonText : "취소",
-				confirmButtonText : "확인",
-				confirmButtonColor : "#ff3253",
-			}).then(function(result) { // 버튼이 눌러졌을 경우의 콜백 연결
-				if (result.value) { // 확인 버튼이 눌러진 경우
-					for ( var i = 0 ; i < $("input:checkbox[name=movie_check]").length ; i++ ) {
-						if ($("input:checkbox[name=movie_check]").eq(i).is(":checked") == true) {
-							var buy_movie_list_no = parseInt($("input:checkbox[name=movie_check]").eq(i).val());
-							$.post('movie_status_change.do', {buy_movie_list_no: buy_movie_list_no},function(req){
-								if (req == 1) {
-									swal({
-							            timer:1500,
-							            html:"<div style='font-weight: bold; margin-bottom: 20px;'>개짓거리 하지 마십쇼 휴먼</div>",
-							            type:"error",
-							            allowOutsideClick: false,
-							            showConfirmButton: false
-							        }).then(function(){
-							            location.reload();
-							        });
-								}
-							});
-						}
-					}
-					swal({
-			            timer:1500,
-			            html:"<div style='font-weight: bold; margin-bottom: 20px;'>복원 되었습니다.</div>",
-			            type:"success",
-			            allowOutsideClick: false,
-			            showConfirmButton: false
-			        }).then(function(){
-			            location.reload();
-			        });
-				}
-			});
-		}); // end $(".movie_delete").click()
+		$(".movie_delete")
+				.click(
+						function() {
+							var movie_d = $("input[name=movie_check]:checked");
+
+							// 삭제할 제품이 없으면
+							if (movie_d.length == 0) {
+								swal({
+									html : "<b>복원할 상품이 없습니다.</b>", // 내용
+									type : "error", // 종류
+									confirmButtonText : "확인", // 확인버튼 표시 문구
+									confirmButtonColor : "#ff3253", // 확인버튼 색상
+								});
+								return false;
+							}
+
+							// 확인, 취소버튼에 따른 후속 처리 구현
+							swal({
+								html : "<b>선택하신 상품을 휴지통에서 복원하시겠습니까?</b>", // 내용
+								type : "question", // 종류
+								showCancelButton : true, // 취소버튼 표시 여부
+								cancelButtonText : "취소",
+								confirmButtonText : "확인",
+								confirmButtonColor : "#ff3253",
+							})
+									.then(
+											function(result) { // 버튼이 눌러졌을 경우의 콜백 연결
+												if (result.value) { // 확인 버튼이 눌러진 경우
+													for (var i = 0; i < $("input:checkbox[name=movie_check]").length; i++) {
+														if ($(
+																"input:checkbox[name=movie_check]")
+																.eq(i)
+																.is(":checked") == true) {
+															var buy_movie_list_no = parseInt($(
+																	"input:checkbox[name=movie_check]")
+																	.eq(i)
+																	.val());
+															$
+																	.post(
+																			'movie_status_change.do',
+																			{
+																				buy_movie_list_no : buy_movie_list_no
+																			},
+																			function(
+																					req) {
+																				if (req == 1) {
+																					swal(
+																							{
+																								timer : 1500,
+																								html : "<div style='font-weight: bold; margin-bottom: 20px;'>개짓거리 하지 마십쇼 휴먼</div>",
+																								type : "error",
+																								allowOutsideClick : false,
+																								showConfirmButton : false
+																							})
+																							.then(
+																									function() {
+																										location
+																												.reload();
+																									});
+																				}
+																			});
+														}
+													}
+													swal(
+															{
+																timer : 1500,
+																html : "<div style='font-weight: bold; margin-bottom: 20px;'>복원 되었습니다.</div>",
+																type : "success",
+																allowOutsideClick : false,
+																showConfirmButton : false
+															}).then(function() {
+														location.reload();
+													});
+												}
+											});
+						}); // end $(".movie_delete").click()
 	</script>
 
 </body>

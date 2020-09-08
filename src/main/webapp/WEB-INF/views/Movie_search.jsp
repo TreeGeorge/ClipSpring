@@ -258,7 +258,7 @@ legend {
 
     <!-- Ajax로 읽어온 내용을 출력하는데 사용될 템플릿 -->
     <script id="movie_item" type="text/x-handlebars-template">
-        <a class="search_movie_list" href="Movie_information.jsp">
+        <a class="search_movie_list" href="Movie_information">
             <img src="{{thumbnail}}" alt="영화제목 썸네일">
             <span class="movie_title">{{movieTitle}}</span>
             <span class="age">{{age}}세 이용가 | {{time}}분</span>
@@ -287,14 +287,14 @@ legend {
                 // 검색 초기화
                 $(".search_movie_list").remove();
 				// 검색어와 일치하는 영화 나타나게 하기
-                $.get('assets/json/movie_list.json', function(req) {
+                $.post('MovieSearch.do', {key:$("#search_movie").val()},function(req) {
                     var template = Handlebars.compile($("#movie_item").html());
                     var html = null;
                     // 영화 정보중에 검색값과 일치하는지 확인
-                   	for ( var i = 0 ; i < req.item.length ; i++ ) {
+                   	for ( var i = 0 ; i < req.length ; i++ ) {
                    		html = template(req.item[i])
                    		// TODO 감독과 배우검색도 가능하게 할거면 영화 정보에 나타내주기(위에 리스트)
-                    	if (req.item[i].movieTitle.indexOf($("#search_movie").val()) != -1 // ||	// 제목
+                    	if (req[i].movieTitle.indexOf($("#search_movie").val()) != -1 // ||			// 제목
                     	//	req.item[i].director.indexOf($("#search_movie").val()) != -1 ||			// 감독
                     	//	req.item[i].actor.indexOf($("#search_movie").val()) != -1				// 배우
                     	) {

@@ -52,18 +52,41 @@ public class MovieCommentServiceTest {
 		}
 	}
 
-	/** 삭제 테스트 */
+//	/** 삭제 테스트 */
+//	@Test
+//	public void testB() {
+//		// 검색조건으로 사용될 POJO 클래스 객체
+//		MovieComment input = new MovieComment();
+//		input.setMovie_comment_no(1);
+//
+//		int output = 0;
+//
+//		try {
+//			output = movieCommentService.deleteMovieComment(input);
+//			log.debug("삭제된 데이터 수 " + output);
+//		} catch (Exception e) {
+//			log.error(e.getLocalizedMessage());
+//			e.printStackTrace();
+//		}
+//	}
+	
+	/** 생성 테스트 */
 	@Test
-	public void testB() {
+	public void testC() {
 		// 검색조건으로 사용될 POJO 클래스 객체
 		MovieComment input = new MovieComment();
-		input.setMovie_comment_no(1);
+		input.setMovie_comment_no(5);
+		input.setEditdate("2020-08-12 00:00:00");
+		input.setContent("시발");
+		input.setUserid("master004");
+		input.setUser_no(5);
+		input.setMovie_no(5);
 
 		int output = 0;
 
 		try {
-			output = movieCommentService.deleteMovieComment(input);
-			log.debug("삭제된 데이터 수 " + output);
+			output = movieCommentService.insertMovieComment(input);
+			log.debug("생성된 데이터 수 " + output);
 		} catch (Exception e) {
 			log.error(e.getLocalizedMessage());
 			e.printStackTrace();

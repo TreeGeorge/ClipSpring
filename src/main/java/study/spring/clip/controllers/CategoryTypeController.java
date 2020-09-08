@@ -25,8 +25,8 @@ public class CategoryTypeController {
 	@RequestMapping(value = "Category_list", method = RequestMethod.GET)
 	public String goCategoryList(Model movie){
 
-		List<CategoryType> categoryTypeG = categoryTypeService.getCategoryTypeListG(); // 조회 처리가 저장될 객체
-		List<CategoryType> categoryTypeB = categoryTypeService.getCategoryTypeListB(); // 조회 처리가 저장될 객체
+		List<CategoryType> categoryTypeG = categoryTypeService.getCategoryTypeListG("G"); // 조회 처리가 저장될 객체
+		List<CategoryType> categoryTypeB = categoryTypeService.getCategoryTypeListB("C"); // 조회 처리가 저장될 객체
 
 		movie.addAttribute("categoryTypeG", categoryTypeG);
 		movie.addAttribute("categoryTypeB", categoryTypeB);

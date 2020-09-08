@@ -39,7 +39,7 @@ public class MovieCommenServicetImpl implements MovieCommentService {
 	@Override
 	public int deleteMovieComment(MovieComment input) throws Exception {
 		int result = 0;
-		
+
 		try {
 			result = sqlSession.delete("MovieCommentMapper.deleteComment", input);
 
@@ -53,8 +53,28 @@ public class MovieCommenServicetImpl implements MovieCommentService {
 			log.error(e.getLocalizedMessage());
 			throw new Exception("데이터 삭제에 실패했습니다.");
 		}
-		
+
 		return result;
 	}
 
+	@Override
+	public int insertMovieComment(MovieComment input) throws Exception {
+		int result = 0;
+		
+		try {
+			result = sqlSession.insert("MovieCommentMapper.insertComment", input);
+
+			if (result == 0) {
+				throw new NullPointerException("resut=null");
+			}
+		} catch (NullPointerException e) {
+			log.error(e.getLocalizedMessage());
+			throw new Exception("생성된 데이터가 없습니다.");
+		} catch (Exception e) {
+			log.error(e.getLocalizedMessage());
+			throw new Exception("데이터 생성에 실패했습니다.");
+		}
+
+		return result;
+	}
 }
