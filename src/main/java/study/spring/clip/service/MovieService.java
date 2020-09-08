@@ -1,5 +1,6 @@
 package study.spring.clip.service;
 
+
 import study.spring.clip.model.Movie;
 
 public interface MovieService {
@@ -13,8 +14,10 @@ public interface MovieService {
 	public double getMovieStar(Movie input2) throws Exception;
 	// 해당영화 평점매긴사람수
 	public int getMoviePeople(Movie input3) throws Exception;
-	
+	//관심여부확인
 	public int getinterestCommit(Movie input4);
-	
+	//라잌여부확인
 	public int getlikeCommit(Movie input5);
+
+
 }

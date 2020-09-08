@@ -18,4 +18,5 @@ public class Movie {
     private int movie_like_no;
     private double score;
     private int user_no;
+    private int actor_no;
 }

@@ -289,7 +289,7 @@
         <div class="clearfix info">
             <!-- 영화이미지 -->
             <div class="m_info1">
-                <span><img src="assets/img/sample.jpg" alt="" id="movie_img" ></span>
+                <span><img src="${movie_thumbnail}" alt="" id="movie_img" ></span>
             </div>
             <!-- 무비네임 -->
             <div class="m_info2">
@@ -300,7 +300,7 @@
                     <!-- 감독 -->
                     <li class="m_info_content">감독&nbsp;<span id="authoer">${movie_director}</span></li>
                     <!-- 주연 -->
-                    <li class="m_info_content">주연&nbsp;<span id="actress">${actor}</span></li>
+                    <li class="m_info_content">주연&nbsp;<span id="actress"><c:forEach items="${output6}" var="actor" varStatus="status">${actor.name}&nbsp;&nbsp;</c:forEach></span></li>
                     <!-- 상영시간 -->
                     <li class="m_info_content">상영시간&nbsp;${movie_runtime}&nbsp;</li>
 
@@ -320,7 +320,7 @@
             
             <!-- 구매버튼 -->
             <li class="btn1_1_2">
-                <span style="font-weight: bold;"><a href="Movie_buy?movieNo=${movie_no}">${movie_type}<span class="price">&nbsp;&nbsp;${movie_price}코인</span></a></span>
+                <span style="font-weight: bold;"><a href="Movie_buy?movieNo=${movie_no}">${movie_type}<span class="price">&nbsp;&nbsp;${movie_sale}코인</span></a></span>
             </li>
         </ul>
     </div>

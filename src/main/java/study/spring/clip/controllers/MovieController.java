@@ -2,6 +2,7 @@ package study.spring.clip.controllers;
 
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -15,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import study.spring.clip.model.Actor;
 import study.spring.clip.model.Movie;
+import study.spring.clip.service.ActorService;
 import study.spring.clip.service.MovieService;
 
 
@@ -25,6 +28,8 @@ public class MovieController {
 	
 		@Autowired
 		MovieService movieService;
+		@Autowired
+		ActorService actorService;
 		@Value("#{servletContext.contextPath}")
 		String contextPath;
 
@@ -42,6 +47,8 @@ public class MovieController {
 			input2.setMovie_no(movie_no);
 			Movie input3=new Movie();
 			input3.setMovie_no(movie_no);
+			List<Actor> output6 = actorService.getActor(movie_no);
+			
 			
 			// 조회결과를 저장할 객체 선언
 			Movie output = null;
@@ -55,6 +62,7 @@ public class MovieController {
 				output1 = movieService.getMovieLike(input1);
 				output2 = movieService.getMovieStar(input2);
 				output3 = movieService.getMoviePeople(input3);
+				
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
@@ -63,12 +71,14 @@ public class MovieController {
 			model.addAttribute("movie_name",output.getName());
 			model.addAttribute("movie_director",output.getDirector());		
 			model.addAttribute("movie_runtime",output.getRuntime());
-			model.addAttribute("movie_price", output.getPrice());
+			model.addAttribute("movie_thumbnail",output.getThumbnail());
+			model.addAttribute("movie_sale", output.getSale());
 			model.addAttribute("movie_like",output1);
 			model.addAttribute("movie_star",output2);
 			model.addAttribute("movie_people",output3);
 			model.addAttribute("movie_type",output.getType());
-			
+			model.addAttribute("output6",output6);
+			System.out.println(output6);
 			
 			return "Movie_information";
 		}

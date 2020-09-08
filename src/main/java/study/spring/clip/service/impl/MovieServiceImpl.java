@@ -1,5 +1,7 @@
 package study.spring.clip.service.impl;
 
+
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -100,5 +102,7 @@ public class MovieServiceImpl implements MovieService {
 				
 	return result;
 	}
+
+
 
 }
