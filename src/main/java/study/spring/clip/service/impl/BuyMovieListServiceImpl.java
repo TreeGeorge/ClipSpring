@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
+import study.spring.clip.model.BuyCoinList;
 import study.spring.clip.model.BuyMovieList;
 import study.spring.clip.service.BuyMovieListService;
 
@@ -107,6 +108,18 @@ public class BuyMovieListServiceImpl implements BuyMovieListService {
 		}
 		// 기간이 지났거나 구매하지 않은 상품인경우
 		return false;
+	}
+	
+	// 영화 구매 리스트에 추가
+	@Override
+	public void addBuyMovieList(BuyMovieList input) {
+		sqlSession.insert("BuyMovieListMapper.insertItem", input);
+	}
+
+	// 영화 구매후 유저의 코인 차감
+	@Override
+	public void editUserCoin(BuyMovieList input) {
+		sqlSession.update("BuyMovieListMapper.userCoinEdit", input);
 	}
 
 }

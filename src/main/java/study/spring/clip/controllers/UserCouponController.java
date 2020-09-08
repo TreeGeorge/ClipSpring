@@ -100,13 +100,15 @@ public class UserCouponController {
 	 @ResponseBody
 	 @RequestMapping(value = "use_coupon_check.do", method = RequestMethod.POST)
 	 public int useCouponCheck(HttpSession session,
-	 		 @RequestParam(value="user_coupon_no") int user_coupon_no) {
+	 		 @RequestParam(value="user_coupon_no") int user_coupon_no,
+	 		 @RequestParam(value="coin_price") int coin_price) {
 		 
 		 UserCoupon input = new UserCoupon();
 		 
 		 int user_no = (int)session.getAttribute("user_no");
 		 input.setUser_no(user_no);
 		 input.setUser_coupon_no(user_coupon_no);
+		 input.setPrice(coin_price);
 		 
 		 // db값과 다시한번 비교
 		 if(userCouponService.checkUseCoupon(input)) {
@@ -128,4 +130,6 @@ public class UserCouponController {
 		 // 쿠폰을 사용상태로 바꾼다
 	 	 userCouponService.useCoupon(input);
 	 }
+	 
+	 // TODO 여유 되면 쿠폰을 사용해서 구매한 제품 환불 불가능하게 하기...
 }

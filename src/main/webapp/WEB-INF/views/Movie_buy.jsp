@@ -175,6 +175,7 @@ input[type="radio" i] {
 					<div>${item.name}
 						<span><fmt:formatNumber value="${item.price}" pattern="#,###" />코인
 						<input id="coin" class="white_box" name="coin" type="radio" value="${item.user_coupon_no}" />
+						<input type="hidden" name="price" value="${item.price}" />
 						</span>
 					</div>
 				</c:forEach>
@@ -227,9 +228,12 @@ input[type="radio" i] {
 
 		$(function() {
 			var user_coupon_no = 0;
+			var coupon_price = 0;
+			var total_price = ${price - user_coin};
+			var final_price = ${price};
 			$("input[name='coin']").change(function() {
 				user_coupon_no = parseInt($("input[name='coin']:checked").val());
-				var coupon_price = parseInt($("input[name='coin']:checked").parent().text().replace(",", "").replace("코인",""));
+				coupon_price = parseInt($("input[name='coin']:checked").next().val());
 				var text;
 				if (${price - user_coin} - coupon_price < 0) {
 					$("#total_charge_coin").text("0코인");
@@ -243,6 +247,11 @@ input[type="radio" i] {
 				} else {
 					text = (${price - user_coin} - coupon_price) + "";
 					$("#total_charge_coin").text(text.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "코인");
+				}
+				total_price = ${price - user_coin} - coupon_price;
+				final_price = ${price} - coupon_price;
+				if (final_price < 0) {
+					final_price = 0;
 				}
 			});
 			
@@ -284,7 +293,7 @@ input[type="radio" i] {
 							return false;
 						}
 						
-						if ($("#total_charge_coin").text().trim() != "0코인") {
+						if (total_price > 0) {
 							swal({
 								html : "<b>보유하신 코인이 부족합니다.<br>코인을 충전하러 가시겠습니까?</b>",// 내용
 								type : "error", // 종류
@@ -299,35 +308,60 @@ input[type="radio" i] {
 							})
 							return false;
 						}
-						//$.post('movie.add') <-- 이거 안에 들어가야함
-						if (user_coupon_no) {
-							$.post('use_coupon_check.do', {user_coupon_no: user_coupon_no}, function(req) {
-								if (req == 1) {
+						
+						$.post('movie_add_check.do', {movieNo:"${movie_no}"}, function(req){
+							if (req == 1) {
+								swal({
+						            timer:1500,
+						            html:"<div style='font-weight: bold; margin-bottom: 20px;'>이미 보유중인 영화는<br>구매하실 수 없습니다.</div>",
+						            type:"error",
+						            allowOutsideClick: false,
+						            showConfirmButton: false
+						        }).then(function(){
+						            history.back();
+						        });
+							} else if (req == 0) {
+								if (user_coupon_no) {
+									$.post('use_coupon_check.do', {user_coupon_no: user_coupon_no, coupon_price: coupon_price}, function(req) {
+										if (req == 1) {
+											swal({
+									            timer:1500,
+									            html:"<div style='font-weight: bold; margin-bottom: 20px;'>개짓거리 하지 마십쇼 휴먼</div>",
+									            type:"error",
+									            allowOutsideClick: false,
+									            showConfirmButton: false
+									        }).then(function(){
+									            location.reload();
+									        });
+										} else if (req == 0) {
+											swal({
+												html : "<b>쿠폰을 사용하시겠습니까?</b>", // 내용
+												type : "question", // 종류
+												showCancelButton : true, // 취소버튼 표시 여부
+												cancelButtonText : "취소",
+												confirmButtonText : "확인",
+												confirmButtonColor : "#ff3253",
+											}).then(function(result) {
+												if (result.value) {
+													$.post('use_coupon.do', {user_coupon_no: user_coupon_no}, function(){});
+												}
+											});
+										} 
+									});
+								} // user_coupon end
+								$.post('movie_add_ok.do',{movieNo:"${movie_no}", price: final_price},function(){
 									swal({
 							            timer:1500,
-							            html:"<div style='font-weight: bold; margin-bottom: 20px;'>개짓거리 하지 마십쇼 휴먼</div>",
-							            type:"error",
+								        html:"<div style='font-weight: bold; margin-bottom: 20px;'>성공적으로 구매되었습니다.</div>",
+							            type:"success",
 							            allowOutsideClick: false,
 							            showConfirmButton: false
 							        }).then(function(){
-							            location.reload();
+							        	$(location).attr('href','MY_movie');
 							        });
-								} else if (req == 0) {
-									swal({
-										html : "<b>쿠폰을 사용하시겠습니까?</b>", // 내용
-										type : "question", // 종류
-										showCancelButton : true, // 취소버튼 표시 여부
-										cancelButtonText : "취소",
-										confirmButtonText : "확인",
-										confirmButtonColor : "#ff3253",
-									}).then(function(result) {
-										if (result.value) {
-											$.post('use_coupon.do', {user_coupon_no: user_coupon_no}, function(){});
-										}
-									});
-								} 
-							});
-						} // user_coupon end
+								})
+							}
+						});
 					}
 				});
 			});

@@ -77,7 +77,7 @@
 	<select id="useCouponCheck"
 		parameterType="study.spring.clip.model.UserCoupon"
 		resultMap="userCouponMap">
-		SELECT * FROM user_coupon WHERE user_no = #{user_no} AND user_coupon_no = #{user_coupon_no} AND is_used = 'N';
+		SELECT * FROM user_coupon WHERE user_no = #{user_no} AND price = #{price} AND user_coupon_no = #{user_coupon_no} AND is_used = 'N';
 	</select>
 	
 	<!-- 행 삭제 -->

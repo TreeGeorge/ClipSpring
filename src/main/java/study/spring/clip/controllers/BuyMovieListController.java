@@ -175,6 +175,12 @@ public class BuyMovieListController {
 			model.addAttribute("price", price);
 		}
 		
+		String movie_number = "";
+		for (String str: movie_no) {
+			movie_number = movie_number+","+str;
+		}
+		
+		model.addAttribute("movie_no", movie_number.substring(1));
 		model.addAttribute("topInfo", "영화 결제하기");
 		return "Movie_buy";
 	}
@@ -272,16 +278,19 @@ public class BuyMovieListController {
 		buyMovieListService.watchMovie(buy_movie_list_no);
 	}
 	
+	/** 영화 구매시 중복영화 체크 */
 	@ResponseBody
-	@RequestMapping(value = "movie_add_check.do", method = RequestMethod.GET)
-	public int movieBuy(HttpSession session,
-			@RequestParam(value="movieNo") String[] movie_no) {	// movie_no, 순으로 짤라서 배열로 잘라서 사용
+	@RequestMapping(value = "movie_add_check.do", method = RequestMethod.POST)
+	public int movieBuyCheck(HttpSession session,
+			@RequestParam(value="movieNo") String movieNo ) {	// movie_no, 순으로 짤라서 배열로 잘라서 사용
 		
 		BuyMovieList input = new BuyMovieList();
 
 		int user_no = (int)session.getAttribute("user_no");
 
 		input.setUser_no(user_no);
+		
+		String[] movie_no = movieNo.split(",");
 		
 		for ( int i = 0 ; i < movie_no.length ; i++ ) {
 			input.setMovie_no(Integer.parseInt(movie_no[i]));
@@ -291,9 +300,38 @@ public class BuyMovieListController {
 			}
 		}
 		
-		//TODO 보유중인 코인과 충전할 코인 비교
-		
 		return 0;
+	}
+	
+	/** 영화 구매 */
+	@ResponseBody
+	@RequestMapping(value = "movie_add_ok.do", method = RequestMethod.POST)
+	public void movieBuy(HttpSession session,
+			@RequestParam(value="movieNo") String movieNo,
+			@RequestParam(value="price") int price) {
+		
+		BuyMovieList input = new BuyMovieList();
+		Movie movie = new Movie();
+		
+		int user_no = (int)session.getAttribute("user_no");
+		User user = loginService.randerUser(user_no);
+		
+		input.setCoin(user.getCoin());
+		input.setUser_no(user_no);
+		input.setPrice(price);
+		
+		buyMovieListService.editUserCoin(input);
+		
+		String[] movie_no = movieNo.split(",");
+		
+		for ( int i = 0 ; i < movie_no.length ; i++ ) {
+			movie.setMovie_no(Integer.parseInt(movie_no[i]));
+			movie = movieService.getMovieItem(movie);
+			input.setPrice(movie.getSale());
+			input.setMovie_no(movie.getMovie_no());
+			buyMovieListService.addBuyMovieList(input);
+		}
+		
 	}
 
 }

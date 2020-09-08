@@ -2,6 +2,7 @@ package study.spring.clip.service;
 
 import java.util.List;
 
+import study.spring.clip.model.BuyCoinList;
 import study.spring.clip.model.BuyMovieList;
 
 public interface BuyMovieListService {
@@ -23,5 +24,9 @@ public interface BuyMovieListService {
 	public void watchMovie(int buy_movie_list_no);
 	
 	public void rentalEnd();
+	
+	public void editUserCoin(BuyMovieList input);
+	
+	public void addBuyMovieList(BuyMovieList input);
 
 }

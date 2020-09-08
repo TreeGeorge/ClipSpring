@@ -55,10 +55,18 @@
 		SELECT * FROM buy_movie_list WHERE buy_movie_list_no = #{buy_movie_list_no} AND <![CDATA[DATE_ADD(date, INTERVAL 1 WEEK) <= now()]]>;
 	</select>
 	
-	<!-- 영화 구매했을때 코인차감 ***********************-->
+	<!-- 영화 구매했을때 구매내역 추가 -->
+	<insert id="insertItem"
+		parameterType="study.spring.clip.model.BuyMovieList"
+		useGeneratedKeys="true"
+		keyProperty="buy_movie_list_no">
+		INSERT INTO buy_movie_list (date, price, user_no, movie_no) VALUES (now(), #{price}, #{user_no}, #{movie_no});
+	</insert>
+	
+	<!-- 영화 구매했을때 코인차감 -->
 	<update id="userCoinEdit"
     	parameterType="study.spring.clip.model.BuyMovieList">
-        UPDATE user SET coin = (#{coin} - ((SELECT Floor(price / 100 * (100 - sale)) as price FROM movie WHERE movie_no = #{movie_no}) * 1.1))
+        UPDATE user SET coin = (#{coin} - #{price})
 		WHERE user_no = #{user_no};
     </update>
     
@@ -69,9 +77,7 @@
 		WHERE user_no = #{user_no};
     </update>
     
-    <!-- 구매내역에만 남아있을ㄸ깨 판별해서 대여영화 구매 가능하게 하기. -->
-    
-    
+    <!-- 보유중인 영화 판별하기 -->
 	<select id="duplicateCheck"
 		parameterType="study.spring.clip.model.BuyMovieList"
 		resultMap="buyMovieListMap">
