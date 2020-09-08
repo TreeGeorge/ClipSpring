@@ -281,6 +281,11 @@
 	<script>
 	$(".top_bar_list").eq(1).addClass("selected")
 	$(".bot_bar_icon").eq(3).attr("src", "assets/img/my_page_icon_selected.png");
+	if (!$(".movie_list")[0]) {
+        // 지우고 난 후 빈화면
+        $(".no_value").removeClass("hide")
+        $(".delete_list").addClass("hide");
+    }
 					
         // 체크 버튼 클릭시
         $(".star").click(function() {

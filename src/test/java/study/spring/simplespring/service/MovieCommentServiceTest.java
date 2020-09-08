@@ -77,7 +77,7 @@ public class MovieCommentServiceTest {
 		MovieComment input = new MovieComment();
 		input.setMovie_comment_no(5);
 		input.setEditdate("2020-08-12 00:00:00");
-		input.setContent("시발");
+		input.setContent("모임");
 		input.setUserid("master004");
 		input.setUser_no(5);
 		input.setMovie_no(5);

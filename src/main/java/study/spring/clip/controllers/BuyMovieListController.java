@@ -19,11 +19,13 @@ import study.spring.clip.model.BuyMovieList;
 import study.spring.clip.model.Movie;
 import study.spring.clip.model.User;
 import study.spring.clip.model.UserCoupon;
+import study.spring.clip.model.WishList;
 import study.spring.clip.service.BuyCoinListService;
 import study.spring.clip.service.BuyMovieListService;
 import study.spring.clip.service.LoginService;
 import study.spring.clip.service.MovieService;
 import study.spring.clip.service.UserCouponService;
+import study.spring.clip.service.WishListService;
 
 @Controller
 public class BuyMovieListController {
@@ -42,6 +44,9 @@ public class BuyMovieListController {
 	
 	@Autowired
 	MovieService movieService;
+	
+	@Autowired
+	WishListService wishListService;
 	
 	@Value("#{servletContext.contextPath}")
 	String contextPath;
@@ -142,6 +147,18 @@ public class BuyMovieListController {
 					return "index";
 				} catch (IOException e) {
 					e.printStackTrace();
+				}
+			}
+			
+			// 똑같은 영화를 담았을때 (주소창에서 조작)
+			for ( int y = i ; y < movie_no.length - 1 ; y ++ ) {
+				if (movie_no[i].equals(movie_no[y + 1])) {
+					try {
+						response.sendRedirect(contextPath + "/home");
+						return "index";
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}
@@ -312,6 +329,7 @@ public class BuyMovieListController {
 		
 		BuyMovieList input = new BuyMovieList();
 		Movie movie = new Movie();
+		WishList wish = new WishList();
 		
 		int user_no = (int)session.getAttribute("user_no");
 		User user = loginService.randerUser(user_no);
@@ -330,6 +348,17 @@ public class BuyMovieListController {
 			input.setPrice(movie.getSale());
 			input.setMovie_no(movie.getMovie_no());
 			buyMovieListService.addBuyMovieList(input);
+			
+			// 장바구니 안에 구매된 목록이 있다면 삭제
+			wish.setMovie_no(movie.getMovie_no());
+			wish.setUser_no(user_no);
+			if (wishListService.checkWishList(wish)) {
+				try {
+					wishListService.deleteWishList(wish);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		
 	}

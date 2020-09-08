@@ -158,6 +158,7 @@ public class BuyCoinListController {
 		return 0;
 	}
 	
+	// TODO 내부에서 판별하도록 수정 (return type int)
 	/** 카드정보 판별 후 코인 구매 */
 	@ResponseBody
 	@RequestMapping(value = "coin_add_ok.do", method = RequestMethod.POST)
@@ -175,7 +176,6 @@ public class BuyCoinListController {
 		input.setCoin(user_info.getCoin());
 		
 		try {
-			// 데이터 저장 --> 데이터 저장에 성공하면 파라미터로 전달하는 input 객체에 PK값이 저장된다.
 			buyCoinListService.addBuyCoinList(input);
 		} catch (Exception e) {
 			e.printStackTrace();

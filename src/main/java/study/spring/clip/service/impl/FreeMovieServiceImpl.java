@@ -43,7 +43,7 @@ public class FreeMovieServiceImpl implements FreeMovieService {
 			// 무료가 아닌 영화 가져오기
 			input = sqlSession.selectOne("FreeMovieMapper.notFreeMovieSearch");
 			
-			// 무료 기간 정해주기
+			// 무료 기간 정해주기 (임의값, 현재 20)
 			Calendar now = Calendar.getInstance();
 			now.add ( Calendar.DATE, +20 );
 			
@@ -99,6 +99,7 @@ public class FreeMovieServiceImpl implements FreeMovieService {
 			return true;
 		}
 		
+		// 전체 영화의 1/3이 할인영화가 되도록 유지
 		if (all/sale <= 3) {
 			return false;
 		}

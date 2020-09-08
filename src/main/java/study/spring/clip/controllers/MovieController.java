@@ -73,6 +73,7 @@ public class MovieController {
 			model.addAttribute("movie_runtime",output.getRuntime());
 			model.addAttribute("movie_thumbnail",output.getThumbnail());
 			model.addAttribute("movie_sale", output.getSale());
+			model.addAttribute("movie_summary",output.getSummary());
 			model.addAttribute("movie_like",output1);
 			model.addAttribute("movie_star",output2);
 			model.addAttribute("movie_people",output3);

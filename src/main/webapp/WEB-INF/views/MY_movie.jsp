@@ -449,7 +449,7 @@ input[type=checkbox] {
 		// 삭제 버튼 클릭시
 		$(".movie_delete").click(function() {
 				// 삭제할 제품이 없으면
-				if (!$("input[name=movie_check]:checked")) {
+				if (!$("input[name=movie_check]:checked").length) {
 					swal({
 						html : "<b>삭제할 상품이 없습니다.</b>", // 내용
 						type : "error", // 종류
