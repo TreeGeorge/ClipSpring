@@ -121,6 +121,7 @@
 
 .movie .movie_text span {
 	display: block;
+	width: 50%;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;

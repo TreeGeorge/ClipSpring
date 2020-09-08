@@ -136,7 +136,14 @@ input[type="radio" i] {
 		<div class="content_box" style="margin-top: 60px;">
 			<div class="movie_title">${movie_title}</div>
 			<div>
-				<fmt:formatNumber value="${price}" pattern="#,###" />코인
+				<c:choose>
+					<c:when test="${price != 0}">
+						<fmt:formatNumber value="${price}" pattern="#,###" />코인
+					</c:when>
+					<c:otherwise>
+						무료 이벤트 제품입니다.
+					</c:otherwise>
+				</c:choose>
 			</div>
 		</div>
 
@@ -333,6 +340,7 @@ input[type="radio" i] {
 									        }).then(function(){
 									            location.reload();
 									        });
+											return false;
 										} else if (req == 0) {
 											swal({
 												html : "<b>쿠폰을 사용하시겠습니까?</b>", // 내용
@@ -344,22 +352,36 @@ input[type="radio" i] {
 											}).then(function(result) {
 												if (result.value) {
 													$.post('use_coupon.do', {user_coupon_no: user_coupon_no}, function(){});
+													$.post('movie_add_ok.do',{movieNo:"${movie_no}", price: final_price},function(){
+														swal({
+												            timer:1500,
+													        html:"<div style='font-weight: bold; margin-bottom: 20px;'>성공적으로 구매되었습니다.</div>",
+												            type:"success",
+												            allowOutsideClick: false,
+												            showConfirmButton: false
+												        }).then(function(){
+												        	$(location).attr('href','MY_movie');
+												        });
+													});
+												} else {
+													return false;
 												}
 											});
 										} 
 									});
-								} // user_coupon end
-								$.post('movie_add_ok.do',{movieNo:"${movie_no}", price: final_price},function(){
-									swal({
-							            timer:1500,
-								        html:"<div style='font-weight: bold; margin-bottom: 20px;'>성공적으로 구매되었습니다.</div>",
-							            type:"success",
-							            allowOutsideClick: false,
-							            showConfirmButton: false
-							        }).then(function(){
-							        	$(location).attr('href','MY_movie');
-							        });
-								})
+								} else {
+									$.post('movie_add_ok.do',{movieNo:"${movie_no}", price: final_price},function(){
+										swal({
+								            timer:1500,
+									        html:"<div style='font-weight: bold; margin-bottom: 20px;'>성공적으로 구매되었습니다.</div>",
+								            type:"success",
+								            allowOutsideClick: false,
+								            showConfirmButton: false
+								        }).then(function(){
+								        	$(location).attr('href','MY_movie');
+								        });
+									});
+								}
 							}
 						});
 					}

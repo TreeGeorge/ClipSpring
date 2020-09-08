@@ -101,14 +101,14 @@ public class UserCouponController {
 	 @RequestMapping(value = "use_coupon_check.do", method = RequestMethod.POST)
 	 public int useCouponCheck(HttpSession session,
 	 		 @RequestParam(value="user_coupon_no") int user_coupon_no,
-	 		 @RequestParam(value="coin_price") int coin_price) {
+	 		 @RequestParam(value="coupon_price") int coupon_price) {
 		 
 		 UserCoupon input = new UserCoupon();
 		 
 		 int user_no = (int)session.getAttribute("user_no");
 		 input.setUser_no(user_no);
 		 input.setUser_coupon_no(user_coupon_no);
-		 input.setPrice(coin_price);
+		 input.setPrice(coupon_price);
 		 
 		 // db값과 다시한번 비교
 		 if(userCouponService.checkUseCoupon(input)) {
