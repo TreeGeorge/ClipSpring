@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="MovieLikeMapper">
+
+    <!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
+    
+        <resultMap id="movieLikeMap" type="study.spring.clip.model.MovieLike">
+
+        <!-- Beans의 멤버변수(property)이름과 대상 테이블의 컬럼(column)을 연결한다. -->
+        <result property="movie_no" column="movie_no" />
+        <result property="user_no" column="user_no" />
+    </resultMap>
+
+    <!-- 좋아요했는지 검사하기 -->
+     <select id="likeCommit"
+     	parameterType="study.spring.clip.model.MovieLike"
+        resultMap="movieLikeMap">
+        SELECT movie_no FROM movie
+        WHERE movie_no IN(SELECT movie_no=#{movie_no} AND user_no=#{user_no} FROM movie_like);
+    </select>
+    
+    <select id="insertLike"
+		parameterType="study.spring.clip.model.MovieLike"
+		resultMap="movieLikeMap">
+		INSERT INTO movie_like (movie_no ,user_no)
+		VALUES (#{movie_no},#{user_no});
+	</select>
+	
+	    <select id="deleteLike"
+		parameterType="study.spring.clip.model.MovieLike"
+		resultMap="movieLikeMap">
+		DELETE FROM movie_like
+		WHERE (movie_no=#{movie_no} and user_no=#{user_no});
+	</select>
+	
+	
+
+
+</mapper>

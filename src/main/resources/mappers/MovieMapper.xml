@@ -22,6 +22,7 @@
         <result property="age" column="age" />
         <result property="movie_like_no" column="movie_like_no" />
         <result property="score" column="score" />
+        <result property="user_no" column="user_no" />
     </resultMap>
 
     <!-- 단일행 조회를 위한 기능 정의 -->
@@ -30,7 +31,19 @@
         SELECT movie_no, IF(type='B',"구매","대여") AS type, name, director, Floor(price / 100 * (100 - sale)) AS sale, price, thumbnail, preview, summary, runtime, IF(age='12', '12세 이용가', IF(age='15', '15세 이용가', IF(age='19', '청소년 관람 불가', '전체 이용가'))) as age FROM movie 
         WHERE movie_no=#{movie_no};
     </select>
-  
+    
+     <select id="interestCommit" parameterType="study.spring.clip.model.Movie"
+        resultType="int">
+        SELECT movie_no FROM movie
+        WHERE movie_no IN(SELECT movie_no=#{movie_no} AND user_no=#{user_no} FROM interest);
+    </select>
+    
+    <select id="likeCommit" parameterType="study.spring.clip.model.Movie"
+        resultType="int">
+        SELECT movie_no FROM movie
+        WHERE movie_no IN(SELECT movie_no=#{movie_no} AND user_no=#{user_no} FROM movie_like);
+    </select>
+    
     
     <!-- 다중행 조회를 위한 기능 정의 -->
 	<select id="selectList"

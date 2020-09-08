@@ -329,7 +329,7 @@
         <ul class="clearfix">
             <!-- 좋아요버튼 -->
             <li class="btn2_1">
-                <button type="button"><img  id="like" src="assets/img/like_icon.png" data-img="assets/img/like_icon_after.png"><br><span>${movie_like}</span></button>
+                <button id="likebtn" type="button"><img  id="likeimg" src="assets/img/like_icon.png" data-img="assets/img/like_icon_after.png"><br><span>${movie_like}</span></button>
             </li>
             <!-- 덧글버튼 -->
             <li class="btn2_1">
@@ -482,19 +482,33 @@
     <div style="height: 50px;"></div>
     
     <script>
-//    $.get("MY_interest_movie",{movieNo:"${movie_no}"},function(req){
-//		if(req=="a"){
-//			return;
-//		}else{
-//			console.log(999)
-//			var tmp = $("#interestimg").attr("src");
-//            var img = $("#interestimg").data("img");
-//            $("#interestimg").attr("src", img);
-//            $("#interestimg").data("img", tmp);
-//		}
-//    })
-    
-    
+    //관심등록 여부 판별
+    $(function(){
+    	$.post("interestCommit",{movieNo:"${movie_no}"},function(req){
+    		if(req=="8"){
+    			return;
+    		}else{
+    			console.log(999)
+    			var tmp = $("#interestimg").attr("src");
+                var img = $("#interestimg").data("img");
+                $("#interestimg").attr("src", img);
+                $("#interestimg").data("img", tmp);
+    		}
+        })
+        $.post("likeCommit",{movieNo:"${movie_no}"},function(req){
+    		if(req=="8"){
+    			return;
+    		}else{
+    			console.log(999)
+    			var tmp = $("#likeimg").attr("src");
+                var img = $("#likeimg").data("img");
+                $("#likeimg").attr("src", img);
+                $("#likeimg").data("img", tmp);
+    		}
+        })
+        
+        
+    })
     
         var count = 0; //평점을 준 사람
         var rate = 0; // 평점
@@ -695,6 +709,45 @@
             	})
                 
             })
+            $("#likebtn").click(function(e) {
+            	console.log(789)
+            	$.post("MovieLikeInsert.do",{movieNo:"${movie_no}"},function(req){
+            		if(req==1){
+            			console.log(123)           			
+            			
+                        var tmp = $("#likeimg").attr("src");
+                        var img = $("#likeimg").data("img");
+                        $("#likeimg").attr("src", img);
+                        $("#likeimg").data("img", tmp);
+            		}else if(req==0){
+                        	$.post("MovieLikeDelete.do",{movieNo:"${movie_no}"},function(req){
+                        		console.log(456)
+                        	})
+                        var tmp = $("#likeimg").attr("src");
+                        var img = $("#likeimg").data("img");
+                        $("#likeimg").attr("src", img);
+                        $("#likeimg").data("img", tmp);
+
+            		}else {
+            			swal({
+                            title: "로그인이",
+                            text: "필요한 서비스입니다.",
+                            type: "error",
+                            confirmButtonText: "확인",
+                            showCancelButton: true,
+                            cancelButtonText: "로그인 하기",
+                            confirmButtonColor:"#aaa",
+                            cancelButtonColor: "#FF3253"
+                        }).then(function(result) {
+                            if (result.dismiss === "cancel") {
+                                location.href = "Login";
+                            }
+                        })
+            		}
+            	})
+                
+            })
+            
 
  </script>
 

@@ -13,4 +13,8 @@ public interface MovieService {
 	public double getMovieStar(Movie input2) throws Exception;
 	// 해당영화 평점매긴사람수
 	public int getMoviePeople(Movie input3) throws Exception;
+	
+	public int getinterestCommit(Movie input4);
+	
+	public int getlikeCommit(Movie input5);
 }

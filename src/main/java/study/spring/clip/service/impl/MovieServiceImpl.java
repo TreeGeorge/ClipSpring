@@ -83,4 +83,22 @@ public class MovieServiceImpl implements MovieService {
 		return result;
 	}
 
+	@Override
+	public int getinterestCommit(Movie input4){
+		int result = 0;
+	
+			result = sqlSession.selectOne("MovieMapper.interestCommit", input4);
+					
+		return result;
+	}
+
+	@Override
+	public int getlikeCommit(Movie input5) {
+		int result = 0;
+		
+		result = sqlSession.selectOne("MovieMapper.likeCommit", input5);
+				
+	return result;
+	}
+
 }
