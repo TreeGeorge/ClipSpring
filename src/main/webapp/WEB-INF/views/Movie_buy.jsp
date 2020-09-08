@@ -210,9 +210,8 @@ input[type="radio" i] {
 			<div id="footer">
 				<p class="tab">&#8226;콘텐츠 결제를 위해 CLIP코인이 필요합니다</p>
 				<p class="tab">&#8226;코인은 CLIP에서 영화 컨텐츠 구매시 사용하는결제수단입니다.</p>
-				<p class="tab">&#8226;충전한 코인은 'MY > 코인충전 > 충전내역'에서확인할 수
-					있으며,환불은결제하신</p>
-				<p class="tab">&nbsp;&nbsp;&nbsp;수단으로 환불됩니다</p>
+				<p class="tab">&#8226;충전한 코인은 'MY > 코인충전 > 충전내역'에서 확인할 수 있으며,
+				<p class="tab">&nbsp;&nbsp;&nbsp;환불은결제하신 수단으로 환불됩니다</p>
 				<p class="tab">&#8226;코인의 가격은 부가가치세가 포함된 가격입니다</p>
 
 
@@ -295,7 +294,7 @@ input[type="radio" i] {
 								cancelButtonText : "취소"
 							}).then(function(result) {
 								if (result.value) {
-									$(location).attr('href', 'Coin_charge');
+									$(location).attr('href', 'Coin_charge?check=1');
 								}
 							})
 							return false;

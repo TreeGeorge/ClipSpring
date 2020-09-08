@@ -182,7 +182,7 @@ public class BuyMovieListController {
 	/** 영화 환불 검사 */
 	@ResponseBody
 	@RequestMapping(value = "movie_delete_ok.do", method = RequestMethod.POST)
-	public int deleteBuyMovieListOk(Model model, HttpServletResponse response, HttpSession session,
+	public int deleteBuyMovieListOk(HttpSession session,
 			@RequestParam(value="buy_movie_list_no") int buy_movie_list_no) {
 		// 데이터 삭제에 필요한 조건값을 Beans에 저장하기
 		BuyMovieList input = new BuyMovieList();
@@ -197,15 +197,9 @@ public class BuyMovieListController {
 		// 개발자도구로 나쁜짓하면 혼내주기
 		if (buyMovieListService.checkBuyMovieList(input) == null) {
 			return 1;
-		}
-		
-		// 시청했는지 확인
-		if (buyMovieListService.checkWatched(input)) {
+		} else if (buyMovieListService.checkWatched(input)) {	// 시청했는지 확인
 			return 2;
-		}
-		
-		// 환불 기간이 지났는지 확인
-		if (buyMovieListService.checkDate(input)) {
+		} else if (buyMovieListService.checkDate(input)) {		// 환불 기간이 지났는지 확인
 			return 3;
 		}
 		
@@ -222,7 +216,7 @@ public class BuyMovieListController {
 	/** 영화 삭제나 복원 */
 	@ResponseBody
 	@RequestMapping(value = "movie_status_change.do", method = RequestMethod.POST)
-	public int changeMovieStatus(Model model, HttpServletResponse response, HttpSession session,
+	public int changeMovieStatus(HttpSession session,
 			@RequestParam(value="buy_movie_list_no") int buy_movie_list_no) {
 		// TODO 시간 남으면 jsp에서 포문돌리지말고 string 배열값으로 파라미터 받아와서 안에서 해결하기
 		BuyMovieList input = new BuyMovieList();
@@ -247,9 +241,9 @@ public class BuyMovieListController {
 	/** 영화 시청 확인 */
 	@ResponseBody
 	@RequestMapping(value = "movie_watch_check.do", method = RequestMethod.POST)
-	public int movieWatchCheck(Model model, HttpServletResponse response, HttpSession session,
+	public int movieWatchCheck(Model model, HttpSession session,
 			@RequestParam(value="buy_movie_list_no") int buy_movie_list_no) {
-		// 데이터 삭제에 필요한 조건값을 Beans에 저장하기
+		
 		BuyMovieList input = new BuyMovieList();
 		
 		int user_no = (int)session.getAttribute("user_no");
@@ -261,15 +255,9 @@ public class BuyMovieListController {
 		input = buyMovieListService.checkBuyMovieList(input);
 		if (input == null) {
 			return 1;
-		}
-		
-		// 이미 시청한 제품이라면
-		if (buyMovieListService.checkWatched(input)) {
+		} else if (buyMovieListService.checkWatched(input)) {	// 이미 시청한 제품이라면
 			return 2;
-		}
-		
-		// 기간이 지난 제품이라면
-		if (buyMovieListService.checkDate(input)) {
+		} else if (buyMovieListService.checkDate(input)) {		// 기간이 지난 제품이라면
 			return 3;
 		}
 
@@ -284,9 +272,8 @@ public class BuyMovieListController {
 		buyMovieListService.watchMovie(buy_movie_list_no);
 	}
 	
-	// TODO 이미 보유중인 상품이면 구매 안되게 해야됨... 작스에서 얼럴창..
 	@ResponseBody
-	@RequestMapping(value = "movie_add.do", method = RequestMethod.GET)
+	@RequestMapping(value = "movie_add_check.do", method = RequestMethod.GET)
 	public int movieBuy(HttpSession session,
 			@RequestParam(value="movieNo") String[] movie_no) {	// movie_no, 순으로 짤라서 배열로 잘라서 사용
 		
@@ -303,6 +290,8 @@ public class BuyMovieListController {
 				return 1;
 			}
 		}
+		
+		//TODO 보유중인 코인과 충전할 코인 비교
 		
 		return 0;
 	}

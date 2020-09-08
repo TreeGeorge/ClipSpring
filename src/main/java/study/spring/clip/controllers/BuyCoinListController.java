@@ -40,7 +40,7 @@ public class BuyCoinListController {
 	/** 코인 충전 세션값 비교후 값 노출 */
 	@RequestMapping(value = "Coin_charge", method = RequestMethod.GET)
 	public String goCoinCharge(Model model, HttpServletResponse response, HttpSession session,
-			@RequestParam(value="check") int check) {
+			@RequestParam(value="check", required=false) String check) {
 		
 		if ( session.getAttribute("id") == null ) {
 			try {
