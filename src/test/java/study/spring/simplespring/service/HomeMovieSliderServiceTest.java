@@ -53,8 +53,8 @@ public class HomeMovieSliderServiceTest {
 		// 검색조건으로 사용될 POJO 클래스 객체
 		HomeMovieSlider input = new HomeMovieSlider();
 		// 영화타입이 액션일 경우
-		input.setCategory_type_no(1);
-		sqlSession.selectList("HomeMovieSliderMapper.ActionHomeMovieSlider",input);
+		input.setName("액션");
+		sqlSession.selectList("HomeMovieSliderMapper.JangreMovieSlider",input);
 	}
 	
 }

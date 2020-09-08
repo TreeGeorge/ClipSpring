@@ -20,21 +20,24 @@
 		parameterType="study.spring.clip.model.HomeMovieSlider"
 		resultMap="HomeMovieSliderMap">
 		SELECT movie_no, NAME, thumbnail FROM movie
-		WHERE release_date
-		IN(SELECT release_date FROM movie ORDER BY RELEASE_date DESC)
+		WHERE
+		release_date
+		IN(SELECT release_date FROM movie ORDER BY RELEASE_date
+		DESC)
 		LIMIT 0,10;
 	</select>
-	
-	<select id="ActionHomeMovieSlider"
+
+	<select id="JangreMovieSlider"
 		parameterType="study.spring.clip.model.HomeMovieSlider"
 		resultMap="HomeMovieSliderMap">
 		SELECT movie_no, name, thumbnail, price, sale FROM movie
 		where movie_no IN(select movie_no from movie_category
-		where category_type_no = #{category_type_no})
+		where category_type_no
+		IN(SELECT category_type_no FROM category_type WHERE name = #{name}))
 		LIMIT 0,10;
 	</select>
-	
-	
+
+
 
 </mapper>
 	

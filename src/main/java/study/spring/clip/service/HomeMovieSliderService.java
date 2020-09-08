@@ -14,7 +14,7 @@ public interface HomeMovieSliderService {
 	/**
 	 * 액션 영화 슬라이더 조회
 	 * */
-	public HomeMovieSlider getHomeMovieSliderItem(HomeMovieSlider input) throws Exception;
+	public List<HomeMovieSlider> getJangreMovieSliderList(String category_type);
 
 }
 
