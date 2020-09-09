@@ -193,7 +193,7 @@ a {
 		<!--페이지별 가변 요소-->
 
 		<!-- 일간 top100 -->
-		<div id="content">
+		<!-- <div id="content">
 			<div class="movie_top100_page_day up">
 				<ul id="movie">
 					<li><a href="Movie_information.jsp"> <span class="thumb"><img
@@ -298,7 +298,7 @@ a {
 				</ul>
 			</div>
 
-			<!-- 주간 top100 -->
+
 			<div class="movie_top100_page_week hide up">
 				<ul id="movie">
 					<li><a href="Movie_information.jsp"> <span class="thumb"><img
@@ -402,7 +402,7 @@ a {
 					</a></li>
 				</ul>
 			</div>
-		</div>
+		</div> -->
 		<!-- BOT BAR -->
 		<%@ include file="assets/inc/bot_bar.jsp" %>
 		

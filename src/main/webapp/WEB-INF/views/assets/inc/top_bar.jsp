@@ -60,7 +60,7 @@ html, body {
 	<ul class="clearfix">
 		<li class="pull_left"><a href="home"><span class="top_bar_list">영화홈</span></a></li>
 		<li class="pull_left"><a href="Movie_free"><span class="top_bar_list">무료</span></a></li>
-		<li class="pull_left"><a href="Movie_top100.jsp"><span class="top_bar_list">TOP 100</span></a></li>
+		<li class="pull_left"><a href="Movie_top100"><span class="top_bar_list">TOP 100</span></a></li>
 		<li class="pull_left"><a href="Category_list"><span class="top_bar_list">카테고리</span></a></li>
 	</ul>
 </div>
