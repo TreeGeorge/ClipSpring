@@ -182,6 +182,4 @@ public class BuyCoinListController {
 		
 	}
 	
-	// TODO 정렬 고민...
-	
 }
