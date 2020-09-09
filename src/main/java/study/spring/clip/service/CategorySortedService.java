@@ -15,6 +15,8 @@ public interface CategorySortedService {
 	 * 총 영화 갯수
 	 */
 	public int getTotalCount(int category_type_no);
+	
+	public String getCategoryName(int category_type_no);
 
 	public List<CategorySorted> getrecentList(int category_type_no);
 

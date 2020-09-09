@@ -67,11 +67,13 @@ public class BuyMovieListController {
 		 
 		 int user_no = (Integer)session.getAttribute("user_no");
 		 User user = loginService.randerUser(user_no);
-		 List<BuyMovieList> input = buyMovieListService.getBuyMovieList(user_no);
+		 List<BuyMovieList> newList = buyMovieListService.getBuyNewMovieList(user_no);
+		 List<BuyMovieList> nameList = buyMovieListService.getBuyNameMovieList(user_no);
 		 
 		 
 		 model.addAttribute("user_coin", user.getCoin());
-		 model.addAttribute("output", input);
+		 model.addAttribute("newList", newList);
+		 model.addAttribute("nameList", nameList);
 			
 		 return "MY_movie"; 
 	 }
@@ -91,10 +93,11 @@ public class BuyMovieListController {
 		 buyMovieListService.rentalEnd();
 		 
 		 int user_no = (Integer)session.getAttribute("user_no");
-		 List<BuyMovieList> input = buyMovieListService.getBuyMovieList(user_no);
+		 List<BuyMovieList> newList = buyMovieListService.getBuyNewMovieList(user_no);
+		 List<BuyMovieList> nameList = buyMovieListService.getBuyNameMovieList(user_no);
 		 
-		 
-		 model.addAttribute("output", input);
+		 model.addAttribute("newList", newList);
+		 model.addAttribute("nameList", nameList);
 			
 		 return "MY_movie_remove"; 
 	 }
@@ -115,7 +118,7 @@ public class BuyMovieListController {
 		int user_no = (int)session.getAttribute("user_no");
 		User user_info = loginService.randerUser(user_no);
 		
-		List<BuyMovieList> output = buyMovieListService.getBuyMovieList(user_no);
+		List<BuyMovieList> output = buyMovieListService.getBuyNewMovieList(user_no);
 		
 		movie.addAttribute("output", output);
 		movie.addAttribute("user_coin", user_info.getCoin());

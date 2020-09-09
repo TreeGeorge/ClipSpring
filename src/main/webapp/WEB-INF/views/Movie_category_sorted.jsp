@@ -188,9 +188,6 @@ a:hover {
 						cost.eq(i).text("무료");
 					}
 				}
-			
-
-			$("#top_info_value").html("카테고리 종류");
 
 			var num = 0;
 			$(window).scroll(

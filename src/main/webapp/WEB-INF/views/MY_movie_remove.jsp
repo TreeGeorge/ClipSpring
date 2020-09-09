@@ -84,14 +84,13 @@ a.toggleCheckbox_top {
     border: 1px solid #d5d5d5;
     width: 40px;
     height: 22px;
-    top: 46px;
+    bottom: 6px;
     text-align: center;
     line-height: 22px;
 }
 
 /* 드롭다운, n개작품 박스 */
 .content {
-	margin: auto;
 	font-weight: bold;
 	font-size: 12px;
 	height: 35px;
@@ -99,6 +98,7 @@ a.toggleCheckbox_top {
 	border-bottom: 1px solid #d5d5d5;
 	padding: 0 10px 0 15px;
 	margin-top: 40px;
+	position: relative;
 }
 /* n개작품 left */
 .total {
@@ -213,9 +213,9 @@ a.toggleCheckbox_top {
 /* 전체선택 체크박스 */
 #check_box2 {
 	position: absolute;
-	top:47px;
-	left:90px;
-	
+	top: 11px;
+	left: 90px;
+	margin: 0;
 }
 /* hidden , hide */
 .hidden {
@@ -273,18 +273,21 @@ a.toggleCheckbox_top {
 	
 		<!-- 드롭다운 옵션 -->
 		<div class="content clearfix">
-			<span class="total"> <span class="click_edit">편집</span>
+			<span class="total">
+				<span class="click_edit">편집</span>
 			</span> 
 			<span class="delete_list"> 
-			<a class="toggleCheckbox_top hidden">전체선택
-			<input id="check_box2" class="hidden" type="checkbox" name="check_all" />
-			</a></span>
-			<a class="movie_delete hidden">복원</a>
-				<select class="form-control selcls" id="movie_select">
-				<option>최신순</option>
-				<option>평점순</option>
-				<option>판매순</option>
-				<option>낮은가격순</option>
+				<span class="toggleCheckbox_top hidden">전체선택
+					<input id="check_box2" class="hidden" type="checkbox" name="check_all" />
+				</span>
+				<span class="movie_delete hidden">복원</span>
+			</span>
+			
+			<select class="form-control selcls" id="movie_select" name="sort">
+				<option value="new">최신순</option>
+				<option value="name">가나다순</option>
+				<option value="buy">구매상품</option>
+				<option value="rent">대여상품</option>
 			</select>
 		</div>
 		<!-- 휴지통에 있는 상품이 없을 때 -->
@@ -297,7 +300,7 @@ a.toggleCheckbox_top {
 		
 		<!-- 휴지통에 들어간 영화 리스트 -->
 		<ul class="movie">
-		<c:forEach var="item" items="${output}" varStatus="status">
+		<c:forEach var="item" items="${newList}" varStatus="status">
 				<c:choose>
 					<c:when test="${item.type == '대여' and item.is_delete == 'Y'}">
 						<li class="movie_list">
@@ -380,6 +383,25 @@ a.toggleCheckbox_top {
 			}
 			isCheck++;
 		}); // end $("#check_box2").click();
+		
+		// 정렬 기능
+		$("select[name='sort']").change(function() {
+			
+	    	if( $(this).val() == "new" ){
+	        	$(".movie_list").remove();	 
+				$(".movie").append().html('<c:forEach var="item" items="${newList}" varStatus="status"><c:choose><c:when test="${item.type == \'대여\' and item.is_delete == \'Y\'}"><li class="movie_list"><div class="movie_item"><span class="thumb"><img src="${item.thumbnail}" alt="${item.name} 포스터"></span><span class="movie_text"><span class="movie_title">${item.name}</span><span class="time">${item.runtime} | ${item.age}</span><span class="type">${item.type}</span><span class="period">${item.end_date} 까지</span></span></div><input id="check_box" class="hidden" type="checkbox" name="movie_check" value="${item.buy_movie_list_no}" /></li></c:when><c:when test="${item.type == \'구매\' and item.is_delete == \'Y\'}"><li class="movie_list"><div class="movie_item"><span class="thumb"><img src="${item.thumbnail}" alt="${item.name} 포스터"></span><span class="movie_text"><span class="movie_title">${item.name}</span><span class="time">${item.runtime} | ${item.age}</span><span class="type">${item.type}</span></span></div><!-- 편집 클릭시 체크박스 --><input id="check_box" class="hidden" type="checkbox" name="movie_check" value="${item.buy_movie_list_no}" /></li></c:when></c:choose></c:forEach>')
+	        } else if ( $(this).val() == "name" ) {
+	        	$(".movie_list").remove();	 
+	        	$(".movie").append().html('<c:forEach var="item" items="${nameList}" varStatus="status"><c:choose><c:when test="${item.type == \'대여\' and item.is_delete == \'Y\'}"><li class="movie_list"><div class="movie_item"><span class="thumb"><img src="${item.thumbnail}" alt="${item.name} 포스터"></span><span class="movie_text"><span class="movie_title">${item.name}</span><span class="time">${item.runtime} | ${item.age}</span><span class="type">${item.type}</span><span class="period">${item.end_date} 까지</span></span></div><input id="check_box" class="hidden" type="checkbox" name="movie_check" value="${item.buy_movie_list_no}" /></li></c:when><c:when test="${item.type == \'구매\' and item.is_delete == \'Y\'}"><li class="movie_list"><div class="movie_item"><span class="thumb"><img src="${item.thumbnail}" alt="${item.name} 포스터"></span><span class="movie_text"><span class="movie_title">${item.name}</span><span class="time">${item.runtime} | ${item.age}</span><span class="type">${item.type}</span></span></div><!-- 편집 클릭시 체크박스 --><input id="check_box" class="hidden" type="checkbox" name="movie_check" value="${item.buy_movie_list_no}" /></li></c:when></c:choose></c:forEach>')
+		    } else if ( $(this).val() == "buy" ) {
+	        	$(".movie_list").remove();	 
+				$(".movie").append().html('<c:forEach var="item" items="${newList}" varStatus="status"><c:if test="${item.type == \'구매\' and item.is_delete == \'Y\'}"><li class="movie_list"><div class="movie_item"><span class="thumb"><img src="${item.thumbnail}" alt="${item.name} 포스터"></span><span class="movie_text"><span class="movie_title">${item.name}</span><span class="time">${item.runtime} | ${item.age}</span><span class="type">${item.type}</span></span></div><!-- 편집 클릭시 체크박스 --><input id="check_box" class="hidden" type="checkbox" name="movie_check" value="${item.buy_movie_list_no}" /></li></c:if></c:forEach>');
+			} else if ($(this).val() == "rent" ) {
+				$(".movie_list").remove();	 
+				$(".movie").append().html('<c:forEach var="item" items="${newList}" varStatus="status"><c:if test="${item.type == \'대여\' and item.is_delete == \'Y\'}"><li class="movie_list"><div class="movie_item"><span class="thumb"><img src="${item.thumbnail}" alt="${item.name} 포스터"></span><span class="movie_text"><span class="movie_title">${item.name}</span><span class="time">${item.runtime} | ${item.age}</span><span class="type">${item.type}</span><span class="period">${item.end_date} 까지</span></span></div><!-- 편집 클릭시 체크박스 --><input id="check_box" class="hidden" type="checkbox" name="movie_check" value="${item.buy_movie_list_no}" /></li></c:if></c:forEach>');
+			}
+	    	
+		});
 
 		// 삭제 버튼 클릭시
 		$(".movie_delete").click(function() {

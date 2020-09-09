@@ -52,6 +52,13 @@ public class CategorySortedServiceImpl implements CategorySortedService {
 		List<CategorySorted> result = sqlSession.selectList("CategorySortedMapper.highpriceList", category_type_no);
 		return result;
 	}
+
+	@Override
+	public String getCategoryName(int category_type_no) {
+		String result = sqlSession.selectOne("CategorySortedMapper.getCategoryName", category_type_no);
+
+		return result;
+	}
 	
 	
 

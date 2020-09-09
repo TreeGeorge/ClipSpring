@@ -268,7 +268,7 @@ input[type=checkbox] {
 			</span>
 
 			<!-- 드롭다운 옵션 -->
-			<select class="form-control selcls" id="movie_select">
+			<select class="form-control selcls" id="movie_select" name="sort">
 				<option value="new">최신순</option>
 				<option value="name">가나다순</option>
 				<option value="buy">구매상품</option>
@@ -286,7 +286,7 @@ input[type=checkbox] {
 
 		<!-- 내영상 목록에 담긴 영화 -->
 		<ul class="movie">
-			<c:forEach var="item" items="${output}" varStatus="status">
+			<c:forEach var="item" items="${newList}" varStatus="status">
 				<c:choose>
 					<c:when test="${item.type == '대여' and item.is_delete == 'N'}">
 						<li class="movie_list">
@@ -408,9 +408,9 @@ input[type=checkbox] {
 								type : "success", // 종류
 								confirmButtonText : "확인",
 								confirmButtonColor : "#ff3253"
-							})
+							});
 						}
-					})
+					});
 				} else if (req == 3) {
 					swal({
 			            timer:1500,
@@ -437,13 +437,32 @@ input[type=checkbox] {
 									type : "success", // 종류
 									confirmButtonText : "확인",
 									confirmButtonColor : "#ff3253"
-								})
-							})
+								});
+							});
 						}
-					})
+					});
 				}
-			})
-		})
+			});
+		});
+		
+		// 정렬 기능
+		$("select[name='sort']").change(function() {
+			
+	    	if( $(this).val() == "new" ){
+	        	$(".movie_list").remove();	 
+				$(".movie").append().html('<c:forEach var="item" items="${newList}" varStatus="status"><c:choose><c:when test="${item.type == \'대여\' and item.is_delete == \'N\'}"><li class="movie_list"><div class="movie_item"><span class="thumb"><img src="${item.thumbnail}" alt="${item.name} 포스터"></span><span class="movie_text"><span class="movie_title">${item.name}</span><span class="time">${item.runtime} | ${item.age}</span><span class="type">${item.type}</span><span class="period">${item.end_date} 까지</span></span></div><input id="check_box" class="hidden" type="checkbox" name="movie_check" value="${item.buy_movie_list_no}" /></li></c:when><c:when test="${item.type == \'구매\' and item.is_delete == \'N\'}"><li class="movie_list"><div class="movie_item"><span class="thumb"><img src="${item.thumbnail}" alt="${item.name} 포스터"></span><span class="movie_text"><span class="movie_title">${item.name}</span><span class="time">${item.runtime} | ${item.age}</span><span class="type">${item.type}</span></span></div><!-- 편집 클릭시 체크박스 --><input id="check_box" class="hidden" type="checkbox" name="movie_check" value="${item.buy_movie_list_no}" /></li></c:when></c:choose></c:forEach>')
+	        } else if ( $(this).val() == "name" ) {
+	        	$(".movie_list").remove();	 
+	        	$(".movie").append().html('<c:forEach var="item" items="${nameList}" varStatus="status"><c:choose><c:when test="${item.type == \'대여\' and item.is_delete == \'N\'}"><li class="movie_list"><div class="movie_item"><span class="thumb"><img src="${item.thumbnail}" alt="${item.name} 포스터"></span><span class="movie_text"><span class="movie_title">${item.name}</span><span class="time">${item.runtime} | ${item.age}</span><span class="type">${item.type}</span><span class="period">${item.end_date} 까지</span></span></div><input id="check_box" class="hidden" type="checkbox" name="movie_check" value="${item.buy_movie_list_no}" /></li></c:when><c:when test="${item.type == \'구매\' and item.is_delete == \'N\'}"><li class="movie_list"><div class="movie_item"><span class="thumb"><img src="${item.thumbnail}" alt="${item.name} 포스터"></span><span class="movie_text"><span class="movie_title">${item.name}</span><span class="time">${item.runtime} | ${item.age}</span><span class="type">${item.type}</span></span></div><!-- 편집 클릭시 체크박스 --><input id="check_box" class="hidden" type="checkbox" name="movie_check" value="${item.buy_movie_list_no}" /></li></c:when></c:choose></c:forEach>')
+		    } else if ( $(this).val() == "buy" ) {
+	        	$(".movie_list").remove();	 
+				$(".movie").append().html('<c:forEach var="item" items="${newList}" varStatus="status"><c:if test="${item.type == \'구매\' and item.is_delete == \'N\'}"><li class="movie_list"><div class="movie_item"><span class="thumb"><img src="${item.thumbnail}" alt="${item.name} 포스터"></span><span class="movie_text"><span class="movie_title">${item.name}</span><span class="time">${item.runtime} | ${item.age}</span><span class="type">${item.type}</span></span></div><!-- 편집 클릭시 체크박스 --><input id="check_box" class="hidden" type="checkbox" name="movie_check" value="${item.buy_movie_list_no}" /></li></c:if></c:forEach>');
+			} else if ($(this).val() == "rent" ) {
+				$(".movie_list").remove();	 
+				$(".movie").append().html('<c:forEach var="item" items="${newList}" varStatus="status"><c:if test="${item.type == \'대여\' and item.is_delete == \'N\'}"><li class="movie_list"><div class="movie_item"><span class="thumb"><img src="${item.thumbnail}" alt="${item.name} 포스터"></span><span class="movie_text"><span class="movie_title">${item.name}</span><span class="time">${item.runtime} | ${item.age}</span><span class="type">${item.type}</span><span class="period">${item.end_date} 까지</span></span></div><!-- 편집 클릭시 체크박스 --><input id="check_box" class="hidden" type="checkbox" name="movie_check" value="${item.buy_movie_list_no}" /></li></c:if></c:forEach>');
+			}
+	    	
+		});
 		
 		// 삭제 버튼 클릭시
 		$(".movie_delete").click(function() {

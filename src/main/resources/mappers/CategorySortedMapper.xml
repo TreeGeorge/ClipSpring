@@ -17,6 +17,14 @@
 		<result property="release_date" column="release_date" />
 		<result property="category_type_no" column="category_type_no" />
 	</resultMap>
+	
+	<select id="getCategoryName"
+		parameterType="study.spring.clip.model.CategorySorted"
+		resultType="String">
+		SELECT name
+		FROM category_type
+		WHERE category_type_no = #{category_type_no};
+	</select>
 
 	<select id="OneCategorySorted"
 		parameterType="study.spring.clip.model.CategorySorted"

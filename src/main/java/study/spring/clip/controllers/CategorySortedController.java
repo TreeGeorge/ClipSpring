@@ -34,7 +34,10 @@ public class CategorySortedController {
 		List<CategorySorted> output1 = categorySortedService.getrecentList(categoryTypeNo);
 		List<CategorySorted> output3 = categorySortedService.getrowpriceList(categoryTypeNo); 
 		List<CategorySorted> output2 = categorySortedService.gethighpriceList(categoryTypeNo);
-	
+		
+		String cagtegoryName = categorySortedService.getCategoryName(categoryTypeNo);
+		
+		movie.addAttribute("topInfo", cagtegoryName);
 		movie.addAttribute("categorySorted", categorySorted);
 		movie.addAttribute("TotalCount", TotalCount);
 		movie.addAttribute("output1",output1);

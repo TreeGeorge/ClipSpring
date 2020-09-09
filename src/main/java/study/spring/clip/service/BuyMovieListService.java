@@ -6,7 +6,9 @@ import study.spring.clip.model.BuyMovieList;
 
 public interface BuyMovieListService {
 	
-	public List<BuyMovieList> getBuyMovieList(int user_no);
+	public List<BuyMovieList> getBuyNewMovieList(int user_no);
+	
+	public List<BuyMovieList> getBuyNameMovieList(int user_no);
 	
 	public int deleteBuyMovieList(BuyMovieList input) throws Exception;
 	

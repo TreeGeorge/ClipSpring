@@ -20,9 +20,18 @@ public class BuyMovieListServiceImpl implements BuyMovieListService {
 
 	/** 영화 구매 리스트 조회 */
 	@Override
-	public List<BuyMovieList> getBuyMovieList(int user_no) {
+	public List<BuyMovieList> getBuyNewMovieList(int user_no) {
 		
-		List<BuyMovieList> result = sqlSession.selectList("BuyMovieListMapper.buyList", user_no);
+		List<BuyMovieList> result = sqlSession.selectList("BuyMovieListMapper.buyNewList", user_no);
+		
+		return result;
+	}
+	
+	/** 영화 구매 리스트 조회 */
+	@Override
+	public List<BuyMovieList> getBuyNameMovieList(int user_no) {
+		
+		List<BuyMovieList> result = sqlSession.selectList("BuyMovieListMapper.buyNameList", user_no);
 		
 		return result;
 	}
