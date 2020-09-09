@@ -73,7 +73,6 @@ p {
 	line-height: 25px;
 }
 
-
 .movies .period {
 	font-size:12px;
 	color:#ff3253;
@@ -200,7 +199,7 @@ input[type='radio']:checked {
 						<p class="price">
 							<fmt:formatNumber value="${item.price}" pattern="#,###" /><img src="assets/img/coin_icon.png">
 						</p>
-						<p class="period">${item.date}</p>
+						<p class="period">${item.date}&nbsp;&nbsp;${item.type}</p>
 					</div>
 				</c:when>
 				<c:otherwise>
@@ -212,7 +211,7 @@ input[type='radio']:checked {
 						<p class="price">
 							무료
 						</p>
-						<p class="period">${item.date}</p>
+						<p class="period">${item.date}&nbsp;&nbsp;${item.type}</p>
 					</div>
 				</c:otherwise>
 			</c:choose>

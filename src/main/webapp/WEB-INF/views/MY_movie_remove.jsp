@@ -284,7 +284,7 @@ a.toggleCheckbox_top {
 			</span>
 			
 			<select class="form-control selcls" id="movie_select" name="sort">
-				<option value="new">최신순</option>
+				<option value="new">구매순</option>
 				<option value="name">가나다순</option>
 				<option value="buy">구매상품</option>
 				<option value="rent">대여상품</option>

@@ -86,7 +86,7 @@
             <!-- TOP100 박스 -->
             <div class="top100_box">
                 <!-- 해당 추천 카테고리 링크(ex. 영화와 함께 힐링 여행!) -->
-                <a href="Movie_top100.jsp" class="movie_box_header clearfix"><span class="title">TOP100</span><img src="assets/img/right.png" class="right" /></a>
+                <a href="Movie_top100" class="movie_box_header clearfix"><span class="title">TOP100</span><img src="assets/img/right.png" class="right" /></a>
                 <!-- TOP100 영화 리스트 -->
                 <div class="top100_list">
                     <div class="slides">
@@ -118,7 +118,7 @@
             <!-- 할인중인 영화 -->
             <div class="movie_box">
                 <!-- 해당 추천 카테고리 링크(ex. 영화와 함께 힐링 여행!) -->
-                <a href="Movie_free" class="movie_box_header clearfix"><span class="title">놓치면 후회! 할인중인 영화</span><img src="assets/img/right.png" class="right" /></a>
+                <a href="Movie_category_sorted?categoryTypeNo=1000" class="movie_box_header clearfix"><span class="title">놓치면 후회! 할인중인 영화</span><img src="assets/img/right.png" class="right" /></a>
                 <!-- 해당 추천 카테고리 영화 리스트 -->
                 <div class="movie_list">
                     <!-- Swiper -->
@@ -142,7 +142,7 @@
             <!-- 마블 시네마틱 유니버스 -->
             <div class="movie_box">
                 <!-- 해당 추천 카테고리 링크(ex. 영화와 함께 힐링 여행!) -->
-                <a href="Movie_category_sorted.jsp" class="movie_box_header clearfix"><span class="title">마블 시네마틱 유니버스</span><img src="assets/img/right.png" class="right" /></a>
+                <a href="Movie_category_sorted?categoryTypeNo=1" class="movie_box_header clearfix"><span class="title">마블 시네마틱 유니버스</span><img src="assets/img/right.png" class="right" /></a>
                  <!-- 해당 추천 카테고리 영화 리스트 -->
                 <div class="movie_list">
                     <!-- Swiper -->
@@ -168,7 +168,7 @@
             <!-- 무료영화 박스 -->
             <div class="free_movie_box">
                 <!-- 무료영화 링크 -->
-                <a href="Movie_free.jsp" class="movie_box_header clearfix"><span class="title">무료영화</span><img src="assets/img/right.png" class="right" /></a>
+                <a href="Movie_free" class="movie_box_header clearfix"><span class="title">무료영화</span><img src="assets/img/right.png" class="right" /></a>
                 <!-- 무료 영화 리스트 -->
                 <div class="free_movie_list">
                     <c:forEach var="i" begin="0" end="2" step="1" varStatus="status"> 
@@ -191,7 +191,7 @@
             <!-- 원작보다 더 재밌는 영화 -->
             <div class="movie_box">
                 <!-- 해당 추천 카테고리 링크(ex. 영화와 함께 힐링 여행!) -->
-                <a href="Movie_category_sorted" class="movie_box_header clearfix"><span class="title">원작보다 더 재밌는 영화</span><img src="assets/img/right.png" class="right" /></a>
+                <a href="Movie_category_sorted?categoryTypeNo=1" class="movie_box_header clearfix"><span class="title">원작보다 더 재밌는 영화</span><img src="assets/img/right.png" class="right" /></a>
                  <!-- 해당 추천 카테고리 영화 리스트 -->
                 <div class="movie_list">
                     <!-- Swiper -->
@@ -217,7 +217,7 @@
             <!-- 분노의 질주 시리즈 -->
             <div class="movie_box">
                 <!-- 해당 추천 카테고리 링크(ex. 영화와 함께 힐링 여행!) -->
-                <a href="Movie_category_sorted.jsp" class="movie_box_header clearfix"><span class="title">분노의 질주 시리즈</span><img src="assets/img/right.png" class="right" /></a>
+                <a href="Movie_category_sorted?categoryTypeNo=1" class="movie_box_header clearfix"><span class="title">분노의 질주 시리즈</span><img src="assets/img/right.png" class="right" /></a>
                 <!-- 해당 추천 카테고리 영화 리스트 -->
                 <div class="movie_list">
                     <!-- Swiper -->
@@ -246,7 +246,7 @@
             	<ul>
 	                <c:forEach var="item" items="${HomeCategoryType}" varStatus="status"> 
 	                    <li class="clearfix">
-		                    <a href="Category_sorted?categoryTypeNo=${item.category_type_no}">
+		                    <a href="Movie_category_sorted?categoryTypeNo=${item.category_type_no}">
 		                        <img class="icon" src="${item.icon}" />
 		                        <span class="list">${item.name}</span>
 		                        <img src="assets/img/right.png" class="right" />
@@ -259,7 +259,7 @@
 	                <ul>
 	                    <c:forEach var="item" items="${HomeCategoryTypePlus}" varStatus="status"> 
 		                    <li class="clearfix">
-			                    <a href="Category_sorted?categoryTypeNo=${item.category_type_no}">
+			                    <a href="Movie_category_sorted?categoryTypeNo=${item.category_type_no}">
 			                        <img class="icon" src="${item.icon}" />
 			                        <span class="list">${item.name}</span>
 			                        <img src="assets/img/right.png" class="right" />
