@@ -20,6 +20,7 @@
         <result property="type" column="type" />
         <result property="end_date" column="end_date" />
         <result property="age" column="age" />
+        <result property="coupon_used" column="coupon_used" />
     </resultMap>
     
     <!-- 기능 정의 -->
@@ -28,7 +29,7 @@
     <select id="buyList"
 		parameterType="study.spring.clip.model.BuyMovieList"
 		resultMap="buyMovieListMap">
-		SELECT m.movie_no, IF(age='12', '12세 이용가', IF(age='15', '15세 이용가', IF(age='19', '청소년 관람 불가', '전체 이용가'))) as age, is_delete, IF(m.type = 'B', "구매", "대여") AS type, runtime, DATE_ADD(date, INTERVAL 1 WEEK) AS end_date, thumbnail, name, b.price, date, buy_movie_list_no
+		SELECT m.movie_no, IF(age='12', '12세 이용가', IF(age='15', '15세 이용가', IF(age='19', '청소년 관람 불가', '전체 이용가'))) AS age, is_delete, coupon_used, IF(m.type = 'B', "구매", "대여") AS type, runtime, DATE_ADD(date, INTERVAL 1 WEEK) AS end_date, thumbnail, name, b.price, date, buy_movie_list_no
 		FROM movie m, buy_movie_list b 
 		WHERE b.movie_no = m.movie_no 
 		AND user_no = #{user_no};
@@ -46,6 +47,13 @@
 	 	parameterType="study.spring.clip.model.BuyMovieList"
 	 	resultMap="buyMovieListMap">
 	 	SELECT * FROM buy_movie_list WHERE user_no = #{user_no} AND buy_movie_list_no = #{buy_movie_list_no} AND is_watched = 'N';
+	</select>
+	
+	<!-- 환불할 영화가 쿠폰사용 상품인지 확인하는 작업 -->
+	<select id="checkUsedCoupon"
+	 	parameterType="study.spring.clip.model.BuyMovieList"
+	 	resultMap="buyMovieListMap">
+	 	SELECT * FROM buy_movie_list WHERE user_no = #{user_no} AND buy_movie_list_no = #{buy_movie_list_no} AND coupon_used = 'N';
 	</select>
 	
 	<!-- 날짜 비교 하기 -->
@@ -68,6 +76,13 @@
     	parameterType="study.spring.clip.model.BuyMovieList">
         UPDATE user SET coin = (#{coin} - #{price})
 		WHERE user_no = #{user_no};
+    </update>
+    
+    <!-- 쿠폰을 사용해서 영화를 구매했을때 -->
+	<update id="couponUsed"
+    	parameterType="study.spring.clip.model.BuyMovieList">
+        UPDATE buy_movie_list SET coupon_used = 'Y'
+		WHERE user_no = #{user_no} AND movie_no = #{movie_no};
     </update>
     
     <!-- 영화 환불했을때 코인 상승 -->

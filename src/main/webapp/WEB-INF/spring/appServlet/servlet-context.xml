@@ -45,6 +45,7 @@
 
 	<!-- 생성한 스케쥴러 객체에 대한 작업 스케쥴 지정 -->
 	<task:scheduled-tasks>
+		<task:scheduled ref="scheduleJob" method="everyMonth" cron="0 0 0 1 1/1 ?"/>
 		<task:scheduled ref="scheduleJob" method="everyMidnight" cron="0 0 0 * * ?"/>
 		<task:scheduled ref="scheduleJob" method="everyMidnightCoupon" cron="0 0 0 * * ?"/>
 		<task:scheduled ref="scheduleJob" method="everyMidnightEndRental" cron="0 0 0 * * ?"/>

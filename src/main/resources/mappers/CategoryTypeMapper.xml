@@ -11,12 +11,13 @@
 		<result property="category_type_no" column="category_type_no" />
 		<result property="name" column="name" />
 		<result property="type" column="type" />
+		<result property="icon" column="icon" />
 	</resultMap>
 
 	<select id="OneCategoryType"
 		parameterType="study.spring.clip.model.CategoryType"
 		resultMap="CategoryTypeMap">
-		SELECT category_type_no, name, type 
+		SELECT category_type_no, name, type, icon
 		FROM category_type
 		WHERE TYPE = #{type};
 	</select>
@@ -24,7 +25,7 @@
 	<select id="TwoCategoryType"
 		parameterType="study.spring.clip.model.CategoryType"
 		resultMap="CategoryTypeMap">
-		SELECT category_type_no, name, type 
+		SELECT category_type_no, name, type, icon
 		FROM category_type
 		WHERE TYPE = #{type};
 	</select>

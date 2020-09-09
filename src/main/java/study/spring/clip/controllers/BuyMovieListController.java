@@ -224,6 +224,8 @@ public class BuyMovieListController {
 			return 2;
 		} else if (buyMovieListService.checkDate(input)) {		// 환불 기간이 지났는지 확인
 			return 3;
+		} else if (buyMovieListService.checkUsedCoupon(input)) {	// 쿠폰을 사용해 구매한 제품인지 확인
+			return 4;
 		}
 		
 		try {
@@ -360,7 +362,49 @@ public class BuyMovieListController {
 				}
 			}
 		}
+	}
+	
+	/** 쿠폰을 이용한 영화 구매 */
+	@ResponseBody
+	@RequestMapping(value = "use_coupon_movie_add_ok.do", method = RequestMethod.POST)
+	public void useCouponMovieBuy(HttpSession session,
+			@RequestParam(value="movieNo") String movieNo,
+			@RequestParam(value="price") int price) {
 		
+		BuyMovieList input = new BuyMovieList();
+		Movie movie = new Movie();
+		WishList wish = new WishList();
+		
+		int user_no = (int)session.getAttribute("user_no");
+		User user = loginService.randerUser(user_no);
+		
+		input.setCoin(user.getCoin());
+		input.setUser_no(user_no);
+		input.setPrice(price);
+		
+		buyMovieListService.editUserCoin(input);
+		
+		String[] movie_no = movieNo.split(",");
+		
+		for ( int i = 0 ; i < movie_no.length ; i++ ) {
+			movie.setMovie_no(Integer.parseInt(movie_no[i]));
+			movie = movieService.getMovieItem(movie);
+			input.setPrice(movie.getSale());
+			input.setMovie_no(movie.getMovie_no());
+			buyMovieListService.addBuyMovieList(input);
+			buyMovieListService.couponUsed(input);
+			
+			// 장바구니 안에 구매된 목록이 있다면 삭제
+			wish.setMovie_no(movie.getMovie_no());
+			wish.setUser_no(user_no);
+			if (wishListService.checkWishList(wish)) {
+				try {
+					wishListService.deleteWishList(wish);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 }

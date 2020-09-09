@@ -35,6 +35,11 @@ public class FreeMovieServiceTest {
 	private FreeMovieService freeMovieService;
 	
 	@Test
+	public void testA() {
+		freeMovieService.resetSale();
+	}
+	
+	@Test
 	public void tesetB() {
 
 		freeMovieService.getFreeMovieList();
@@ -57,10 +62,6 @@ public class FreeMovieServiceTest {
 		freeMovieService.editSaleMovie();
 	}
 	
-	@Test
-	public void testC() {
-		
-	}
 	
 
 }

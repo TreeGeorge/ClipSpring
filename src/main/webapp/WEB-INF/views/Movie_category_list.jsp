@@ -157,7 +157,7 @@ html, body {
            		<c:forEach var="item" items="${categoryTypeG}" varStatus="status"> 
                     <li class="clearfix">
 	                    <a href="Movie_category_sorted?categoryTypeNo=${item.category_type_no}">
-	                        <img class="icon" src="${requestScope[categoryTypeIcon]}" />
+	                        <img class="icon" src="${item.icon}" />
 	                        <span class="list">${item.name}</span>
 	                        <img src="assets/img/right.png" class="right" />
 	                    </a>
@@ -171,8 +171,8 @@ html, body {
             <ul>
             	<c:forEach var="item" items="${categoryTypeB}" varStatus="status"> 
                     <li class="clearfix">
-	                    <a href="Category_sorted?categoryTypeNo=${item.category_type_no}">
-	                        <img class="icon" src="${requestScope[categoryTypeIcon]}" />
+	                    <a href="Movie_category_sorted?categoryTypeNo=${item.category_type_no}">
+	                        <img class="icon" src="${item.icon}" />
 	                        <span class="list">${item.name}</span>
 	                        <img src="assets/img/right.png" class="right" />
 	                    </a>
@@ -186,8 +186,8 @@ html, body {
             <ul>
                 <c:forEach var="item" items="${categoryType}" varStatus="status"> 
                     <li class="clearfix">
-	                    <a href="Category_sorted?categoryTypeNo=${item.category_type_no}">
-	                        <img class="icon" src="${requestScope[categoryTypeIcon]}" />
+	                    <a href="Movie_category_sorted?categoryTypeNo=${item.category_type_no}">
+	                        <img class="icon" src="${item.icon}" />
 	                        <span class="list">${item.name}</span>
 	                        <img src="assets/img/right.png" class="right" />
 	                    </a>
@@ -203,7 +203,6 @@ html, body {
     <script type="text/javascript">
         $(function() {
         	// top_bar
-        	$(".top_bar_list").eq(0).removeClass("selected");
         	$(".top_bar_list").eq(3).addClass("selected");
         	$(".bot_bar_icon").eq(0).attr("src", "assets/img/home_icon_selected.png")
         	

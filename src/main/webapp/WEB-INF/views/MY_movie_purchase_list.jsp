@@ -300,10 +300,20 @@ input[type='radio']:checked {
 				            }).then(function(){
 				            	return false;
 				            })
-			            } else if (req == 3 ){
+			            } else if (req == 3 ) {
 			            	swal({
 				                timer:1500,
 				                html:"<div style='font-weight: bold; margin-bottom: 20px;'>구매한지 일주일이 지난 상품은<br>구매 취소가 불가능합니다.</div>",
+				                type:"error",
+				                allowOutsideClick: false,
+				                showConfirmButton: false
+				            }).then(function(){
+				            	return false;
+				            });
+			            } else if (req == 4) {
+			            	swal({
+				                timer:1500,
+				                html:"<div style='font-weight: bold; margin-bottom: 20px;'>쿠폰을 이용해 구매한 상품은<br>구매 취소가 불가능합니다.</div>",
 				                type:"error",
 				                allowOutsideClick: false,
 				                showConfirmButton: false

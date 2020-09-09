@@ -351,8 +351,8 @@ input[type="radio" i] {
 												confirmButtonColor : "#ff3253",
 											}).then(function(result) {
 												if (result.value) {
-													$.post('use_coupon.do', {user_coupon_no: user_coupon_no}, function(){});
-													$.post('movie_add_ok.do',{movieNo:"${movie_no}", price: final_price},function(){
+													$.post('use_coupon_movie_add_ok.do',{movieNo:"${movie_no}", price: final_price},function(){
+														$.post('use_coupon_ok.do', {user_coupon_no: user_coupon_no}, function(){});
 														swal({
 												            timer:1500,
 													        html:"<div style='font-weight: bold; margin-bottom: 20px;'>성공적으로 구매되었습니다.</div>",

@@ -18,4 +18,5 @@ public class BuyMovieList {
 	private String type;
 	private String end_date;
 	private String age;
+	private String coupon_used;
 }

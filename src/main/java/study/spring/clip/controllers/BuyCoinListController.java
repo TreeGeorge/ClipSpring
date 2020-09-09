@@ -25,7 +25,6 @@ import study.spring.clip.service.LoginService;
 public class BuyCoinListController {
 	
 	/** Service 패턴 구현체 주입 */
-	// --> import study.spring.springhelper.service.DepartmentService;
 	@Autowired
 	BuyCoinListService buyCoinListService;
 	

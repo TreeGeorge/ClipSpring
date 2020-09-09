@@ -17,6 +17,7 @@ public class FreeMovieServiceImpl implements FreeMovieService {
 	@Autowired
 	SqlSession sqlSession;
 	
+	// 무료영화 정보 가져오기
 	@Override
 	public List<FreeMovie> getFreeMovieList(){
 		
@@ -24,7 +25,8 @@ public class FreeMovieServiceImpl implements FreeMovieService {
 		
 		return result;
 	}
-
+	
+	// 무료영화 개수 가져오기
 	@Override
 	public int getFreeMovieCount(){
 		
@@ -32,7 +34,8 @@ public class FreeMovieServiceImpl implements FreeMovieService {
 		
 		return result;
 	}
-
+	
+	// 무료영화로 만들어주기
 	@Override
 	public void editFreeMovie() {
 		// TODO 10개로 바꿔야함
@@ -43,52 +46,31 @@ public class FreeMovieServiceImpl implements FreeMovieService {
 			// 무료가 아닌 영화 가져오기
 			input = sqlSession.selectOne("FreeMovieMapper.notFreeMovieSearch");
 			
-			// 무료 기간 정해주기 (임의값, 현재 20)
-			Calendar now = Calendar.getInstance();
-			now.add ( Calendar.DATE, +20 );
-			
-			int year = now.get(Calendar.YEAR);
-			int month = now.get(Calendar.MONTH) + 1;
-			int day = now.get(Calendar.DATE);
-			
-			String period = year + "-" + month + "-" + day;
-			
-			input.setPeriod(period);
+			// 무료영화 기간은 mapper에서 (현재는 2주)
 			sqlSession.update("FreeMovieMapper.setFreeEdit", input);
 		}
 	}
 
+	// 무료영화 기간 종료시 가격 되돌리기
 	@Override
-	public void endFreeMovie() {
-		
-		FreeMovie input = new FreeMovie();
-		
-		// 현재 날짜 가져오기
-		Calendar now = Calendar.getInstance();
-		
-		int year = now.get(Calendar.YEAR);
-		int month = now.get(Calendar.MONTH) + 1;
-		int day = now.get(Calendar.DATE);
-		
-		String today = year + "-" + month + "-" + day;
-		
-		input.setPeriod(today);
+	public void endFreeMovie() {	
 		
 		// 동시에 무료영화 기간이 끝날 수 있기 때문에
-		while ( null != sqlSession.selectOne("FreeMovieMapper.endFreeMovieSearch", input) ) {
+		while ( null != sqlSession.selectOne("FreeMovieMapper.endFreeMovieSearch") ) {
 			int sale = 0;
 			// 30% 확률로 세일하게 해줌
 			if ((int)(Math.random() * 3) + 1 == 1) {
 				sale = (int)(Math.random() * 55) + 5;
 			}
-			input = sqlSession.selectOne("FreeMovieMapper.endFreeMovieSearch", input);
+			FreeMovie input = sqlSession.selectOne("FreeMovieMapper.endFreeMovieSearch");
 			
 			input.setSale(sale);
 			sqlSession.update("FreeMovieMapper.endFreeEdit", input);
 		}
 		
 	}
-
+	
+	// 세일중인 영화 개수 판별하기
 	@Override
 	public boolean saleMovieCount() {
 		// TODO 최신영화 x개 제외하고 에서 숫자 바꿔줘야됨 현재 2
@@ -106,15 +88,21 @@ public class FreeMovieServiceImpl implements FreeMovieService {
 		return true;
 	}
 
+	// 세일영화로 만들어주기
 	@Override
 	public void editSaleMovie() {
-		// TODO 나중에 FreeMovie 객체가아니라 SaleMovie 객체로 바꾸던가 해야함
 		FreeMovie input = new FreeMovie();
 		
 		while (saleMovieCount()) {
 			input = sqlSession.selectOne("FreeMovieMapper.notSaleMovieSearch", input);
 			sqlSession.update("FreeMovieMapper.setSaleEdit", input);
 		}
+	}
+
+	// 세일영화 초기화
+	@Override
+	public void resetSale() {
+		sqlSession.update("FreeMovieMapper.resetSale");
 	}
 
 }

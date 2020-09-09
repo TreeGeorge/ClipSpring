@@ -21,12 +21,12 @@
 		parameterType="study.spring.clip.model.FreeMovie"
 		resultMap="freeMovieMap">
 		SELECT movie_no, name, IF(age='12', '12세 이용가', IF(age='15', '15세 이용가', IF(age='19', '청소년 관람 불가', '전체 이용가'))) as age, runtime, thumbnail, DATE_ADD(period, INTERVAL -1 DAY) AS period FROM movie
-		WHERE sale = 100;
+		WHERE sale = 100 ORDER BY period;
 	</select>
 	
 	<update id="setFreeEdit"
     	parameterType="study.spring.clip.model.FreeMovie">
-        UPDATE movie SET sale=100, period = #{period}
+        UPDATE movie SET sale=100, period = DATE_ADD(now(), INTERVAL 2 WEEK)
 		WHERE movie_no = #{movie_no};
     </update>
 	
@@ -45,7 +45,7 @@
 	<select id="endFreeMovieSearch"
 		parameterType="study.spring.clip.model.FreeMovie"
 		resultMap="freeMovieMap">
-		SELECT movie_no FROM movie WHERE period = #{period} LIMIT 1;
+		SELECT movie_no FROM movie WHERE <![CDATA[period <= now()]]> LIMIT 1;
 	</select>
 	
 	<select id="notFreeMovieSearch"
@@ -66,6 +66,12 @@
     	parameterType="study.spring.clip.model.FreeMovie">
         UPDATE movie SET sale = FLOOR( (RAND() * 55) + 5 ), period = null
 		WHERE movie_no = #{movie_no};
+    </update>
+    
+    <update id="resetSale"
+    	parameterType="study.spring.clip.model.FreeMovie">
+        UPDATE movie SET sale = 0
+		WHERE sale != 0 AND sale != 100;
     </update>
     
     <select id="selectCountSale"

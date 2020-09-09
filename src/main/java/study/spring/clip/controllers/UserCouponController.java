@@ -119,7 +119,7 @@ public class UserCouponController {
 	 
 	 /** 쿠폰 사용 */
 	 @ResponseBody
-	 @RequestMapping(value = "use_coupon.do", method = RequestMethod.POST)
+	 @RequestMapping(value = "use_coupon_ok.do", method = RequestMethod.POST)
 	 public void useCoupon(
 	 		 @RequestParam(value="user_coupon_no") int user_coupon_no) {
 		 
@@ -131,5 +131,4 @@ public class UserCouponController {
 	 	 userCouponService.useCoupon(input);
 	 }
 	 
-	 // TODO 여유 되면 쿠폰을 사용해서 구매한 제품 환불 불가능하게 하기...
 }

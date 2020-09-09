@@ -7,4 +7,5 @@ public class CategoryType {
 	private int category_type_no;
 	private String name;
 	private String type;
+	private String icon;
 }

@@ -166,7 +166,6 @@
 	</div>
 </body>
 <script>
-	$(".top_bar_list").eq(0).removeClass("selected")
 	$(".top_bar_list").eq(1).addClass("selected")
 	$(".bot_bar_icon").eq(0).attr("src", "assets/img/home_icon_selected.png");
 </script>

@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
-import study.spring.clip.model.BuyCoinList;
 import study.spring.clip.model.BuyMovieList;
 import study.spring.clip.service.BuyMovieListService;
 
@@ -69,6 +68,15 @@ public class BuyMovieListServiceImpl implements BuyMovieListService {
 		}
 		return false;
 	}
+	
+	// 쿠폰 사용 제품인지 확인
+	@Override
+	public boolean checkUsedCoupon(BuyMovieList input) {
+		if (sqlSession.selectOne("BuyMovieListMapper.checkUsedCoupon", input) == null) {
+			return true;
+		}
+		return false;
+	}
 
 	// 영상 삭제, 복원시
 	@Override
@@ -120,6 +128,12 @@ public class BuyMovieListServiceImpl implements BuyMovieListService {
 	@Override
 	public void editUserCoin(BuyMovieList input) {
 		sqlSession.update("BuyMovieListMapper.userCoinEdit", input);
+	}
+
+	// 쿠폰 사용 제품으로 만들기
+	@Override
+	public void couponUsed(BuyMovieList input) {
+		sqlSession.update("BuyMovieListMapper.couponUsed", input);
 	}
 
 }

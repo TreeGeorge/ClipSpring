@@ -31,6 +31,11 @@ public class FreeMovieScheduler {
 		log.debug("기간이 지난 쿠폰 삭제 완료!");
 	}
 	
+	public void everyMonth() {
+		freeMovieService.resetSale();
+		log.debug("세일영화 리셋 완료!");
+	}
+	
 	public void everyMidnight() {
 		freeMovieService.endFreeMovie();
 		freeMovieService.editFreeMovie();

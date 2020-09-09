@@ -2,7 +2,6 @@ package study.spring.clip.service;
 
 import java.util.List;
 
-import study.spring.clip.model.BuyCoinList;
 import study.spring.clip.model.BuyMovieList;
 
 public interface BuyMovieListService {
@@ -17,6 +16,8 @@ public interface BuyMovieListService {
 	
 	public boolean checkDate(BuyMovieList input);
 	
+	public boolean checkUsedCoupon(BuyMovieList input);
+	
 	public boolean duplicateCheck(BuyMovieList input);
 	
 	public void changeStatus(BuyMovieList input);
@@ -26,6 +27,8 @@ public interface BuyMovieListService {
 	public void rentalEnd();
 	
 	public void editUserCoin(BuyMovieList input);
+	
+	public void couponUsed(BuyMovieList input);
 	
 	public void addBuyMovieList(BuyMovieList input);
 

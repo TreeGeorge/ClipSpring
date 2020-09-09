@@ -267,13 +267,12 @@ input[type=checkbox] {
 				<span class="movie_delete hidden">삭제</span>
 			</span>
 
-
 			<!-- 드롭다운 옵션 -->
 			<select class="form-control selcls" id="movie_select">
-				<option>최신순</option>
-				<option>평점순</option>
-				<option>판매순</option>
-				<option>낮은가격순</option>
+				<option value="new">최신순</option>
+				<option value="name">가나다순</option>
+				<option value="buy">구매상품</option>
+				<option value="rent">대여상품</option>
 			</select>
 		</div>
 
