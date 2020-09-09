@@ -35,7 +35,6 @@ public class HomeController {
 
 	// private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
-
 	@Autowired
 	HomeMovieSliderService homeMovieSliderService;
 	
@@ -57,8 +56,13 @@ public class HomeController {
 		log.debug("Locale : " + locale.getDisplayCountry());	// 국가 이름 (대한민국)
 		
 		List<HomeMovieSlider> homeMovieSlider = homeMovieSliderService.getJangreMovieSliderList("액션"); // 액션영화조회
+		List<HomeMovieSlider> saleMovieSlider = homeMovieSliderService.getSaleMovieSliderList("할인 영화관"); // 할인영화조회
+		List<CategoryType> HomeCategoryType = categoryTypeService.getHomeCategoryType("G"); // 홈화면 카테고리 조회
+		List<CategoryType> HomeCategoryTypePlus = categoryTypeService.getHomeCategoryTypePlus("G"); // 홈화면 카테고리  더보기 조회
 		
-
+		movie.addAttribute("HomeCategoryType", HomeCategoryType);
+		movie.addAttribute("saleMovieSlider", saleMovieSlider);
+		movie.addAttribute("HomeCategoryTypePlus", HomeCategoryTypePlus);
 		movie.addAttribute("homeMovieSlider", homeMovieSlider);
 	
 		
@@ -80,12 +84,12 @@ public class HomeController {
 		int[] top100MovieSale = {50,20,0,0,10,50,20,0,0,10,50,20,0,0,10,50,20,0,0,10};
 		// TODO 등수비교 로직 고민
 		
-		int[] saleMovieNo = {41,42,43,44,45,46,47,48,49,50};
-		String[] saleMovieTitle = {"세일영화1","세일영화2","세일영화3","세일영화4","세일영화5","세일영화6","세일영화7","세일영화8","세일영화9","세일영화10"};
-		String[] saleMovieThumbnail = {"세일 영화 썸네일 주소1","세일 영화 썸네일 주소2","세일 영화 썸네일 주소3","세일 영화 썸네일 주소4","세일 영화 썸네일 주소5","세일 영화 썸네일 주소6","세일 영화 썸네일 주소7","세일 영화 썸네일 주소8","세일 영화 썸네일 주소9","세일 영화 썸네일 주소10"};
-		String[] saleMovieType = {"구매","대여","대여","구매","대여","구매","대여","구매","구매","대여"};
-		int[] saleMoviePrice = {2000,3000,5000,2000,2000,2000,3000,5000,4000,7000};
-		int[] saleMovieSale = {50,20,30,10,80,15,20,33,55,25};
+//		int[] saleMovieNo = {41,42,43,44,45,46,47,48,49,50};
+//		String[] saleMovieTitle = {"세일영화1","세일영화2","세일영화3","세일영화4","세일영화5","세일영화6","세일영화7","세일영화8","세일영화9","세일영화10"};
+//		String[] saleMovieThumbnail = {"세일 영화 썸네일 주소1","세일 영화 썸네일 주소2","세일 영화 썸네일 주소3","세일 영화 썸네일 주소4","세일 영화 썸네일 주소5","세일 영화 썸네일 주소6","세일 영화 썸네일 주소7","세일 영화 썸네일 주소8","세일 영화 썸네일 주소9","세일 영화 썸네일 주소10"};
+//		String[] saleMovieType = {"구매","대여","대여","구매","대여","구매","대여","구매","구매","대여"};
+//		int[] saleMoviePrice = {2000,3000,5000,2000,2000,2000,3000,5000,4000,7000};
+//		int[] saleMovieSale = {50,20,30,10,80,15,20,33,55,25};
 		
 		int[] marvelMovieNo = {51,52,53,54,55,56,57,58,59,60};
 		String[] marvelMovieTitle = {"마블영화1","마블영화2","마블영화3","마블영화4","마블영화5","마블영화6","마블영화7","마블영화8","마블영화9","마블영화10"};
@@ -115,10 +119,10 @@ public class HomeController {
 		int[] disneyMoviePrice = {2000,3000,5000,2000,2000,2000,3000,5000,4000,7000};
 		int[] disneyMovieSale = {50,20,0,10,0,15,20,33,55,0};
 		
-		int categoryTypeNo[] = {1,2,3,4,5,6,7,8,9,10};
-		String categoryTypeName[] = {"카테고리1","카테고리2","카테고리3","카테고리4","카테고리5","카테고리6","카테고리7","카테고리8","카테고리9","카테고리10"};
-		String categoryTypeIcon[] = {"아이콘 주소1","아이콘 주소2","아이콘 주소3","아이콘 주소4","아이콘 주소5","아이콘 주소6","아이콘 주소7","아이콘 주소8","아이콘 주소9","아이콘 주소10"};
-		
+//		int categoryTypeNo[] = {1,2,3,4,5,6,7,8,9,10};
+//		String categoryTypeName[] = {"카테고리1","카테고리2","카테고리3","카테고리4","카테고리5","카테고리6","카테고리7","카테고리8","카테고리9","카테고리10"};
+//		String categoryTypeIcon[] = {"아이콘 주소1","아이콘 주소2","아이콘 주소3","아이콘 주소4","아이콘 주소5","아이콘 주소6","아이콘 주소7","아이콘 주소8","아이콘 주소9","아이콘 주소10"};
+//		
 		// 지환쓰 구현 부 -------- 삭제 금지
 		// 관리자 페이지가 없기때문에 파라미터값은 db에서 쿠폰 추가하고 개발자가 넣어줘야함...
 		UserCoupon input = userCouponService.getCouponInfo(3);
@@ -172,14 +176,14 @@ public class HomeController {
 //				movie.addAttribute("actionMoviePrice"+i, actionMoviePrice[i]);
 //				movie.addAttribute("actionMovieNo"+i, actionMovieNo[i]);
 //				movie.addAttribute("actionMovieSalePrice"+i, price);
-				
-				price = saleMoviePrice[i] / 100 * (100 - saleMovieSale[i]);
-				movie.addAttribute("saleMovieTitle"+i, saleMovieTitle[i]);
-				movie.addAttribute("saleMovieThumbnail"+i, saleMovieThumbnail[i]);
-				movie.addAttribute("saleMovieType"+i, saleMovieType[i]);
-				movie.addAttribute("saleMoviePrice"+i, saleMoviePrice[i]);
-				movie.addAttribute("saleMovieNo"+i, saleMovieNo[i]);
-				movie.addAttribute("saleMovieSalePrice"+i, price);
+//				
+//				price = saleMoviePrice[i] / 100 * (100 - saleMovieSale[i]);
+//				movie.addAttribute("saleMovieTitle"+i, saleMovieTitle[i]);
+//				movie.addAttribute("saleMovieThumbnail"+i, saleMovieThumbnail[i]);
+//				movie.addAttribute("saleMovieType"+i, saleMovieType[i]);
+//				movie.addAttribute("saleMoviePrice"+i, saleMoviePrice[i]);
+//				movie.addAttribute("saleMovieNo"+i, saleMovieNo[i]);
+//				movie.addAttribute("saleMovieSalePrice"+i, price);
 				
 				if (marvelMovieSale[i] == 0) {
 					price = marvelMoviePrice[i];
@@ -217,9 +221,9 @@ public class HomeController {
 				movie.addAttribute("disneyMovieNo"+i, disneyMovieNo[i]);
 				movie.addAttribute("disneyMovieSalePrice"+i, price);
 						
-				movie.addAttribute("categoryTypeName"+i, categoryTypeName[i]);
-				movie.addAttribute("categoryTypeIcon"+i, categoryTypeIcon[i]);
-				movie.addAttribute("categoryTypeNo"+i, categoryTypeNo[i]);
+//				movie.addAttribute("categoryTypeName"+i, categoryTypeName[i]);
+//				movie.addAttribute("categoryTypeIcon"+i, categoryTypeIcon[i]);
+//				movie.addAttribute("categoryTypeNo"+i, categoryTypeNo[i]);
 			}
 			
 		}

@@ -16,6 +16,12 @@ public interface HomeMovieSliderService {
 	 * */
 	public List<HomeMovieSlider> getJangreMovieSliderList(String name);
 	
+	/**
+	 * 할인 영화 슬라이더 조회
+	 * */
+	public List<HomeMovieSlider> getSaleMovieSliderList(String name);
+	
+	
 
 }
 

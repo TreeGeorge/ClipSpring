@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import study.spring.clip.model.CategorySorted;
+import study.spring.clip.model.Interest;
 import study.spring.clip.service.CategorySortedService;
 
 @Controller
@@ -30,9 +31,15 @@ public class CategorySortedController {
 			
 		List<CategorySorted> categorySorted = categorySortedService.getCategorySorted(categoryTypeNo); // 조회 처리가 저장될 객체
 		int TotalCount = categorySortedService.getTotalCount(categoryTypeNo);	// total 영화 갯수
-		
+		List<CategorySorted> output1 = categorySortedService.getrecentList(categoryTypeNo);
+		List<CategorySorted> output3 = categorySortedService.getrowpriceList(categoryTypeNo); 
+		List<CategorySorted> output2 = categorySortedService.gethighpriceList(categoryTypeNo);
+	
 		movie.addAttribute("categorySorted", categorySorted);
 		movie.addAttribute("TotalCount", TotalCount);
+		movie.addAttribute("output1",output1);
+		movie.addAttribute("output3",output3);
+		movie.addAttribute("output2",output2);
 		
 		return "Movie_category_sorted";
 	}

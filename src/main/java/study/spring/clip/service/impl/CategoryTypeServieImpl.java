@@ -36,5 +36,33 @@ public class CategoryTypeServieImpl implements CategoryTypeService {
 		return result;
 	}
 
+	@Override
+	public List<CategoryType> getCategoryTypeListP(String type) {
+		CategoryType input = new CategoryType();
+		input.setType(type);
+		List<CategoryType> result = sqlSession.selectList("CategoryTypeMapper.ThreeCategoryType",input);
+		
+		return result;
+	}
+	
+	@Override
+	public List<CategoryType> getHomeCategoryType(String type) {
+		CategoryType input = new CategoryType();
+		input.setType(type);
+		List<CategoryType> result = sqlSession.selectList("CategoryTypeMapper.HomeCategoryType",input);
+
+		return result;
+	}
+
+	@Override
+	public List<CategoryType> getHomeCategoryTypePlus(String type) {
+		CategoryType input = new CategoryType();
+		input.setType(type);
+		List<CategoryType> result = sqlSession.selectList("CategoryTypeMapper.HomeCategoryTypePlus",input);
+
+		return result;
+	}
+
+
 
 }

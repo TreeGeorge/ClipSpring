@@ -61,7 +61,7 @@
              <!--추천 카테고리 박스-->
             <div class="movie_box">
                  <!-- 해당 추천 카테고리 링크(ex. 영화와 함께 힐링 여행!) -->
-                <a href="Movie_category_sorted.jsp" class="movie_box_header clearfix">
+                <a href="Movie_category_sorted?categoryTypeNo=1" class="movie_box_header clearfix">
                 <span class="title">손발에 땀이나는 액션 무비!</span><img src="assets/img/right.png" class="right" /></a>
                  <!-- 해당 추천 카테고리 영화 리스트 -->
                 <div class="movie_list">
@@ -124,15 +124,13 @@
                     <!-- Swiper -->
                     <div class="swiper-container">
                         <div class="swiper-wrapper">
-                            <c:forEach var="i" begin="0" end="9" step="1" varStatus="status"> 
-	                    		<c:set var="MovieNo" value="saleMovieNo${status.index}" />
-	                    		<c:set var="MovieTitle" value="saleMovieTitle${status.index}" />
-	                    		<c:set var="MovieThumbnail" value="saleMovieThumbnail${status.index}" />
-	                    		<c:set var="MovieType" value="saleMovieType${status.index}" />
-	                    		<c:set var="MoviePrice" value="saleMoviePrice${status.index}" />
-	                    		<c:set var="MovieSalePrice" value="saleMovieSalePrice${status.index}" />
-	                    		<div class="swiper-slide"><a href="Movie_information?movieNo=${requestScope[MovieNo]}" class="gallbox"><img
-	                            src="${requestScope[MovieThumbnail]}" alt="${requestScope[MovieTitle]} 썸네일"><span class="movie_title">${requestScope[MovieTitle]}</span><span class="type">${requestScope[MovieType]}</span><span class="price">${requestScope[MovieSalePrice]}<img id="coin" src="assets/img/coin_icon.png"/></span><del class="sale">${requestScope[MoviePrice]}<img id="coin" src="assets/img/coin_icon.png"/></del></a></div>
+                            <c:forEach var="item" items="${saleMovieSlider}" varStatus="status"> 
+	                    		<div class="swiper-slide"><a href="Movie_information?movieNo=${item.movie_no}" class="gallbox">
+	                    		<img src="${item.thumbnail}" alt="${item.name} 썸네일">
+	                    		<span class="movie_title">${item.name}</span>
+	                            <span class="type">${item.type}</span>
+	                            <span class="price">${item.price}<img id="coin" src="assets/img/coin_icon.png"/></span>
+	                            <del class="sale">${item.sale}<img id="coin" src="assets/img/coin_icon.png"/></del></a></div>
 	                    	</c:forEach>
                         </div>
                     <!-- Add Pagination -->
@@ -193,7 +191,7 @@
             <!-- 원작보다 더 재밌는 영화 -->
             <div class="movie_box">
                 <!-- 해당 추천 카테고리 링크(ex. 영화와 함께 힐링 여행!) -->
-                <a href="Movie_category_sorted.jsp" class="movie_box_header clearfix"><span class="title">원작보다 더 재밌는 영화</span><img src="assets/img/right.png" class="right" /></a>
+                <a href="Movie_category_sorted" class="movie_box_header clearfix"><span class="title">원작보다 더 재밌는 영화</span><img src="assets/img/right.png" class="right" /></a>
                  <!-- 해당 추천 카테고리 영화 리스트 -->
                 <div class="movie_list">
                     <!-- Swiper -->
@@ -246,14 +244,11 @@
             <div class="category_list">
                 <!-- 장르별 카테고리 -->
             	<ul>
-	                <c:forEach var="i" begin="0" end="4" step="1" varStatus="status"> 
-		                <c:set var="categoryTypeNo" value="categoryTypeNo${status.index}" />
-		                <c:set var="categoryTypeName" value="categoryTypeName${status.index}" />
-		                <c:set var="categoryTypeIcon" value="categoryTypeIcon${status.index}" />
+	                <c:forEach var="item" items="${HomeCategoryType}" varStatus="status"> 
 	                    <li class="clearfix">
-		                    <a href="Category_sorted?categoryTypeNo=${requestScope[categoryTypeNo]}">
-		                        <img class="icon" src="${requestScope[categoryTypeIcon]}" />
-		                        <span class="list">${requestScope[categoryTypeName]}</span>
+		                    <a href="Category_sorted?categoryTypeNo=${item.category_type_no}">
+		                        <img class="icon" src="${item.icon}" />
+		                        <span class="list">${item.name}</span>
 		                        <img src="assets/img/right.png" class="right" />
 		                    </a>
 	                	</li>
@@ -262,14 +257,11 @@
                 <!-- 더보기 영역 -->
                 <div class="more hidden_category">
 	                <ul>
-	                    <c:forEach var="i" begin="5" end="9" step="1" varStatus="status"> 
-			                <c:set var="categoryTypeNo" value="categoryTypeNo${status.index}" />
-			                <c:set var="categoryTypeName" value="categoryTypeName${status.index}" />
-			                <c:set var="categoryTypeIcon" value="categoryTypeIcon${status.index}" />
+	                    <c:forEach var="item" items="${HomeCategoryTypePlus}" varStatus="status"> 
 		                    <li class="clearfix">
-			                    <a href="Category_sorted?categoryTypeNo=${requestScope[categoryTypeNo]}">
-			                        <img class="icon" src="${requestScope[categoryTypeIcon]}" />
-			                        <span class="list">${requestScope[categoryTypeName]}</span>
+			                    <a href="Category_sorted?categoryTypeNo=${item.category_type_no}">
+			                        <img class="icon" src="${item.icon}" />
+			                        <span class="list">${item.name}</span>
 			                        <img src="assets/img/right.png" class="right" />
 			                    </a>
 		                	</li>

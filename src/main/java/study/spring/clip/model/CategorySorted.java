@@ -11,4 +11,5 @@ public class CategorySorted {
 	private int price;
 	private String type;
 	private int category_type_no;
+	private String release_date;
 }

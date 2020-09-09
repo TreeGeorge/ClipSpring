@@ -34,6 +34,14 @@ public class HomeMovieSliderServiceImpl implements HomeMovieSliderService {
 		return result;
 	}
 
+	@Override
+	public List<HomeMovieSlider> getSaleMovieSliderList(String name) {
+		HomeMovieSlider input = new HomeMovieSlider();
+		input.setName(name);
+		List<HomeMovieSlider> result = sqlSession.selectList("HomeMovieSliderMapper.SaleMovieSlider",input);
+		return result;
+	}
+
 
 
 

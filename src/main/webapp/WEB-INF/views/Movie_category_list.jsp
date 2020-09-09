@@ -184,7 +184,7 @@ html, body {
         <!-- 상품별 카테고리 -->
         <div class="category_page_product hide">
             <ul>
-                <c:forEach var="item" items="${categoryType}" varStatus="status"> 
+                <c:forEach var="item" items="${categoryTypeP}" varStatus="status"> 
                     <li class="clearfix">
 	                    <a href="Movie_category_sorted?categoryTypeNo=${item.category_type_no}">
 	                        <img class="icon" src="${item.icon}" />

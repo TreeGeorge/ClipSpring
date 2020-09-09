@@ -15,4 +15,20 @@ public interface CategoryTypeService{
 	 * 브랜드별 카테고리 목록 조회
 	 * */
 	public List<CategoryType> getCategoryTypeListB(String type);
+	
+	/**
+	 * 상품별 카테고리 목록 조회
+	 * */
+	public List<CategoryType> getCategoryTypeListP(String type);
+	
+	
+	/**
+	 * 홈 카테고리 목록 조회
+	 * */
+	public List<CategoryType> getHomeCategoryType(String type);
+
+	/**
+	 * 홈 카테고리 목록 조회 더보기
+	 * */
+	public List<CategoryType> getHomeCategoryTypePlus(String type);
 }

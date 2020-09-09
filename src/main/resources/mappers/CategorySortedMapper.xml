@@ -14,22 +14,62 @@
 		<result property="sale" column="sale" />
 		<result property="price" column="price" />
 		<result property="thumbnail" column="thumbnail" />
+		<result property="release_date" column="release_date" />
 		<result property="category_type_no" column="category_type_no" />
 	</resultMap>
 
 	<select id="OneCategorySorted"
 		parameterType="study.spring.clip.model.CategorySorted"
 		resultMap="CategorySortedMap">
-		SELECT movie_no, name, type, sale, Floor(price / 100 * (100 - sale)) as price, thumbnail FROM movie
-		WHERE movie_no IN(select movie_no from movie_category
-		WHERE category_type_no = #{category_type_no});
+		SELECT movie_no, name, type, sale, Floor(price / 100 * (100
+		- sale)) as price, thumbnail FROM movie
+		WHERE movie_no IN(select
+		movie_no from movie_category
+		WHERE category_type_no =
+		#{category_type_no});
 	</select>
 
 	<select id="TotalCategorySorted"
 		parameterType="study.spring.clip.model.CategorySorted"
 		resultType="int">
 		SELECT COUNT(movie_no) FROM movie WHERE movie_no
-		IN(select movie_no from movie_category
+		IN(select
+		movie_no from movie_category
 		WHERE category_type_no = #{category_type_no});
+	</select>
+
+	<select id="resentList"
+		parameterType="study.spring.clip.model.CategorySorted"
+		resultMap="CategorySortedMap">
+		SELECT movie_no, name, type, sale, Floor(price / 100 * (100-sale)) as price, thumbnail,release_date 
+		FROM movie
+		WHERE movie_no
+		IN(select movie_no from movie_category
+		WHERE
+		category_type_no = #{category_type_no})
+		ORDER BY release_date desc;
+
+	</select>
+
+	<select id="highpriceList"
+		parameterType="study.spring.clip.model.CategorySorted"
+		resultMap="CategorySortedMap">
+		SELECT movie_no, name, type, sale, Floor(price / 100 * (100- sale)) as
+		price, thumbnail,release_date FROM movie
+		WHERE movie_no
+		IN(select movie_no from movie_category
+		WHERE category_type_no = #{category_type_no})
+		ORDER BY price desc;
+	</select>
+
+	<select id="rowpriceList"
+		parameterType="study.spring.clip.model.CategorySorted"
+		resultMap="CategorySortedMap">
+		SELECT movie_no, name, type, sale, Floor(price / 100 * (100- sale)) as
+		price, thumbnail,release_date FROM movie
+		WHERE movie_no
+		IN(select movie_no from movie_category
+		WHERE category_type_no = #{category_type_no})
+		ORDER BY price asc;
 	</select>
 </mapper>

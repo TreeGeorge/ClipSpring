@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"%>
 <%@ page trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -73,6 +74,8 @@ li {
 #movie {
 	width: auto;
 	padding: 0px;
+	padding-left:5px;
+	padding-right:5px;
 }
 /* 한줄에 3개씩 가로배치 */
 #movie li {
@@ -84,7 +87,7 @@ li {
 #movie li a {
 	display: block;
 	width: auto;
-	padding-left: 10px;
+	padding-left: 5px;
 }
 /* 영화 썸네일 이미지 크기 */
 #movie .thumb img {
@@ -146,15 +149,16 @@ a:hover {
 
 	<!-- 총 n개 작품 , 드롭다운  -->
 	<div class="content clearfix">
-		<span class="total">총</span> <span class="p">&nbsp;${TotalCount}</span>개 작품
+		<span class="total">총</span> <span class="p">&nbsp;${TotalCount}</span>개
+		작품
 
 		<!-- 드랍 다운 -->
-		<select class="form-control selcls" id="movie_select">
-			<option>최신순</option>
-			<option>개봉순</option>
+		<select name="asdf" class="form-control selcls" id="movie_select">
+			<option value="최신순">최신순</option>
 			<option>평점순</option>
-			<option>판매순</option>
-			<option>낮은가격순</option>
+			<option>구매순</option>
+			<option value="낮은 가격순">낮은가격순</option>
+			<option value="높은 가격순">높은가격순</option>
 		</select>
 	</div>
 
@@ -162,26 +166,30 @@ a:hover {
 	<div id="body">
 		<ul id="movie" class="infinite_scroll">
 			<c:forEach var="item" items="${categorySorted}" varStatus="status">
-				<li class="img"><a href="Movie_information.do?movie_no=${item.movie_no}"> 
-				<span class="thumb"> <img src="${item.thumbnail}" alt="${item.name} 썸네일" /></span> 
-				<span class="movie_title">${item.name}</span>
-				<span class="price">${item.type}&nbsp;<span class="cost">${item.price}</span><img src="assets/img/coin_icon.png"></span>
+				<li class="img"><a
+					href="Movie_information.do?movieNo=${item.movie_no}"> <span
+						class="thumb"> <img src="${item.thumbnail}"
+							alt="${item.name} 썸네일" /></span> <span class="movie_title">${item.name}</span>
+						<span class="price">${item.type}&nbsp;<span class="cost">${item.price}
+								<img src="assets/img/coin_icon.png">
+						</span></span>
 				</a></li>
 			</c:forEach>
 		</ul>
 	</div>
-	
+
 	<!-- 인피니트 스크롤 -->
 	<script src="assets/js/bootstrap.min.js"></script>
 	<script>
-		$(function() {
-			var cost = $(".cost");
-				for(var i = 0; i< cost.length; i++) {
-					if(cost.eq(i).text()=="0"){
+			$(function() {
+				var cost = $(".cost");
+				for (var i = 0; i < cost.length; i++) {
+					if (cost.eq(i).text() == "0") {
 						cost.eq(i).text("무료");
 					}
 				}
 			
+
 			$("#top_info_value").html("카테고리 종류");
 
 			var num = 0;
@@ -195,7 +203,25 @@ a:hover {
 							console.log(num);
 						}
 					})
-				});
+		});
+		
+     	$("select[name='asdf']").change(function() {
+     		
+         if($(this).val()=="최신순"){
+               $(".infinite_scroll").remove();	 
+			   $("#body").append().html('<ul id="movie" class="infinite_scroll"> <c:forEach var="item" items="${output1}" varStatus="status"><li class="img"><a href="Movie_information.do?movie_no=${item.movie_no}"> <span class="thumb"> <img src="${item.thumbnail}" alt="${item.name} 썸네일" /></span> <span class="movie_title">${item.name}</span><span class="price">${item.type}&nbsp;<span class="cost">${item.price}<img src="assets/img/coin_icon.png"></span></span></a></li></c:forEach></ul>')
+           } else if ($(this).val()=="낮은 가격순") {
+        	   $(".infinite_scroll").remove();
+        	   $("#body").append().html('<ul id="movie" class="infinite_scroll"> <c:forEach var="item" items="${output3}" varStatus="status"><li class="img"><a href="Movie_information.do?movie_no=${item.movie_no}"> <span class="thumb"> <img src="${item.thumbnail}" alt="${item.name} 썸네일" /></span> <span class="movie_title">${item.name}</span><span class="price">${item.type}&nbsp;<span class="cost">${item.price}<img src="assets/img/coin_icon.png"></span></span></a></li></c:forEach></ul>')
+           } else if ($(this).val()=="높은 가격순"){
+        	   $(".infinite_scroll").remove();
+        	   $("#body").append().html('<ul id="movie" class="infinite_scroll"> <c:forEach var="item" items="${output2}" varStatus="status"><li class="img"><a href="Movie_information.do?movie_no=${item.movie_no}"> <span class="thumb"> <img src="${item.thumbnail}" alt="${item.name} 썸네일" /></span> <span class="movie_title">${item.name}</span><span class="price">${item.type}&nbsp;<span class="cost">${item.price}<img src="assets/img/coin_icon.png"></span></span></a></li></c:forEach></ul>')
+           } else if ($(this).val()=="평점순"){
+        	   
+           } else if ($(this).val()=="구매순"){
+        	   
+           }
+           })
 	</script>
 </body>
 

@@ -20,7 +20,7 @@ public class MovieSearchController {
 	@Value("#{servletContext.contextPath}")
 	String contextPath;
 	
-	@RequestMapping(value = "Movie_search.do", method = RequestMethod.POST)
+	@RequestMapping(value = "Movie_search", method = RequestMethod.GET)
 	public String goMovieSearch(Model movie){
 		List<MovieSearch> MovieSearchActor = movieSearchService.getMovieSearchActor(contextPath); // 배우검색
 		List<MovieSearch> MovieSearchTitle = movieSearchService.getMovieSearchTitle(contextPath); // 영화제목검색

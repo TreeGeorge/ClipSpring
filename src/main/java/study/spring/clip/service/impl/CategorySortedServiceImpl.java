@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
 import study.spring.clip.model.CategorySorted;
+import study.spring.clip.model.Interest;
 import study.spring.clip.service.CategorySortedService;
 
 @Slf4j
@@ -33,6 +34,26 @@ public class CategorySortedServiceImpl implements CategorySortedService {
 
 		return result;
 	}
+
+	@Override
+	public List<CategorySorted> getrecentList(int category_type_no) {
+		List<CategorySorted> result = sqlSession.selectList("CategorySortedMapper.resentList", category_type_no);
+		return result;
+	}
+
+	@Override
+	public List<CategorySorted> getrowpriceList(int category_type_no) {
+		List<CategorySorted> result = sqlSession.selectList("CategorySortedMapper.rowpriceList", category_type_no);
+		return result;
+	}
+
+	@Override
+	public List<CategorySorted> gethighpriceList(int category_type_no) {
+		List<CategorySorted> result = sqlSession.selectList("CategorySortedMapper.highpriceList", category_type_no);
+		return result;
+	}
+	
+	
 
 	
 

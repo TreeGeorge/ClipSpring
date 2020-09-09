@@ -25,6 +25,7 @@
 		WHERE actor_no
 		IN(SELECT actor_no
 		FROM actor WHERE name = #{name}))
+		LIMIT 10;
 	</select>
 
 	<!-- 이 장르의 인기 영화 -->
@@ -35,7 +36,6 @@
 		WHERE movie_no
 		IN (select movie_no from movie_category 
 		WHERE category_type_no=#{category_type_no})
-		LIMIT 10
-
+		LIMIT 10;
 	</select>
 </mapper>

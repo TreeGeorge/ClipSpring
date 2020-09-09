@@ -42,7 +42,7 @@
 		</li>
 		<li class="pull_left">
 			<!-- 검색 -->
-			<a href="Movie_search.jsp"><img class="bot_bar_icon" src="${pageContext.request.contextPath}/assets/img/search_icon.png" alt="검색"></a>
+			<a href="Movie_search"><img class="bot_bar_icon" src="${pageContext.request.contextPath}/assets/img/search_icon.png" alt="검색"></a>
 		</li>
 		<li class="pull_left">
 			<!-- 장바구니 -->

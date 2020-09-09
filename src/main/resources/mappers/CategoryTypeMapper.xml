@@ -21,7 +21,7 @@
 		FROM category_type
 		WHERE TYPE = #{type};
 	</select>
-	
+
 	<select id="TwoCategoryType"
 		parameterType="study.spring.clip.model.CategoryType"
 		resultMap="CategoryTypeMap">
@@ -29,4 +29,29 @@
 		FROM category_type
 		WHERE TYPE = #{type};
 	</select>
+	
+	<select id="ThreeCategoryType"
+		parameterType="study.spring.clip.model.CategoryType"
+		resultMap="CategoryTypeMap">
+		SELECT category_type_no, name, type, icon
+		FROM category_type
+		WHERE TYPE = #{type};
+	</select>
+
+	<select id="HomeCategoryType"
+		parameterType="study.spring.clip.model.CategoryType"
+		resultMap="CategoryTypeMap">
+		SELECT category_type_no, name , type, icon FROM category_type
+		WHERE TYPE = #{type}
+		LIMIT 5;
+	</select>
+
+	<select id="HomeCategoryTypePlus"
+		parameterType="study.spring.clip.model.CategoryType"
+		resultMap="CategoryTypeMap">
+		SELECT category_type_no, name, type, icon FROM category_type
+		WHERE TYPE = #{type}
+		LIMIT 5,20;
+	</select>
+
 </mapper>
