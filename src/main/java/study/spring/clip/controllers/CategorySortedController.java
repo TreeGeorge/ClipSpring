@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import study.spring.clip.model.CategorySorted;
-import study.spring.clip.model.Interest;
 import study.spring.clip.service.CategorySortedService;
 
 @Controller

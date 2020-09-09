@@ -12,7 +12,7 @@
 <!-- bootstrap -->
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-
+<script src="https://unpkg.com/@webcreate/infinite-ajax-scroll/dist/infinite-ajax-scroll.min.js"></script>
 </head>
 <style type="text/css">
 html, body {
@@ -166,13 +166,11 @@ a:hover {
 	<div id="body">
 		<ul id="movie" class="infinite_scroll">
 			<c:forEach var="item" items="${categorySorted}" varStatus="status">
-				<li class="img"><a
-					href="Movie_information.do?movieNo=${item.movie_no}"> <span
-						class="thumb"> <img src="${item.thumbnail}"
-							alt="${item.name} 썸네일" /></span> <span class="movie_title">${item.name}</span>
-						<span class="price">${item.type}&nbsp;<span class="cost">${item.price}
-								<img src="assets/img/coin_icon.png">
-						</span></span>
+				<li class="img"><a href="Movie_information.do?movieNo=${item.movie_no}">
+				<span class="thumb"> <img src="${item.thumbnail}" alt="${item.name} 썸네일" /></span> 
+				<span class="movie_title">${item.name}</span>
+				<span class="price">${item.type}&nbsp;<span class="cost">${item.price}
+				<img src="assets/img/coin_icon.png"></span></span>
 				</a></li>
 			</c:forEach>
 		</ul>
@@ -181,14 +179,18 @@ a:hover {
 	<!-- 인피니트 스크롤 -->
 	<script src="assets/js/bootstrap.min.js"></script>
 	<script>
-			$(function() {
+			function renderfree() {
 				var cost = $(".cost");
 				for (var i = 0; i < cost.length; i++) {
 					if (cost.eq(i).text() == "0") {
 						cost.eq(i).text("무료");
 					}
 				}
-
+				console.log($(".cost"));
+			}
+			
+			$(function() {
+			renderfree()
 			var num = 0;
 			$(window).scroll(
 					function() {
@@ -218,7 +220,13 @@ a:hover {
            } else if ($(this).val()=="구매순"){
         	   
            }
-           })
+         renderfree() })
+         
+         
+         let ias = new InfiniteAjaxScroll('#body', {
+ 		 item: '.infinite_scroll',
+		});
+         
 	</script>
 </body>
 
