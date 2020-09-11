@@ -198,7 +198,7 @@ CREATE TABLE `interest` (
   KEY `fk_interest_movie1_idx` (`movie_no`),
   CONSTRAINT `fk_interest_movie1` FOREIGN KEY (`movie_no`) REFERENCES `movie` (`movie_no`),
   CONSTRAINT `fk_interest_user1` FOREIGN KEY (`user_no`) REFERENCES `user` (`user_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -207,6 +207,7 @@ CREATE TABLE `interest` (
 
 LOCK TABLES `interest` WRITE;
 /*!40000 ALTER TABLE `interest` DISABLE KEYS */;
+INSERT INTO `interest` VALUES (10,1,10);
 /*!40000 ALTER TABLE `interest` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -290,7 +291,7 @@ CREATE TABLE `movie_category` (
   KEY `fk_movie_category_movie1_idx` (`movie_no`),
   CONSTRAINT `fk_movie_category_category_type1` FOREIGN KEY (`category_type_no`) REFERENCES `category_type` (`category_type_no`),
   CONSTRAINT `fk_movie_category_movie1` FOREIGN KEY (`movie_no`) REFERENCES `movie` (`movie_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 COMMENT='카테고리와 영화를 이어주는 테이블';
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8 COMMENT='카테고리와 영화를 이어주는 테이블';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -350,7 +351,7 @@ CREATE TABLE `movie_like` (
   KEY `movie_no_idx` (`movie_no`),
   CONSTRAINT `movie_no` FOREIGN KEY (`movie_no`) REFERENCES `movie` (`movie_no`),
   CONSTRAINT `user_no` FOREIGN KEY (`user_no`) REFERENCES `user` (`user_no`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -492,4 +493,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-09-09 16:28:46
+-- Dump completed on 2020-09-09 20:47:44

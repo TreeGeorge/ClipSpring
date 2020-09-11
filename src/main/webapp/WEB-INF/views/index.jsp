@@ -48,7 +48,7 @@
                         <div class="swiper-slide"><a href="Movie_information?movieNo=${recommendMovieNo7}" class="gallbox"><img src="${recommendMovieThumbnail7}" alt="${recommendMovieTitle7} 썸네일"><span class="banner_movie_title" style="background: #FF3253">${recommendMovieTitle7}</span></a></div>
                         <div class="swiper-slide"><a href="Movie_information?movieNo=${recommendMovieNo8}" class="gallbox"><img src="${recommendMovieThumbnail8}" alt="${recommendMovieTitle8} 썸네일"><span class="banner_movie_title" style="background: #B9062D">${recommendMovieTitle8}</span></a></div>
                         <div class="swiper-slide"><a href="Movie_information?movieNo=${recommendMovieNo9}" class="gallbox"><img src="${recommendMovieThumbnail9}" alt="${recommendMovieTitle9} 썸네일"><span class="banner_movie_title" style="background: #8C0120">${recommendMovieTitle9}</span></a></div>
-                        <div class="swiper-slide"><a href="Movie_category_sorted.jsp" class="gallbox"><img src="assets/img/more_view_icon.png" alt="더보기 아이콘" class="more_view_icon"><span class="more_text">더보기</span></a></div>
+                        <div class="swiper-slide"><a href="Movie_category_sorted?categoryTypeNo=1001" class="gallbox"><img src="assets/img/more_view_icon.png" alt="더보기 아이콘" class="more_view_icon"><span class="more_text">더보기</span></a></div>
                     </div>
                     <!-- Add Pagination -->
                     <!-- <div class="swiper-pagination"></div> -->
@@ -99,7 +99,7 @@
 			                    		<c:set var="MovieThumbnail" value="top100MovieThumbnail${status.index}" />
 			                    		<c:set var="MovieType" value="top100MovieType${status.index}" />
 			                    		<c:set var="MoviePrice" value="top100MoviePrice${status.index}" />
-			                    		<a href="Movie_information?movieNo=${requestScope[MovieNo]}">
+			                    		<a href="Movie_information?movieNo=4">
 			                                <img src="${requestScope[MovieThumbnail]}" alt="${requestScope[MovieTitle]} 썸네일">
 			                                <span class="lank">${i + 1}</span>
 			                                <span class="movie_title">${requestScope[MovieTitle]}</span>
@@ -155,7 +155,7 @@
 	                    		<c:set var="MovieType" value="marvelMovieType${status.index}" />
 	                    		<c:set var="MoviePrice" value="marvelMoviePrice${status.index}" />
 	                    		<c:set var="MovieSalePrice" value="marvelMovieSalePrice${status.index}" />
-	                    		<div class="swiper-slide"><a href="Movie_information?movieNo=${requestScope[MovieNo]}" class="gallbox"><img
+	                    		<div class="swiper-slide"><a href="Movie_information?movieNo=3" class="gallbox"><img
 	                            src="${requestScope[MovieThumbnail]}" alt="${requestScope[MovieTitle]} 썸네일"><span class="movie_title">${requestScope[MovieTitle]}</span><span class="type">${requestScope[MovieType]}</span><span class="price">${requestScope[MovieSalePrice]}<img id="coin" src="assets/img/coin_icon.png"/></span><del class="sale">${requestScope[MoviePrice]}<img id="coin" src="assets/img/coin_icon.png"/></del></a></div>
 	                    	</c:forEach>
                         </div>
@@ -178,7 +178,7 @@
 	                    <c:set var="MovieAge" value="freeMovieAge${status.index}" />
 	                    <c:set var="MovieRuntime" value="freeMovieRuntime${status.index}" />
 	                    <c:set var="MovieDate" value="freeMovieDate${status.index}" />
-	                    <a href="Movie_information?movieNo=${requestScope[MovieNo]}">
+	                    <a href="Movie_information?movieNo=3">
 	                        <img src="${requestScope[MovieThumbnail]}" alt="${requestScope[MovieTitle]} 썸네일">
 	                        <span class="movie_title">${requestScope[MovieTitle]}</span>
 	                        <span class="age">${requestScope[MovieAge]} 관람가<span> | ${requestScope[MovieRuntime]}</span></span>
@@ -204,7 +204,7 @@
 	                    		<c:set var="MovieType" value="newestMovieType${status.index}" />
 	                    		<c:set var="MoviePrice" value="newestMoviePrice${status.index}" />
 	                    		<c:set var="MovieSalePrice" value="newestMovieSalePrice${status.index}" />
-	                    		<div class="swiper-slide"><a href="Movie_information?movieNo=${requestScope[MovieNo]}" class="gallbox"><img
+	                    		<div class="swiper-slide"><a href="Movie_information?movieNo=4" class="gallbox"><img
 	                            src="${requestScope[MovieThumbnail]}" alt="${requestScope[MovieTitle]} 썸네일"><span class="movie_title">${requestScope[MovieTitle]}</span><span class="type">${requestScope[MovieType]}</span><span class="price">${requestScope[MovieSalePrice]}<img id="coin" src="assets/img/coin_icon.png"/></span><del class="sale">${requestScope[MoviePrice]}<img id="coin" src="assets/img/coin_icon.png"/></del></a></div>
 	                    	</c:forEach>
                         </div>
@@ -230,7 +230,7 @@
 	                    		<c:set var="MovieType" value="disneyMovieType${status.index}" />
 	                    		<c:set var="MoviePrice" value="disneyMoviePrice${status.index}" />
 	                    		<c:set var="MovieSalePrice" value="disneyMovieSalePrice${status.index}" />
-	                    		<div class="swiper-slide"><a href="Movie_information?movieNo=${requestScope[MovieNo]}" class="gallbox"><img
+	                    		<div class="swiper-slide"><a href="Movie_information?movieNo=3" class="gallbox"><img
 	                            src="${requestScope[MovieThumbnail]}" alt="${requestScope[MovieTitle]} 썸네일"><span class="movie_title">${requestScope[MovieTitle]}</span><span class="type">${requestScope[MovieType]}</span><span class="price">${requestScope[MovieSalePrice]}<img id="coin" src="assets/img/coin_icon.png"/></span><del class="sale">${requestScope[MoviePrice]}<img id="coin" src="assets/img/coin_icon.png"/></del></a></div>
 	                    	</c:forEach>
                         </div>

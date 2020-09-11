@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import lombok.extern.slf4j.Slf4j;
 import study.spring.clip.service.BuyMovieListService;
 import study.spring.clip.service.FreeMovieService;
+import study.spring.clip.service.Top100Service;
 import study.spring.clip.service.UserCouponService;
 
 @Slf4j
@@ -20,6 +21,9 @@ public class FreeMovieScheduler {
 	
 	@Autowired
 	BuyMovieListService buyMovieListService;
+	
+	@Autowired
+	Top100Service top100service;
 	
 	public void everyMidnightEndRental() {
 		buyMovieListService.rentalEnd();
@@ -41,6 +45,9 @@ public class FreeMovieScheduler {
 		freeMovieService.editFreeMovie();
 		freeMovieService.editSaleMovie();
 		log.debug("무료영화 + 세일영화 업데이트 완료!");
+		top100service.insertDummyData();
+		top100service.deleteCount();
+		log.debug("top100용 더미데이터 생성 완료! + 기간이 지난 상품 삭제 완료!");
 	}
 
 }

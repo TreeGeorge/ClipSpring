@@ -26,7 +26,7 @@
 	
 	<update id="setFreeEdit"
     	parameterType="study.spring.clip.model.FreeMovie">
-        UPDATE movie SET sale=100, period = DATE_ADD(now(), INTERVAL 2 WEEK)
+        UPDATE movie SET sale=100, period = DATE_ADD(now(), INTERVAL 20 DAY)
 		WHERE movie_no = #{movie_no};
     </update>
 	
@@ -51,7 +51,7 @@
 	<select id="notFreeMovieSearch"
 		parameterType="study.spring.clip.model.FreeMovie"
 		resultMap="freeMovieMap">
-		(SELECT movie_no FROM movie WHERE sale != 100 ORDER BY release_date desc LIMIT 2, 100000000000) ORDER BY RAND() LIMIT 1;
+		(SELECT movie_no FROM movie WHERE sale != 100 ORDER BY release_date desc LIMIT 100, 100000000000) ORDER BY RAND() LIMIT 1;
 	</select>
 	
 	<!-- 여기부터는 할인영화 -->
@@ -59,7 +59,7 @@
 	<select id="notSaleMovieSearch"
 	 	parameterType="study.spring.clip.model.FreeMovie"
 		resultMap="freeMovieMap">
-	 	(SELECT movie_no FROM movie WHERE sale = 0 ORDER BY release_date desc LIMIT 2, 100000000000) ORDER BY RAND() LIMIT 1;
+	 	(SELECT movie_no FROM movie WHERE sale = 0 ORDER BY release_date desc LIMIT 100, 100000000000) ORDER BY RAND() LIMIT 1;
 	</select>
 	
 	<update id="setSaleEdit"

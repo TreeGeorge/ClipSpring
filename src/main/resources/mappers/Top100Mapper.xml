@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Top100Mapper">
+
+	<!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
+	<resultMap id="Top100Map"
+		type="study.spring.clip.model.Top100">
+		<!-- Beans의 멤버변수(property)이름과 대상 테이블의 컬럼(column)을 s연결한다. -->
+		<result property="movie_no" column="movie_no" />
+		<result property="buy_count_no" column="buy_count_no" />
+		<result property="name" column="name" />
+		<result property="type" column="type" />
+		<result property="price" column="price" />
+		<result property="thumbnail" column="thumbnail" />
+		<result property="date" column="date" />
+	</resultMap>
+	
+	<!-- 어제 일간 랭킹 -->
+	<select id="sortedYesterdayList" parameterType="study.spring.clip.model.Top100" resultMap="Top100Map">
+		SELECT m.movie_no, name, Floor(m.price / 100 * (100 - m.sale)) AS price, IF(type = 'B', "구매", "대여") AS type, thumbnail 
+		FROM buy_count b, movie m
+		WHERE b.movie_no = m.movie_no 
+			AND <![CDATA[date >= DATE_ADD(CURDATE(), INTERVAL -1 DAY)]]> 
+			AND <![CDATA[date < CURDATE()]]> 
+		GROUP BY movie_no 
+		ORDER BY count(*) desc
+		LIMIT 100;
+	</select>
+	
+	<!-- 2일전 일간 랭킹 -->
+	<select id="sortedTwoDaysAgoList" parameterType="study.spring.clip.model.Top100" resultMap="Top100Map">
+		SELECT movie_no FROM buy_count 
+		WHERE <![CDATA[date >= DATE_ADD(CURDATE(), INTERVAL -2 DAY)]]> 
+			AND <![CDATA[date < DATE_ADD(CURDATE(), INTERVAL -1 DAY)]]> 
+		GROUP BY movie_no 
+		ORDER BY count(*) desc
+		LIMIT 100;
+	</select>
+	
+	<!-- 지난주 주간 랭킹 -->
+	<select id="sortedLastWeekList" parameterType="study.spring.clip.model.Top100" resultMap="Top100Map">
+		SELECT m.movie_no, name, Floor(m.price / 100 * (100 - m.sale)) AS price, IF(type = 'B', "구매", "대여") AS type, thumbnail 
+		FROM buy_count b, movie m
+		WHERE b.movie_no = m.movie_no 
+			AND <![CDATA[date >= DATE_FORMAT(DATE_SUB(NOW(), INTERVAL (WEEKDAY(NOW()) + 8) DAY), '%Y-%m-%d')]]> 
+			AND <![CDATA[date < DATE_FORMAT(DATE_SUB(NOW(), INTERVAL (WEEKDAY(NOW()) + 2) DAY), '%Y-%m-%d')]]> 
+		GROUP BY movie_no 
+		ORDER BY count(*) desc
+		LIMIT 100;
+	</select>
+	
+	<!-- 2주전 주간 랭킹 -->
+	<select id="sortedTwoWeeksAgoList" parameterType="study.spring.clip.model.Top100" resultMap="Top100Map">
+		SELECT movie_no FROM buy_count 
+		WHERE <![CDATA[date >= DATE_FORMAT(DATE_SUB(NOW(), INTERVAL (WEEKDAY(NOW()) + 15) DAY), '%Y-%m-%d')]]> 
+			AND <![CDATA[date < DATE_FORMAT(DATE_SUB(NOW(), INTERVAL (WEEKDAY(NOW()) + 9) DAY), '%Y-%m-%d')]]> 
+		GROUP BY movie_no 
+		ORDER BY count(*) desc
+		LIMIT 100;
+	</select>
+	
+	<!-- 3주가 지난 데이터 삭제 -->
+	<delete id="deleteCount" parameterType="study.spring.clip.model.Top100">
+		DELETE FROM buy_count WHERE <![CDATA[date <= DATE_ADD(CURDATE(), INTERVAL -22 DAY)]]>;
+	</delete>
+	
+	<!-- 임의의 데이터 추가 -->
+	<insert id="insertDummyData"
+		parameterType="study.spring.clip.model.Top100"
+		useGeneratedKeys="true"
+		keyProperty="buy_count_no">
+		INSERT INTO buy_count (date, movie_no) VALUES (now(), #{movie_no});
+	</insert>
+	
+</mapper>

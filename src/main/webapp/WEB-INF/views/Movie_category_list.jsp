@@ -61,7 +61,7 @@ html, body {
 .category_top_button {
     position: sticky;
     width: 100%;
-    top: 40px;
+    top: 39px;
     height: 30px;
     border-bottom: 1px solid #b8b8b8;
     background: #fff;

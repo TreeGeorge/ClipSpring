@@ -1,6 +1,5 @@
 package study.spring.clip.service.impl;
 
-import java.util.Calendar;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -38,15 +37,15 @@ public class FreeMovieServiceImpl implements FreeMovieService {
 	// 무료영화로 만들어주기
 	@Override
 	public void editFreeMovie() {
-		// TODO 10개로 바꿔야함
-		while (getFreeMovieCount() < 3) {
+		// 무료영화 개수
+		while (getFreeMovieCount() < 10) {
 
 			FreeMovie input = new FreeMovie();
 			
 			// 무료가 아닌 영화 가져오기
 			input = sqlSession.selectOne("FreeMovieMapper.notFreeMovieSearch");
 			
-			// 무료영화 기간은 mapper에서 (현재는 2주)
+			// 무료영화 기간은 mapper에서 (현재는 20일)
 			sqlSession.update("FreeMovieMapper.setFreeEdit", input);
 		}
 	}
@@ -73,7 +72,7 @@ public class FreeMovieServiceImpl implements FreeMovieService {
 	// 세일중인 영화 개수 판별하기
 	@Override
 	public boolean saleMovieCount() {
-		// TODO 최신영화 x개 제외하고 에서 숫자 바꿔줘야됨 현재 2
+
 		int sale = sqlSession.selectOne("FreeMovieMapper.selectCountSale");
 		int all = sqlSession.selectOne("FreeMovieMapper.selectCountAll");
 		

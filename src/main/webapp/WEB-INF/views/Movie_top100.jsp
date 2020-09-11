@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <%@ page trimDirectiveWhitespaces="true"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -16,7 +19,7 @@
 #top_bar2 {
 	background-color: #fff;
 	position: sticky;
-	top: 40px;
+	top: 39px;
 	z-index: 90;
 	width: 100%;
 	height: 31px;
@@ -91,35 +94,28 @@ a {
 	height: 125px;
 }
 
-#movie .movie_text {
-	display: block;
-	width: auto;
-	position: absolute;
-	left: 110px;
-	top: 20px;
-	float: left;
-}
-
-#movie .movie_text span {
-	display: block;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis
-}
 /* 영화 순위 */
 #movie .grade {
 	font-size: 25px;
-	padding-top: 7px;
-	padding-bottom: 10px;
 	color: #222;
 	font-weight: bold;
 	font-style: italic;
+	position:absolute;
+	top: 20px;
+	left: 110px;
 }
 /* 영화 제목 */
 #movie .movie_title {
 	font-size: 16px;
 	font-weight: bold;
-	margin-top: 20px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	position: absolute;
+	display: block;
+    width: 230px;
+	top: 65px;
+    left: 110px;
 }
 /* 영화 대여 가격 */
 #movie .price {
@@ -129,42 +125,66 @@ a {
 	line-height: 20px;
 	color: #ff3253;
 	position: absolute;
-	top: 65px;
+	top: 85px;
+	left: 140px;
+}
+
+/* 영화 대여 타입 */
+#movie .type {
+	display: block;
+	height: 20px;
+	font-size: 14px;
+	line-height: 20px;
+	color: #ff3253;
+	position: absolute;
+	top: 85px;
+	left: 110px;
 }
 /* 영화 순위 up */
 #movie .lank_up {
 	font-size: 14px;
-	display: inline-block;
-	text-align: center;
+	position: relative;
 	color: #E61A3F;
-	width: 30px;
-	margin-right: 5px;
+	top: 1px;
+    left: 5px;
+    font-style: normal;
 }
 /* 영화 순위 down */
 #movie .lank_down {
 	color: #42ff;
 	font-size: 14px;
-	display: inline-block;
-	text-align: center;
-	margin-right: 5px;
+	position: relative;
+	top: 1px;
+    left: 5px;
+    font-style: normal;
 }
 
 /* 영화 순위 변동x */
 #movie .lank_normal {
 	font-size: 20px;
-	display: inline-block;
-	text-align: center;
-	margin-right: 5px;
+	position: relative;
 	color: #aaa;
+	font-style: normal;
 	font-style: bold;
+	top: 1px;
+    left: 5px;
 }
+
+#movie .lank_new {
+	font-size: 14px;
+	position: relative;
+	color: #50C878;
+	top: 1px;
+    left: 5px;
+    font-style: normal;
+}
+
 /* 영화 가격 옆 c 코인 이미지 */
 #movie .price img {
 	width: 14px;
 	height: 14px;
 	position:relative;
 	top:2.5px;
-	
 }
 </style>
 
@@ -191,218 +211,87 @@ a {
 		</div>
 
 		<!--페이지별 가변 요소-->
-
-		<!-- 일간 top100 -->
-		<!-- <div id="content">
+		<div id="content">
 			<div class="movie_top100_page_day up">
 				<ul id="movie">
-					<li><a href="Movie_information.jsp"> <span class="thumb"><img
-								src="assets/img/sample1.jpg" alt="영화포스터"></span>
-							<span class="movie_text"> <span style="display: inline;"
-								class="grade">1</span> <span class="lank_up"
-								style="display: inline;">&nbsp;1▲</span> <span
-								class="movie_title">백두산</span> <span class="price">대여&nbsp;10,000<img src="assets/img/coin_icon.png">
-							</span>
-						</span>
-					</a></li>
-
-					<li><a href="Movie_information.jsp"> <span class="thumb"><img
-								src="assets/img/sample3.jpg" alt="영화포스터"></span>
-							<span class="movie_text"> <span style="display: inline;"
-								class="grade">2</span> <span class="lank_down"
-								style="display: inline;">&nbsp;1▼</span> <span
-								class="movie_title">내이름은칸</span> <span class="price">대여&nbsp;10,000<img src="assets/img/coin_icon.png">
-							</span>
-						</span>
-					</a></li>
-
-					<li><a href="Movie_information.jsp"> <span class="thumb"><img
-								src="assets/img/sample5.jpg" alt="영화포스터"></span>
-							<span class="movie_text"> <span style="display: inline;"
-								class="grade">3</span> <span class="lank_normal"
-								style="display: inline;">&nbsp;-</span> <span
-								class="movie_title">MoonLight</span> <span class="price">대여&nbsp;1,000<img src="assets/img/coin_icon.png">
-							</span>
-						</span>
-					</a></li>
-
-					<li><a href="Movie_information.jsp"> <span class="thumb"><img
-								src="assets/img/sample7.jpg" alt="영화포스터"></span>
-							<span class="movie_text"> <span style="display: inline;"
-								class="grade">4</span> <span class="lank_down"
-								style="display: inline;">&nbsp;1▼</span> <span
-								class="movie_title">머드라</span> <span class="price">대여&nbsp;2,000<img src="assets/img/coin_icon.png">
-							</span>
-						</span>
-					</a></li>
-
-					<li><a href="Movie_information.jsp"> <span class="thumb"><img
-								src="assets/img/sample9.jpg" alt="영화포스터"></span>
-							<span class="movie_text"> <span style="display: inline;"
-								class="grade">5</span> <span class="lank_normal"
-								style="display: inline;">&nbsp; -</span> <span
-								class="movie_title">Baby Driver</span> <span class="price">대여&nbsp;3,000<img src="assets/img/coin_icon.png">
-							</span>
-						</span>
-					</a></li>
-
-					<li><a href="Movie_information.jsp"> <span class="thumb"><img
-								src="assets/img/sample2.jpg" alt="영화포스터"></span>
-							<span class="movie_text"> <span style="display: inline;"
-								class="grade">6</span> <span class="lank_down"
-								style="display: inline;">&nbsp;1▼</span> <span
-								class="movie_title">Captain America</span> <span class="price">대여&nbsp;6,000<img src="assets/img/coin_icon.png">
-							</span>
-						</span>
-					</a></li>
-
-					<li><a href="Movie_information.jsp"> <span class="thumb"><img
-								src="assets/img/sample4.jpg" alt="영화포스터"></span>
-							<span class="movie_text"> <span style="display: inline;"
-								class="grade">7</span> <span class="lank_up"
-								style="display: inline;">&nbsp;3▲</span> <span
-								class="movie_title">마녀</span> <span class="price">대여&nbsp;7,000<img src="assets/img/coin_icon.png">
-							</span>
-						</span>
-					</a></li>
-
-					<li><a href="Movie_information.jsp"> <span class="thumb"><img
-								src="assets/img/sample6.jpg" alt="영화포스터"></span>
-							<span class="movie_text"> <span style="display: inline;"
-								class="grade">8</span> <span class="lank_normal"
-								style="display: inline;">&nbsp; -</span> <span
-								class="movie_title">플로리다 프로젝트</span> <span class="price">대여&nbsp;7,000<img src="assets/img/coin_icon.png">
-							</span>
-						</span>
-					</a></li>
-
-					<li><a href="Movie_information.jsp"> <span class="thumb"><img
-								src="assets/img/sample8.jpg" alt="영화포스터"></span>
-							<span class="movie_text"> <span style="display: inline;"
-								class="grade">9</span> <span class="lank_up"
-								style="display: inline;">&nbsp;1▲</span> <span
-								class="movie_title">1917</span> <span class="price">대여&nbsp;8,000<img src="assets/img/coin_icon.png">
-							</span>
-						</span>
-					</a></li>
-
-					<li><a href="Movie_information.jsp"> <span class="thumb"><img
-								src="assets/img/sample10.jpg" alt="영화포스터"></span>
-							<span class="movie_text"> <span style="display: inline;"
-								class="grade">10</span> <span class="lank_down"
-								style="display: inline;">&nbsp;1▼</span> <span
-								class="movie_title">Marjorie Prime</span> <span class="price">대여&nbsp;9,000<img src="assets/img/coin_icon.png">
-							</span>
-						</span>
-					</a></li>
+					<c:forEach var="item" items="${dayList}" varStatus="status">
+						<li id="daliy">
+							<a class="Free_movie" href="Movie_information.do?movieNo=${item.movie_no}">
+								<span class="thumb">
+									<img src="${item.thumbnail}" alt="${item.name} 썸네일">
+								</span>
+								<span class="grade">${status.count}
+									<c:choose>
+										<c:when test="${dailyRank[status.count-1] < 0 }">
+											<span class="lank_down">&nbsp;${Math.abs(dailyRank[status.count-1])}▼</span>
+										</c:when>
+										<c:when test="${dailyRank[status.count-1] == 999 }">
+											<span class="lank_new">&nbsp;new!</span>
+										</c:when>
+										<c:when test="${dailyRank[status.count-1] > 0}">
+											<span class="lank_up">&nbsp;${dailyRank[status.count-1]}▲</span>
+										</c:when>
+										<c:otherwise>
+											<span class="lank_normal">&nbsp;-</span>
+										</c:otherwise>
+									</c:choose>
+								</span>
+								<span class="movie_title">${item.name}</span> 
+								<span class='type'>${item.type}</span>
+								<c:choose>
+									<c:when test="${item.price != 0}">
+										<span class="price"><fmt:formatNumber value="${item.price}" pattern="#,###" /><img src="assets/img/coin_icon.png"></span>
+									</c:when>
+									<c:otherwise>
+										<span class="price">무료 상품</span>
+									</c:otherwise>
+								</c:choose>
+							</a>
+						</li>
+					</c:forEach>
 				</ul>
 			</div>
-
-
-			<div class="movie_top100_page_week hide up">
+			<div class="movie_top100_page_week up hide">
 				<ul id="movie">
-					<li><a href="Movie_information.jsp"> <span class="thumb"><img
-								src="assets/img/sample9.jpg" alt="영화포스터"></span>
-							<span class="movie_text"> <span style="display: inline;"
-								class="grade">1</span> <span class="lank_up"
-								style="display: inline;">&nbsp;1▲</span> <span
-								class="movie_title">Baby Driver</span> <span class="price">대여&nbsp;9,000<img src="assets/img/coin_icon.png">
-							</span>
-						</span>
-					</a></li>
-
-					<li><a href="Movie_information.jsp"> <span class="thumb"><img
-								src="assets/img/sample8.jpg" alt="영화포스터"></span>
-							<span class="movie_text"> <span style="display: inline;"
-								class="grade">2</span> <span class="lank_down"
-								style="display: inline;">&nbsp;1▼</span> <span
-								class="movie_title">1917</span> <span class="price">대여&nbsp;5,000<img src="assets/img/coin_icon.png">
-							</span>
-						</span>
-					</a></li>
-
-					<li><a href="Movie_information.jsp"> <span class="thumb"><img
-								src="assets/img/sample7.jpg" alt="영화포스터"></span>
-							<span class="movie_text"> <span style="display: inline;"
-								class="grade">3</span> <span class="lank_normal"
-								style="display: inline;">&nbsp; -</span> <span
-								class="movie_title">머드라</span> <span class="price">대여&nbsp;10,000<img src="assets/img/coin_icon.png">
-							</span>
-						</span>
-					</a></li>
-
-					<li><a href="Movie_information.jsp"> <span class="thumb"><img
-								src="assets/img/sample6.jpg" alt="영화포스터"></span>
-							<span class="movie_text"> <span style="display: inline;"
-								class="grade">4</span> <span class="lank_down"
-								style="display: inline;">&nbsp;1▼</span> <span
-								class="movie_title">플로리다 프로젝트</span> <span class="price">대여&nbsp;9,000<img src="assets/img/coin_icon.png">
-							</span>
-						</span>
-					</a></li>
-
-					<li><a href="Movie_information.jsp"> <span class="thumb"><img
-								src="assets/img/sample5.jpg" alt="영화포스터"></span>
-							<span class="movie_text"> <span style="display: inline;"
-								class="grade">5</span> <span class="lank_normal"
-								style="display: inline;">&nbsp; -</span> <span
-								class="movie_title">MoonLight</span> <span class="price">대여&nbsp;6,000<img src="assets/img/coin_icon.png">
-							</span>
-						</span>
-					</a></li>
-
-					<li><a href="Movie_information.jsp"> <span class="thumb"><img
-								src="assets/img/sample4.jpg" alt="영화포스터"></span>
-							<span class="movie_text"> <span style="display: inline;"
-								class="grade">6</span> <span class="lank_down"
-								style="display: inline;">&nbsp;1▼</span> <span
-								class="movie_title">마녀</span> <span class="price">대여&nbsp;4,000<img src="assets/img/coin_icon.png">
-							</span>
-						</span>
-					</a></li>
-
-					<li><a href="Movie_information.jsp"> <span class="thumb"><img
-								src="assets/img/sample3.jpg" alt="영화포스터"></span>
-							<span class="movie_text"> <span style="display: inline;"
-								class="grade">7</span> <span class="lank_up"
-								style="display: inline;">&nbsp;3▲</span> <span
-								class="movie_title">내이름은칸</span> <span class="price">대여&nbsp;2,000<img src="assets/img/coin_icon.png">
-							</span>
-						</span>
-					</a></li>
-
-					<li><a href="Movie_information.jsp"> <span class="thumb"><img
-								src="assets/img/sample2.jpg" alt="영화포스터"></span>
-							<span class="movie_text"> <span style="display: inline;"
-								class="grade">8</span> <span class="lank_normal"
-								style="display: inline;">&nbsp; -</span> <span
-								class="movie_title">Captain America</span> <span class="price">대여&nbsp;11,000<img src="assets/img/coin_icon.png">
-							</span>
-						</span>
-					</a></li>
-
-					<li><a href="Movie_information.jsp"> <span class="thumb"><img
-								src="assets/img/sample1.jpg" alt="영화포스터"></span>
-							<span class="movie_text"> <span style="display: inline;"
-								class="grade">9</span> <span class="lank_up"
-								style="display: inline;">&nbsp;1▲</span> <span
-								class="movie_title">백두산</span> <span class="price">대여&nbsp;2,000<img src="assets/img/coin_icon.png">
-							</span>
-						</span>
-					</a></li>
-
-					<li><a href="Movie_information.jsp"> <span class="thumb"><img
-								src="assets/img/sample10.jpg" alt="영화포스터"></span>
-							<span class="movie_text"> <span style="display: inline;"
-								class="grade">10</span> <span class="lank_down"
-								style="display: inline;">&nbsp;1▼</span> <span
-								class="movie_title">Marjorie Prime</span> <span class="price">대여&nbsp;1,000<img src="assets/img/coin_icon.png">
-							</span>
-						</span>
-					</a></li>
+					<c:forEach var="item" items="${weekList}" varStatus="status">
+						<li id="weekly">
+							<a class="Free_movie" href="Movie_information.do?movieNo=${item.movie_no}">
+								<span class="thumb">
+									<img src="${item.thumbnail}" alt="${item.name} 썸네일">
+								</span>
+								<span class="grade">${status.count}
+									<c:choose>
+										<c:when test="${weeklyRank[status.count-1] < 0 }">
+											<span class="lank_down">&nbsp;${Math.abs(weeklyRank[status.count-1])}▼</span>
+										</c:when>
+										<c:when test="${weeklyRank[status.count-1] == 999 }">
+											<span class="lank_new">&nbsp;new!</span>
+										</c:when>
+										<c:when test="${weeklyRank[status.count-1] > 0}">
+											<span class="lank_up">&nbsp;${weeklyRank[status.count-1]}▲</span>
+										</c:when>
+										<c:otherwise>
+											<span class="lank_normal">&nbsp;-</span>
+										</c:otherwise>
+									</c:choose>
+								</span>
+								<span class="movie_title">${item.name}</span> 
+								<span class='type'>${item.type}</span>
+								<c:choose>
+									<c:when test="${item.price != 0}">
+										<span class="price"><fmt:formatNumber value="${item.price}" pattern="#,###" /><img src="assets/img/coin_icon.png"></span>
+									</c:when>
+									<c:otherwise>
+										<span class="price">무료 상품</span>
+									</c:otherwise>
+								</c:choose>
+							</a>
+						</li>
+					</c:forEach>
 				</ul>
 			</div>
-		</div> -->
+		</div>
+		
 		<!-- BOT BAR -->
 		<%@ include file="assets/inc/bot_bar.jsp" %>
 		
