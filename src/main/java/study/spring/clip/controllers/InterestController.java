@@ -15,15 +15,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-
+import lombok.extern.slf4j.Slf4j;
 import study.spring.clip.model.Interest;
+import study.spring.clip.model.Movie;
 import study.spring.clip.model.MovieLike;
+import study.spring.clip.model.StarRating;
 import study.spring.clip.model.User;
 
 import study.spring.clip.service.InterestService;
 import study.spring.clip.service.LoginService;
 import study.spring.clip.service.MovieLikeService;
+import study.spring.clip.service.MovieService;
+import study.spring.clip.service.StarRatingService;
 
+@Slf4j
 @Controller
 public class InterestController {
 	
@@ -34,7 +39,13 @@ public class InterestController {
 	MovieLikeService movieLikeService;
 	
 	@Autowired
+	StarRatingService starRatingService;
+	
+	@Autowired
 	LoginService loginService;
+	
+	@Autowired
+	MovieService movieService;
 	
 	@Value("#{servletContext.contextPath}")
 	String contextPath;
@@ -115,7 +126,9 @@ public class InterestController {
 	@RequestMapping(value="MovieLikeInsert.do",method = RequestMethod.POST)
 	public int insertLike(Model model,HttpServletResponse response,
 			HttpSession session,
-			@RequestParam(value="movieNo") int movie_no) {
+			@RequestParam(value="movieNo") int movie_no,
+			@RequestParam(value="ddd") int movie_like) {
+		
 		if ( session.getAttribute("id") == null ) {
 			return 2;
 		}	
@@ -124,15 +137,15 @@ public class InterestController {
 		MovieLike input= new MovieLike();
 		input.setUser_no(x);
 		input.setMovie_no(movie_no); 
-		
-
-		
+				
 		if(movieLikeService.checkMovieLike(input)) {
-			
 			return 0;
 		}
 		try {
 			movieLikeService.insertMovieLike(input);
+			Movie input1=new Movie();
+			input1.setMovie_no(movie_no);
+			movie_like=movieService.getMovieLike(input1);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -145,22 +158,73 @@ public class InterestController {
 	@RequestMapping(value="MovieLikeDelete.do",method = RequestMethod.POST)
 	public int deleteMovie(Model model,HttpServletResponse response,
 			HttpSession session,
-			@RequestParam(value="movieNo") int movie_no) {
+			@RequestParam(value="movieNo") int movie_no,
+			@RequestParam(value="ddd") int movie_like) {
 		
 		int x = (Integer)session.getAttribute("user_no");
 		MovieLike input = new MovieLike();
 		input.setUser_no(x);
 		input.setMovie_no(movie_no); 
 		
-		
+		if(movieLikeService.checkMovieLike(input)) {
+			return 0;
+		}
 		try {
 			movieLikeService.deleteMovieLike(input);
+			Movie input1=new Movie();
+			input1.setMovie_no(movie_no);
+			movie_like=movieService.getMovieLike(input1);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
 			
 		return 1;
+	}
+	@ResponseBody
+	@RequestMapping(value="checkStar",method = RequestMethod.POST)
+	public int checkStar(Model model,HttpServletResponse response,
+			HttpSession session,
+			@RequestParam(value="movieNo") int movie_no
+			) {
+		
+		
+		if ( session.getAttribute("id") == null ) {
+			return 2;
+		}
+		int x = (Integer)session.getAttribute("user_no");
+		StarRating input = new StarRating();
+		input.setUser_no(x);
+		input.setMovie_no(movie_no); 
+		
+		if(starRatingService.checkStar(input)) {
+			return 0;
+		}
+		return 1;
+
+	}
+	@ResponseBody
+	@RequestMapping(value="insertStar",method = RequestMethod.POST)
+	public void insertStar(Model model,HttpServletResponse response,
+			HttpSession session,
+			@RequestParam(value="movieNo") int movie_no,
+			@RequestParam(value="score") double rate) {
+		
+		log.debug("rate");
+
+		int x = (Integer)session.getAttribute("user_no");
+		StarRating input = new StarRating();
+		input.setUser_no(x);
+		input.setMovie_no(movie_no); 
+		input.setScore(rate);
+		try {
+			starRatingService.insertStar(input);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+
 	}
 }
 

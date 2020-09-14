@@ -29,9 +29,7 @@ public class MovieServiceImpl implements MovieService {
 		int result = 0;
 		
 		try {
-			result = sqlSession.selectOne("MovieMapper.likeMovie", input1);
-			System.out.println("=========================================");
-			System.out.println(result);
+			result = sqlSession.selectOne("MovieMapper.likeMovie", input1);;
 			if (result == 0) {
 				throw new NullPointerException("resut=0");
 			}
@@ -101,6 +99,14 @@ public class MovieServiceImpl implements MovieService {
 		result = sqlSession.selectOne("MovieMapper.likeCommit", input5);
 				
 	return result;
+	}
+
+	@Override
+	public String[] recentLike(int movie_no) {
+		Movie input = new Movie();
+		input.setMovie_no(movie_no);
+		String[] item = sqlSession.selectOne("StarRatingMapper.likeRecent",input);
+		return item;
 	}
 
 

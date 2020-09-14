@@ -79,7 +79,6 @@ public class MovieController {
 			model.addAttribute("movie_people",output3);
 			model.addAttribute("movie_type",output.getType());
 			model.addAttribute("output6",output6);
-			System.out.println(output6);
 			
 			return "Movie_information";
 		}
@@ -109,7 +108,7 @@ public class MovieController {
 		}
 			return 8;
 	}
-		//관심등록여부판단하기
+		//라이크여부판단하기
 		@ResponseBody
 		@RequestMapping(value="likeCommit",method=RequestMethod.POST)
 		public int check2(HttpServletResponse response,
@@ -134,4 +133,16 @@ public class MovieController {
 		}
 			return 8;
 	}
+		
+		@ResponseBody
+		@RequestMapping(value="zzzz",method=RequestMethod.POST)
+		public String[] recentLike(HttpServletResponse response,
+				@RequestParam(value="movieNo") int movie_no)  {
+			
+			String[] items = movieService.recentLike(movie_no);
+			
+			return items;
+	}
+
+
 }

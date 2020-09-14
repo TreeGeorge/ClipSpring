@@ -6,11 +6,26 @@
 	<!-- model과 mapper 맵핑 처리 -->
 	<resultMap id="StarRatingMap" type="study.spring.clip.model.StarRating">
 		<result property="user_no" column="user_no"/>
-		<result property="star_rating_number" column="star_rating_number"/>
+		<result property="score" column="score"/>
 		<result property="movie_no" column="movie_no"/>
 	</resultMap>
 	
 	<!-- 기능 정의 -->
+	<select id="starInsert"
+		parameterType="study.spring.clip.model.StarRating"
+		resultMap="StarRatingMap">
+		INSERT INTO star_rating (score, user_no, movie_no)
+		VALUES (#{score}, #{user_no}, #{movie_no});
+	</select>
+	
+	<select id="starCheck"
+		parameterType="study.spring.clip.model.StarRating"
+		resultMap="StarRatingMap">
+		SELECT score from star_rating
+		where user_no = #{user_no} AND movie_no = #{movie_no};
+	</select>
+	
+	
 	
 	<!-- 태희쨩이 추가함 이식 후에 주석 지워주삼-->
 	<!-- user_no null처리 -->

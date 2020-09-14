@@ -19,5 +19,6 @@ public interface MovieService {
 	//라잌여부확인
 	public int getlikeCommit(Movie input5);
 
+	public String[] recentLike(int movie_no);
 
 }

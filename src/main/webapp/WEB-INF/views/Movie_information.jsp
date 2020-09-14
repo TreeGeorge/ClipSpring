@@ -296,7 +296,7 @@
                 <ul>
                     <li id="movie_name" style="font-size: 18px; font-weight:bold">${movie_name}</li>
                     <!-- 평점 및 평점인원 -->
-                    <li style="line-height:30px; font-size: 16px; color:#E61A3F">★&nbsp;<span id="grade" style=" font-size: 12px; font-weight: bold;">${movie_star}</span>&nbsp;<span id="rate_people"style="color : black; font-size: 12px;" >${movie_people}</span><span style="color : black; font-size: 12px;">명</span><a id="rate" href="" style="color: #E61A3F; font-size: 12px; font-weight: bold;">&nbsp;별점주기></a></li>
+                    <li style="line-height:30px; font-size: 16px; color:#E61A3F">★&nbsp;<span id="grade" style=" font-size: 12px; font-weight: bold;">${movie_star}</span>&nbsp;<span id="rate_people"style="color : black; font-size: 12px;" >${movie_people}</span><span style="color : black; font-size: 12px;">명</span><a id="starbtn" href="" style="color: #E61A3F; font-size: 12px; font-weight: bold;">&nbsp;별점주기></a></li>
                     <!-- 감독 -->
                     <li class="m_info_content">감독&nbsp;<span id="authoer">${movie_director}</span></li>
                     <!-- 주연 -->
@@ -329,7 +329,7 @@
         <ul class="clearfix">
             <!-- 좋아요버튼 -->
             <li class="btn2_1">
-                <button id="likebtn" type="button"><img  id="likeimg" src="assets/img/like_icon.png" data-img="assets/img/like_icon_after.png"><br><span>${movie_like}</span></button>
+                <button id="likebtn" type="button"><img  id="likeimg" src="assets/img/like_icon.png" data-img="assets/img/like_icon_after.png"><br><span id="zzzz">${movie_like}</span></button>
             </li>
             <!-- 덧글버튼 -->
             <li class="btn2_1">
@@ -510,28 +510,38 @@
         
     })
     
-        var count = 0; //평점을 준 사람
+        var count = "${movie_people}"; //평점을 준 사람
         var rate = 0; // 평점
-        var total = 0;
+        var total = "${movie_star}";
         $(function() {
         	$(".bot_bar_icon").eq(0).attr("src", "assets/img/home_icon_selected.png");
 
-            $("#rate").click(function(e) { //별점주기 클릭시
+            $("#starbtn").click(function(e) { //별점주기 클릭시
                     e.preventDefault(); //링크의 이동 막기
+                 $.post("checkStar",{movieNo:"${movie_no}"},function(req){
+            		if(req==1){
                     swal({
                         html: "<div style='width:200px;height:100px; margin:auto;'><span class='my-rating-4'></span><span class='live-rating'></span></div>",
                         confirmButtonColor: "#FF3253"
                             //sweetalert 창을 통한 별점기능 생성
                     }).then(function(result) {
                         if (result.value) {
-                            total += rate;
+                        $.post("insertStar",{movieNo:"${movie_no}",score:rate},function(req){
+                        	console.log(rate)
+                        	console.log(total)
+                        	console.log(count)
+                        	console.log("${movie_star}")
+                        	console.log("${movie_people}")
+                            var aaa = eval("${movie_star}+rate")
+                        	console.log(aaa)
                             rate = 0;
-                            count++; // 제출이 이루어 졌을때 평점을 준사람 증가
+                            count="${movie_people+1}"; // 제출이 이루어 졌을때 평점을 준사람 증가
                             $("#rate_people").empty(); // 있던값을 지워주고
                             $("#rate_people").prepend(count); // 증가된 사람수를 추가
                             $("#grade").empty(); // 있던값을 지워주고
                             $("#grade").append((total / count).toFixed(1));
                             //평점이랑사람수 나누어 소숫점 1자리수 출력
+                        })
                         }
                     });
                     $(".my-rating-4").starRating({ // 별점기능의 CSS 및 기본 속성(사이트에 나와있습니다)
@@ -550,6 +560,34 @@
                         }
 
                     });
+            	}else if(req==0){
+    			swal({
+                    title: "이미 평가를",
+                    text: "완료하였습니다.",
+                    type: "error",
+                    confirmButtonText: "확인",
+                    showCancelButton: false,
+                    confirmButtonColor:"#aaa",
+                    cancelButtonColor: "#FF3253"
+                })
+    		}else {
+    			swal({
+                    title: "로그인이",
+                    text: "필요한 서비스입니다.",
+                    type: "error",
+                    confirmButtonText: "확인",
+                    showCancelButton: true,
+                    cancelButtonText: "로그인 하기",
+                    confirmButtonColor:"#aaa",
+                    cancelButtonColor: "#FF3253"
+                }).then(function(result) {
+                    if (result.dismiss === "cancel") {
+                        location.href = "Login";
+                    }
+                })
+    		}
+                 })
+            		
 
                 }) //별점주기 끝
         })
@@ -651,7 +689,57 @@
 //                $(this).attr("src", img);
 //                $(this).data("img", tmp);
 //            })
+            $("#likebtn").click(function(e) {
+            	$.post("MovieLikeInsert.do",{movieNo:"${movie_no}",ddd:"${movie_like}"},function(req){
+            		if(req==1){
+            			console.log("123") 
+            			console.log("${movie_like}+1")
+            			
+                        var tmp = $("#likeimg").attr("src");
+                        var img = $("#likeimg").data("img");
+                        $("#likeimg").attr("src", img);
+                        $("#likeimg").data("img", tmp);
+                        $.post("zzzz",{movieNo:"${movie_no}"},function(req){
+                        	console.log("111111111111111111")
+                      
+                        	$("#zzzz").text(req[0])
+                        		
+                        })
+            		}else if(req==0){
+                        	$.post("MovieLikeDelete.do",{movieNo:"${movie_no}",ddd:"${movie_like}"},function(req){
+                        		console.log("456")
+                        		console.log("${movie_like}")
+                        		 function recentLike(){
+                        			$.post("zzzz",{movieNo:"${movie_no}"},function(req){
+                        				console.log("222222222222222222222")
+                        				$("#zzzz").text(req[0])                        		
+                        			})
+                        		}
+                        	})
+                        var tmp = $("#likeimg").attr("src");
+                        var img = $("#likeimg").data("img");
+                        $("#likeimg").attr("src", img);
+                        $("#likeimg").data("img", tmp);
 
+            		}else {
+            			swal({
+                            title: "로그인이",
+                            text: "필요한 서비스입니다.",
+                            type: "error",
+                            confirmButtonText: "확인",
+                            showCancelButton: true,
+                            cancelButtonText: "로그인 하기",
+                            confirmButtonColor:"#aaa",
+                            cancelButtonColor: "#FF3253"
+                        }).then(function(result) {
+                            if (result.dismiss === "cancel") {
+                                location.href = "Login";
+                            }
+                        })
+            		}
+            	})
+                
+            })
         
 		$("#interestbtn").click(function() {
             	$.post("interestInsert.do",{movieNo:"${movie_no}"},function(req){
@@ -709,44 +797,8 @@
             	})
                 
             })
-            $("#likebtn").click(function(e) {
-            	console.log(789)
-            	$.post("MovieLikeInsert.do",{movieNo:"${movie_no}"},function(req){
-            		if(req==1){
-            			console.log(123)           			
-            			
-                        var tmp = $("#likeimg").attr("src");
-                        var img = $("#likeimg").data("img");
-                        $("#likeimg").attr("src", img);
-                        $("#likeimg").data("img", tmp);
-            		}else if(req==0){
-                        	$.post("MovieLikeDelete.do",{movieNo:"${movie_no}"},function(req){
-                        		console.log(456)
-                        	})
-                        var tmp = $("#likeimg").attr("src");
-                        var img = $("#likeimg").data("img");
-                        $("#likeimg").attr("src", img);
-                        $("#likeimg").data("img", tmp);
 
-            		}else {
-            			swal({
-                            title: "로그인이",
-                            text: "필요한 서비스입니다.",
-                            type: "error",
-                            confirmButtonText: "확인",
-                            showCancelButton: true,
-                            cancelButtonText: "로그인 하기",
-                            confirmButtonColor:"#aaa",
-                            cancelButtonColor: "#FF3253"
-                        }).then(function(result) {
-                            if (result.dismiss === "cancel") {
-                                location.href = "Login";
-                            }
-                        })
-            		}
-            	})
-                
-            })
+
             
 
  </script>
