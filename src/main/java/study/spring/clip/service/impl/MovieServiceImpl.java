@@ -50,6 +50,7 @@ public class MovieServiceImpl implements MovieService {
 		try {
 			result = sqlSession.selectOne("MovieMapper.starMovie", input2);
 
+			
 			if (result == 0) {
 				throw new NullPointerException("resut=0");
 			}
@@ -102,12 +103,14 @@ public class MovieServiceImpl implements MovieService {
 	}
 
 	@Override
-	public String[] recentLike(int movie_no) {
+	public String recentLike(int movie_no) {
 		Movie input = new Movie();
 		input.setMovie_no(movie_no);
-		String[] item = sqlSession.selectOne("StarRatingMapper.likeRecent",input);
+		String item = sqlSession.selectOne("StarRatingMapper.likeRecent",input);
 		return item;
 	}
+
+
 
 
 

@@ -67,7 +67,7 @@ public class WishListServiceImpl implements WishListService{
 
 	@Override
 	public boolean checkWishList(WishList input) {
-		if(sqlSession.selectOne("WishListMapper.wishListInsertCheck",input)!=null){
+		if(sqlSession.selectOne("WishListMapper.wishListInsertCheck",input)==null){
 			return true;
 		}
 			

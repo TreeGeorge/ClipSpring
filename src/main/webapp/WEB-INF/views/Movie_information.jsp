@@ -276,7 +276,11 @@
         .none1 {
             border-right: none !important;
         }
-       
+       .m_info_content{
+        	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+       }
 
     </style>
 
@@ -294,13 +298,13 @@
             <!-- 무비네임 -->
             <div class="m_info2">
                 <ul>
-                    <li id="movie_name" style="font-size: 18px; font-weight:bold">${movie_name}</li>
+                    <li id="movie_name" class="m_info_content" style="font-size: 18px; font-weight:bold">${movie_name}</li>
                     <!-- 평점 및 평점인원 -->
                     <li style="line-height:30px; font-size: 16px; color:#E61A3F">★&nbsp;<span id="grade" style=" font-size: 12px; font-weight: bold;">${movie_star}</span>&nbsp;<span id="rate_people"style="color : black; font-size: 12px;" >${movie_people}</span><span style="color : black; font-size: 12px;">명</span><a id="starbtn" href="" style="color: #E61A3F; font-size: 12px; font-weight: bold;">&nbsp;별점주기></a></li>
                     <!-- 감독 -->
                     <li class="m_info_content">감독&nbsp;<span id="authoer">${movie_director}</span></li>
                     <!-- 주연 -->
-                    <li class="m_info_content">주연&nbsp;<span id="actress"><c:forEach items="${output6}" var="actor" varStatus="status">${actor.name}&nbsp;&nbsp;</c:forEach></span></li>
+                    <li class="m_info_content">주연&nbsp;<span id="actress"><c:forEach items="${output6}" var="actor" varStatus="status">${actor.name}&nbsp;</c:forEach></span></li>
                     <!-- 상영시간 -->
                     <li class="m_info_content">상영시간&nbsp;${movie_runtime}&nbsp;</li>
 
@@ -488,7 +492,6 @@
     		if(req=="8"){
     			return;
     		}else{
-    			console.log(999)
     			var tmp = $("#interestimg").attr("src");
                 var img = $("#interestimg").data("img");
                 $("#interestimg").attr("src", img);
@@ -498,8 +501,6 @@
         $.post("likeCommit",{movieNo:"${movie_no}"},function(req){
     		if(req=="8"){
     			return;
-    		}else{
-    			console.log(999)
     			var tmp = $("#likeimg").attr("src");
                 var img = $("#likeimg").data("img");
                 $("#likeimg").attr("src", img);
@@ -525,24 +526,24 @@
                         confirmButtonColor: "#FF3253"
                             //sweetalert 창을 통한 별점기능 생성
                     }).then(function(result) {
-                        if (result.value) {
-                        $.post("insertStar",{movieNo:"${movie_no}",score:rate},function(req){
-                        	console.log(rate)
-                        	console.log(total)
-                        	console.log(count)
-                        	console.log("${movie_star}")
-                        	console.log("${movie_people}")
-                            var aaa = eval("${movie_star}+rate")
-                        	console.log(aaa)
-                            rate = 0;
-                            count="${movie_people+1}"; // 제출이 이루어 졌을때 평점을 준사람 증가
-                            $("#rate_people").empty(); // 있던값을 지워주고
-                            $("#rate_people").prepend(count); // 증가된 사람수를 추가
-                            $("#grade").empty(); // 있던값을 지워주고
-                            $("#grade").append((total / count).toFixed(1));
-                            //평점이랑사람수 나누어 소숫점 1자리수 출력
-                        })
-                        }
+//                        if (result.value) {
+//                        $.post("insertStar",{movieNo:"${movie_no}",score:rate},function(req){
+//                        	console.log(rate)
+//                        	console.log(total)
+//                        	console.log(count)
+//                        	console.log("${movie_star}")
+//                        	console.log("${movie_people}")
+//                            var aaa = eval("${movie_star}+rate")
+//                        	console.log(aaa)
+//                            rate = 0;
+//                            count="${movie_people+1}"; // 제출이 이루어 졌을때 평점을 준사람 증가
+//                            $("#rate_people").empty(); // 있던값을 지워주고
+//                            $("#rate_people").prepend(count); // 증가된 사람수를 추가
+//                            $("#grade").empty(); // 있던값을 지워주고
+//                            $("#grade").append((total / count).toFixed(1));
+//                            //평점이랑사람수 나누어 소숫점 1자리수 출력
+//                        })
+//                        }
                     });
                     $(".my-rating-4").starRating({ // 별점기능의 CSS 및 기본 속성(사이트에 나와있습니다)
                         initialRating: 0,
@@ -689,39 +690,19 @@
 //                $(this).attr("src", img);
 //                $(this).data("img", tmp);
 //            })
+
             $("#likebtn").click(function(e) {
-            	$.post("MovieLikeInsert.do",{movieNo:"${movie_no}",ddd:"${movie_like}"},function(req){
+            	$.post("MovieLikeInsert.do",{movieNo:"${movie_no}"},function(req){
             		if(req==1){
-            			console.log("123") 
-            			console.log("${movie_like}+1")
+            			$.post("recent",{movieNo:"${movie_no}"},function(req){
+								$("#zzzz").text(req)
+            			})
             			
                         var tmp = $("#likeimg").attr("src");
                         var img = $("#likeimg").data("img");
                         $("#likeimg").attr("src", img);
                         $("#likeimg").data("img", tmp);
-                        $.post("zzzz",{movieNo:"${movie_no}"},function(req){
-                        	console.log("111111111111111111")
-                      
-                        	$("#zzzz").text(req[0])
-                        		
-                        })
-            		}else if(req==0){
-                        	$.post("MovieLikeDelete.do",{movieNo:"${movie_no}",ddd:"${movie_like}"},function(req){
-                        		console.log("456")
-                        		console.log("${movie_like}")
-                        		 function recentLike(){
-                        			$.post("zzzz",{movieNo:"${movie_no}"},function(req){
-                        				console.log("222222222222222222222")
-                        				$("#zzzz").text(req[0])                        		
-                        			})
-                        		}
-                        	})
-                        var tmp = $("#likeimg").attr("src");
-                        var img = $("#likeimg").data("img");
-                        $("#likeimg").attr("src", img);
-                        $("#likeimg").data("img", tmp);
-
-            		}else {
+            		}else if(req==2){
             			swal({
                             title: "로그인이",
                             text: "필요한 서비스입니다.",
@@ -736,6 +717,17 @@
                                 location.href = "Login";
                             }
                         })
+            		}else{
+                        	$.post("MovieLikeDelete.do",{movieNo:"${movie_no}"},function(req){
+                        		$.post("recent",{movieNo:"${movie_no}"},function(req){
+								$("#zzzz").text(req)
+            			})
+                        	})
+                        var tmp = $("#likeimg").attr("src");
+                        var img = $("#likeimg").data("img");
+                        $("#likeimg").attr("src", img);
+                        $("#likeimg").data("img", tmp);
+
             		}
             	})
                 

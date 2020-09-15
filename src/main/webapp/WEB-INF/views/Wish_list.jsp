@@ -253,7 +253,7 @@
 	                <label for="movie_number" class="wish_content"></label>
 	                <input name="wish_content_check" id="movie_number" type="checkbox" class="wish_content_check" value="${item.movie_no}" checked />
 	                <a href="Movie_information?movieNo=${item.movie_no}">
-	                    <img src="${requestScope[MovieThumbnail]}" alt="${requestScope[MovieThumbnail]} 썸네일">
+	                    <img src="${item.thumbnail} }" alt="${item.name} 썸네일">
 	                    <span class="movie_title">${item.name}</span>
 	                    <span class="info"><span id="type">${item.type}</span><span class="price">${item.price}</span><img id="coin" src="assets/img/coin_icon.png"/></span>
 	                </a>
@@ -368,16 +368,36 @@
                     cancelButtonText: "취소", // 취소버튼 표시 문구
                     confirmButtonColor:  "#FF3253",
                 }).then(function(result){   // 버튼이 눌러졌을 경우의 콜백 연결
-                    if (result.value) {     // 확인 버튼이 눌러진 경우
-                        // 선택된 상품 삭제
-                        $(".wish_content_check:checked").parent().remove();
-                        check();
-
-                        // 상품 삭제 후 모든 상품 다시 체크상태로 바꿈
-                        $(".wish_check").prop("checked",true);
-                        $(".wish_content_check").prop("checked",true);
-                        total();
-                    }
+    				if (result.value) { // 확인 버튼이 눌러진 경우
+    					for ( var i = 0 ; i < $("input:checkbox[name=wish_content_check]").length ; i++ ) {
+    						if ($("input:checkbox[name=wish_content_check]").eq(i).is(":checked") == true) {
+    							var wish_movie_no = parseInt($("input:checkbox[name=wish_content_check]").eq(i).val());
+    							$.post('wishListDelete.do', {movieNo:wish_movie_no},function(req){
+    								if (req == 1) {
+    									swal({
+    							            timer:1500,
+    							            html:"<div style='font-weight: bold; margin-bottom: 20px;'>개짓거리 하지 마십쇼 휴먼</div>",
+    							            type:"error",
+    							            allowOutsideClick: false,
+    							            showConfirmButton: false
+    							        }).then(function(){
+    							            location.reload();
+    							        });
+    								}
+    							});
+    						}
+    					}
+    					swal({
+    			            timer:1500,
+    			            html:"<div style='font-weight: bold; margin-bottom: 20px;'>삭제 되었습니다.</div>",
+    			            type:"success",
+    			            allowOutsideClick: false,
+    			            showConfirmButton: false
+    			        }).then(function(){
+    			            location.reload();
+    			        });
+    				}
+                    
                 });
             }); // end $(".wish_delete").click()
 

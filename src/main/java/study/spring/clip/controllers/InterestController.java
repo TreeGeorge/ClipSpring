@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.extern.slf4j.Slf4j;
 import study.spring.clip.model.Interest;
-import study.spring.clip.model.Movie;
+
 import study.spring.clip.model.MovieLike;
 import study.spring.clip.model.StarRating;
 import study.spring.clip.model.User;
@@ -126,8 +126,7 @@ public class InterestController {
 	@RequestMapping(value="MovieLikeInsert.do",method = RequestMethod.POST)
 	public int insertLike(Model model,HttpServletResponse response,
 			HttpSession session,
-			@RequestParam(value="movieNo") int movie_no,
-			@RequestParam(value="ddd") int movie_like) {
+			@RequestParam(value="movieNo") int movie_no) {
 		
 		if ( session.getAttribute("id") == null ) {
 			return 2;
@@ -143,9 +142,7 @@ public class InterestController {
 		}
 		try {
 			movieLikeService.insertMovieLike(input);
-			Movie input1=new Movie();
-			input1.setMovie_no(movie_no);
-			movie_like=movieService.getMovieLike(input1);
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -156,30 +153,24 @@ public class InterestController {
 	
 	@ResponseBody
 	@RequestMapping(value="MovieLikeDelete.do",method = RequestMethod.POST)
-	public int deleteMovie(Model model,HttpServletResponse response,
+	public void deleteMovie(Model model,HttpServletResponse response,
 			HttpSession session,
-			@RequestParam(value="movieNo") int movie_no,
-			@RequestParam(value="ddd") int movie_like) {
+			@RequestParam(value="movieNo") int movie_no) {
 		
 		int x = (Integer)session.getAttribute("user_no");
 		MovieLike input = new MovieLike();
 		input.setUser_no(x);
 		input.setMovie_no(movie_no); 
 		
-		if(movieLikeService.checkMovieLike(input)) {
-			return 0;
-		}
+		
 		try {
 			movieLikeService.deleteMovieLike(input);
-			Movie input1=new Movie();
-			input1.setMovie_no(movie_no);
-			movie_like=movieService.getMovieLike(input1);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
 			
-		return 1;
+
 	}
 	@ResponseBody
 	@RequestMapping(value="checkStar",method = RequestMethod.POST)

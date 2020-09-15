@@ -41,12 +41,6 @@ public class MovieController {
 			// 조회필요값 빈즈에저장
 			Movie input =new Movie();
 			input.setMovie_no(movie_no);
-			Movie input1=new Movie();
-			input1.setMovie_no(movie_no);
-			Movie input2=new Movie();
-			input2.setMovie_no(movie_no);
-			Movie input3=new Movie();
-			input3.setMovie_no(movie_no);
 			List<Actor> output6 = actorService.getActor(movie_no);
 			
 			
@@ -59,9 +53,9 @@ public class MovieController {
 			try {
 				//데이터조회
 				output = movieService.getMovieItem(input);
-				output1 = movieService.getMovieLike(input1);
-				output2 = movieService.getMovieStar(input2);
-				output3 = movieService.getMoviePeople(input3);
+				output1 = movieService.getMovieLike(input);
+				output2 = movieService.getMovieStar(input);
+				output3 = movieService.getMoviePeople(input);
 				
 			}catch(Exception e) {
 				e.printStackTrace();
@@ -133,16 +127,30 @@ public class MovieController {
 		}
 			return 8;
 	}
-		
+
+		//2
 		@ResponseBody
-		@RequestMapping(value="zzzz",method=RequestMethod.POST)
-		public String[] recentLike(HttpServletResponse response,
+		@RequestMapping(value="recent",method=RequestMethod.POST)
+		public int recentLike1(Model model,HttpServletResponse response,
 				@RequestParam(value="movieNo") int movie_no)  {
 			
-			String[] items = movieService.recentLike(movie_no);
+			Movie input =new Movie();
+			input.setMovie_no(movie_no);
+			int result = 0;
+			try {
+				result = movieService.getMovieLike(input);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 			
-			return items;
+			return result;
 	}
 
-
+			
+			
 }
+
+
+
