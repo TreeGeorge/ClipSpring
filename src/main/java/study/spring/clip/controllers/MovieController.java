@@ -147,6 +147,42 @@ public class MovieController {
 			
 			return result;
 	}
+		@ResponseBody
+		@RequestMapping(value="recentstar",method=RequestMethod.POST)
+		public double recentStar(Model model,HttpServletResponse response,
+				@RequestParam(value="movieNo") int movie_no)  {
+			
+			Movie input =new Movie();
+			input.setMovie_no(movie_no);
+			double result = 0;
+			try {
+				result = movieService.getMovieStar(input);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			
+			return result;
+	}
+		@ResponseBody
+		@RequestMapping(value="recentpeople",method=RequestMethod.POST)
+		public int recentPeople(Model model,HttpServletResponse response,
+				@RequestParam(value="movieNo") int movie_no)  {
+			
+			Movie input =new Movie();
+			input.setMovie_no(movie_no);
+			int result = 0;
+			try {
+				result = movieService.getMoviePeople(input);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			
+			return result;
+	}
 
 			
 			

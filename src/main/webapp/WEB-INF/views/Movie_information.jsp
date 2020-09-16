@@ -391,64 +391,20 @@
     <div>
         <!-- 슬라이드 -->
         <div class="slides">
+        <c:forEach var="item" items="${아이템넣으셈}" varStatus="status">
             <div class="slide_item">
-                <a href="Movie_information.jsp"><img src="assets/img/sample1.jpg" alt=""><span>백두산</span></a>
+                <a href="Movie_information?movieNo=${movie_no}"><img src="${thumnail}" alt=""><span>${movie_name}</span></a>
             </div>
-            <div class="slide_item">
-                <a href="Movie_information.jsp"><img src="assets/img/sample2.jpg" alt=""><span>캡틴 아메리카 : 윈터 솔져</span></a>
-            </div>
-            <div class="slide_item">
-                <a href="Movie_information.jsp"><img src="assets/img/sample3.jpg" alt=""><span>내 이름은 칸</span></a>
-            </div>
-            <div class="slide_item">
-                <a href="Movie_information.jsp"><img src="assets/img/sample4.jpg" alt=""><span>마녀</span></a>
-            </div>
-            <div class="slide_item">
-                <a href="Movie_information.jsp"><img src="assets/img/sample5.jpg" alt=""><span>Moonlight</span></a>
-            </div>
-            <div class="slide_item">
-                <a href="Movie_information.jsp"><img src="assets/img/sample6.jpg" alt=""><span>플로리다 프로젝트</span></a>
-            </div>
-            <div class="slide_item">
-                <a href="Movie_information.jsp"><img src="assets/img/sample7.jpg" alt=""><span>머드라</span></a>
-            </div>
-            <div class="slide_item">
-                <a href="Movie_information.jsp"><img src="assets/img/sample8.jpg" alt=""><span>1917</span></a>
-            </div>
-            <div class="slide_item">
-                <a href="Movie_information.jsp"><img src="assets/img/sample9.jpg" alt=""><span>Baby Driver</span></a>
-            </div>
+		</c:forEach>
         </div>
     </div>
     <div class="bar"><span>이 장르의 인기영화</span></div>
     <div class="slides">
-        <div class="slide_item">
-            <a href="Movie_information.jsp"><img src="assets/img/sample9.jpg" alt=""><span>Baby Driver</span></a>
-        </div>
-        <div class="slide_item">
-            <a href="Movie_information.jsp"><img src="assets/img/sample8.jpg" alt=""><span>1917</span></a>
-        </div>
-        <div class="slide_item">
-            <a href="Movie_information.jsp"><img src="assets/img/sample7.jpg" alt=""><span>머드라</span></a>
-        </div>
-        <div class="slide_item">
-            <a href="Movie_information.jsp"><img src="assets/img/sample6.jpg" alt=""><span>플로리다 프로젝트</span></a>
-        </div>
-        <div class="slide_item">
-            <a href="Movie_information.jsp"><img src="assets/img/sample5.jpg" alt=""><span>Moonlight</span></a>
-        </div>
-        <div class="slide_item">
-            <a href="Movie_information.jsp"><img src="assets/img/sample4.jpg" alt=""><span>마녀</span></a>
-        </div>
-        <div class="slide_item">
-            <a href="Movie_information.jsp"><img src="assets/img/sample3.jpg" alt=""><span>내 이름은 칸</span></a>
-        </div>
-        <div class="slide_item">
-            <a href="Movie_information.jsp"><img src="assets/img/sample2.jpg" alt=""><span>캡틴 아메리카 : 윈터 솔져</span></a>
-        </div>
-        <div class="slide_item">
-            <a href="Movie_information.jsp"><img src="assets/img/sample1.jpg" alt=""><span>백두산</span></a>
-        </div>
+    	<c:forEach var="item" items="${아이템넣으셈}" varStatus="status">
+        	<div class="slide_item">
+            	<a href="Movie_information?movieNo=${movie_no}"><img src="${thumnail}" alt=""><span>${movie_name}</span></a>
+        	</div>
+		</c:forEach>
     </div>
     <div class="bar"><span>CLIP의 추천영화</span></div>
     <div class="slides">
@@ -526,24 +482,16 @@
                         confirmButtonColor: "#FF3253"
                             //sweetalert 창을 통한 별점기능 생성
                     }).then(function(result) {
-//                        if (result.value) {
-//                        $.post("insertStar",{movieNo:"${movie_no}",score:rate},function(req){
-//                        	console.log(rate)
-//                        	console.log(total)
-//                        	console.log(count)
-//                        	console.log("${movie_star}")
-//                        	console.log("${movie_people}")
-//                            var aaa = eval("${movie_star}+rate")
-//                        	console.log(aaa)
-//                            rate = 0;
-//                            count="${movie_people+1}"; // 제출이 이루어 졌을때 평점을 준사람 증가
-//                            $("#rate_people").empty(); // 있던값을 지워주고
-//                            $("#rate_people").prepend(count); // 증가된 사람수를 추가
-//                            $("#grade").empty(); // 있던값을 지워주고
-//                            $("#grade").append((total / count).toFixed(1));
-//                            //평점이랑사람수 나누어 소숫점 1자리수 출력
-//                        })
-//                        }
+                        if (result.value) {
+                        $.post("insertStar",{movieNo:"${movie_no}",score:rate},function(req){ 
+                        	 $.post("recentstar",{movieNo:"${movie_no}"},function(req){
+         						$("#grade").text(req)
+             				})
+             				$.post("recentpeople",{movieNo:"${movie_no}"},function(req){
+         						$("#rate_people").text(req)
+             				})
+                        })
+                      }
                     });
                     $(".my-rating-4").starRating({ // 별점기능의 CSS 및 기본 속성(사이트에 나와있습니다)
                         initialRating: 0,
@@ -561,6 +509,7 @@
                         }
 
                     });
+                   
             	}else if(req==0){
     			swal({
                     title: "이미 평가를",
