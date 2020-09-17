@@ -34,30 +34,23 @@ public class MovieCommentServiceTest {
 	@Autowired
 	private MovieCommentService movieCommentService;
 
-	/** 단일행 조회 테스트 */
-	@Test
-	public void testA() {
-		// 검색조건으로 사용될 POJO 클래스 객체
-		MovieComment input = new MovieComment();
-		input.setMovie_comment_no(1);
-
-		MovieComment output = null;
-
-		try {
-			output = movieCommentService.getMovieCommentItem(input);
-			log.debug(output.toString());
-		} catch (Exception e) {
-			log.error(e.getLocalizedMessage());
-			e.printStackTrace();
-		}
-	}
+//	/** 단일행 조회 테스트 */
+//	@Test
+//	public void testA() {
+//		
+//		try {
+//			movieCommentService.MovieComment();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 //	/** 삭제 테스트 */
 //	@Test
 //	public void testB() {
 //		// 검색조건으로 사용될 POJO 클래스 객체
 //		MovieComment input = new MovieComment();
-//		input.setMovie_comment_no(1);
+//		input.setMovie_comment_no(12);
 //
 //		int output = 0;
 //
@@ -84,12 +77,12 @@ public class MovieCommentServiceTest {
 
 		int output = 0;
 
-		try {
-			output = movieCommentService.insertMovieComment(input);
-			log.debug("생성된 데이터 수 " + output);
-		} catch (Exception e) {
-			log.error(e.getLocalizedMessage());
-			e.printStackTrace();
-		}
+//		try {
+//			output = movieCommentService.insertMovieComment(input);
+//			log.debug("생성된 데이터 수 " + output);
+//		} catch (Exception e) {
+//			log.error(e.getLocalizedMessage());
+//			e.printStackTrace();
+//		}
 	}
 }

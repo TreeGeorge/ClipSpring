@@ -8,4 +8,6 @@ public class CommentAppraisal {
 	private String answer;
 	private int user_no;
 	private int movie_comment_no;
+	private int movie_like_yes;
+	private int movie_like_no;
 }

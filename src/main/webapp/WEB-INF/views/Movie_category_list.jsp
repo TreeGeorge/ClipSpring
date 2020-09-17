@@ -61,8 +61,8 @@ html, body {
 .category_top_button {
     position: sticky;
     width: 100%;
-    top: 39px;
-    height: 30px;
+    top: 40px;
+    height: 39px;
     border-bottom: 1px solid #b8b8b8;
     background: #fff;
     z-index: 10;
@@ -141,9 +141,6 @@ html, body {
                 <a href=".category_page_genre" class="category_page_link selected">장르별</a>
             </li>
             <li class="category_button pull_left">
-                <a href=".category_page_brand" class="category_page_link">브랜드별</a>
-            </li>
-            <li class="category_button pull_left">
                 <a href=".category_page_product" class="category_page_link">상품별</a>
             </li>
         </ul>
@@ -155,21 +152,6 @@ html, body {
         <div class="category_page_genre">
             <ul>
            		<c:forEach var="item" items="${categoryTypeG}" varStatus="status"> 
-                    <li class="clearfix">
-	                    <a href="Movie_category_sorted?categoryTypeNo=${item.category_type_no}">
-	                        <img class="icon" src="${item.icon}" />
-	                        <span class="list">${item.name}</span>
-	                        <img src="assets/img/right.png" class="right" />
-	                    </a>
-                	</li>
-	            </c:forEach>
-            </ul>
-        </div>
-
-        <!-- 브랜드별 카테고리 -->
-        <div class="category_page_brand hide">
-            <ul>
-            	<c:forEach var="item" items="${categoryTypeB}" varStatus="status"> 
                     <li class="clearfix">
 	                    <a href="Movie_category_sorted?categoryTypeNo=${item.category_type_no}">
 	                        <img class="icon" src="${item.icon}" />

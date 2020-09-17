@@ -1,10 +1,14 @@
 package study.spring.clip.service.impl;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
+import study.spring.clip.model.CategorySorted;
+import study.spring.clip.model.HomeMovieSlider;
 import study.spring.clip.model.MovieInfoSlider;
 import study.spring.clip.service.MovieInfoSliderService;
 
@@ -16,23 +20,24 @@ public class MovieInfoSliderServiceImpl implements MovieInfoSliderService {
 	SqlSession sqlSession;
 
 	@Override
-	public MovieInfoSlider getMovieInfoSliderItem(MovieInfoSlider input) throws Exception {
-		MovieInfoSlider result = null;
-
-		try {
-			result = sqlSession.selectOne("MovieInfoSliderMapper.ActionMovieInfoSlider", input);
-
-			if (result == null) {
-				throw new NullPointerException("resut=null");
-			}
-		} catch (NullPointerException e) {
-			log.error(e.getLocalizedMessage());
-			throw new Exception("조회된 데이터가 없습니다.");
-		} catch (Exception e) {
-			log.error(e.getLocalizedMessage());
-			throw new Exception("데이터 조회에 실패했습니다.");
-		}
+	public List<MovieInfoSlider> getMovieInfoSliderActor(String name) {
+		
+		MovieInfoSlider input = new MovieInfoSlider();
+		input.setName(name);
+		List<MovieInfoSlider> result = sqlSession.selectList("MovieInfoSliderMapper.ActorMovieInfoSlider", input);
 
 		return result;
 	}
+
+	@Override
+	public List<MovieInfoSlider> getMovieInfoSliderJangre(int category_type_no) {
+		
+		MovieInfoSlider input = new MovieInfoSlider();
+		input.setCategory_type_no(category_type_no);
+		List<MovieInfoSlider> result = sqlSession.selectList("MovieInfoSliderMapper.JangreMovieInfoSlider", input);
+
+		return result;
+	}
+
+
 }

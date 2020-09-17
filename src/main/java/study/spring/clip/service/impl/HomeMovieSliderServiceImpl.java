@@ -17,14 +17,16 @@ public class HomeMovieSliderServiceImpl implements HomeMovieSliderService {
 
 	@Autowired
 	SqlSession sqlSession;
-
+	
+	// 추천영화
 	@Override
 	public List<HomeMovieSlider> getHomeMovieSliderList() {
 
 		List<HomeMovieSlider> result = sqlSession.selectList("HomeMovieSliderMapper.RecommandHomeMovieSlider");
 		return result;
 		}
-
+	
+	// 장르영화 ( 액션, 코디디 등등 ) 
 	@Override
 	public List<HomeMovieSlider> getJangreMovieSliderList(String name) {
 		
@@ -34,6 +36,7 @@ public class HomeMovieSliderServiceImpl implements HomeMovieSliderService {
 		return result;
 	}
 
+	// 할인영화
 	@Override
 	public List<HomeMovieSlider> getSaleMovieSliderList(String name) {
 		HomeMovieSlider input = new HomeMovieSlider();
@@ -41,14 +44,7 @@ public class HomeMovieSliderServiceImpl implements HomeMovieSliderService {
 		List<HomeMovieSlider> result = sqlSession.selectList("HomeMovieSliderMapper.SaleMovieSlider",input);
 		return result;
 	}
-
-
-
-
-
 	
-
-
 
 
 }

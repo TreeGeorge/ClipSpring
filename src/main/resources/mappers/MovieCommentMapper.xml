@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
-    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="MovieCommentMapper">
 
@@ -16,6 +16,13 @@
 		<result property="movie_no" column="movie_no" />
 	</resultMap>
 
+	<select id="getCommentName"
+		parameterType="study.spring.clip.model.MovieComment"
+		resultType="String">
+		SELECT name FROM movie
+		WHERE movie_no = #{movie_no};
+	</select>
+
 	<!-- 단일행 조회를 위한 기능 정의 -->
 	<select id="oneComment"
 		parameterType="study.spring.clip.model.MovieComment"
@@ -23,25 +30,40 @@
 		SELECT movie_comment_no, editdate, content, userid, user_no,
 		movie_no FROM
 		movie_comment WHERE
-		movie_comment_no=#{movie_comment_no};
+		movie_no = #{movie_no}
+		ORDER BY
+		editdate DESC;
 	</select>
 
 	<!-- 데이터 삭제를 위한 기능 정의 -->
 	<delete id="deleteComment"
 		parameterType="study.spring.clip.model.MovieComment">
-		DELETE FROM movie_comment WHERE movie_comment_no=#{movie_comment_no};
+		DELETE FROM movie_comment WHERE movie_comment_no =
+		#{movie_comment_no};
 	</delete>
-	
-	<!-- 태희쨩이 추가함 이식 후에 주석 지워주삼-->
-	<update id="nullList" parameterType="study.spring.clip.model.MovieComment">
-		UPDATE movie_comment SET user_no=null WHERE user_no=#{user_no};
-	</update>
-	
+
 	<!-- 데이터 삽입 -->
-	<select id="insertComment"
+	<insert id="insertComment"
 		parameterType="study.spring.clip.model.MovieComment"
-		resultMap="MovieCommentMap">
-		INSERT INTO movie_comment (movie_comment_no, editdate, content, userid, user_no, movie_no)
-		VALUES (#{movie_comment_no},#{editdate},#{content},#{userid},#{user_no},#{movie_no});
-	</select>
+		useGeneratedKeys="true" keyProperty="movie_comment_no">
+		INSERT INTO
+		movie_comment
+		(editdate, content, userid, user_no, movie_no)
+		VALUES(now(),#{content},#{userid},#{user_no},#{movie_no});
+	</insert>
+
+	<!-- 데이터 수정 -->
+	<update id="editComment"
+		parameterType="study.spring.clip.model.MovieComment">
+		UPDATE movie_comment SET content = #{content}
+		WHERE
+		movie_comment_no = #{movie_comment_no};
+	</update>
+
+	<!-- 태희쨩이 추가함 이식 후에 주석 지워주삼 -->
+	<update id="nullList"
+		parameterType="study.spring.clip.model.MovieComment">
+		UPDATE movie_comment SET user_no=null WHERE
+		user_no=#{user_no};
+	</update>
 </mapper>

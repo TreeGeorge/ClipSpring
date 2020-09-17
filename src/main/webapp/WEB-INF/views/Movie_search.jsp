@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ page trimDirectiveWhitespaces="true" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -215,11 +218,12 @@ legend {
         <%@ include file="assets/inc/top_logo.jsp" %>
 
         <!-- 검색창 -->
-        <form class="form">
+        <form method="get" action="${pageContext.request.contextPath}/Movie_search" class="form" >
             <fieldset>
                 <legend>검색</legend>
                     <div class="clearfix">
-                        <input autocomplete="off" type="text" id="search_movie" name="search_movie" class="search_movie" value="" placeholder="검색할 영화를 입력해주세요">
+                        <input autocomplete="off" type="text" id="search_movie" name="${name}" 
+                        class="search_movie" value="" placeholder="검색할 영화를 입력해주세요">
                         <input type="button" class="search_button" value="검색" id="search_button">
                     </div>
             </fieldset>
@@ -229,14 +233,13 @@ legend {
         <div class="search_info clearfix hide">
             <div class="total">
                 <p>
-                    총 <span id="count">n</span>개 작품
+                    총 <span id="count">${count}</span>개 작품
                 </p>
             </div>
             <div class="pull-right">
                 <select class="form-control selcls" id="movie_select">
                     <option>최신순</option>
                     <option>개봉순</option>
-                    <option>평점순</option>
                     <option>판매순</option>
                     <option>낮은가격순</option>
                 </select>
@@ -258,13 +261,15 @@ legend {
 
     <!-- Ajax로 읽어온 내용을 출력하는데 사용될 템플릿 -->
     <script id="movie_item" type="text/x-handlebars-template">
-        <a class="search_movie_list" href="Movie_information">
-            <img src="{{thumbnail}}" alt="영화제목 썸네일">
-            <span class="movie_title">{{movieTitle}}</span>
-            <span class="age">{{age}}세 이용가 | {{time}}분</span>
-			<span class="type">{{type}}</span>
-            <span class="price">{{price}}<img id="coin" src="assets/img/coin_icon.png"/></span>
+		<c:forEach var="item" items="${MovieSearch}" varStatus="status">
+        <a class="search_movie_list" href="Movie_information?movieNo=${movie_no}">
+            <img src="${item.thumbnail}" alt="${item.name}">
+            <span class="movie_title">${item.name}</span>
+            <span class="age">${item.age}세 이용가 | ${item.time}분</span>
+			<span class="type">${item.type}</span>
+            <span class="price">${item.price}<img id="coin" src="assets/img/coin_icon.png"/></span>
         </a>
+		</c:forEach>
     </script>
     <script type="text/javascript">
         $(function() {
@@ -287,7 +292,7 @@ legend {
                 // 검색 초기화
                 $(".search_movie_list").remove();
 				// 검색어와 일치하는 영화 나타나게 하기
-                $.post('MovieSearch.do', {key:$("#search_movie").val()},function(req) {
+                $.post('Movie_search', {name:$("#search_movie").val()},function(req) {
                     var template = Handlebars.compile($("#movie_item").html());
                     var html = null;
                     // 영화 정보중에 검색값과 일치하는지 확인
@@ -331,6 +336,7 @@ legend {
             });
 
         });
+        
     </script>
 </body>
 </html>

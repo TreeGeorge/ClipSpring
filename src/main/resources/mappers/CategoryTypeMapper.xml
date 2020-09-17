@@ -43,7 +43,7 @@
 		resultMap="CategoryTypeMap">
 		SELECT category_type_no, name , type, icon FROM category_type
 		WHERE TYPE = #{type}
-		LIMIT 5;
+		LIMIT 4;
 	</select>
 
 	<select id="HomeCategoryTypePlus"
@@ -51,7 +51,7 @@
 		resultMap="CategoryTypeMap">
 		SELECT category_type_no, name, type, icon FROM category_type
 		WHERE TYPE = #{type}
-		LIMIT 5,20;
+		LIMIT 4,7;
 	</select>
 
 </mapper>

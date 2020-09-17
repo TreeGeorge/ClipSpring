@@ -14,18 +14,48 @@
 		<result property="movie_comment_no" column="movie_comment_no " />
 	</resultMap>
 
-	<!-- 단일행 조회를 위한 기능 정의 -->
+	<!-- 조회 -->
 	<select id="oneCommentAppraisal"
 		parameterType="study.spring.clip.model.CommentAppraisal"
 		resultMap="CommentAppraisalMap">
-		SELECT appraisal_no, answer, user_no, movie_comment_no
-		FROM comment_appraisal
-		WHERE user_no IN (SELECT user_no FROM user
-		WHERE user_no=#{user_no})
+		SELECT * FROM comment_appraisal WHERE user_no = #{user_no};
 	</select>
+
+	<!-- 삽입 -->
+	<insert id="insertCommentAppraisal"
+		parameterType="study.spring.clip.model.CommentAppraisal"
+		useGeneratedKeys="true" keyProperty="appraisal_no">
+		INSERT INTO comment_appraisal
+		(answer, user_no,movie_comment_no)
+		VALUES (#{answer}, #{user_no},
+		#{movie_comment_no});
+	</insert>
+
+	<!-- 업뎃 -->
+	<update id="updateCommentAppraisal"
+		parameterType="study.spring.clip.model.CommentAppraisal">
+		UPDATE comment_appraisal
+		SET answer = #{answer} 
+		WHERE user_no = #{user_no} and movie_comment_no = #{movie_comment_no};
+	</update>
 	
 	<!-- user_no null처리 -->
-	<update id="nullList" parameterType="study.spring.clip.model.CommentAppraisal">
+	<update id="nullList"
+		parameterType="study.spring.clip.model.CommentAppraisal">
 		UPDATE comment_appraisal SET user_no=null WHERE user_no=#{user_no};
 	</update>
+	
+	<!-- 좋아요 라이크개수 -->
+	<select id="GoodComment" parameterType="study.spring.clip.model.CommentAppraisal"
+        resultType="int">
+        SELECT COUNT(movie_like_yes) FROM movie_like
+        WHERE movie_comment_no = #{movie_comment_no};
+    </select>
+    
+    <!-- 싫어요 라이크개수 -->
+	<select id="BadComment" parameterType="study.spring.clip.model.CommentAppraisal"
+        resultType="int">
+        SELECT COUNT(movie_like_no) FROM movie_like
+        WHERE movie_comment_no = #{movie_comment_no};
+    </select>
 </mapper>

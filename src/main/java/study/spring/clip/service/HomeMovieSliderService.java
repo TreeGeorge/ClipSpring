@@ -21,7 +21,5 @@ public interface HomeMovieSliderService {
 	 * */
 	public List<HomeMovieSlider> getSaleMovieSliderList(String name);
 	
-	
-
 }
 

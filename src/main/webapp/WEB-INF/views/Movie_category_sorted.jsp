@@ -76,33 +76,42 @@ li {
 	padding: 0px;
 	padding-left:5px;
 	padding-right:5px;
+	
 }
 /* 한줄에 3개씩 가로배치 */
 #movie li {
 	width: 33.3%;
 	float: left;
 	padding-bottom: 15px;
+	margin:auto;
+	
 }
 /* 영화 썸네일 밑 글씨 block처리 */
 #movie li a {
 	display: block;
 	width: auto;
 	padding-left: 5px;
+		
 }
 /* 영화 썸네일 이미지 크기 */
 #movie .thumb img {
 	width: auto;
 	height: 150px;
 	display: block;
+	margin: auto;
+	
 }
 /* 링크 안의 span을 block처리 */
 #movie li a span {
 	display: block;
 	width: auto;
+	
 }
+
 /* a태그 영화제목 밑줄 제거 */
 a {
 	text-decoration: none;
+	
 }
 
 /* a태그에 hover시 밑줄 제거 */
@@ -155,7 +164,6 @@ a:hover {
 		<!-- 드랍 다운 -->
 		<select name="asdf" class="form-control selcls" id="movie_select">
 			<option value="최신순">최신순</option>
-			<option>평점순</option>
 			<option>구매순</option>
 			<option value="낮은 가격순">낮은가격순</option>
 			<option value="높은 가격순">높은가격순</option>
@@ -167,7 +175,7 @@ a:hover {
 		<ul id="movie" class="infinite_scroll">
 			<c:forEach var="item" items="${categorySorted}" varStatus="status">
 				<li class="img"><a href="Movie_information.do?movieNo=${item.movie_no}">
-				<span class="thumb"> <img src="${item.thumbnail}" alt="${item.name} 썸네일" /></span> 
+				<span class="thumb"><img src="${item.thumbnail}" alt="${item.name} 썸네일" /></span> 
 				<span class="movie_title">${item.name}</span>
 				<span class="price">${item.type}&nbsp;<span class="cost">${item.price}
 				<img src="assets/img/coin_icon.png"></span></span>
@@ -179,6 +187,17 @@ a:hover {
 	<!-- 인피니트 스크롤 -->
 	<script src="assets/js/bootstrap.min.js"></script>
 	<script>
+			function BR() {
+				var hangle = $(".price");
+				for( var i = 0; i < hangle.length; i++) {
+					if (hangle.eq(i).text() == 'B') {
+						hangle.eq(i).text("구매");
+					} else if(price.eq(i).text() == 'R') {
+						hangle.eq(i).text("대여")
+					}
+				}
+			}
+			
 			function renderfree() {
 				var cost = $(".cost");
 				for (var i = 0; i < cost.length; i++) {
@@ -186,7 +205,6 @@ a:hover {
 						cost.eq(i).text("무료");
 					}
 				}
-				console.log($(".cost"));
 			}
 			
 			$(function() {
@@ -215,12 +233,12 @@ a:hover {
            } else if ($(this).val()=="높은 가격순"){
         	   $(".infinite_scroll").remove();
         	   $("#body").append().html('<ul id="movie" class="infinite_scroll"> <c:forEach var="item" items="${output2}" varStatus="status"><li class="img"><a href="Movie_information.do?movie_no=${item.movie_no}"> <span class="thumb"> <img src="${item.thumbnail}" alt="${item.name} 썸네일" /></span> <span class="movie_title">${item.name}</span><span class="price">${item.type}&nbsp;<span class="cost">${item.price}<img src="assets/img/coin_icon.png"></span></span></a></li></c:forEach></ul>')
-           } else if ($(this).val()=="평점순"){
-        	   
            } else if ($(this).val()=="구매순"){
         	   
-           }
-         renderfree() })
+           } 
+         renderfree()
+         BR() 
+     	})
          
          
          let ias = new InfiniteAjaxScroll('#body', {

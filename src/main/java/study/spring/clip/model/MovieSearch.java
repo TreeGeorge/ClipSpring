@@ -13,4 +13,5 @@ public class MovieSearch {
 	private String movie_actor;
 	private String director;
 	private int movie_no;
+	private int runtime;
 }

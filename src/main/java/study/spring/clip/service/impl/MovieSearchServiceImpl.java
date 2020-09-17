@@ -20,34 +20,12 @@ public class MovieSearchServiceImpl implements MovieSearchService {
 	SqlSession sqlSession;
 
 	@Override
-	public List<MovieSearch> getMovieSearchActor(String actor) {
+	public List<MovieSearch> getMovieSearch(String name) {
 		MovieSearch input = new MovieSearch();
-		input.setName(actor);
-
-		List<MovieSearch> result = sqlSession.selectList("MovieSearchMapper.twoMovieSearch",input);
-		
+		input.setDirector(name);
+		input.setName(name);
+		List<MovieSearch> result = sqlSession.selectList("MovieSearchMapper.oneMovieSearch",input);
 		return result;
 	}
-
-	@Override
-	public List<MovieSearch> getMovieSearchTitle(String title) {
-		MovieSearch input = new MovieSearch();
-		input.setName(title);
-
-		List<MovieSearch> result = sqlSession.selectList("MovieSearchMapper.threeMovieSearch",input);
-		
-		return result;
-	}
-
-	@Override
-	public List<MovieSearch> getMovieSearchDirector(String director) {
-		MovieSearch input = new MovieSearch();
-		input.setDirector(director);
-
-		List<MovieSearch> result = sqlSession.selectList("MovieSearchMapper.threeMovieSearch",input);
-		
-		return result;
-	}
-
 	
 }

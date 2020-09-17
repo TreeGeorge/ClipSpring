@@ -31,8 +31,8 @@
 	<select id="JangreMovieSlider"
 		parameterType="study.spring.clip.model.HomeMovieSlider"
 		resultMap="HomeMovieSliderMap">
-		SELECT movie_no, name, thumbnail, Floor(price / 100 * (100
-		- sale)) as price, sale,type FROM movie
+		SELECT movie_no, name, thumbnail,  price, Floor(price / 100 * (100
+		- sale)) as sale,IF(type='B',"구매","대여") AS type FROM movie
 		where movie_no IN(select movie_no from movie_category
 		where category_type_no
 		IN(SELECT category_type_no FROM category_type WHERE name = #{name} AND sale != 100))
@@ -42,11 +42,22 @@
 	<select id="SaleMovieSlider"
 		parameterType="study.spring.clip.model.HomeMovieSlider"
 		resultMap="HomeMovieSliderMap">
-		SELECT movie_no, name, thumbnail, Floor(price / 100 * (100
-		- sale)) as price, sale,type FROM movie
+		SELECT movie_no, name, thumbnail,price, Floor(price / 100 * (100
+		- sale)) as sale,IF(type='B',"구매","대여") AS type FROM movie
 		where movie_no IN(select movie_no from movie_category
 		where category_type_no
 		IN(SELECT category_type_no FROM category_type WHERE name = #{name}))
+		LIMIT 0,10;
+	</select>
+	
+	<select id="BlandMovieSlider"
+		parameterType="study.spring.clip.model.HomeMovieSlider"
+		resultMap="HomeMovieSliderMap">
+		SELECT movie_no, name, thumbnail,  price, Floor(price / 100 * (100
+		- sale)) as sale,IF(type='B',"구매","대여") AS type FROM movie
+		where movie_no IN(select movie_no from movie_category
+		where category_type_no
+		IN(SELECT category_type_no FROM category_type WHERE name = #{name} AND sale != 100))
 		LIMIT 0,10;
 	</select>
 	
