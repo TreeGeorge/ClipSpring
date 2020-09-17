@@ -17,9 +17,11 @@ public interface InterestService {
 	
 	public List<Interest> gethighpriceList(int x);
 	
-	public int insertInterest(Interest input) throws Exception;
+	public List<Interest> getnameList(int x);
 	
-	public int deleteInterest(Interest input) throws Exception;
+	public int insertInterest(Interest input);
+	
+	public int deleteInterest(Interest input);
 	
 	public boolean checkInterest(Interest input);
 }

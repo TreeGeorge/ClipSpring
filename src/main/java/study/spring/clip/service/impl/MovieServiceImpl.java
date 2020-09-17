@@ -6,11 +6,11 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import lombok.extern.slf4j.Slf4j;
+
 import study.spring.clip.model.Movie;
 import study.spring.clip.service.MovieService;
 
-@Slf4j
+
 @Service
 public class MovieServiceImpl implements MovieService {
 	
@@ -25,62 +25,29 @@ public class MovieServiceImpl implements MovieService {
 	}
 
 	@Override
-	public int getMovieLike(Movie input1) throws Exception {
+	public int getMovieLike(Movie input1){
 		int result = 0;
 		
-		try {
 			result = sqlSession.selectOne("MovieMapper.likeMovie", input1);;
-			if (result == 0) {
-				throw new NullPointerException("resut=0");
-			}
-		} catch (NullPointerException e) {
-			log.error(e.getLocalizedMessage());
-			throw new Exception("조회된 데이터가 없습니다.");
-		} catch (Exception e) {
-			log.error(e.getLocalizedMessage());
-			throw new Exception("데이터 조회에 실패했습니다.");
-		}
+
 		return result;
 	}
 
 	@Override
-	public double getMovieStar(Movie input2) throws Exception {
-		double result = 0;
-		
-		try {
+	public double getMovieStar(Movie input2){
+		double result = 0;	
+
 			result = sqlSession.selectOne("MovieMapper.starMovie", input2);
 
-			
-			if (result == 0) {
-				throw new NullPointerException("resut=0");
-			}
-		} catch (NullPointerException e) {
-			log.error(e.getLocalizedMessage());
-			throw new Exception("조회된 데이터가 없습니다.");
-		} catch (Exception e) {
-			log.error(e.getLocalizedMessage());
-			throw new Exception("데이터 조회에 실패했습니다.");
-		}
 		return result;
 	}
 
 	@Override
-	public int getMoviePeople(Movie input3) throws Exception {
+	public int getMoviePeople(Movie input3){
 		int result = 0;
 		
-		try {
 			result = sqlSession.selectOne("MovieMapper.peopleMovie", input3);
 
-			if (result == 0) {
-				throw new NullPointerException("resut=0");
-			}
-		} catch (NullPointerException e) {
-			log.error(e.getLocalizedMessage());
-			throw new Exception("조회된 데이터가 없습니다.");
-		} catch (Exception e) {
-			log.error(e.getLocalizedMessage());
-			throw new Exception("데이터 조회에 실패했습니다.");
-		}
 		return result;
 	}
 

@@ -14,55 +14,68 @@
         <result property="thumbnail" column="thumbnail" />
         <result property="runtime" column="runtime" />
         <result property="age" column="age" />
+        <result property="sale" column="sale" />
+        <result property="type" column="type"/>
         <result property="release_date" column="release_date" />
+ 
     </resultMap>
-    
+    <!-- 관심영화 불러오기 (관심페이지)-->
 	<select id="interestList"
 		parameterType="study.spring.clip.model.Interest"
 		resultMap="InterestMap">
-		SELECT movie_no, name, age, runtime, thumbnail FROM movie
+		SELECT movie_no, name, age, runtime, thumbnail,IF(type='B',"구매","대여") AS type FROM movie
 		WHERE movie_no IN (SELECT movie_no FROM interest WHERE user_no= #{user_no});
 	</select>
-	
+	<!-- 관심영화 체크했는지 확인(무비인포페이지 로드시) -->
 	<select id="interestInsertCheck"
 		parameterType="study.spring.clip.model.Interest"
 		resultMap="InterestMap">
 		SELECT movie_no from interest
 		where user_no = #{user_no} AND movie_no = #{movie_no};
 	</select>
-	
+	<!-- 관심영화 추가하기 (무비인포페이지) -->
 	<select id="interestInsert"
 		parameterType="study.spring.clip.model.Interest"
 		resultMap="InterestMap">
 		INSERT INTO interest (movie_no ,user_no)
 		VALUES (#{movie_no},#{user_no});
 	</select>
-	
+	<!-- 관심영화 지우기 -->
 	<select id="interestDelete"
 		parameterType="study.spring.clip.model.Interest"
 		resultMap="InterestMap">
 		DELETE FROM interest
 		WHERE (movie_no=#{movie_no} and user_no=#{user_no});
 	</select>
-
+	<!-- 이름순정렬(관심페이지) -->
+	<select id="nameList"
+		parameterType="study.spring.clip.model.Interest"
+		resultMap="InterestMap">
+		SELECT movie_no, Floor(price / 100 * (100 - sale)) AS sale, name, release_date, age, runtime, thumbnail,IF(type='B',"구매","대여") AS type FROM movie
+		WHERE movie_no IN (SELECT movie_no FROM interest WHERE user_no= #{user_no})
+		ORDER BY name asc;
+	</select>
+	<!-- 개봉순정렬(관심페이지) -->
 	<select id="resentList"
 		parameterType="study.spring.clip.model.Interest"
 		resultMap="InterestMap">
-		SELECT movie_no, name, release_date FROM movie
+		SELECT movie_no, Floor(price / 100 * (100 - sale)) AS sale, name, release_date, age, runtime, thumbnail,IF(type='B',"구매","대여") AS type FROM movie
 		WHERE movie_no IN (SELECT movie_no FROM interest WHERE user_no= #{user_no})
 		ORDER BY release_date desc;
 	</select>
+	<!-- 높은가격순정렬(관심페이지) -->
 	<select id="highpriceList"
 		parameterType="study.spring.clip.model.Interest"
 		resultMap="InterestMap">
-		SELECT movie_no, name, release_date FROM movie
+		SELECT movie_no, Floor(price / 100 * (100 - sale)) AS sale, name, release_date, age, runtime, thumbnail,IF(type='B',"구매","대여") AS type FROM movie
 		WHERE movie_no IN (SELECT movie_no FROM interest WHERE user_no= #{user_no}) 
 		ORDER BY price desc;
 	</select>
+	<!-- 낮은가격순 정렬(관심페이지) -->
 	<select id="rowpriceList"
 		parameterType="study.spring.clip.model.Interest"
 		resultMap="InterestMap">
-		SELECT movie_no, name, release_date FROM movie
+		SELECT movie_no, Floor(price / 100 * (100 - sale)) AS sale, name, release_date, age, runtime, thumbnail,IF(type='B',"구매","대여") AS type FROM movie
 		WHERE movie_no IN (SELECT movie_no FROM interest WHERE user_no= #{user_no}) 
 		ORDER BY price asc;
 	</select>

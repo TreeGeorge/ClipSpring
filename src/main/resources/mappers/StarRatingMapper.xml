@@ -21,7 +21,7 @@
 	<select id="starCheck"
 		parameterType="study.spring.clip.model.StarRating"
 		resultMap="StarRatingMap">
-		SELECT score from star_rating
+		SELECT score from clip.star_rating
 		where user_no = #{user_no} AND movie_no = #{movie_no};
 	</select>
 	

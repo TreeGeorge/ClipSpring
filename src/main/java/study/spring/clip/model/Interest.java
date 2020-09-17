@@ -12,4 +12,6 @@ public class Interest {
 	private String runtime;
 	private String thumbnail;
 	private String release_date;
+	private String type;
+    private int sale;
 }

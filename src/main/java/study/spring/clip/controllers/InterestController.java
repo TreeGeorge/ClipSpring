@@ -16,12 +16,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.extern.slf4j.Slf4j;
+import study.spring.clip.model.Actor;
 import study.spring.clip.model.Interest;
 
 import study.spring.clip.model.MovieLike;
 import study.spring.clip.model.StarRating;
 import study.spring.clip.model.User;
-
+import study.spring.clip.service.ActorService;
 import study.spring.clip.service.InterestService;
 import study.spring.clip.service.LoginService;
 import study.spring.clip.service.MovieLikeService;
@@ -42,6 +43,9 @@ public class InterestController {
 	StarRatingService starRatingService;
 	
 	@Autowired
+	ActorService actorService;
+	
+	@Autowired
 	LoginService loginService;
 	
 	@Autowired
@@ -52,11 +56,12 @@ public class InterestController {
 	
 	@RequestMapping(value="MY_interest_movie", method = RequestMethod.GET)
 	public String goInterestMovie(Model model, HttpServletResponse response,
-			HttpSession session			
+			HttpSession session		
 			) {
 
 		int x = (Integer)session.getAttribute("user_no");
 		User user = loginService.randerUser(x);
+		
 		 // id_box의 유저 코인정보
 		 model.addAttribute("user_coin", user.getCoin());
 		 
@@ -69,6 +74,10 @@ public class InterestController {
 		model.addAttribute("output2",output2);
 		List<Interest> output3 = interestService.getrrowpriceList(x);
 		model.addAttribute("output3",output3);
+		List<Interest> output4 = interestService.getnameList(x);
+		model.addAttribute("output4",output4);
+		
+
 		
 		return "MY_interest_movie";
 	}

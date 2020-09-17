@@ -42,6 +42,12 @@ public class MovieController {
 			Movie input =new Movie();
 			input.setMovie_no(movie_no);
 			List<Actor> output6 = actorService.getActor(movie_no);
+			String actor_name = "";
+			for (int i = 0 ; i < output6.size() ; i++ ) {
+				actor_name += output6.get(i).getName() + ", ";
+			}
+			
+			String a = actor_name.substring(0, actor_name.lastIndexOf(","));
 			
 			
 			// 조회결과를 저장할 객체 선언
@@ -60,6 +66,9 @@ public class MovieController {
 			}catch(Exception e) {
 				e.printStackTrace();
 			}
+			
+			System.out.println(output2);
+			System.out.println(output3);
 			//view  처리
 			model.addAttribute("movie_no",output.getMovie_no());
 			model.addAttribute("movie_name",output.getName());
@@ -72,7 +81,8 @@ public class MovieController {
 			model.addAttribute("movie_star",output2);
 			model.addAttribute("movie_people",output3);
 			model.addAttribute("movie_type",output.getType());
-			model.addAttribute("output6",output6);
+			model.addAttribute("movie_actor",a);
+			model.addAttribute("movie_preview",output.getPreview());
 			
 			return "Movie_information";
 		}

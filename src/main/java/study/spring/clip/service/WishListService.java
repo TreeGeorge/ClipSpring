@@ -10,9 +10,9 @@ public interface WishListService {
 
 	public List<WishList> getWishListList(int x);
 	
-	public int insertWishList(WishList input) throws Exception;
+	public int insertWishList(WishList input);
 	
-	public int deleteWishList(WishList input) throws Exception;
+	public int deleteWishList(WishList input);
 	
 	public boolean checkWishList(WishList input);
 }

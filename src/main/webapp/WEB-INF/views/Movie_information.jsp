@@ -304,7 +304,7 @@
                     <!-- 감독 -->
                     <li class="m_info_content">감독&nbsp;<span id="authoer">${movie_director}</span></li>
                     <!-- 주연 -->
-                    <li class="m_info_content">주연&nbsp;<span id="actress"><c:forEach items="${output6}" var="actor" varStatus="status">${actor.name}&nbsp;</c:forEach></span></li>
+                    <li class="m_info_content">주연&nbsp;<span id="actress">${movie_actor }</span></li>
                     <!-- 상영시간 -->
                     <li class="m_info_content">상영시간&nbsp;${movie_runtime}&nbsp;</li>
 
@@ -324,7 +324,14 @@
             
             <!-- 구매버튼 -->
             <li class="btn1_1_2">
-                <span style="font-weight: bold;"><a href="Movie_buy?movieNo=${movie_no}">${movie_type}<span class="price">&nbsp;&nbsp;${movie_sale}코인</span></a></span>
+                <span style="font-weight: bold;"><a href="Movie_buy?movieNo=${movie_no}">${movie_type}
+                <c:if test="${movie_sale != 0}">
+                <span class="price">&nbsp;&nbsp;${movie_sale}코인</span>
+                </c:if>
+                <c:if test="${movie_sale == 0}">
+                <span class="price">&nbsp;&nbsp;무료</span>
+                </c:if>               
+                </a></span>
             </li>
         </ul>
     </div>
@@ -372,7 +379,7 @@
    <!-- 내용영역 -->
     <div class="tab_panel">
         <!-- 예고편 -->
-        <div id="tab_page_1"><iframe width="100%" height="100%" title="예고편 영상입니다" src="https://www.youtube.com/embed/gXcXpniR-NI"></iframe></div>
+        <div id="tab_page_1"><iframe width="100%" height="100%" title="예고편 영상입니다" src="https://www.youtube.com/embed/${movie_preview}"></iframe></div>
         <!-- 영화정보 -->
         <div id="tab_page_2" class="hide">
             <h4 style="font-size:13px;margin-bottom: 10px;">줄거리</h4>
@@ -442,8 +449,9 @@
     <div style="height: 50px;"></div>
     
     <script>
-    //관심등록 여부 판별
+    
     $(function(){
+    	//관심등록 여부 판별
     	$.post("interestCommit",{movieNo:"${movie_no}"},function(req){
     		if(req=="8"){
     			return;
@@ -454,9 +462,11 @@
                 $("#interestimg").data("img", tmp);
     		}
         })
+        //좋아요 여부 판별
         $.post("likeCommit",{movieNo:"${movie_no}"},function(req){
     		if(req=="8"){
-    			return;
+    			return;		
+    		}else{
     			var tmp = $("#likeimg").attr("src");
                 var img = $("#likeimg").data("img");
                 $("#likeimg").attr("src", img);
@@ -483,10 +493,13 @@
                             //sweetalert 창을 통한 별점기능 생성
                     }).then(function(result) {
                         if (result.value) {
+                        	//서버에 저장
                         $.post("insertStar",{movieNo:"${movie_no}",score:rate},function(req){ 
+                        	//평점실시간 값 바꿔주기
                         	 $.post("recentstar",{movieNo:"${movie_no}"},function(req){
          						$("#grade").text(req)
              				})
+             				//사람수실시간 값 바꿔주기
              				$.post("recentpeople",{movieNo:"${movie_no}"},function(req){
          						$("#rate_people").text(req)
              				})
@@ -563,8 +576,7 @@
             	$.post("wishListInsert.do",{movieNo:"${movie_no}"},function(req){
             		if(req==1){
             			swal({
-                            title: "총 1개의 컨텐츠를",
-                            text: "장바구니에 담았습니다.",
+            				html : "<b>장바구니에<br>담았습니다.</b>",
                             type: "success",
                             confirmButtonText: "이전",
                             showCancelButton: true,
@@ -578,8 +590,7 @@
                         })
             		}else if(req==0){
             			swal({
-                            title: "이미 장바구니에",
-                            text: "담겨있는 상품입니다.",
+            				html : "<b>이미 장바구니에<br>담겨있는 상품입니다.</b>",
                             type: "error",
                             confirmButtonText: "확인",
                             showCancelButton: false,
@@ -588,8 +599,7 @@
                         })
             		}else {
             			swal({
-                            title: "로그인이",
-                            text: "필요한 서비스입니다.",
+            				html : "<b>로그인이<br>필요한 서비스 입니다.</b>",
                             type: "error",
                             confirmButtonText: "확인",
                             showCancelButton: true,
@@ -653,8 +663,7 @@
                         $("#likeimg").data("img", tmp);
             		}else if(req==2){
             			swal({
-                            title: "로그인이",
-                            text: "필요한 서비스입니다.",
+            				html : "<b>로그인이<br>필요한 서비스입니다.</b>",
                             type: "error",
                             confirmButtonText: "확인",
                             showCancelButton: true,
@@ -685,10 +694,9 @@
 		$("#interestbtn").click(function() {
             	$.post("interestInsert.do",{movieNo:"${movie_no}"},function(req){
             		if(req==1){
-            			console.log(123)           			
+           			
             			swal({
-            				title: "관심목록에",
-                            text: "추가되었습니다.",
+            				html : "<b>관심목록에<br>추가되었습니다.</b>",
                             type: "success",
                             confirmButtonText: "확인",
                             showCancelButton: false,
@@ -700,10 +708,9 @@
                         $("#interestimg").attr("src", img);
                         $("#interestimg").data("img", tmp);
             		}else if(req==0){
-            			console.log(456)
+
             			swal({
-                            title: "정말 관심목록에서",
-                            text: "삭제하시겠습니까?.",
+            				html : "<b>정말 관심목록에서<br>삭제하시겠습니까?</b>",
                             type: "error",
                             confirmButtonText: "확인",
                             showCancelButton: false,
@@ -711,7 +718,7 @@
                             cancelButtonColor: "#FF3253"
                         }).then(function(result) {
                         	$.post("interestDelete.do",{movieNo:"${movie_no}"},function(req){
-                        		console.log(456)
+
                         	})
                         })
                         var tmp = $("#interestimg").attr("src");
@@ -721,8 +728,7 @@
 
             		}else {
             			swal({
-                            title: "로그인이",
-                            text: "필요한 서비스입니다.",
+            				html : "<b>로그인이<br>필요한 서비스 입니다.</b>",
                             type: "error",
                             confirmButtonText: "확인",
                             showCancelButton: true,

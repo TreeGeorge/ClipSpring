@@ -19,5 +19,10 @@ public class ActorServiceImpl implements ActorService {
 		return result;
 
 	}
+	@Override
+	public List<Actor> getInterestActor(int movie_no) {
+		List<Actor> result = sqlSession.selectList("ActorMapper.actorInterest",movie_no);
+		return result;
+	}
 		
 }

@@ -21,6 +21,6 @@
 		where actor_no IN(select actor_no from movie_actor where movie_no=#{movie_no}); 
     </select>
 
- 
+
 
 </mapper>

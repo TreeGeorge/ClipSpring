@@ -92,15 +92,15 @@
 }
 
 .movie img {
-	width: auto;
+	width: 90px;
 	height: 125px;
 }
 
 .movie .movie_title {
 	display: block;
 	position: absolute;
-	left: 105px;
-	top: 30px;
+	left: 110px;
+	top: 15px;
 	font-weight: bold;
 	font-size: 16px;
 	width: 50%;
@@ -116,8 +116,8 @@
 .movie .age {
 	display: block;
 	position: absolute;
-	left: 105px;
-	top: 60px;
+	left: 110px;
+	top: 45px;
 	font-size: 12px;
 	line-height: 20px;
 	height: 20px;
@@ -127,8 +127,8 @@
 .movie .act {
 	display: block;
 	position: absolute;
-	left: 105px;
-	top: 80px;
+	left: 110px;
+	top: 100px;
 	font-size: 12px;
 	line-height: 20px;
 	height: 20px;
@@ -238,11 +238,10 @@
 			<span class="delete_list"> <a class="toggleCheckbox_top hidden">전체선택</a>
 				<a class="movie_delete hidden">삭제</a></span> <select name="asdf"
 				class="form-control selcls" id="movie_select">
-				<option value="최신순">최신순</option>
-				<option>평점순</option>
-				<option>구매순</option>
+				<option value="가나다순">가나다순</option>
+				<option value="개봉순">개봉순</option>
 				<option value="낮은 가격순">낮은가격순</option>
-				<option>높은가격순</option>
+				<option value="높은 가격순">높은가격순</option>
 			</select>
 		</div>
 		<!-- 영화목록에 담긴 상품이 아무것도 없을 떄 -->
@@ -257,19 +256,18 @@
 		<c:forEach var="item" items="${output}" varStatus="status">
 			<li class="movie_list wish_content"><a
 				href="Movie_information?movieNo=${item.movie_no}"> <img
-					src="assets/img/sample7.jpg" alt="영화제목 썸네일">
-					<span class="movie_title">${item.name}</span> <span class="age">${item.age}<span>
-							| ${item.runtime}</span></span> <span class="act">배우받아오기</span>
+					src="${item.thumbnail}" alt="${item.name}포스터">
+					<span class="movie_title">${item.name}</span> <span class="age">${item.age}세 이용가<span>
+							| ${item.runtime}</span></span> <span class="act">${item.type}</span>
 			</a> <!-- 편집 클릭시 체크박스 -->
 				<div class="star">
+				<input type="hidden" name="interestoo"value="${item.movie_no}"></input>
 					<img src="assets/img/star2.png"
-						alt="interest_button">
+						alt="interest_button" >
 				</div></li>
-				</c:forEach>
-				
-					
+		</c:forEach>									
 		</ul>
-		</div>
+	</div>
 	
 		<!-- BOT BAR -->
 		<%@ include file="assets/inc/bot_bar.jsp" %>
@@ -301,40 +299,48 @@
                 confirmButtonColor:"#ff3253",
             }).then(function(result) { // 버튼이 눌러졌을 경우의 콜백 연결
                 if (result.value) { // 확인 버튼이 눌러진 경우
-                    console.log($(this))
-                    $(star).parent().remove();
-                    if (!$(".movie_list")[0]) {
-                        // 지우고 난 후 빈화면
-                        $(".no_value").removeClass("hide")
-                        $(".delete_list").addClass("hide");
+							var interest_movie_no = parseInt($("input[name=interestoo]").val());
+							$.post('interestDelete.do', {movieNo:interest_movie_no},function(req){
+								
+							});
+						
+					
+					swal({
+			            timer:1500,
+			            html:"<div style='font-weight: bold; margin-bottom: 20px;'>삭제 되었습니다.</div>",
+			            type:"success",
+			            allowOutsideClick: false,
+			            showConfirmButton: false
+			        }).then(function(){
+			            location.reload();
+			        });
+//                    console.log($(this))
+//                    $(star).parent().remove();
+//                    if (!$(".movie_list")[0]) {
+//                        // 지우고 난 후 빈화면
+//                        $(".no_value").removeClass("hide")
+//                        $(".delete_list").addClass("hide");
                     }
-                }
-            });
-        }); // end $("input[name=movie_check]").click()
+                })
+            })
 
-        /* 별모양 클릭시 삭제버튼 구현 */
-        $(".star").click(function() {
-            // 별모양의 부모를 지움
-        }); // end $(".star").click()
 
      	
      	$("select[name='asdf']").change(function() {
-         if($(this).val()=="최신순"){
-             console.log("123");
+         if($(this).val()=="개봉순"){
                $(".movie").remove();	 
-			   $("#asd").append().html('<ul class="movie"> <c:forEach var="item" items="${output1}" varStatus="status"> <li class="movie_list wish_content"><a href="Movie_information?movieNo=${item.movie_no}"> <img src="assets/img/sample7.jpg" alt="영화제목 썸네일"> <span class="movie_title">${item.name}</span> <span class="age">${item.age}<span> | ${item.runtime}</span></span> <span class="act">배우받아오기</span></a> <!-- 편집 클릭시 체크박스 --><div class="star"><img src="assets/img/star2.png" alt="interest_button"></div></li></c:forEach></ul>')
+			   $("#asd").append().html('<ul class="movie"> <c:forEach var="item" items="${output1}" varStatus="status"> <li class="movie_list wish_content"><a href="Movie_information?movieNo=${item.movie_no}"> <img src="${item.thumbnail}" alt="${item.name}포스터"> <span class="movie_title">${item.name}</span> <span class="age">${item.age}<span> | ${item.runtime}</span></span> <span class="act">${item.type}</span></a> <!-- 편집 클릭시 체크박스 --><div class="star"><img src="assets/img/star2.png" alt="interest_button"></div></li></c:forEach></ul>')
            } else if ($(this).val()=="낮은 가격순") {
-        	 console.log("456");
         	   $(".movie").remove();
-        	   $("#asd").append().html('<ul class="movie"> <c:forEach var="item" items="${output3}" varStatus="status"> <li class="movie_list wish_content"><a href="Movie_information?movieNo=${item.movie_no}"> <img src="assets/img/sample7.jpg" alt="영화제목 썸네일"> <span class="movie_title">${item.name}</span> <span class="age">${item.age}<span> | ${item.runtime}</span></span> <span class="act">배우받아오기</span></a> <!-- 편집 클릭시 체크박스 --><div class="star"><img src="assets/img/star2.png" alt="interest_button"></div></li></c:forEach></ul>')
+        	   $("#asd").append().html('<ul class="movie"> <c:forEach var="item" items="${output3}" varStatus="status"> <li class="movie_list wish_content"><a href="Movie_information?movieNo=${item.movie_no}"> <img src="${item.thumbnail}" alt="${item.name}포스터"> <span class="movie_title">${item.name}</span> <span class="age">${item.age}<span> | ${item.runtime}</span></span> <span class="act">${item.type}</span></a> <!-- 편집 클릭시 체크박스 --><div class="star"><img src="assets/img/star2.png" alt="interest_button"></div></li></c:forEach></ul>')
            } else if ($(this).val()=="높은 가격순"){
         	   $(".movie").remove();
-        	   $("#asd").append().html('<ul class="movie"> <c:forEach var="item" items="${output2}" varStatus="status"> <li class="movie_list wish_content"><a href="Movie_information?movieNo=${item.movie_no}"> <img src="assets/img/sample7.jpg" alt="영화제목 썸네일"> <span class="movie_title">${item.name}</span> <span class="age">${item.age}<span> | ${item.runtime}</span></span> <span class="act">배우받아오기</span></a> <!-- 편집 클릭시 체크박스 --><div class="star"><img src="assets/img/star2.png" alt="interest_button"></div></li></c:forEach></ul>')  
-           } else if ($(this).val()=="평점순"){
-        	   
-           } else if ($(this).val()=="구매순"){
-        	   
+        	   $("#asd").append().html('<ul class="movie"> <c:forEach var="item" items="${output2}" varStatus="status"> <li class="movie_list wish_content"><a href="Movie_information?movieNo=${item.movie_no}"> <img src="${item.thumbnail}" alt="${item.name}포스터"> <span class="movie_title">${item.name}</span> <span class="age">${item.age}<span> | ${item.runtime}</span></span> <span class="act">${item.type}</span></a> <!-- 편집 클릭시 체크박스 --><div class="star"><img src="assets/img/star2.png" alt="interest_button"></div></li></c:forEach></ul>')  
+           } else{
+        	   $(".movie").remove();
+        	   $("#asd").append().html('<ul class="movie"> <c:forEach var="item" items="${output4}" varStatus="status"> <li class="movie_list wish_content"><a href="Movie_information?movieNo=${item.movie_no}"> <img src="${item.thumbnail}" alt="${item.name}포스터"> <span class="movie_title">${item.name}</span> <span class="age">${item.age}<span> | ${item.runtime}</span></span> <span class="act">${item.type}</span></a> <!-- 편집 클릭시 체크박스 --><div class="star"><img src="assets/img/star2.png" alt="interest_button"></div></li></c:forEach></ul>')   
            }
+           
            })
 
 

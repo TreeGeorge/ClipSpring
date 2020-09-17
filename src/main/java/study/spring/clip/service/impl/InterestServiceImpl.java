@@ -7,80 +7,69 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import lombok.extern.slf4j.Slf4j;
+
 import study.spring.clip.model.Interest;
 import study.spring.clip.service.InterestService;
 @Service
-@Slf4j
+
 public class InterestServiceImpl implements InterestService {
 
 	@Autowired
 	SqlSession sqlSession;
 	@Override
 	public List<Interest> getInterestList(int x) {
-		
+		//관심영화 불러오기
 		List<Interest> result = sqlSession.selectList("InterestMapper.interestList",x);
 		
 		return result;
 	}
 	@Override
 	public List<Interest> getrecentList(int x) {
-List<Interest> result = sqlSession.selectList("InterestMapper.resentList",x);
-		
+		List<Interest> result = sqlSession.selectList("InterestMapper.resentList",x);
+		//관심영화 페이지 개봉순 정렬
 		return result;
 	}
 	@Override
 	public List<Interest> getrrowpriceList(int x) {
-List<Interest> result = sqlSession.selectList("InterestMapper.rowpriceList",x);
-		
+		List<Interest> result = sqlSession.selectList("InterestMapper.rowpriceList",x);
+		//관심영화 페이지 낮은가격순 정렬
 		return result;
 	}
 	@Override
 	public List<Interest> gethighpriceList(int x) {
-List<Interest> result = sqlSession.selectList("InterestMapper.highpriceList",x);
-		
+		List<Interest> result = sqlSession.selectList("InterestMapper.highpriceList",x);
+		//관심영화 페이지 높은 가격순 정렬
 		return result;
 	}
 	@Override
-	public int insertInterest(Interest input) throws Exception {
+	public List<Interest> getnameList(int x) {
+		List<Interest> result = sqlSession.selectList("InterestMapper.nameList",x);
+		//관심영화 페이지 이름순 정렬
+		return result;
+	}
+
+	//관심영화 추가하기
+	@Override
+	public int insertInterest(Interest input){
 		int result = 0;
-		
-		try {
+
 			result = sqlSession.insert("InterestMapper.interestInsert",input);
 			
-			if(result==0) {
-				throw new NullPointerException("result=0");
-			}
-		}catch(NullPointerException e) {
-			log.error(e.getLocalizedMessage());
-			throw new Exception("삽입된데이터가엄쪄");
-		}catch(Exception e) {
-			log.error(e.getLocalizedMessage());
-			throw new Exception("삽입 실패");
-		}
-		
 		return result;
 		
 	}
+	
+	//관심영화 삭제하기
 	@Override
-	public int deleteInterest(Interest input) throws Exception {
+	public int deleteInterest(Interest input){
 		int result = 0;
-		
-		try {
+
 			result = sqlSession.delete("InterestMapper.interestDelete",input);
-			
-			if(result == 0) {
-				throw new NullPointerException("result=0");
-			}
-		}catch(NullPointerException e) {
-			log.error(e.getLocalizedMessage());
-			throw new Exception("삭제된터가 엄쪄");
-		}catch(Exception e) {
-			log.error(e.getLocalizedMessage());
-			throw new Exception("삭제실패");
-		}
+
 		return result;
 	}
+	
+	//관심영화 체크여부 확인(무비 인포페이지)
 	@Override
 	public boolean checkInterest(Interest input) {
 		if(sqlSession.selectOne("InterestMapper.interestInsertCheck",input)!=null){
@@ -89,5 +78,5 @@ List<Interest> result = sqlSession.selectList("InterestMapper.highpriceList",x);
 			
 		return false;
 	}
-
+	
 }
