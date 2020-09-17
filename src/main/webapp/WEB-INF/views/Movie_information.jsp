@@ -391,7 +391,7 @@
     <div>
         <!-- 슬라이드 -->
         <div class="slides">
-        <c:forEach var="item" items="${아이템넣으셈}" varStatus="status">
+        <c:forEach var="item" items="" varStatus="status">
             <div class="slide_item">
                 <a href="Movie_information?movieNo=${movie_no}"><img src="${thumnail}" alt=""><span>${movie_name}</span></a>
             </div>
@@ -400,7 +400,7 @@
     </div>
     <div class="bar"><span>이 장르의 인기영화</span></div>
     <div class="slides">
-    	<c:forEach var="item" items="${아이템넣으셈}" varStatus="status">
+    	<c:forEach var="item" items="" varStatus="status">
         	<div class="slide_item">
             	<a href="Movie_information?movieNo=${movie_no}"><img src="${thumnail}" alt=""><span>${movie_name}</span></a>
         	</div>
