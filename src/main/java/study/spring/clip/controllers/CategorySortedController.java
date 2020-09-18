@@ -35,7 +35,7 @@ public class CategorySortedController {
 		movie.addAttribute("topInfo", cagtegoryName); //장르 이름 헤더
 		movie.addAttribute("TotalCount", TotalCount); //총 영화 수
 		movie.addAttribute("output1",output1);		  //영화 데이터
-		movie.addAttribute("categoryTypeNo", categoryTypeNo); //
+		movie.addAttribute("categoryTypeNo", categoryTypeNo); //카테고리 타입 no
 
 		return "Movie_category_sorted";
 	}

@@ -158,8 +158,7 @@ a:hover {
 
 	<!-- 총 n개 작품 , 드롭다운  -->
 	<div class="content clearfix">
-		<span class="total">총</span> <span class="p">&nbsp;${TotalCount}</span>개
-		작품
+		<span class="total">총</span> <span class="p">&nbsp;${TotalCount}</span>개 작품
 
 		<!-- 드랍 다운 -->
 		<select name="asdf" class="form-control selcls" id="movie_select">

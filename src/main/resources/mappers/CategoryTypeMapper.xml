@@ -14,6 +14,7 @@
 		<result property="icon" column="icon" />
 	</resultMap>
 
+	<!-- 카테고리 타입  장르별 목록 조회  -->
 	<select id="OneCategoryType"
 		parameterType="study.spring.clip.model.CategoryType"
 		resultMap="CategoryTypeMap">
@@ -21,15 +22,8 @@
 		FROM category_type
 		WHERE TYPE = #{type};
 	</select>
-
-	<select id="TwoCategoryType"
-		parameterType="study.spring.clip.model.CategoryType"
-		resultMap="CategoryTypeMap">
-		SELECT category_type_no, name, type, icon
-		FROM category_type
-		WHERE TYPE = #{type};
-	</select>
 	
+	<!-- 카테고리 타입 목록 상품별 목록 조회  -->
 	<select id="ThreeCategoryType"
 		parameterType="study.spring.clip.model.CategoryType"
 		resultMap="CategoryTypeMap">
@@ -38,6 +32,7 @@
 		WHERE TYPE = #{type};
 	</select>
 
+	<!-- 홈화면 카테고리 타입 목록 조회 -->
 	<select id="HomeCategoryType"
 		parameterType="study.spring.clip.model.CategoryType"
 		resultMap="CategoryTypeMap">
@@ -46,6 +41,7 @@
 		LIMIT 4;
 	</select>
 
+	<!-- 홈화면 카테고리 타입 더보기 목록 조회  -->
 	<select id="HomeCategoryTypePlus"
 		parameterType="study.spring.clip.model.CategoryType"
 		resultMap="CategoryTypeMap">

@@ -13,8 +13,8 @@
     <link rel="stylesheet" href="assets/plugins/sweetalert/sweetalert2.min.css">
     <script src="assets/plugins/bootstrap/bootstrap.min.js"></script>
     <style>
+    
         /* 액션 타이틀 글씨 */
-        
         #top_logo h1 {
             height: 0px;
             text-align: center;
@@ -23,8 +23,8 @@
             margin-top: 8px;
             font-weight: bold;
         }
-        /* 액션타이틀 좌측 화살표 이미지*/
         
+        /* 액션타이틀 좌측 화살표 이미지*/ 
         #top_logo img {
             height: 25px;
             left: 100px;
@@ -126,9 +126,8 @@
         }
         
         .comment_plus img {
-            width: 14px;
-            height: 14px;
-            margin-bottom: 3px;
+            width: 15px;
+            height: 15px;
         }
         
         .cancel {
@@ -210,7 +209,7 @@
         <div class="input-group comment_focus">
             <input type="text" class="form-control" placeholder="댓글을 입력해주세요" style=" border-radius: 0; height: 45px;">
             <span class="input-group-btn">
-                    <button class="btn btn-default" style="border: 1px solid #E61A3F; border-radius: 0; width:70px; height: 45px;">등록</button>
+                    <button type="button" class="btn btn-default" style="border: 1px solid #E61A3F; border-radius: 0; width:70px; height: 45px;">등록</button>
             </span>
         </div>
 
@@ -227,10 +226,9 @@
                         <button class="btn btn-default "  style="border: 1px solid #E61A3F; border-radius: 0; width:70px; height: 45px;">등록</button>
                 </span>
             </div>
-
         </div>
     </div>
-`
+
     <br>
     <br>
     
@@ -242,14 +240,11 @@
 	        <button class="delete" value="${item.movie_comment_no}" >삭제</button>
 	     </c:if>
             <p class="user">${item.userid}</p>
-            
             <p class="content">${item.content}</p>
-            <div class="timebox">
-                <span>${item.editdate}</span>
-                <button class="btn1">
-                <img src="assets/img/comment_like.png" alt="좋아요"><span class="GoodCount">&nbsp;&nbsp;${like}</span></button>
-                <button class="btn2"><img src="assets/img/comment_bad.png" alt="싫어요">
-                <span class="BadCount">&nbsp;&nbsp;1</span></button>
+            <input type="hidden" class="comment_no" value="${item.movie_comment_no}">
+  
+            <div class="timebox">          
+                <span>${item.editdate}</span>    
             </div>
         </div> 
         </c:forEach>
@@ -264,65 +259,61 @@
     <%@ include file="assets/inc/footer.jsp" %>
 
     <script>
-    
+    	// 댓글 총 갯수 
         var count = "${count}";
 
+        // 등록 버튼 클릭 했을때,
         $(".btn").click(function(e) {
-
-            var Now = new Date();
-            var NowTime = Now.getFullYear();
-
-            NowTime += '-' + (Now.getMonth() + 1);
-            NowTime += '-' + Now.getDate();
-            NowTime += ' ' + Now.getHours();
-            NowTime += ':' + Now.getMinutes();
-            NowTime += ':' + Now.getSeconds();
-
-
-
-            var id = $("<p>").html("${id}").addClass("user");
-            var content = $("<p>").html($(".focus_on").val());
-            var time = $("<span>").html(NowTime);
-
-            var timebox = $("<div>").html("").addClass("timebox");
-            var likebtn = $("<button>").html("좋아요").addClass("btn1");
-            var hatebtn = $("<button>").html("싫어요").addClass("btn2")
-            var tt = timebox.append(time)
-
-            var box = $("<div>").addClass("comment_plus");	
-            var x = $("<a>").addClass("cancel");
-            box.append(id).append(content).append(tt).append(x).append(likebtn).prepend(hatebtn);
-
-
-            if (!$(".focus_on").val() || !$(".focus_on").val().trim()) {
-               swal({
-                    html: "<b>댓글을 입력해 주세요.<b>",
-                    confirmButtonColor: "#FF3253",
-                    confirmButtonText: "확인",
-                })
-            } else {
-            	var aa = $(location).attr("href")
-            	var index = aa.indexOf("=")
-            	
-            	console.log(aa.substring(index+1));
-              	$.post("InsertMovieComment.do",{movie_no:aa.substring(index+1),comment:$(".focus_on").val()},function(){
-              		location.reload()
+        	var aa = $(location).attr("href")
+        	var index = aa.indexOf("=")
+        		// 댓글 입력 창이 아무것도 입력이 되어있지 않다면, 댓글 입력하라는 swal 창 
+        		if (!$(".focus_on").val() || !$(".focus_on").val().trim()) {	
+     	            swal({
+   	                    html: "<b>댓글을 입력해 주세요.<b>",
+   	                    confirmButtonColor: "#FF3253",
+   	                    confirmButtonText: "확인",
+   	                })  
+   	                return false;
+            		}
+        			// 댓글 입력 송신
+	                $.post("InsertMovieComment.do",{movie_no:aa.substring(index+1),comment:$(".focus_on").val()},function(req){
+	               	
+	                // 만약 로그인이 되어있지 않다면, 로그인 해달라는  swal 창
+              		if(req == 2){
+            			swal({
+                            title: "로그인이",
+                            text: "필요한 서비스입니다.",
+                            type: "error",
+                            confirmButtonText: "확인",
+                            showCancelButton: true,
+                            cancelButtonText: "로그인 하기",
+                            confirmButtonColor:"#aaa",
+                            cancelButtonColor: "#FF3253"
+                        }).then(function(result) {
+                        	// 로그인이 되어있지 않다면, 로그인 화면으로 이동
+                            if (result.dismiss === "cancel") {
+                                location.href = "Login";
+                            }
+                        })
+                    //  로그인이 되어있다면, 댓글 삽입 후 페이지 새로고침 실행
+            		} else{
+            			location.reload()
+            		
+            		}
               	})
-            }
-            console.log(count)	
-
+     
         })
 		
+        // 댓글 페이지 들어왔을때, 댓글이 존재하지 않는다면 댓글이  없다는  이미지 표시
         $(document).ready(function() {
-        	
             if ($(".comment_plus").length == 0) {
                 $(".no_movies").removeClass("hide");
-            }
+            }    
         })
 
 		
         $(document).click(function(e) {
-          	
+        	
             if ($(".comment_plus").length == 0) {
                 $(".no_movies").removeClass("hide");
             } else {
@@ -339,7 +330,8 @@
                 $(".focus_on").val("");
                 $(".counter").html('0/500');
             };
-
+            
+			// 댓글 입력창에 댓글 글자수가 500자 이상이라면 입력 불가능 하게 예외처리 swal창
             $(".focus_on").keyup(function(e) {
                 var content = $(this).val();
                 $(this).height(((content.split("\n").length + 1) * 1.5) + 'em');
@@ -358,6 +350,7 @@
             $(".focus_on").keyup();
         })
         
+        // 삭제버튼 클릭시 삭제 경고 swal창 
         $(".delete").click(function(){
 	        var num = $(this).val();
             swal({
@@ -367,32 +360,19 @@
                 showCancelButton: true,
                 cancelButtonText: "취소"
             }).then(function(result) {
+            	 // 삭제 확인 버튼 클릭시 삭제 
             	 if (result.value) {
 	                $(this).parent().remove();
-	            	$.post("DeleteMovieComment.do",{movie_comment_no:num});
-	            	count--;
-	                $("#cnum").html(count);
-	            	location.reload();
+	            	$.post("DeleteMovieComment.do",{movie_comment_no:num}).
+	            	then(function(){
+	            	// 삭제 후 페이지 새로고침 실행
+	            	location.reload()
+	            	});
               		 }
             	});
         });
-        
-        // 좋아요 버튼 클릭시
-        $(".btn1").click(function(){
-        	console.log($(this).parent().parent().children().eq(0).val())
-      		console.log($(this).children().eq(1))
-      		
-        	var num = $(this).parent().parent().children().eq(0).val();	// movie_comment_no
-     		var num2 = $(this).children().eq(1);	// GoodComment
-     		
-       	$.post("CommentAppraisal.do",{movie_comment_no:num},{answer:num2}); 
-       
-        })
-        
-        
+      
     </script>
-
-
 </body>
 
 </html>

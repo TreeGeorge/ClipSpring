@@ -17,6 +17,7 @@
 		<result property="category_type_no" column="category_type_no" />
 	</resultMap>
 
+	<!-- 특정 장르 영화 조회  -->
 	<select id="jangreMovieSlider"
 		parameterType="study.spring.clip.model.HomeMovieSlider"
 		resultMap="HomeMovieSliderMap">

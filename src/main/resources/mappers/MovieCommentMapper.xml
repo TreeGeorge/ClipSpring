@@ -15,7 +15,8 @@
 		<result property="user_no" column="user_no" />
 		<result property="movie_no" column="movie_no" />
 	</resultMap>
-
+	
+	 <!-- 영화 제목 조회 -->
 	<select id="getCommentName"
 		parameterType="study.spring.clip.model.MovieComment"
 		resultType="String">
@@ -23,7 +24,7 @@
 		WHERE movie_no = #{movie_no};
 	</select>
 
-	<!-- 단일행 조회를 위한 기능 정의 -->
+	<!-- 댓글 조회 -->
 	<select id="oneComment"
 		parameterType="study.spring.clip.model.MovieComment"
 		resultMap="MovieCommentMap">
@@ -35,14 +36,14 @@
 		editdate DESC;
 	</select>
 
-	<!-- 데이터 삭제를 위한 기능 정의 -->
+	<!-- 댓글 삭제 -->
 	<delete id="deleteComment"
 		parameterType="study.spring.clip.model.MovieComment">
 		DELETE FROM movie_comment WHERE movie_comment_no =
 		#{movie_comment_no};
 	</delete>
 
-	<!-- 데이터 삽입 -->
+	<!-- 댓글 삽입 -->
 	<insert id="insertComment"
 		parameterType="study.spring.clip.model.MovieComment"
 		useGeneratedKeys="true" keyProperty="movie_comment_no">
@@ -52,15 +53,7 @@
 		VALUES(now(),#{content},#{userid},#{user_no},#{movie_no});
 	</insert>
 
-	<!-- 데이터 수정 -->
-	<update id="editComment"
-		parameterType="study.spring.clip.model.MovieComment">
-		UPDATE movie_comment SET content = #{content}
-		WHERE
-		movie_comment_no = #{movie_comment_no};
-	</update>
-
-	<!-- 태희쨩이 추가함 이식 후에 주석 지워주삼 -->
+	<!-- 회원 탈퇴한 유저 -->
 	<update id="nullList"
 		parameterType="study.spring.clip.model.MovieComment">
 		UPDATE movie_comment SET user_no=null WHERE

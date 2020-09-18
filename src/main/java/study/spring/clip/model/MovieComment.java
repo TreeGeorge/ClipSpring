@@ -10,4 +10,5 @@ public class MovieComment {
 	private String userid;
 	private int user_no;
 	private int movie_no;
+	
 }

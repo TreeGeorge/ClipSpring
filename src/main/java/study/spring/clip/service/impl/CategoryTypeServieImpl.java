@@ -15,6 +15,7 @@ public class CategoryTypeServieImpl implements CategoryTypeService {
 	@Autowired
 	SqlSession sqlSession;
 
+	// 장르별 타입 목록 조회
 	@Override
 	public List<CategoryType> getCategoryTypeListG(String type) {
 		CategoryType input = new CategoryType();
@@ -24,15 +25,7 @@ public class CategoryTypeServieImpl implements CategoryTypeService {
 		return result;
 	}
 
-	@Override
-	public List<CategoryType> getCategoryTypeListB(String type) {
-		CategoryType input = new CategoryType();
-		input.setType(type);
-		List<CategoryType> result = sqlSession.selectList("CategoryTypeMapper.TwoCategoryType",input);
-		
-		return result;
-	}
-
+	// 상품별 타입 목록 조회
 	@Override
 	public List<CategoryType> getCategoryTypeListP(String type) {
 		CategoryType input = new CategoryType();
@@ -42,6 +35,7 @@ public class CategoryTypeServieImpl implements CategoryTypeService {
 		return result;
 	}
 	
+	// 메인 페이지 카테고리 타입 목록 조회
 	@Override
 	public List<CategoryType> getHomeCategoryType(String type) {
 		CategoryType input = new CategoryType();
@@ -51,6 +45,7 @@ public class CategoryTypeServieImpl implements CategoryTypeService {
 		return result;
 	}
 
+	// 메인 페이지 카테고리 타입 목록  더보기 조회
 	@Override
 	public List<CategoryType> getHomeCategoryTypePlus(String type) {
 		CategoryType input = new CategoryType();

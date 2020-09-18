@@ -15,6 +15,7 @@ import study.spring.clip.service.CategoryTypeService;
 @Controller
 public class CategoryTypeController {
 
+	// 카테고리타입 객체 주입
 	@Autowired
 	CategoryTypeService categoryTypeService;
 	
@@ -23,9 +24,12 @@ public class CategoryTypeController {
 	
 	@RequestMapping(value = "Category_list", method = RequestMethod.GET)
 	public String goCategoryList(Model movie){
-
-		List<CategoryType> categoryTypeG = categoryTypeService.getCategoryTypeListG("G"); // 조회 처리가 저장될 객체
-		List<CategoryType> categoryTypeP = categoryTypeService.getCategoryTypeListB("P"); // 조회 처리가 저장될 객체
+		
+		// 장르별 조회
+		List<CategoryType> categoryTypeG = categoryTypeService.getCategoryTypeListG("G");
+		
+		// 상품별 조회
+		List<CategoryType> categoryTypeP = categoryTypeService.getCategoryTypeListP("P"); 
 
 		movie.addAttribute("categoryTypeG", categoryTypeG);
 		movie.addAttribute("categoryTypeP", categoryTypeP);

@@ -12,7 +12,7 @@ public interface MovieCommentService{
 	public List<MovieComment> MovieComment(MovieComment input) throws Exception;
 	
 	/**
-	 * 댓글 추가
+	 * 댓글 삽입
 	 * */
 	public int insertMovieComment(String user_id, String content, int movie_no, int user_no) throws Exception;
 	
