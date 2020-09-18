@@ -38,17 +38,15 @@
                 <!-- Swiper -->
                 <div class="swiper-container2">
                     <div class="swiper-wrapper">
-                        <div class="swiper-slide"><a href="Movie_information?movieNo=${recommendMovieNo0}" class="gallbox"><img src="${recommendMovieThumbnail0}" alt="${recommendMovieTitle0} 썸네일"><span class="banner_movie_title" style="background: #FF7688">${recommendMovieTitle0}</span></a></div>
-                        <div class="swiper-slide"><a href="Movie_information?movieNo=${recommendMovieNo1}" class="gallbox"><img src="${recommendMovieThumbnail1}" alt="${recommendMovieTitle1} 썸네일"><span class="banner_movie_title" style="background: #FE506B">${recommendMovieTitle1}</span></a></div>
-                        <div class="swiper-slide"><a href="Movie_information?movieNo=${recommendMovieNo2}" class="gallbox"><img src="${recommendMovieThumbnail2}" alt="${recommendMovieTitle2} 썸네일"><span class="banner_movie_title" style="background: #FF3253">${recommendMovieTitle2}</span></a></div>
-                        <div class="swiper-slide"><a href="Movie_information?movieNo=${recommendMovieNo3}" class="gallbox"><img src="${recommendMovieThumbnail3}" alt="${recommendMovieTitle3} 썸네일"><span class="banner_movie_title" style="background: #B9062D">${recommendMovieTitle3}</span></a></div>
-                        <div class="swiper-slide"><a href="Movie_information?movieNo=${recommendMovieNo4}" class="gallbox"><img src="${recommendMovieThumbnail4}" alt="${recommendMovieTitle4} 썸네일"><span class="banner_movie_title" style="background: #8C0120">${recommendMovieTitle4}</span></a></div>
-                        <div class="swiper-slide"><a href="Movie_information?movieNo=${recommendMovieNo5}" class="gallbox"><img src="${recommendMovieThumbnail5}" alt="${recommendMovieTitle5} 썸네일"><span class="banner_movie_title" style="background: #FF7688">${recommendMovieTitle5}</span></a></div>
-                        <div class="swiper-slide"><a href="Movie_information?movieNo=${recommendMovieNo6}" class="gallbox"><img src="${recommendMovieThumbnail6}" alt="${recommendMovieTitle6} 썸네일"><span class="banner_movie_title" style="background: #FE506B">${recommendMovieTitle6}</span></a></div>
-                        <div class="swiper-slide"><a href="Movie_information?movieNo=${recommendMovieNo7}" class="gallbox"><img src="${recommendMovieThumbnail7}" alt="${recommendMovieTitle7} 썸네일"><span class="banner_movie_title" style="background: #FF3253">${recommendMovieTitle7}</span></a></div>
-                        <div class="swiper-slide"><a href="Movie_information?movieNo=${recommendMovieNo8}" class="gallbox"><img src="${recommendMovieThumbnail8}" alt="${recommendMovieTitle8} 썸네일"><span class="banner_movie_title" style="background: #B9062D">${recommendMovieTitle8}</span></a></div>
-                        <div class="swiper-slide"><a href="Movie_information?movieNo=${recommendMovieNo9}" class="gallbox"><img src="${recommendMovieThumbnail9}" alt="${recommendMovieTitle9} 썸네일"><span class="banner_movie_title" style="background: #8C0120">${recommendMovieTitle9}</span></a></div>
-                        <div class="swiper-slide"><a href="Movie_category_sorted?categoryTypeNo=1001" class="gallbox"><img src="assets/img/more_view_icon.png" alt="더보기 아이콘" class="more_view_icon"><span class="more_text">더보기</span></a></div>
+                       <c:forEach var="item" items="${RecommandMovieSlider}" varStatus="status">
+                           <div class="swiper-slide"><a href="Movie_information?movieNo=${item.movie_no}" class="gallbox">
+                            <img src="${item.thumbnail}" alt="${item.name} 썸네일">
+                           <span class="banner_movie_title" style="background: ${color[status.count-1]}">${item.name}</span></a></div> 
+                       </c:forEach>
+           
+                        <div class="swiper-slide"><a href="Movie_category_sorted?categoryTypeNo=1001" class="gallbox">
+                        <img src="assets/img/more_view_icon.png" alt="더보기 아이콘" class="more_view_icon">
+                        <span class="more_text">더보기</span></a></div>
                     </div>
                     <!-- Add Pagination -->
                     <!-- <div class="swiper-pagination"></div> -->
@@ -62,20 +60,30 @@
             <div class="movie_box">
                  <!-- 해당 추천 카테고리 링크(ex. 영화와 함께 힐링 여행!) -->
                 <a href="Movie_category_sorted?categoryTypeNo=1" class="movie_box_header clearfix">
-                <span class="title">손발에 땀이나는 액션 무비!</span><img src="assets/img/right.png" class="right" /></a>
+                	<span class="title">손발에 땀이나는 액션 무비!</span><img src="assets/img/right.png" class="right" />
+                </a>
                  <!-- 해당 추천 카테고리 영화 리스트 -->
                 <div class="movie_list">
                     <!-- Swiper -->
                     <div class="swiper-container">
                         <div class="swiper-wrapper">
-	                        <c:forEach var="item" items="${homeMovieSlider}" varStatus="status"> 
-	                    		<div class="swiper-slide"><a href="Movie_information?movieNo=${item.movie_no}" class="gallbox">
-	                    		<img src="${item.thumbnail}" alt="${item.name} 썸네일">
-	                    		<span class="movie_title">${item.name}</span>
-	                    		<span class="type">${item.type}</span>
-	                    		<span class="price">${item.price}<img id="coin" src="assets/img/coin_icon.png"/></span>
-	                    		<del class="sale">${item.sale}<img id="coin" src="assets/img/coin_icon.png"/></del></a></div>
-	                    	</c:forEach>
+                           <c:forEach var="item" items="${actionMovieSlider}" varStatus="status"> 
+                             <div class="swiper-slide">
+	                             <a href="Movie_information?movieNo=${item.movie_no}" class="gallbox">
+	                             <img src="${item.thumbnail}" alt="${item.name} 썸네일">
+	                             <span class="movie_title">${item.name}</span>
+	                             <span class="type">${item.type}</span>
+	                             <c:if test="${item.sale != 0}">
+		                         	<span class="price"><fmt:formatNumber value="${item.sale}" pattern="#,###" /><img id="coin" src="assets/img/coin_icon.png"/></span>
+		                         	<del class="sale"><fmt:formatNumber value="${item.price}" pattern="#,###" /><img id="coin" src="assets/img/coin_icon.png"/></del>
+		                         </c:if>
+		                         <c:if test="${item.sale == 0}">
+		                         	<span class="price">무료</span>
+		                         	<del class="sale">무료</del>
+		                         </c:if>
+                             	 </a>
+                             </div>
+                          </c:forEach>
                         </div>
                     <!-- Add Pagination -->
                     <!-- <div class="swiper-pagination"></div> -->
@@ -90,27 +98,142 @@
                 <!-- TOP100 영화 리스트 -->
                 <div class="top100_list">
                     <div class="slides">
-	                    <c:forEach var="k" begin="0" end="3" step="1">
-	                    	<ul class="slide_box">
-	                        	<li>
-			                        <c:forEach var="i" begin="${k*5}" end="${k*5+4}" step="1" varStatus="status"> 
-			                    		<c:set var="MovieNo" value="top100MovieNo${status.index}" />
-			                    		<c:set var="MovieTitle" value="top100MovieTitle${status.index}" />
-			                    		<c:set var="MovieThumbnail" value="top100MovieThumbnail${status.index}" />
-			                    		<c:set var="MovieType" value="top100MovieType${status.index}" />
-			                    		<c:set var="MoviePrice" value="top100MoviePrice${status.index}" />
-			                    		<a href="Movie_information?movieNo=4">
-			                                <img src="${requestScope[MovieThumbnail]}" alt="${requestScope[MovieTitle]} 썸네일">
-			                                <span class="lank">${i + 1}</span>
-			                                <span class="movie_title">${requestScope[MovieTitle]}</span>
-			                                <span class="type">${requestScope[MovieType]}</span>
-			                                <span class="price">${requestScope[MoviePrice]}<img id="top100_coin" src="assets/img/coin_icon.png"/></span>
-			                                <span id="lank_change" class="lank_change_up">1▲</span>
-		                            	</a>
-			                    	</c:forEach>
-			                    </li>
-                        	</ul>
-		                </c:forEach>
+                    	<ul class="slide_box">
+                            <li>
+                              	<c:forEach var="item" items="${dayList}" varStatus="status">
+                              		<c:if test="${status.count <= 5}">
+	                                   	<a href="Movie_information?movieNo=${item.movie_no}">
+	                                        <img src="${item.thumbnail}" alt="${item.name} 썸네일">
+	                                        <span class="lank">${status.count}</span>
+	                                        <span class="movie_title">${item.name}</span>
+	                                        <span class="type">${item.type}</span>
+	                                        <c:if test="${item.price != 0}">
+	                                        	<span class="price"><fmt:formatNumber value="${item.price}" pattern="#,###" /><img id="top100_coin" src="assets/img/coin_icon.png"/></span>
+	                                        </c:if>
+	                                        <c:if test="${item.price == 0}">
+	                                        	<span class="price">무료</span>
+	                                        </c:if>
+	                                   		<c:choose>
+												<c:when test="${dailyRank[status.count-1] < 0 }">
+													<span class="lank_change_down">&nbsp;${Math.abs(dailyRank[status.count-1])}▼</span>
+												</c:when>
+												<c:when test="${dailyRank[status.count-1] == 999 }">
+													<span class="lank_change_new">&nbsp;new!</span>
+												</c:when>
+												<c:when test="${dailyRank[status.count-1] > 0}">
+													<span class="lank_change_up">&nbsp;${dailyRank[status.count-1]}▲</span>
+												</c:when>
+												<c:otherwise>
+													<span class="lank_change_no">&nbsp;-</span>
+												</c:otherwise>
+											</c:choose>
+	                                   	</a>
+                                    </c:if>
+                            	</c:forEach>
+                        	</li>
+                    	</ul>
+                    	<ul class="slide_box">
+                            <li>
+                              	<c:forEach var="item" items="${dayList}" varStatus="status">
+                              		<c:if test="${status.count <= 10 and status.count > 5}">
+	                                   	<a href="Movie_information?movieNo=${item.movie_no}">
+	                                        <img src="${item.thumbnail}" alt="${item.name} 썸네일">
+	                                        <span class="lank">${status.count}</span>
+	                                        <span class="movie_title">${item.name}</span>
+	                                        <span class="type">${item.type}</span>
+	                                        <c:if test="${item.price != 0}">
+	                                        	<span class="price"><fmt:formatNumber value="${item.price}" pattern="#,###" /><img id="top100_coin" src="assets/img/coin_icon.png"/></span>
+	                                        </c:if>
+	                                        <c:if test="${item.price == 0}">
+	                                        	<span class="price">무료</span>
+	                                        </c:if>
+	                                   		<c:choose>
+												<c:when test="${dailyRank[status.count-1] < 0 }">
+													<span class="lank_change_down">&nbsp;${Math.abs(dailyRank[status.count-1])}▼</span>
+												</c:when>
+												<c:when test="${dailyRank[status.count-1] == 999 }">
+													<span class="lank_change_new">&nbsp;new!</span>
+												</c:when>
+												<c:when test="${dailyRank[status.count-1] > 0}">
+													<span class="lank_change_up">&nbsp;${dailyRank[status.count-1]}▲</span>
+												</c:when>
+												<c:otherwise>
+													<span class="lank_change_no">&nbsp;-</span>
+												</c:otherwise>
+											</c:choose>
+	                                   	</a>
+                                    </c:if>
+                            	</c:forEach>
+                        	</li>
+                    	</ul>
+                    	<ul class="slide_box">
+                            <li>
+                              	<c:forEach var="item" items="${dayList}" varStatus="status">
+                              		<c:if test="${status.count <= 15 and status.count > 10}">
+	                                   	<a href="Movie_information?movieNo=${item.movie_no}">
+	                                        <img src="${item.thumbnail}" alt="${item.name} 썸네일">
+	                                        <span class="lank">${status.count}</span>
+	                                        <span class="movie_title">${item.name}</span>
+	                                        <span class="type">${item.type}</span>
+	                                        <c:if test="${item.price != 0}">
+	                                        	<span class="price"><fmt:formatNumber value="${item.price}" pattern="#,###" /><img id="top100_coin" src="assets/img/coin_icon.png"/></span>
+	                                        </c:if>
+	                                        <c:if test="${item.price == 0}">
+	                                        	<span class="price">무료</span>
+	                                        </c:if>
+	                                   		<c:choose>
+												<c:when test="${dailyRank[status.count-1] < 0 }">
+													<span class="lank_change_down">&nbsp;${Math.abs(dailyRank[status.count-1])}▼</span>
+												</c:when>
+												<c:when test="${dailyRank[status.count-1] == 999 }">
+													<span class="lank_change_new">&nbsp;new!</span>
+												</c:when>
+												<c:when test="${dailyRank[status.count-1] > 0}">
+													<span class="lank_change_up">&nbsp;${dailyRank[status.count-1]}▲</span>
+												</c:when>
+												<c:otherwise>
+													<span class="lank_change_no">&nbsp;-</span>
+												</c:otherwise>
+											</c:choose>
+	                                   	</a>
+                                    </c:if>
+                            	</c:forEach>
+                        	</li>
+                    	</ul>
+                    	<ul class="slide_box">
+                            <li>
+                              	<c:forEach var="item" items="${dayList}" varStatus="status">
+                              		<c:if test="${status.count <= 20 and status.count > 15}">
+	                                   	<a href="Movie_information?movieNo=${item.movie_no}">
+	                                        <img src="${item.thumbnail}" alt="${item.name} 썸네일">
+	                                        <span class="lank">${status.count}</span>
+	                                        <span class="movie_title">${item.name}</span>
+	                                        <span class="type">${item.type}</span>
+	                                        <c:if test="${item.price != 0}">
+	                                        	<span class="price"><fmt:formatNumber value="${item.price}" pattern="#,###" /><img id="top100_coin" src="assets/img/coin_icon.png"/></span>
+	                                        </c:if>
+	                                        <c:if test="${item.price == 0}">
+	                                        	<span class="price">무료</span>
+	                                        </c:if>
+	                                   		<c:choose>
+												<c:when test="${dailyRank[status.count-1] < 0 }">
+													<span class="lank_change_down">&nbsp;${Math.abs(dailyRank[status.count-1])}▼</span>
+												</c:when>
+												<c:when test="${dailyRank[status.count-1] == 999 }">
+													<span class="lank_change_new">&nbsp;new!</span>
+												</c:when>
+												<c:when test="${dailyRank[status.count-1] > 0}">
+													<span class="lank_change_up">&nbsp;${dailyRank[status.count-1]}▲</span>
+												</c:when>
+												<c:otherwise>
+													<span class="lank_change_no">&nbsp;-</span>
+												</c:otherwise>
+											</c:choose>
+	                                   	</a>
+                                    </c:if>
+                            	</c:forEach>
+                        	</li>
+                    	</ul>
                     </div>
                 </div>
             </div>
@@ -124,14 +247,23 @@
                     <!-- Swiper -->
                     <div class="swiper-container">
                         <div class="swiper-wrapper">
-                            <c:forEach var="item" items="${saleMovieSlider}" varStatus="status"> 
-	                    		<div class="swiper-slide"><a href="Movie_information?movieNo=${item.movie_no}" class="gallbox">
-	                    		<img src="${item.thumbnail}" alt="${item.name} 썸네일">
-	                    		<span class="movie_title">${item.name}</span>
-	                            <span class="type">${item.type}</span>
-	                            <span class="price">${item.price}<img id="coin" src="assets/img/coin_icon.png"/></span>
-	                            <del class="sale">${item.sale}<img id="coin" src="assets/img/coin_icon.png"/></del></a></div>
-	                    	</c:forEach>
+	                        <c:forEach var="item" items="${saleMovieSlider}" varStatus="status"> 
+                             <div class="swiper-slide">
+	                             <a href="Movie_information?movieNo=${item.movie_no}" class="gallbox">
+	                             <img src="${item.thumbnail}" alt="${item.name} 썸네일">
+	                             <span class="movie_title">${item.name}</span>
+	                             <span class="type">${item.type}</span>
+	                             <c:if test="${item.sale != 0}">
+		                         	<span class="price"><fmt:formatNumber value="${item.sale}" pattern="#,###" /><img id="coin" src="assets/img/coin_icon.png"/></span>
+		                         	<del class="sale"><fmt:formatNumber value="${item.price}" pattern="#,###" /><img id="coin" src="assets/img/coin_icon.png"/></del>
+		                         </c:if>
+		                         <c:if test="${item.sale == 0}">
+		                         	<span class="price">무료</span>
+		                         	<del class="sale">무료</del>
+		                         </c:if>
+                             	 </a>
+                             </div>
+                          </c:forEach>
                         </div>
                     <!-- Add Pagination -->
                     <!-- <div class="swiper-pagination"></div> -->
@@ -139,25 +271,32 @@
                 </div>
             </div>
 
-            <!-- 마블 시네마틱 유니버스 -->
+            <!-- 마동석 출연 영화 -->
             <div class="movie_box">
                 <!-- 해당 추천 카테고리 링크(ex. 영화와 함께 힐링 여행!) -->
-                <a href="Movie_category_sorted?categoryTypeNo=1" class="movie_box_header clearfix"><span class="title">마블 시네마틱 유니버스</span><img src="assets/img/right.png" class="right" /></a>
+                <a class="movie_box_header clearfix"><span class="title">귀염뽀짝 마블리♥ 마동석 출연 영화</span></a>
                  <!-- 해당 추천 카테고리 영화 리스트 -->
                 <div class="movie_list">
                     <!-- Swiper -->
                     <div class="swiper-container">
                         <div class="swiper-wrapper">
-                            <c:forEach var="i" begin="0" end="9" step="1" varStatus="status"> 
-	                    		<c:set var="MovieNo" value="marvelMovieNo${status.index}" />
-	                    		<c:set var="MovieTitle" value="marvelMovieTitle${status.index}" />
-	                    		<c:set var="MovieThumbnail" value="marvelMovieThumbnail${status.index}" />
-	                    		<c:set var="MovieType" value="marvelMovieType${status.index}" />
-	                    		<c:set var="MoviePrice" value="marvelMoviePrice${status.index}" />
-	                    		<c:set var="MovieSalePrice" value="marvelMovieSalePrice${status.index}" />
-	                    		<div class="swiper-slide"><a href="Movie_information?movieNo=3" class="gallbox"><img
-	                            src="${requestScope[MovieThumbnail]}" alt="${requestScope[MovieTitle]} 썸네일"><span class="movie_title">${requestScope[MovieTitle]}</span><span class="type">${requestScope[MovieType]}</span><span class="price">${requestScope[MovieSalePrice]}<img id="coin" src="assets/img/coin_icon.png"/></span><del class="sale">${requestScope[MoviePrice]}<img id="coin" src="assets/img/coin_icon.png"/></del></a></div>
-	                    	</c:forEach>
+                            <c:forEach var="item" items="${marvelyMovieSlider}" varStatus="status"> 
+                             <div class="swiper-slide">
+	                             <a href="Movie_information?movieNo=${item.movie_no}" class="gallbox">
+	                             <img src="${item.thumbnail}" alt="${item.name} 썸네일">
+	                             <span class="movie_title">${item.name}</span>
+	                             <span class="type">${item.type}</span>
+	                             <c:if test="${item.sale != 0}">
+		                         	<span class="price"><fmt:formatNumber value="${item.sale}" pattern="#,###" /><img id="coin" src="assets/img/coin_icon.png"/></span>
+		                         	<del class="sale"><fmt:formatNumber value="${item.price}" pattern="#,###" /><img id="coin" src="assets/img/coin_icon.png"/></del>
+		                         </c:if>
+		                         <c:if test="${item.sale == 0}">
+		                         	<span class="price">무료</span>
+		                         	<del class="sale">무료</del>
+		                         </c:if>
+                             	 </a>
+                             </div>
+                          </c:forEach>
                         </div>
                     <!-- Add Pagination -->
                     <!-- <div class="swiper-pagination"></div> -->
@@ -171,42 +310,45 @@
                 <a href="Movie_free" class="movie_box_header clearfix"><span class="title">무료영화</span><img src="assets/img/right.png" class="right" /></a>
                 <!-- 무료 영화 리스트 -->
                 <div class="free_movie_list">
-                    <c:forEach var="i" begin="0" end="2" step="1" varStatus="status"> 
-	                    <c:set var="MovieNo" value="freeMovieNo${status.index}" />
-	                    <c:set var="MovieTitle" value="freeMovieTitle${status.index}" />
-	                    <c:set var="MovieThumbnail" value="freeMovieThumbnail${status.index}" />
-	                    <c:set var="MovieAge" value="freeMovieAge${status.index}" />
-	                    <c:set var="MovieRuntime" value="freeMovieRuntime${status.index}" />
-	                    <c:set var="MovieDate" value="freeMovieDate${status.index}" />
-	                    <a href="Movie_information?movieNo=3">
-	                        <img src="${requestScope[MovieThumbnail]}" alt="${requestScope[MovieTitle]} 썸네일">
-	                        <span class="movie_title">${requestScope[MovieTitle]}</span>
-	                        <span class="age">${requestScope[MovieAge]} 관람가<span> | ${requestScope[MovieRuntime]}</span></span>
-	                        <span class="free_date">${requestScope[MovieDate]}</span>
-                    	</a>
-	                </c:forEach>
+                    <c:forEach var="item" items="${freeMovie}" varStatus="status"> 
+                    	<c:if test="${status.count < 4}">
+	                    	<a href="Movie_information?movieNo=${item.movie_no}">
+	                        	<img src="${item.thumbnail}" alt="${item.name} 썸네일">
+	                            <span class="movie_title">${item.name}</span>
+	                            <span class="age">${item.age}<span> | ${item.runtime}</span></span>
+	                            <span class="free_date">${item.period} 까지</span>
+	                    	</a>
+                    	</c:if>
+                    </c:forEach>
                 </div>
             </div>
 
-            <!-- 원작보다 더 재밌는 영화 -->
+            <!-- 애니메이션 영화 -->
             <div class="movie_box">
                 <!-- 해당 추천 카테고리 링크(ex. 영화와 함께 힐링 여행!) -->
-                <a href="Movie_category_sorted?categoryTypeNo=1" class="movie_box_header clearfix"><span class="title">원작보다 더 재밌는 영화</span><img src="assets/img/right.png" class="right" /></a>
+                <a href="Movie_category_sorted?categoryTypeNo=7" class="movie_box_header clearfix"><span class="title">2D? 3D? 차원을 넘나드는 애니메이션!</span><img src="assets/img/right.png" class="right" /></a>
                  <!-- 해당 추천 카테고리 영화 리스트 -->
                 <div class="movie_list">
                     <!-- Swiper -->
                     <div class="swiper-container">
                         <div class="swiper-wrapper">
-                            <c:forEach var="i" begin="0" end="9" step="1" varStatus="status"> 
-	                    		<c:set var="MovieNo" value="newestMovieNo${status.index}" />
-	                    		<c:set var="MovieTitle" value="newestMovieTitle${status.index}" />
-	                    		<c:set var="MovieThumbnail" value="newestMovieThumbnail${status.index}" />
-	                    		<c:set var="MovieType" value="newestMovieType${status.index}" />
-	                    		<c:set var="MoviePrice" value="newestMoviePrice${status.index}" />
-	                    		<c:set var="MovieSalePrice" value="newestMovieSalePrice${status.index}" />
-	                    		<div class="swiper-slide"><a href="Movie_information?movieNo=4" class="gallbox"><img
-	                            src="${requestScope[MovieThumbnail]}" alt="${requestScope[MovieTitle]} 썸네일"><span class="movie_title">${requestScope[MovieTitle]}</span><span class="type">${requestScope[MovieType]}</span><span class="price">${requestScope[MovieSalePrice]}<img id="coin" src="assets/img/coin_icon.png"/></span><del class="sale">${requestScope[MoviePrice]}<img id="coin" src="assets/img/coin_icon.png"/></del></a></div>
-	                    	</c:forEach>
+                           <c:forEach var="item" items="${animationSlider}" varStatus="status"> 
+                             <div class="swiper-slide">
+	                             <a href="Movie_information?movieNo=${item.movie_no}" class="gallbox">
+	                             <img src="${item.thumbnail}" alt="${item.name} 썸네일">
+	                             <span class="movie_title">${item.name}</span>
+	                             <span class="type">${item.type}</span>
+	                             <c:if test="${item.sale != 0}">
+		                         	<span class="price"><fmt:formatNumber value="${item.sale}" pattern="#,###" /><img id="coin" src="assets/img/coin_icon.png"/></span>
+		                         	<del class="sale"><fmt:formatNumber value="${item.price}" pattern="#,###" /><img id="coin" src="assets/img/coin_icon.png"/></del>
+		                         </c:if>
+		                         <c:if test="${item.sale == 0}">
+		                         	<span class="price">무료</span>
+		                         	<del class="sale">무료</del>
+		                         </c:if>
+                             	 </a>
+                             </div>
+                          </c:forEach>
                         </div>
                     <!-- Add Pagination -->
                     <!-- <div class="swiper-pagination"></div> -->
@@ -214,25 +356,32 @@
                 </div>
             </div>
 
-            <!-- 분노의 질주 시리즈 -->
+            <!-- 해리포터 시리즈 -->
             <div class="movie_box">
                 <!-- 해당 추천 카테고리 링크(ex. 영화와 함께 힐링 여행!) -->
-                <a href="Movie_category_sorted?categoryTypeNo=1" class="movie_box_header clearfix"><span class="title">분노의 질주 시리즈</span><img src="assets/img/right.png" class="right" /></a>
+                <a class="movie_box_header clearfix"><span class="title">호그와트로 떠나는 마법여행! 해리 포터 시리즈</span></a>
                 <!-- 해당 추천 카테고리 영화 리스트 -->
                 <div class="movie_list">
                     <!-- Swiper -->
                     <div class="swiper-container">
                         <div class="swiper-wrapper">
-                            <c:forEach var="i" begin="0" end="9" step="1" varStatus="status"> 
-	                    		<c:set var="MovieNo" value="disneyMovieNo${status.index}" />
-	                    		<c:set var="MovieTitle" value="disneyMovieTitle${status.index}" />
-	                    		<c:set var="MovieThumbnail" value="disneyMovieThumbnail${status.index}" />
-	                    		<c:set var="MovieType" value="disneyMovieType${status.index}" />
-	                    		<c:set var="MoviePrice" value="disneyMoviePrice${status.index}" />
-	                    		<c:set var="MovieSalePrice" value="disneyMovieSalePrice${status.index}" />
-	                    		<div class="swiper-slide"><a href="Movie_information?movieNo=3" class="gallbox"><img
-	                            src="${requestScope[MovieThumbnail]}" alt="${requestScope[MovieTitle]} 썸네일"><span class="movie_title">${requestScope[MovieTitle]}</span><span class="type">${requestScope[MovieType]}</span><span class="price">${requestScope[MovieSalePrice]}<img id="coin" src="assets/img/coin_icon.png"/></span><del class="sale">${requestScope[MoviePrice]}<img id="coin" src="assets/img/coin_icon.png"/></del></a></div>
-	                    	</c:forEach>
+                             <c:forEach var="item" items="${harryPotterMovieSlider}" varStatus="status"> 
+	                             <div class="swiper-slide">
+		                             <a href="Movie_information?movieNo=${item.movie_no}" class="gallbox">
+		                             <img src="${item.thumbnail}" alt="${item.name} 썸네일">
+		                             <span class="movie_title">${item.name}</span>
+		                             <span class="type">${item.type}</span>
+		                             <c:if test="${item.sale != 0}">
+			                         	<span class="price"><fmt:formatNumber value="${item.sale}" pattern="#,###" /><img id="coin" src="assets/img/coin_icon.png"/></span>
+			                         	<del class="sale"><fmt:formatNumber value="${item.price}" pattern="#,###" /><img id="coin" src="assets/img/coin_icon.png"/></del>
+			                         </c:if>
+			                         <c:if test="${item.sale == 0}">
+			                         	<span class="price">무료</span>
+			                         	<del class="sale">무료</del>
+			                         </c:if>
+	                             	 </a>
+	                             </div>
+	                          </c:forEach>
                         </div>
                     <!-- Add Pagination -->
                     <!-- <div class="swiper-pagination"></div> -->
@@ -243,30 +392,30 @@
             <!-- Category List -->
             <div class="category_list">
                 <!-- 장르별 카테고리 -->
-            	<ul>
-	                <c:forEach var="item" items="${HomeCategoryType}" varStatus="status"> 
-	                    <li class="clearfix">
-		                    <a href="Movie_category_sorted?categoryTypeNo=${item.category_type_no}">
-		                        <img class="icon" src="${item.icon}" />
-		                        <span class="list">${item.name}</span>
-		                        <img src="assets/img/right.png" class="right" />
-		                    </a>
-	                	</li>
-	            	</c:forEach>
+               <ul>
+                   <c:forEach var="item" items="${HomeCategoryType}" varStatus="status"> 
+                       <li class="clearfix">
+                          <a href="Movie_category_sorted?categoryTypeNo=${item.category_type_no}">
+                              <img class="icon" src="${item.icon}" />
+                              <span class="list">${item.name}</span>
+                              <img src="assets/img/right.png" class="right" />
+                          </a>
+                      </li>
+                  </c:forEach>
                 </ul>
                 <!-- 더보기 영역 -->
                 <div class="more hidden_category">
-	                <ul>
-	                    <c:forEach var="item" items="${HomeCategoryTypePlus}" varStatus="status"> 
-		                    <li class="clearfix">
-			                    <a href="Movie_category_sorted?categoryTypeNo=${item.category_type_no}">
-			                        <img class="icon" src="${item.icon}" />
-			                        <span class="list">${item.name}</span>
-			                        <img src="assets/img/right.png" class="right" />
-			                    </a>
-		                	</li>
-		            	</c:forEach>
-	                </ul>
+                   <ul>
+                       <c:forEach var="item" items="${HomeCategoryTypePlus}" varStatus="status"> 
+                          <li class="clearfix">
+                             <a href="Movie_category_sorted?categoryTypeNo=${item.category_type_no}">
+                                 <img class="icon" src="${item.icon}" />
+                                 <span class="list">${item.name}</span>
+                                 <img src="assets/img/right.png" class="right" />
+                             </a>
+                         </li>
+                     </c:forEach>
+                   </ul>
                 </div>
             </div>
             <div class="category_more"><span class="add">더보기 +</span><span class="remove hidden_category">접기 -</span></div>
@@ -295,15 +444,15 @@
     });
 
     $(function() {
-    	$(".bot_bar_icon").eq(0).attr("src", "assets/img/home_icon_selected.png");
-    	$(".top_bar_list").eq(0).addClass("selected");
-    	
-    	for ( var i = 0 ; i < $(".swiper-wrapper .sale").length ; i++ ){
-	    	if ($(".swiper-wrapper .sale").eq(i).html() == $(".swiper-wrapper .price").eq(i).html()) {
-	    		$(".swiper-wrapper .sale").eq(i).html("")
-	    	}
-    	}
-    	
+       $(".bot_bar_icon").eq(0).attr("src", "assets/img/home_icon_selected.png");
+       $(".top_bar_list").eq(0).addClass("selected");
+       
+       for ( var i = 0 ; i < $(".swiper-wrapper .sale").length ; i++ ){
+          if ($(".swiper-wrapper .sale").eq(i).html() == $(".swiper-wrapper .price").eq(i).html()) {
+             $(".swiper-wrapper .sale").eq(i).html("")
+          }
+       }
+       
         // top 100 슬라이더 플러그인
         $(".slides").slick({
             arrows:false,       // 양옆 화살표
@@ -349,9 +498,9 @@
                     '</div>'
                 }).then(function(result){
                     if (result.value) {     // 확인 버튼이 눌러진 경우
-                    	$.post('coupon_add_ok.do',{coupon_no: "${coupon_no}"},function(req){
-                    		if (req == 1) {
-                    			//  swal("쿠폰 지급 성공!", "성공적으로 지급되었습니다.", "success");
+                       $.post('coupon_add_ok.do',{coupon_no: "${coupon_no}"},function(req){
+                          if (req == 1) {
+                             //  swal("쿠폰 지급 성공!", "성공적으로 지급되었습니다.", "success");
                                 swal({
                                     timer:1500,
                                     html:"<div style='font-weight: bold; margin-bottom: 20px;'>쿠폰 지급 성공!<br/>성공적으로 지급되었습니다.</div>",
@@ -359,18 +508,18 @@
                                     allowOutsideClick: false,
                                     showConfirmButton: false
                                 });
-                    		} else if (req == 0){
-                    			swal({
+                          } else if (req == 0){
+                             swal({
                                     timer:1500,
                                     html:"<div style='font-weight: bold; margin-bottom: 20px;'>이미 쿠폰이 지급되었습니다.</div>",
                                     type:"error",
                                     allowOutsideClick: false,
                                     showConfirmButton: false
                                 })
-                    		} else {
-                    			$(location).attr('href','Login');
-                    		}
-                    	});
+                          } else {
+                             $(location).attr('href','Login');
+                          }
+                       });
                     } else if (result.dismiss === "cancel") {   // 취소버튼이 눌러진 경우
                         // swal("취소", "삭제가 취소되었습니다.", "error");
                     }

@@ -10,12 +10,12 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import lombok.extern.slf4j.Slf4j;
+//import lombok.extern.slf4j.Slf4j;
 import study.spring.clip.model.MovieComment;
 
 /** Lombok의 Log4j 객체 */
 // import lombok.extern.slf4j.Slf4j;
-@Slf4j
+//@Slf4j
 /** JUnit에 의한 테스트 클래스로 정의 */
 // import org.junit.runner.RunWith;
 // import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;

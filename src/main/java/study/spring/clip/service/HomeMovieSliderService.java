@@ -7,19 +7,15 @@ import study.spring.clip.model.HomeMovieSlider;
 public interface HomeMovieSliderService {
 	
 	/**
-	 * 홈 영화 추천  슬라이더 조회
-	 * */
-	public List<HomeMovieSlider> getHomeMovieSliderList();
-	
-	/**
 	 * 액션 영화 슬라이더 조회
 	 * */
 	public List<HomeMovieSlider> getJangreMovieSliderList(String name);
 	
-	/**
-	 * 할인 영화 슬라이더 조회
-	 * */
-	public List<HomeMovieSlider> getSaleMovieSliderList(String name);
+	// 마동석 영화 슬라이더
+	public List<HomeMovieSlider> getMarvelySlider();
+	
+	// 해리포터 영화 슬라이더
+	public List<HomeMovieSlider> getHarryPotterSlider();
 	
 }
 

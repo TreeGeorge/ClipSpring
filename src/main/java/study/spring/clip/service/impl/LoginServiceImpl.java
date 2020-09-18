@@ -7,11 +7,9 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import lombok.extern.slf4j.Slf4j;
 import study.spring.clip.model.User;
 import study.spring.clip.service.LoginService;
 
-@Slf4j
 @Service
 public class LoginServiceImpl implements LoginService {
 	

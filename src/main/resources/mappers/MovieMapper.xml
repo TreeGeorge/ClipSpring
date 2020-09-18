@@ -23,14 +23,20 @@
         <result property="movie_like_no" column="movie_like_no" />
         <result property="score" column="score" />
         <result property="user_no" column="user_no" />
+        <result property="release_date" column="release_date" />
+        <result property="category_type_no" column="category_type_no" />
 
     </resultMap>
 
     <!-- 단일행 조회를 위한 기능 정의 -->
     <select id="oneMovie" parameterType="study.spring.clip.model.Movie"
         resultMap="movieMap">
-        SELECT movie_no, IF(type='B',"구매","대여") AS type, name, director, Floor(price / 100 * (100 - sale)) AS sale, price, thumbnail, preview, summary, runtime, IF(age='12', '12세 이용가', IF(age='15', '15세 이용가', IF(age='19', '청소년 관람 불가', '전체 이용가'))) as age FROM movie 
-        WHERE movie_no=#{movie_no};
+        SELECT c.category_type_no, m.movie_no, release_date, IF(type='B',"구매","대여") AS type, name, director, Floor(price / 100 * (100 - sale)) AS sale, price, thumbnail, preview, summary, runtime, IF(age='12', '12세 이용가', IF(age='15', '15세 이용가', IF(age='19', '청소년 관람 불가', '전체 이용가'))) as age 
+        FROM movie m, movie_category c
+        WHERE m.movie_no = c.movie_no
+        AND m.movie_no= #{movie_no}
+        ORDER BY category_type_no
+        LIMIT 1;
     </select>
     <!-- 관심여부확인 -->
      <select id="interestCommit" parameterType="study.spring.clip.model.Movie"
@@ -44,23 +50,6 @@
         SELECT movie_no FROM movie
         WHERE movie_no IN(SELECT movie_no=#{movie_no} AND user_no=#{user_no} FROM movie_like);
     </select>
-    
-    
-    <!-- 다중행 조회를 위한 기능 정의 -->
-	<select id="selectList"
-		parameterType="study.spring.clip.model.Movie"
-		resultMap="movieMap">
-		SELECT movie_no, name FROM movie
-		
-		<where>
-			<if test="name != null and name != ''">
-				name LIKE concat('%', #{name}, '%')
-			</if>
-			<if test="director != null and director != ''">
-				OR director LIKE concat('%', #{director}, '%')
-			</if>
-		</where>
-	</select>
 	
 	<!-- 라이크개수 -->
 	<select id="likeMovie" parameterType="study.spring.clip.model.Movie"
@@ -86,6 +75,28 @@
         SELECT COUNT(*) FROM clip.star_rating
         WHERE movie_no=#{movie_no}; 
     </select>
+    
+    <!-- 영화 배우 -->
+    <select id="actorMovie" parameterType="study.spring.clip.model.Movie"
+        resultMap="movieMap">
+        select name from actor
+		where actor_no IN(select actor_no from movie_actor where movie_no=#{movie_no}); 
+    </select>
+    
+    <!-- 검색을 위한 기능 정의 -->
+	<select id="searchMovieList"
+		parameterType="study.spring.clip.model.Movie"
+		resultMap="movieMap">
+		SELECT movie_no, runtime, thumbnail, name, IF(age='12', '12세 이용가',
+		IF(age='15', '15세 이용가', IF(age='19', '청소년 관람 불가', '전체 이용가'))) as age,
+		IF(type='B',"구매","대여") AS type, Floor(price / 100 * (100 - sale)) AS
+		price, director FROM movie
+		WHERE movie_no IN (SELECT movie_no FROM movie_actor WHERE actor_no =
+		(SELECT actor_no FROM actor WHERE name = #{name}))
+		OR name LIKE concat('%', #{name}, '%')
+		OR director LIKE concat('%', #{name}, '%')
+		ORDER BY name;
+	</select>
  
 
 </mapper>

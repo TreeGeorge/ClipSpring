@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
 import study.spring.clip.model.CommentAppraisal;
-import study.spring.clip.model.Movie;
 import study.spring.clip.service.CommentAppraisalService;
 
 @Slf4j

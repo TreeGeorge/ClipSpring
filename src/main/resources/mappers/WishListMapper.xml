@@ -21,7 +21,7 @@
 	<select id="wishListList"
 		parameterType="study.spring.clip.model.WishList"
 		resultMap="WishListMap">
-		SELECT movie_no, IF(type='B',"구매","대여") AS type, name, price, runtime, thumbnail FROM movie
+		SELECT movie_no, IF(type='B',"구매","대여") AS type, name, Floor(price / 100 * (100 - sale)) AS price, runtime, thumbnail FROM movie
 		WHERE movie_no IN (SELECT movie_no FROM wish_list WHERE user_no= #{user_no});
 	</select>
 	

@@ -168,6 +168,24 @@ input[type='radio']:checked {
 	text-align: center;
 }
 
+/* 드랍다운 css */
+.selcls {
+	padding: 2px;
+	border: solid 1px #eee;
+	outline: 0;
+	background: -webkit-gradient(linear, left top, left 25, from(#FFFFFF),
+		color-stop(4%, #fff), to(#FFFFFF));
+	background: -moz-linear-gradient(top, #FFFFFF, #fff 1px, #FFFFFF 25px);
+	box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 8px;
+	-moz-box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 8px;
+	-webkit-box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 8px;
+	width: 85px;
+	height: 27px;
+	float: right;
+	margin-top: 4px;
+	font-size: 12px;
+}
+
 </style>
 </head>
 
@@ -182,13 +200,19 @@ input[type='radio']:checked {
 	<!-- 드롭다운 옵션 -->
 
 	<div class="content clearfix">
-		<button style="padding: 0;" class="selcls" onclick="sort();">정렬 &#926;</button>
+		<!-- 드롭다운 옵션 -->
+		<select class="form-control selcls" id="movie_select" name="sort">
+			<option value="new">구매순</option>
+			<option value="name">가나다순</option>
+			<option value="buy">구매상품</option>
+			<option value="rent">대여상품</option>
+		</select>
 	</div>
 	<!--// 드롭다운 끝 -->
 
 
 	<div class="movies">
-		<c:forEach var="item" items="${output}" varStatus="status">
+		<c:forEach var="item" items="${newList}" varStatus="status">
 			<c:choose>
 				<c:when test="${item.price != 0}">
 					<div class="plist clear">
@@ -240,19 +264,35 @@ input[type='radio']:checked {
 	   }
    })
    
-      // 정렬 swal 창
-        function sort(){
-            swal({
-                html:"<h6 style='font-weight:bold;'>상품별보기<h6>"+
-                "<input type='radio' style='vertical-align: -3px; ' name='type1' value='' checked>&nbsp;전체</input>"+"&nbsp;&nbsp;&nbsp;"+
-                "<input type='radio' style='vertical-align: -3px;' name='type1' value=''>&nbsp;구매</input>"+ "&nbsp;&nbsp;&nbsp;"+
-                "<input type='radio' style='vertical-align: -3px;' name='type1' value=''>&nbsp;대여</input>"+"<br><hr>"+
-                "<h6 style='font-weight:bold;'>정렬순서<h6>"+
-                "<input type='radio' style='vertical-align: -3px;' name='type2' value='' checked>&nbsp;구매순</input>"+"&nbsp;&nbsp;&nbsp;"+
-                "<input type='radio' style='vertical-align: -3px;' name='type2' value=''>&nbsp;제목순</input>",
-                confirmButtonColor : "#FF3253"
-            });   
-        }
+   // 정렬 기능
+		$("select[name='sort']").change(function() {
+			
+	    	if( $(this).val() == "new" ){
+	        	$(".plist").remove();	 
+				$(".movies").append().html('<c:forEach var="item" items="${newList}" varStatus="status"><c:choose><c:when test="${item.price != 0}"><div class="plist clear"><p class="movie_title">${item.name}</p><button style="display: block;" class="cancel pull-right" onclick="return false;">구매취소</button><input id="buy_movie_list_no" type="hidden" value="${item.buy_movie_list_no}"/><p class="price"><fmt:formatNumber value="${item.price}" pattern="#,###" /><img src="assets/img/coin_icon.png"></p><p class="period">${item.date}&nbsp;&nbsp;${item.type}</p></div></c:when><c:otherwise><div class="plist clear"><p class="movie_title">${item.name}</p><button style="display: block;" class="cancel pull-right" onclick="return false;">구매취소</button><input id="buy_movie_list_no" type="hidden" value="${item.buy_movie_list_no}"/><p class="price">무료</p><p class="period">${item.date}&nbsp;&nbsp;${item.type}</p></div></c:otherwise></c:choose></c:forEach>');
+	        } else if ( $(this).val() == "name" ) {
+	        	$(".plist").remove();	 
+	        	$(".movies").append().html('<c:forEach var="item" items="${nameList}" varStatus="status"><c:choose><c:when test="${item.price != 0}"><div class="plist clear"><p class="movie_title">${item.name}</p><button style="display: block;" class="cancel pull-right" onclick="return false;">구매취소</button><input id="buy_movie_list_no" type="hidden" value="${item.buy_movie_list_no}"/><p class="price"><fmt:formatNumber value="${item.price}" pattern="#,###" /><img src="assets/img/coin_icon.png"></p><p class="period">${item.date}&nbsp;&nbsp;${item.type}</p></div></c:when><c:otherwise><div class="plist clear"><p class="movie_title">${item.name}</p><button style="display: block;" class="cancel pull-right" onclick="return false;">구매취소</button><input id="buy_movie_list_no" type="hidden" value="${item.buy_movie_list_no}"/><p class="price">무료</p><p class="period">${item.date}&nbsp;&nbsp;${item.type}</p></div></c:otherwise></c:choose></c:forEach>');
+		    } else if ( $(this).val() == "buy" ) {
+	        	$(".plist").remove();	 
+	        	$(".no_movies").addClass("hide");
+	        	$(".movies").append().html('<c:forEach var="item" items="${newList}" varStatus="status"><c:choose><c:when test="${item.price != 0 and item.type == \'구매\'}"><div class="plist clear"><p class="movie_title">${item.name}</p><button style="display: block;" class="cancel pull-right" onclick="return false;">구매취소</button><input id="buy_movie_list_no" type="hidden" value="${item.buy_movie_list_no}"/><p class="price"><fmt:formatNumber value="${item.price}" pattern="#,###" /><img src="assets/img/coin_icon.png"></p><p class="period">${item.date}&nbsp;&nbsp;${item.type}</p></div></c:when><c:when test="${item.price == 0 and item.type == \'구매\'}"><div class="plist clear"><p class="movie_title">${item.name}</p><button style="display: block;" class="cancel pull-right" onclick="return false;">구매취소</button><input id="buy_movie_list_no" type="hidden" value="${item.buy_movie_list_no}"/><p class="price">무료</p><p class="period">${item.date}&nbsp;&nbsp;${item.type}</p></div></c:when></c:choose></c:forEach>');
+			    if (!$(".plist")[0]) {
+					// 영화리스트 빈 화면
+					$(".no_movies").removeClass("hide");
+				}
+			} else if ($(this).val() == "rent" ) {
+				$(".plist").remove();	 
+				$(".no_movies").addClass("hide");
+				$(".movies").append().html('<c:forEach var="item" items="${newList}" varStatus="status"><c:choose><c:when test="${item.price != 0 and item.type == \'대여\'}"><div class="plist clear"><p class="movie_title">${item.name}</p><button style="display: block;" class="cancel pull-right" onclick="return false;">구매취소</button><input id="buy_movie_list_no" type="hidden" value="${item.buy_movie_list_no}"/><p class="price"><fmt:formatNumber value="${item.price}" pattern="#,###" /><img src="assets/img/coin_icon.png"></p><p class="period">${item.date}&nbsp;&nbsp;${item.type}</p></div></c:when><c:when test="${item.price == 0 and item.type == \'대여\'}"><div class="plist clear"><p class="movie_title">${item.name}</p><button style="display: block;" class="cancel pull-right" onclick="return false;">구매취소</button><input id="buy_movie_list_no" type="hidden" value="${item.buy_movie_list_no}"/><p class="price">무료</p><p class="period">${item.date}&nbsp;&nbsp;${item.type}</p></div></c:when></c:choose></c:forEach>');
+			    if (!$(".plist")[0]) {
+					// 영화리스트 빈 화면
+					$(".no_movies").removeClass("hide")
+				}
+			}
+	    	
+		});
+   
       
 
         // 구매취소 버튼 클릭시

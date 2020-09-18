@@ -42,10 +42,10 @@ public class BuyMovieListServiceImpl implements BuyMovieListService {
 		int result = 0;
 		
 		sqlSession.update("BuyMovieListMapper.userMovieDelete", input);
+		sqlSession.delete("BuyMovieListMapper.deleteCount", input);
 		
 		try {
 			result = sqlSession.delete("BuyMovieListMapper.deleteItem", input);
-			
 			if (result == 0) {
 				throw new NullPointerException("result=0");
 			}
@@ -131,6 +131,7 @@ public class BuyMovieListServiceImpl implements BuyMovieListService {
 	@Override
 	public void addBuyMovieList(BuyMovieList input) {
 		sqlSession.insert("BuyMovieListMapper.insertItem", input);
+		sqlSession.insert("BuyMovieListMapper.insertCount", input);
 	}
 
 	// 영화 구매후 유저의 코인 차감

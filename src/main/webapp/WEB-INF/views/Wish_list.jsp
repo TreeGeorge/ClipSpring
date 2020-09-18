@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <%@ page trimDirectiveWhitespaces="true" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html lang="ko">
 
@@ -253,9 +255,13 @@
 	                <label for="movie_number" class="wish_content"></label>
 	                <input name="wish_content_check" id="movie_number" type="checkbox" class="wish_content_check" value="${item.movie_no}" checked />
 	                <a href="Movie_information?movieNo=${item.movie_no}">
-	                    <img src="${item.thumbnail} }" alt="${item.name} 썸네일">
+	                    <img src="${item.thumbnail}" alt="${item.name} 썸네일">
 	                    <span class="movie_title">${item.name}</span>
-	                    <span class="info"><span id="type">${item.type}</span><span class="price">${item.price}</span><img id="coin" src="assets/img/coin_icon.png"/></span>
+	                    <span class="info">
+	                    	<span id="type">${item.type}</span>
+	                    	<span class="price"><fmt:formatNumber value="${item.price}" pattern="#,###" /></span>
+	                    	<img id="coin" src="assets/img/coin_icon.png"/>
+	                    </span>
 	                </a>
 	            </li>
 	       	</c:forEach>
@@ -264,7 +270,7 @@
 
         <div class="total">
             <div class="select_wish">
-                <span class="select_product">선택상품</span><span class="count">2건</span><span class="select_price">n코인</span>
+                <span class="select_product">선택상품</span><span class="count">n건</span><span class="select_price">n코인</span>
             </div>
             <div class="total_price">
                 총 결제금액 <span class="total_coin">n코인</span>
@@ -286,11 +292,15 @@
     		var total = 0;
             for ( var i = 0 ; i < $(".price").length ; i++ ) {
             	if (($(".wish_content_check").eq(i).is(":checked"))) {
-            		total += parseInt($(".price").eq(i).html());
+            		if (!parseInt($(".price"))) {
+            			total += parseInt($(".price").eq(i).html().replace(",",""));
+            		}
             	}
             }
-        	$(".select_price").html(total + "코인");
-        	$(".total_coin").html(total + "코인");
+            
+            var text = total + "";
+        	$(".select_price").html(text.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "코인");
+        	$(".total_coin").html(text.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "코인");
         	
         	// 선택된 개수
         	$(".count").html($(".wish_content_check:checked").length + "건")

@@ -6,12 +6,9 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import lombok.extern.slf4j.Slf4j;
 import study.spring.clip.model.CategoryType;
-import study.spring.clip.model.HomeMovieSlider;
 import study.spring.clip.service.CategoryTypeService;
 
-@Slf4j
 @Service
 public class CategoryTypeServieImpl implements CategoryTypeService {
 

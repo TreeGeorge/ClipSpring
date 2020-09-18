@@ -6,25 +6,14 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import lombok.extern.slf4j.Slf4j;
-import study.spring.clip.model.CategorySorted;
 import study.spring.clip.model.HomeMovieSlider;
 import study.spring.clip.service.HomeMovieSliderService;
 
-@Slf4j
 @Service
 public class HomeMovieSliderServiceImpl implements HomeMovieSliderService {
 
 	@Autowired
 	SqlSession sqlSession;
-	
-	// 추천영화
-	@Override
-	public List<HomeMovieSlider> getHomeMovieSliderList() {
-
-		List<HomeMovieSlider> result = sqlSession.selectList("HomeMovieSliderMapper.RecommandHomeMovieSlider");
-		return result;
-		}
 	
 	// 장르영화 ( 액션, 코디디 등등 ) 
 	@Override
@@ -32,18 +21,25 @@ public class HomeMovieSliderServiceImpl implements HomeMovieSliderService {
 		
 		HomeMovieSlider input = new HomeMovieSlider();
 		input.setName(name);
-		List<HomeMovieSlider> result = sqlSession.selectList("HomeMovieSliderMapper.JangreMovieSlider",input);
+		List<HomeMovieSlider> result = sqlSession.selectList("HomeMovieSliderMapper.jangreMovieSlider",input);
 		return result;
 	}
 
-	// 할인영화
+	// 마동석 출연 영화
 	@Override
-	public List<HomeMovieSlider> getSaleMovieSliderList(String name) {
-		HomeMovieSlider input = new HomeMovieSlider();
-		input.setName(name);
-		List<HomeMovieSlider> result = sqlSession.selectList("HomeMovieSliderMapper.SaleMovieSlider",input);
+	public List<HomeMovieSlider> getMarvelySlider() {
+		List<HomeMovieSlider> result = sqlSession.selectList("HomeMovieSliderMapper.marvelyMovieSlider");
 		return result;
 	}
+
+	// 해리포터 시리즈
+	@Override
+	public List<HomeMovieSlider> getHarryPotterSlider() {
+		List<HomeMovieSlider> result = sqlSession.selectList("HomeMovieSliderMapper.harryPotterMovieSlider");
+		return result;
+	}
+
+
 	
 
 

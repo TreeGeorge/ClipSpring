@@ -78,23 +78,6 @@ legend {
     display: block;
 }
 
-/* 드랍다운 css */
-.selcls {
-    padding: 2px;
-    border: solid 1px #eee;
-    outline: 0;
-    background: -webkit-gradient(linear, left top, left 25, from(#FFFFFF), color-stop(4%, #fff), to(#FFFFFF));
-    background: -moz-linear-gradient(top, #FFFFFF, #fff 1px, #FFFFFF 25px);
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 8px;
-    -moz-box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 8px;
-    -webkit-box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 8px;
-    width: 85px;
-    height: 28px;
-    float: right;
-    margin-top: 3px;
-    font-size: 12px;
-}
-
 /** 검색 영화 리스트 */
 .search_movie_box {
     margin-bottom: 50px;
@@ -154,7 +137,7 @@ legend {
     display: block;
     position: absolute;
     left: 145px;
-    top: 64px;
+    top: 65px;
     font-size: 12px;
     line-height: 20px;
     height: 20px;
@@ -175,8 +158,8 @@ legend {
 #coin {
 	display: inline-block;
 	position: relative;
-	top: 0;
-	left: 3px;
+	top: 3px;
+	left: 2px;
     width: 12px;
     height: 12px;
     margin:0;
@@ -218,13 +201,12 @@ legend {
         <%@ include file="assets/inc/top_logo.jsp" %>
 
         <!-- 검색창 -->
-        <form method="get" action="${pageContext.request.contextPath}/Movie_search" class="form" >
+        <form class="form" >
             <fieldset>
                 <legend>검색</legend>
                     <div class="clearfix">
-                        <input autocomplete="off" type="text" id="search_movie" name="${name}" 
-                        class="search_movie" value="" placeholder="검색할 영화를 입력해주세요">
-                        <input type="button" class="search_button" value="검색" id="search_button">
+                        <input autocomplete="off" type="text" id="search_movie" class="search_movie" value="" placeholder="제목, 배우 또는 감독을 입력해주세요" />
+                        <input type="button" class="search_button" value="검색" id="search_button" />
                     </div>
             </fieldset>
         </form>
@@ -236,17 +218,23 @@ legend {
                     총 <span id="count">${count}</span>개 작품
                 </p>
             </div>
-            <div class="pull-right">
-                <select class="form-control selcls" id="movie_select">
-                    <option>최신순</option>
-                    <option>개봉순</option>
-                    <option>판매순</option>
-                    <option>낮은가격순</option>
-                </select>
-            </div>
         </div>
 
         <div class="search_movie_box">
+		    <c:forEach var="item" items="${output}" varStatus="status">
+		        <a class="search_movie_list" href="Movie_information?movieNo=${item.movie_no}">
+		            <img src="${item.thumbnail}" alt="${item.name} 썸네일">
+		            <span class="movie_title">${item.name}</span>
+		            <span class="age">${item.age} | ${item.runtime}</span>
+					<span class="type">${item.type}</span>
+					<c:if test="${item.price != 0}">
+		            	<span class="price"><fmt:formatNumber value="${item.price}" pattern="#,###" /><img id="coin" src="assets/img/coin_icon.png"/></span>
+		            </c:if>
+		            <c:if test="${item.price == 0}">
+		            	<span class="price">무료</span>
+		            </c:if>
+		       </a>
+			</c:forEach>
         </div>
 
         <div class="no_value hide">
@@ -258,22 +246,21 @@ legend {
         <%@ include file="assets/inc/bot_bar.jsp" %>
        
     </div>
-
-    <!-- Ajax로 읽어온 내용을 출력하는데 사용될 템플릿 -->
-    <script id="movie_item" type="text/x-handlebars-template">
-		<c:forEach var="item" items="${MovieSearch}" varStatus="status">
-        <a class="search_movie_list" href="Movie_information?movieNo=${movie_no}">
-            <img src="${item.thumbnail}" alt="${item.name}">
-            <span class="movie_title">${item.name}</span>
-            <span class="age">${item.age}세 이용가 | ${item.time}분</span>
-			<span class="type">${item.type}</span>
-            <span class="price">${item.price}<img id="coin" src="assets/img/coin_icon.png"/></span>
-        </a>
-		</c:forEach>
-    </script>
     <script type="text/javascript">
         $(function() {
         	$(".bot_bar_icon").eq(1).attr("src", "assets/img/search_icon_selected.png");
+        	
+        	if ("${search_check}" == 1) {	// 검색값이 존재할 경우
+          		$(".search_info").removeClass("hide");
+            	$(".no_value").addClass("hide");
+            	if (!$(".search_movie_list")[0]) {
+            		$(".search_info").addClass("hide");
+                	$(".no_value").removeClass("hide");
+                	$(".no_value .text").html("\"" + "${name}" + "\" 의 검색결과가 존재하지 않습니다." );
+            	}
+        	}
+        	
+        	var url = "Movie_search?"
         	
         	$("#search_button").click(function(){
 				// 아무것도 입력하지 않았을때
@@ -286,43 +273,10 @@ legend {
                     });
         			return false;
         		}
-
-        		// 검색된 개수
-            	var total = 0;
-                // 검색 초기화
-                $(".search_movie_list").remove();
-				// 검색어와 일치하는 영화 나타나게 하기
-                $.post('Movie_search', {name:$("#search_movie").val()},function(req) {
-                    var template = Handlebars.compile($("#movie_item").html());
-                    var html = null;
-                    // 영화 정보중에 검색값과 일치하는지 확인
-                   	for ( var i = 0 ; i < req.length ; i++ ) {
-                   		html = template(req.item[i])
-                   		// TODO 감독과 배우검색도 가능하게 할거면 영화 정보에 나타내주기(위에 리스트)
-                    	if (req[i].movieTitle.indexOf($("#search_movie").val()) != -1 // ||			// 제목
-                    	//	req.item[i].director.indexOf($("#search_movie").val()) != -1 ||			// 감독
-                    	//	req.item[i].actor.indexOf($("#search_movie").val()) != -1				// 배우
-                    	) {
-                    		// 일치하면 영화를 나타내준다.
-                    	    $(".search_movie_box").append(html);
-                    	    total += 1;
-                    	}
-               		}
-
-                	if (total != 0){	// 검색값이 존재할 경우
-                  		$(".search_info").removeClass("hide");
-                    	$(".no_value").addClass("hide");
-                	} else {	// 검색값이 존재하지 않을 경우
-                    	$(".search_info").addClass("hide");
-                    	$(".no_value").removeClass("hide");
-                    	$(".no_value .text").html("\"" + $("#search_movie").val() + "\" 의 검색결과가 존재하지 않습니다." );
-                	}
-
-                   	// 검색된 영화 개수
-                   	$("#count").html(total);
-                   	// 검색창 초기화 <-- 취향(비우면 다음 검색이 편하고 안비우면 뭘 검색했었는지 바로 알 수 있음)
-                   	// $("#search_movie").val("");
-    			});
+				
+	    		url += "name=" + $("#search_movie").val();
+	    		$(location).attr('href',url);
+    		
         	});
 
         	// 엔터키 눌렀을때

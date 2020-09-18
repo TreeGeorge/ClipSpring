@@ -117,8 +117,8 @@ public class Top100ServiceImpl implements Top100Service {
 		
 		Top100 top100 = new Top100();
 		
-		for ( int i = 0 ; i < 500 ; i++ ) {
-			int random_movie_no = (int)(Math.random() * 150) + 1;
+		for ( int i = 0 ; i < 1000 ; i++ ) {
+			int random_movie_no = (int)(Math.random() * (200)) + 401;
 			top100.setMovie_no(random_movie_no);
 			sqlSession.insert("Top100Mapper.insertDummyData", top100);
 		}

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="TempMapper">
+
+    <!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
+    
+        <resultMap id="tempMap" type="study.spring.clip.model.Temp">
+
+        <!-- Beans의 멤버변수(property)이름과 대상 테이블의 컬럼(column)을 연결한다. -->
+        <result property="movie_no" column="movie_no" />
+        <result property="name" column="name" />
+        <result property="actor" column="actor" />
+        <result property="actor_no" column="actor_no" />
+        <result property="category_type_no" column="category_type_no" />
+
+
+    </resultMap>
+
+    <!-- 전체 영화 값 가져오기 -->
+    <select id="allMovie" parameterType="study.spring.clip.model.Temp"
+        resultMap="tempMap">
+        SELECT movie_no, category_type_no, actor FROM movie;
+    </select>
+    
+    <!-- 세일 영화 값 가져오기 -->
+    <select id="saleMovie" parameterType="study.spring.clip.model.Temp"
+        resultMap="tempMap">
+        SELECT movie_no FROM movie WHERE sale != 0 AND sale != 100;
+    </select>
+    
+    <!-- 최신 영화 값 가져오기 -->
+    <select id="newMovie" parameterType="study.spring.clip.model.Temp"
+        resultMap="tempMap">
+        SELECT movie_no FROM movie WHERE sale != 0 AND sale != 100
+        ORDER BY release_date desc
+        LIMIT 0, 150;
+    </select>
+    
+    <!-- 배우 중복검사 -->
+    <select id="checkActor" parameterType="study.spring.clip.model.Temp"
+        resultMap="tempMap">
+        SELECT name FROM actor WHERE name = #{name};
+    </select>
+    
+    <!-- 배우 테이블에 배우 넣기 -->
+	<insert id="insertActor"
+		parameterType="study.spring.clip.model.Temp">
+		INSERT INTO actor (name) VALUES (#{name});
+	</insert>
+	
+	<!-- 배우 번호 가져오기 -->
+    <select id="getActorNo" parameterType="study.spring.clip.model.Temp"
+        resultType="int">
+        SELECT actor_no FROM actor WHERE name = #{name};
+    </select>
+    
+    <!-- 영화-배우 테이블에 값 넣기 -->
+	<insert id="connectActor"
+		parameterType="study.spring.clip.model.Temp">
+		INSERT INTO movie_actor ( actor_no, movie_no ) VALUES ( #{actor_no}, #{movie_no} );
+	</insert>
+	
+	<!-- 영화-카테고리 테이블에 값 넣기 -->
+	<insert id="connectCategory"
+		parameterType="study.spring.clip.model.Temp">
+		INSERT INTO movie_category (category_type_no, movie_no) VALUES (#{category_type_no}, #{movie_no});
+	</insert>
+	
+	<!-- 영화-카테고리 세일 값 넣기 -->
+	<insert id="connectSaleCategory"
+		parameterType="study.spring.clip.model.Temp">
+		INSERT INTO movie_category (category_type_no, movie_no) VALUES (1000, #{movie_no});
+	</insert>
+	
+	<!-- 영화-카테고리 세일 값 삭제 -->
+	<delete id="deleteSaleCategory"
+		parameterType="study.spring.clip.model.Temp">
+		DELETE FROM movie_category WHERE category_type_no = 1000;
+	</delete>
+	
+	<!-- 영화-카테고리 최신영화 값 넣기 -->
+	<insert id="connectNewCategory"
+		parameterType="study.spring.clip.model.Temp">
+		INSERT INTO movie_category (category_type_no, movie_no) VALUES (1002, #{movie_no});
+	</insert>
+
+</mapper>

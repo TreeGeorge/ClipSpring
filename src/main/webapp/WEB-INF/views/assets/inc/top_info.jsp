@@ -24,6 +24,15 @@
     width: 26px;
     margin: 7px;
 }
+
+#top_info_value {
+	text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    display:block;
+    width:80%;
+    margin: auto;
+}
 </style>
 <div class="top_info">
 	<a href="#" onclick="history.back(); return false;">

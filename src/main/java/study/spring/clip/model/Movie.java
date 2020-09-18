@@ -19,4 +19,6 @@ public class Movie {
     private double score;
     private int user_no;
     private int actor_no;
+    private String release_date;
+    private int category_type_no;
 }

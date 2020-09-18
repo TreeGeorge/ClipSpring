@@ -10,14 +10,12 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import lombok.extern.slf4j.Slf4j;
+//import lombok.extern.slf4j.Slf4j;
 import study.spring.clip.model.HomeMovieSlider;
-import study.spring.clip.service.FreeMovieService;
-import study.spring.clip.service.HomeMovieSliderService;
 
 /** Lombok의 Log4j 객체 */
 //import lombok.extern.slf4j.Slf4j;
-@Slf4j
+//@Slf4j
 /** JUnit에 의한 테스트 클래스로 정의 */
 //import org.junit.runner.RunWith;
 //import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -37,15 +35,6 @@ public class HomeMovieSliderServiceTest {
 	@Autowired
 	private SqlSession sqlSession;
 	
-	/** Service 객체 주입 설정 */
-	@Autowired
-	private HomeMovieSliderService homeMovieSliderService;
-
-	/** 추천영화(최신날짜순 desc) 조회 테스트 */
-	@Test
-	public void testA() {
-		homeMovieSliderService.getHomeMovieSliderList();
-	}
 	
 	/** 액션영화 조회 테스트 */
 	@Test

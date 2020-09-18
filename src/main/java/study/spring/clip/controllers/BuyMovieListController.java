@@ -118,9 +118,11 @@ public class BuyMovieListController {
 		int user_no = (int)session.getAttribute("user_no");
 		User user_info = loginService.randerUser(user_no);
 		
-		List<BuyMovieList> output = buyMovieListService.getBuyNewMovieList(user_no);
-		
-		movie.addAttribute("output", output);
+		List<BuyMovieList> newList = buyMovieListService.getBuyNewMovieList(user_no);
+		List<BuyMovieList> nameList = buyMovieListService.getBuyNameMovieList(user_no);
+		 
+		movie.addAttribute("newList", newList);
+		movie.addAttribute("nameList", nameList);
 		movie.addAttribute("user_coin", user_info.getCoin());
 		
 		return "MY_movie_purchase_list";

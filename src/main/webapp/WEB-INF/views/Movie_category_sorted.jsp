@@ -76,7 +76,7 @@ li {
 	padding: 0px;
 	padding-left:5px;
 	padding-right:5px;
-	
+
 }
 /* 한줄에 3개씩 가로배치 */
 #movie li {
@@ -84,14 +84,14 @@ li {
 	float: left;
 	padding-bottom: 15px;
 	margin:auto;
-	
+
 }
 /* 영화 썸네일 밑 글씨 block처리 */
 #movie li a {
 	display: block;
 	width: auto;
 	padding-left: 5px;
-		
+
 }
 /* 영화 썸네일 이미지 크기 */
 #movie .thumb img {
@@ -99,19 +99,19 @@ li {
 	height: 150px;
 	display: block;
 	margin: auto;
-	
+
 }
 /* 링크 안의 span을 block처리 */
 #movie li a span {
 	display: block;
 	width: auto;
-	
+
 }
 
 /* a태그 영화제목 밑줄 제거 */
 a {
 	text-decoration: none;
-	
+
 }
 
 /* a태그에 hover시 밑줄 제거 */
@@ -163,23 +163,27 @@ a:hover {
 
 		<!-- 드랍 다운 -->
 		<select name="asdf" class="form-control selcls" id="movie_select">
-			<option value="최신순">최신순</option>
-			<option>구매순</option>
-			<option value="낮은 가격순">낮은가격순</option>
-			<option value="높은 가격순">높은가격순</option>
+			<option value="new">최신순</option>
+			<option value="kr">가나다순</option>
+			<option value="high">높은가격순</option>
+			<option value="low">낮은가격순</option>
+			
 		</select>
 	</div>
 
 	<!-- 썸네일 이미지 내용 -->
 	<div id="body">
 		<ul id="movie" class="infinite_scroll">
-			<c:forEach var="item" items="${categorySorted}" varStatus="status">
-				<li class="img"><a href="Movie_information.do?movieNo=${item.movie_no}">
-				<span class="thumb"><img src="${item.thumbnail}" alt="${item.name} 썸네일" /></span> 
-				<span class="movie_title">${item.name}</span>
-				<span class="price">${item.type}&nbsp;<span class="cost">${item.price}
-				<img src="assets/img/coin_icon.png"></span></span>
-				</a></li>
+			<c:forEach var="item" items="${output1}" varStatus="status">
+				<li class="img">
+					<a href="Movie_information.do?movieNo=${item.movie_no}">
+						<span class="thumb"><img src="${item.thumbnail}" alt="${item.name} 썸네일" /></span>
+						<span class="movie_title">${item.name}</span>
+						<span class="price">${item.type}&nbsp;
+							<span class="cost">${item.price}<img src="assets/img/coin_icon.png"></span>
+						</span>
+					</a>
+				</li>
 			</c:forEach>
 		</ul>
 	</div>
@@ -187,6 +191,13 @@ a:hover {
 	<!-- 인피니트 스크롤 -->
 	<script src="assets/js/bootstrap.min.js"></script>
 	<script>
+			var option = 1;
+			var stack = 1;
+			var total = "${TotalCount}";
+			var no = "${categoryTypeNo}";
+			var full_stack = Math.ceil(total/15);
+			
+			//무료영화, 대여/구매 한글 표기
 			function BR() {
 				var hangle = $(".price");
 				for( var i = 0; i < hangle.length; i++) {
@@ -197,7 +208,7 @@ a:hover {
 					}
 				}
 			}
-			
+
 			function renderfree() {
 				var cost = $(".cost");
 				for (var i = 0; i < cost.length; i++) {
@@ -207,44 +218,83 @@ a:hover {
 				}
 			}
 			
+			//셀렉트 채인지 이벤트 발생시 보여줄 초기 값 
+			function firstView(option){
+				stack = 0;
+				$("#movie").html("");//영화 리스트 지우기
+				$.post('moreView.do',{no:no, option:option, stack:stack},function(req){
+					for(var i = 0; i<15; i++){
+						$("#movie").append("<li class='img obj'></li>");
+						$(".obj").eq(i).append("<a href=''></a>")
+						$(".obj a").eq(i).attr("href","Movie_information.do?movieNo="+req[i].movie_no);
+						$(".obj a").eq(i).append("<span class='thumb'></span>")
+						$(".obj .thumb").eq(i).append("<img src='' alt='' />")
+						$(".obj .thumb img").eq(i).attr("src", req[i].thumbnail)//alt 추가
+						$(".obj a").eq(i).append("<span class='movie_title'></span>")
+						$(".obj .movie_title").eq(i).text(req[i].name)
+						$(".obj a").eq(i).append("<span class='price'></span>")
+						$(".obj .price").eq(i).text(req[i].type+" ")
+						$(".obj .price").eq(i).append("<span class='cost'></span>")
+						$(".obj .cost").eq(i).text(req[i].price)
+						$(".obj .cost").eq(i).append("<img src='assets/img/coin_icon.png'>")
+					}
+				})
+				return 2;
+			}
+			$("#movie_select").change(function(){
+				if($(this).val()=="new"){
+					option = 1;
+					stack = firstView(option);
+				}
+				else if($(this).val()=="high"){
+					option = 2;
+					stack = firstView(option);
+				}
+				else if($(this).val()=="low"){
+					option = 3;
+					stack = firstView(option);
+				}
+				else if($(this).val()=="kr"){
+					option = 4;
+					stack = firstView(option);
+				}
+			})
 			$(function() {
-			renderfree()
-			var num = 0;
-			$(window).scroll(
-					function() {
-						if ($(window).scrollTop() + 100 >= $(document).height()
-								- $(window).height()) {
-							var $clone = $('.img').eq(num).first().clone()
-							num++;
-							$('.infinite_scroll').append($clone)
-							console.log(num);
-						}
-					})
-		});
+				
 		
-     	$("select[name='asdf']").change(function() {
-     		
-         if($(this).val()=="최신순"){
-               $(".infinite_scroll").remove();	 
-			   $("#body").append().html('<ul id="movie" class="infinite_scroll"> <c:forEach var="item" items="${output1}" varStatus="status"><li class="img"><a href="Movie_information.do?movie_no=${item.movie_no}"> <span class="thumb"> <img src="${item.thumbnail}" alt="${item.name} 썸네일" /></span> <span class="movie_title">${item.name}</span><span class="price">${item.type}&nbsp;<span class="cost">${item.price}<img src="assets/img/coin_icon.png"></span></span></a></li></c:forEach></ul>')
-           } else if ($(this).val()=="낮은 가격순") {
-        	   $(".infinite_scroll").remove();
-        	   $("#body").append().html('<ul id="movie" class="infinite_scroll"> <c:forEach var="item" items="${output3}" varStatus="status"><li class="img"><a href="Movie_information.do?movie_no=${item.movie_no}"> <span class="thumb"> <img src="${item.thumbnail}" alt="${item.name} 썸네일" /></span> <span class="movie_title">${item.name}</span><span class="price">${item.type}&nbsp;<span class="cost">${item.price}<img src="assets/img/coin_icon.png"></span></span></a></li></c:forEach></ul>')
-           } else if ($(this).val()=="높은 가격순"){
-        	   $(".infinite_scroll").remove();
-        	   $("#body").append().html('<ul id="movie" class="infinite_scroll"> <c:forEach var="item" items="${output2}" varStatus="status"><li class="img"><a href="Movie_information.do?movie_no=${item.movie_no}"> <span class="thumb"> <img src="${item.thumbnail}" alt="${item.name} 썸네일" /></span> <span class="movie_title">${item.name}</span><span class="price">${item.type}&nbsp;<span class="cost">${item.price}<img src="assets/img/coin_icon.png"></span></span></a></li></c:forEach></ul>')
-           } else if ($(this).val()=="구매순"){
-        	   
-           } 
-         renderfree()
-         BR() 
-     	})
-         
-         
-         let ias = new InfiniteAjaxScroll('#body', {
- 		 item: '.infinite_scroll',
+			$(window).scroll(
+				function() {
+					if ($(window).height() + $(window).scrollTop() + 1 >= $(document).height()) {
+						var space = 15*stack;
+						if(stack<=full_stack){
+							console.log("--status--\n"+stack+":"+full_stack+"\noption : "+option);
+							$.post('moreView.do',{no:no, option:option, stack:stack},function(req){
+						
+								for(var i = space-15; i<space; i++){
+										$("#movie").append("<li class='img obj'></li>");
+										$(".obj").eq(i).append("<a href=''></a>")
+										$(".obj a").eq(i).attr("href","Movie_information.do?movieNo="+req[i%15].movie_no);
+										$(".obj a").eq(i).append("<span class='thumb'></span>")
+										$(".obj .thumb").eq(i).append("<img src='' alt='' />")
+										$(".obj .thumb img").eq(i).attr("src", req[i%15].thumbnail)//alt 추가
+										$(".obj a").eq(i).append("<span class='movie_title'></span>")
+										$(".obj .movie_title").eq(i).text(req[i%15].name)
+										$(".obj a").eq(i).append("<span class='price'></span>")
+										$(".obj .price").eq(i).text(req[i%15].type+" ")
+										$(".obj .price").eq(i).append("<span class='cost'></span>")
+										$(".obj .cost").eq(i).text(req[i%15].price)
+										$(".obj .cost").eq(i).append("<img src='assets/img/coin_icon.png'>")
+								}
+							})
+							stack++;
+						}//stack 비교 end
+					}
+			})
 		});
-         
+
+ 
+
+
 	</script>
 </body>
 

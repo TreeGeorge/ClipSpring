@@ -16,13 +16,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.extern.slf4j.Slf4j;
-import study.spring.clip.model.Actor;
 import study.spring.clip.model.Interest;
 
 import study.spring.clip.model.MovieLike;
 import study.spring.clip.model.StarRating;
 import study.spring.clip.model.User;
-import study.spring.clip.service.ActorService;
 import study.spring.clip.service.InterestService;
 import study.spring.clip.service.LoginService;
 import study.spring.clip.service.MovieLikeService;
@@ -41,9 +39,6 @@ public class InterestController {
 	
 	@Autowired
 	StarRatingService starRatingService;
-	
-	@Autowired
-	ActorService actorService;
 	
 	@Autowired
 	LoginService loginService;

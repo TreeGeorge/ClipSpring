@@ -8,6 +8,7 @@
     <resultMap id="buyMovieListMap" type="study.spring.clip.model.BuyMovieList">
         <!-- Beans의 멤버변수(property)이름과 대상 테이블의 컬럼(column)을 연결한다. -->
         <result property="buy_movie_list_no" column="buy_movie_list_no" />
+        <result property="buy_count_no" column="buy_count_no" />
         <result property="date" column="date" />
         <result property="is_delete" column="is_delete" />
         <result property="user_no" column="user_no" />
@@ -149,6 +150,20 @@
 	<delete id="deleteList" 
 		parameterType="study.spring.clip.model.BuyMovieList">
 		DELETE FROM buy_movie_list WHERE user_no = #{user_no};
+	</delete>
+	
+	<!-- 영화 구매했을때 구매 카운트 추가 -->
+	<insert id="insertCount"
+		parameterType="study.spring.clip.model.BuyMovieList"
+		useGeneratedKeys="true"
+		keyProperty="buy_count_no">
+		INSERT INTO buy_count (date, movie_no) VALUES (now(), #{movie_no});
+	</insert>
+	
+	<!-- 영화 환불했을때 구매 카운트 삭제 -->
+	<delete id="deleteCount" 
+		parameterType="study.spring.clip.model.BuyMovieList">
+		DELETE FROM buy_count WHERE movie_no = (SELECT movie_no FROM buy_movie_list WHERE buy_movie_list_no = #{buy_movie_list_no}) LIMIT 1;
 	</delete>
     
 </mapper>

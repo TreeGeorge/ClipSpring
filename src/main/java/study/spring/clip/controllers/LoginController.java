@@ -14,11 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import lombok.extern.slf4j.Slf4j;
 import study.spring.clip.model.User;
 import study.spring.clip.service.LoginService;
 
-@Slf4j
 @Controller
 public class LoginController{
 

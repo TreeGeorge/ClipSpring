@@ -45,7 +45,7 @@
 		FROM buy_count b, movie m
 		WHERE b.movie_no = m.movie_no 
 			AND <![CDATA[date >= DATE_FORMAT(DATE_SUB(NOW(), INTERVAL (WEEKDAY(NOW()) + 8) DAY), '%Y-%m-%d')]]> 
-			AND <![CDATA[date < DATE_FORMAT(DATE_SUB(NOW(), INTERVAL (WEEKDAY(NOW()) + 2) DAY), '%Y-%m-%d')]]> 
+			AND <![CDATA[date <= DATE_FORMAT(DATE_SUB(NOW(), INTERVAL (WEEKDAY(NOW()) + 2) DAY), '%Y-%m-%d')]]> 
 		GROUP BY movie_no 
 		ORDER BY count(*) desc
 		LIMIT 100;
@@ -55,7 +55,7 @@
 	<select id="sortedTwoWeeksAgoList" parameterType="study.spring.clip.model.Top100" resultMap="Top100Map">
 		SELECT movie_no FROM buy_count 
 		WHERE <![CDATA[date >= DATE_FORMAT(DATE_SUB(NOW(), INTERVAL (WEEKDAY(NOW()) + 15) DAY), '%Y-%m-%d')]]> 
-			AND <![CDATA[date < DATE_FORMAT(DATE_SUB(NOW(), INTERVAL (WEEKDAY(NOW()) + 9) DAY), '%Y-%m-%d')]]> 
+			AND <![CDATA[date <= DATE_FORMAT(DATE_SUB(NOW(), INTERVAL (WEEKDAY(NOW()) + 9) DAY), '%Y-%m-%d')]]> 
 		GROUP BY movie_no 
 		ORDER BY count(*) desc
 		LIMIT 100;

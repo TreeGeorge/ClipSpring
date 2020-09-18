@@ -4,18 +4,18 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
-import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import lombok.extern.slf4j.Slf4j;
+//import lombok.extern.slf4j.Slf4j;
 import study.spring.clip.model.MovieComment;
-import study.spring.clip.service.MovieCommentService;
+//import study.spring.clip.service.MovieCommentService;
 
 /** Lombok의 Log4j 객체 */
 //import lombok.extern.slf4j.Slf4j;
-@Slf4j
+//@Slf4j
 /** JUnit에 의한 테스트 클래스로 정의 */
 //import org.junit.runner.RunWith;
 //import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -31,8 +31,8 @@ import study.spring.clip.service.MovieCommentService;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class MovieCommentServiceTest {
 
-	@Autowired
-	private MovieCommentService movieCommentService;
+//	@Autowired
+//	private MovieCommentService movieCommentService;
 
 //	/** 단일행 조회 테스트 */
 //	@Test
@@ -75,7 +75,7 @@ public class MovieCommentServiceTest {
 		input.setUser_no(5);
 		input.setMovie_no(5);
 
-		int output = 0;
+//		int output = 0;
 
 //		try {
 //			output = movieCommentService.insertMovieComment(input);

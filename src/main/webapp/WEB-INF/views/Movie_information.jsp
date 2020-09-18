@@ -344,7 +344,7 @@
             </li>
             <!-- 덧글버튼 -->
             <li class="btn2_1">
-                <button type="button" onclick="location.href='Movie_comment'"><img src="assets/img/comment_icon.png"><br><span>댓글</span></button>
+                <button type="button" onclick="location.href='Movie_comment?movieNo=${movie_no}'"><img src="assets/img/comment_icon.png"><br><span>댓글</span></button>
             </li>
             <!-- 관심버튼 -->
             <li class="btn2_1">
@@ -388,60 +388,38 @@
         <!-- 상품정보 -->
         <div id="tab_page_3" class="hide">
             <h4 style="font-size:13px; margin-bottom: 10px;">요금 및 상품 정보</h4>
-            <p style="font-size:12px;line-height: 20px;">이용 안내<br> 환불은 쿠폰을 사용하지 않은 제품에 한하여 시청하지 않았을<br>경우 7일 이내에 마이페이지 구매내역에서 가능합니다.<br><br> 재생가능기간 <br>대여 : 대여 후 7일<br>구매 : 무기한<br><br>가격 <br>${movie_sale}코인</p>
+            <p style="font-size:12px;line-height: 20px;">이용 안내<br> 환불은 쿠폰을 사용하지 않은 제품에 한하여 시청하지 않았을<br>경우 7일 이내에 마이페이지 구매내역에서 가능합니다.<br><br> 재생가능기간 <br>대여 : 대여 후 7일<br>구매 : 무기한<br><br>가격 <br>${movie_sale}코인<br><br>개봉일<br>${movie_release_date}</p>
         </div>
     </div>
     
     <!-- 하단 바 -->
-    <div class="bar"><span style="color:#E61A3F">출연진</span><span>의 다른 영화</span></div>
+    <div class="bar"><span>절찬리 할인영화</span></div>
     
     <div>
         <!-- 슬라이드 -->
         <div class="slides">
-        <c:forEach var="item" items="" varStatus="status">
-            <div class="slide_item">
-                <a href="Movie_information?movieNo=${movie_no}"><img src="${thumnail}" alt=""><span>${movie_name}</span></a>
-            </div>
-		</c:forEach>
+	        <c:forEach var="item" items="${infoSale}" varStatus="status">
+	        	<div class="slide_item">
+	            	<a href="Movie_information?movieNo=${item.movie_no}"><img src="${item.thumbnail}" alt="${item.name} 썸네일"><span>${item.name}</span></a>
+	        	</div>
+			</c:forEach>
         </div>
     </div>
     <div class="bar"><span>이 장르의 인기영화</span></div>
     <div class="slides">
-    	<c:forEach var="item" items="" varStatus="status">
+    	<c:forEach var="item" items="${infoCategory}" varStatus="status">
         	<div class="slide_item">
-            	<a href="Movie_information?movieNo=${movie_no}"><img src="${thumnail}" alt=""><span>${movie_name}</span></a>
+            	<a href="Movie_information?movieNo=${item.movie_no}"><img src="${item.thumbnail}" alt="${item.name} 썸네일"><span>${item.name}</span></a>
         	</div>
 		</c:forEach>
     </div>
     <div class="bar"><span>CLIP의 추천영화</span></div>
     <div class="slides">
-        <div class="slide_item">
-            <a href="Movie_information.jsp"><img src="assets/img/sample5.jpg" alt=""><span>Moonlight</span></a>
-        </div>
-        <div class="slide_item">
-            <a href="Movie_information.jsp"><img src="assets/img/sample7.jpg" alt=""><span>머드라</span></a>
-        </div>
-        <div class="slide_item">
-            <a href="Movie_information.jsp"><img src="assets/img/sample1.jpg" alt=""><span>백두산</span></a>
-        </div>
-        <div class="slide_item">
-            <a href="Movie_information.jsp"><img src="assets/img/sample3.jpg" alt=""><span>내 이름은 칸</span></a>
-        </div>
-        <div class="slide_item">
-            <a href="Movie_information.jsp"><img src="assets/img/sample9.jpg" alt=""><span>Baby Driver</span></a>
-        </div>
-        <div class="slide_item">
-            <a href="Movie_information.jsp"><img src="assets/img/sample2.jpg" alt=""><span>캡틴 아메리카 : 윈터 솔져</span></a>
-        </div>
-        <div class="slide_item">
-            <a href="Movie_information.jsp"><img src="assets/img/sample8.jpg" alt=""><span>1917</span></a>
-        </div>
-        <div class="slide_item">
-            <a href="Movie_information.jsp"><img src="assets/img/sample4.jpg" alt=""><span>마녀</span></a>
-        </div>
-        <div class="slide_item">
-            <a href="Movie_information.jsp"><img src="assets/img/sample6.jpg" alt=""><span>플로리다 프로젝트</span></a>
-        </div>
+        <c:forEach var="item" items="${infoRecommend}" varStatus="status">
+        	<div class="slide_item">
+            	<a href="Movie_information?movieNo=${item.movie_no}"><img src="${item.thumbnail}" alt="${item.name} 썸네일"><span>${item.name}</span></a>
+        	</div>
+		</c:forEach>
     </div>
 
     <!-- BOT BAR -->

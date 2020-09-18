@@ -17,18 +17,7 @@
 		<result property="category_type_no" column="category_type_no" />
 	</resultMap>
 
-	<select id="RecommandHomeMovieSlider"
-		parameterType="study.spring.clip.model.HomeMovieSlider"
-		resultMap="HomeMovieSliderMap">
-		SELECT movie_no, NAME, thumbnail FROM movie
-		WHERE
-		release_date
-		IN(SELECT release_date FROM movie ORDER BY RELEASE_date
-		DESC)
-		LIMIT 0,10;
-	</select>
-
-	<select id="JangreMovieSlider"
+	<select id="jangreMovieSlider"
 		parameterType="study.spring.clip.model.HomeMovieSlider"
 		resultMap="HomeMovieSliderMap">
 		SELECT movie_no, name, thumbnail,  price, Floor(price / 100 * (100
@@ -36,33 +25,33 @@
 		where movie_no IN(select movie_no from movie_category
 		where category_type_no
 		IN(SELECT category_type_no FROM category_type WHERE name = #{name} AND sale != 100))
+		ORDER BY price desc
 		LIMIT 0,10;
 	</select>
 	
-	<select id="SaleMovieSlider"
-		parameterType="study.spring.clip.model.HomeMovieSlider"
-		resultMap="HomeMovieSliderMap">
-		SELECT movie_no, name, thumbnail,price, Floor(price / 100 * (100
-		- sale)) as sale,IF(type='B',"구매","대여") AS type FROM movie
-		where movie_no IN(select movie_no from movie_category
-		where category_type_no
-		IN(SELECT category_type_no FROM category_type WHERE name = #{name}))
-		LIMIT 0,10;
-	</select>
-	
-	<select id="BlandMovieSlider"
+	<!-- 마동석 출연 영화 -->
+	<select id="marvelyMovieSlider"
 		parameterType="study.spring.clip.model.HomeMovieSlider"
 		resultMap="HomeMovieSliderMap">
 		SELECT movie_no, name, thumbnail,  price, Floor(price / 100 * (100
 		- sale)) as sale,IF(type='B',"구매","대여") AS type FROM movie
-		where movie_no IN(select movie_no from movie_category
-		where category_type_no
-		IN(SELECT category_type_no FROM category_type WHERE name = #{name} AND sale != 100))
-		LIMIT 0,10;
+		WHERE movie_no IN (SELECT movie_no FROM movie_actor WHERE actor_no =
+		(SELECT actor_no FROM actor WHERE name = '마동석'))
+		ORDER BY price
+        LIMIT 0, 10;
 	</select>
 	
-
-
+	<!-- 해리포터 영화 -->
+	<select id="harryPotterMovieSlider"
+		parameterType="study.spring.clip.model.HomeMovieSlider"
+		resultMap="HomeMovieSliderMap">
+		SELECT movie_no, name, thumbnail,  price, Floor(price / 100 * (100
+		- sale)) as sale,IF(type='B',"구매","대여") AS type FROM movie
+		WHERE name LIKE '%해리 포터%'
+		ORDER BY price desc
+		LIMIT 0, 8;
+	</select>
+	
 
 </mapper>
 	

@@ -95,7 +95,7 @@
 
 <body>
     <div class="custom">
-        <a href="index.jsp"><img src="assets/img/logo_white.png" alt=""><span>고객센터</span></a>
+        <a href="home"><img src="assets/img/logo_white.png" alt=""><span>고객센터</span></a>
     </div>
     <div style="background-color: #FEE4E9; height: 50px; position: relative;">
 

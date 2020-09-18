@@ -407,6 +407,7 @@
 	font-size: 14px;
 	display: inline-block;
 	text-align: center;
+	font-weight: bold;
 	color: #E61A3F;
 }
 
@@ -417,10 +418,39 @@
 	margin-top: 5px;
 	height: 30px;
 	line-height: 30px;
+	font-weight: bold;
 	font-size: 14px;
 	display: inline-block;
 	text-align: center;
 	color: #42ff;
+}
+
+.slide_box .lank_change_new {
+	position: absolute;
+	font-weight: bold;
+	right: 5%;
+	width: 30px;
+	margin-top: 5px;
+	height: 30px;
+	line-height: 30px;
+	font-size: 14px;
+	display: inline-block;
+	text-align: center;
+	color: #50C878;
+}
+
+.slide_box .lank_change_no {
+	position: absolute;
+    font-weight: bold;
+	right: 5%;
+	width: 30px;
+	margin-top: 5px;
+	height: 30px;
+	line-height: 30px;
+	font-size: 14px;
+	display: inline-block;
+	text-align: center;
+	color: #aaa;
 }
 
 .slide_box .movie_title {

@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class BuyMovieList {
 	private int buy_movie_list_no;
+	private int buy_count_no;
 	private String date;
 	private String is_delete;
 	private int user_no;

@@ -1,6 +1,8 @@
 package study.spring.clip.service;
 
 
+import java.util.List;
+
 import study.spring.clip.model.Movie;
 
 public interface MovieService {
@@ -20,5 +22,9 @@ public interface MovieService {
 	public int getlikeCommit(Movie input5);
 
 	public String recentLike(int movie_no);
+	// 영화 검색 리스트 가져오기
+	public List<Movie> getSearchMovieList(String name);
+	
+	public List<Movie> getActor(int movie_no);
 
 }

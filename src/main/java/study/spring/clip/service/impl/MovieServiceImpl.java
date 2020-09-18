@@ -2,10 +2,11 @@ package study.spring.clip.service.impl;
 
 
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 
 import study.spring.clip.model.Movie;
 import study.spring.clip.service.MovieService;
@@ -76,9 +77,20 @@ public class MovieServiceImpl implements MovieService {
 		String item = sqlSession.selectOne("StarRatingMapper.likeRecent",input);
 		return item;
 	}
+	
+	// 영화 검색 리스트 가져오기
+	@Override
+	public List<Movie> getSearchMovieList(String name) {
+		Movie input = new Movie();
+		input.setName(name);
+		List<Movie> result = sqlSession.selectList("MovieMapper.searchMovieList",input);
+		return result;
+	}
 
-
-
-
+	@Override
+	public List<Movie> getActor(int movie_no) {
+		List<Movie> result = sqlSession.selectList("MovieMapper.actorMovie", movie_no);
+		return result;
+	}
 
 }

@@ -5,7 +5,7 @@
 <mapper namespace="CategorySortedMapper">
 
 	<!-- Beans 클래스의 객체이름(id)과 클래스이름(type)을 명시한다. -->
-	<resultMap id="CategorySortedMap"
+	<resultMap id="categorySortedMap"
 		type="study.spring.clip.model.CategorySorted">
 		<!-- Beans의 멤버변수(property)이름과 대상 테이블의 컬럼(column)을 s연결한다. -->
 		<result property="movie_no" column="movie_no" />
@@ -16,6 +16,7 @@
 		<result property="thumbnail" column="thumbnail" />
 		<result property="release_date" column="release_date" />
 		<result property="category_type_no" column="category_type_no" />
+		<result property="limit" column="limit" />
 	</resultMap>
 	
 	<select id="getCategoryName"
@@ -25,10 +26,14 @@
 		FROM category_type
 		WHERE category_type_no = #{category_type_no};
 	</select>
+	
+	<select id="total" resultType="int" parameterType="study.spring.clip.model.CategorySorted">
+	SELECT COUNT(*) AS count FROM movie_category WHERE category_type_no= #{category_type_no};
+	</select>
 
 	<select id="OneCategorySorted"
 		parameterType="study.spring.clip.model.CategorySorted"
-		resultMap="CategorySortedMap">
+		resultMap="categorySortedMap">
 		SELECT movie_no, name, IF(type='B',"구매","대여") AS type, Floor(price / 100 * (100 - sale)) AS sale, price, thumbnail FROM movie
 		WHERE movie_no IN(select
 		movie_no from movie_category
@@ -36,47 +41,82 @@
 		#{category_type_no});
 	</select>
 
-	<select id="TotalCategorySorted"
-		parameterType="study.spring.clip.model.CategorySorted"
-		resultType="int">
-		SELECT COUNT(movie_no) FROM movie WHERE movie_no
-		IN(select
-		movie_no from movie_category
-		WHERE category_type_no = #{category_type_no});
-	</select>
-
 	<select id="resentList"
 		parameterType="study.spring.clip.model.CategorySorted"
-		resultMap="CategorySortedMap">
+		resultMap="categorySortedMap">
 		SELECT movie_no, name, IF(type='B',"구매","대여") AS type, Floor(price / 100 * (100-sale)) as sale,  price, thumbnail,release_date 
 		FROM movie
 		WHERE movie_no
 		IN(select movie_no from movie_category
 		WHERE
 		category_type_no = #{category_type_no})
-		ORDER BY release_date desc;
-
+		ORDER BY release_date desc
+		LIMIT #{limit}, 15;
 	</select>
 
 	<select id="highpriceList"
 		parameterType="study.spring.clip.model.CategorySorted"
-		resultMap="CategorySortedMap">
+		resultMap="categorySortedMap">
 		SELECT movie_no, name, IF(type='B',"구매","대여") AS type, Floor(price / 100 * (100- sale)) as sale, 
 		price, thumbnail,release_date FROM movie
 		WHERE movie_no
 		IN(select movie_no from movie_category
 		WHERE category_type_no = #{category_type_no})
-		ORDER BY price desc;
+		ORDER BY price desc
+		LIMIT #{limit}, 15;
 	</select>
 
-	<select id="rowpriceList"
+	<select id="lowpriceList"
 		parameterType="study.spring.clip.model.CategorySorted"
-		resultMap="CategorySortedMap">
+		resultMap="categorySortedMap">
 		SELECT movie_no, name, IF(type='B',"구매","대여") AS type, Floor(price / 100 * (100- sale)) as sale, 
 		price, thumbnail,release_date FROM movie
 		WHERE movie_no
 		IN(select movie_no from movie_category
 		WHERE category_type_no = #{category_type_no})
-		ORDER BY price asc;
+		ORDER BY price asc
+		LIMIT #{limit}, 15;
+	</select>
+	
+	<!-- 무비 상세정보에 뿌려줄 해당 장르 영화 -->
+	<select id="movieInfoGenre"
+		parameterType="study.spring.clip.model.CategorySorted"
+		resultMap="categorySortedMap">
+ 		SELECT movie_no, thumbnail, name FROM movie
+		WHERE movie_no IN (SELECT movie_no FROM movie_category WHERE category_type_no = #{category_type_no})
+        ORDER BY RAND()
+        LIMIT 0, 9;
+	</select>
+	
+	<select id="nameList"
+		parameterType="study.spring.clip.model.CategorySorted"
+		resultMap="categorySortedMap">
+		SELECT movie_no, name, IF(type='B',"구매","대여") AS type, Floor(price / 100 * (100- sale)) as sale, 
+		price, thumbnail,release_date FROM movie
+		WHERE movie_no
+		IN(select movie_no from movie_category
+		WHERE category_type_no = #{category_type_no})
+		ORDER BY name asc
+		LIMIT #{limit}, 15;
+	</select>
+	
+	<!-- 무비 상세정보에 추천 장르 영화 -->
+	<select id="movieInfoRecommend"
+		parameterType="study.spring.clip.model.CategorySorted"
+		resultMap="categorySortedMap">
+ 		SELECT movie_no, thumbnail, name FROM movie
+		WHERE movie_no IN (SELECT movie_no FROM movie_category WHERE category_type_no = 1001)
+        ORDER BY RAND()
+        LIMIT 0, 9;
+	</select>
+	
+	<!-- 무비 상세정보에 세일 영화 -->
+	<select id="movieInfoSale"
+		parameterType="study.spring.clip.model.CategorySorted"
+		resultMap="categorySortedMap">
+ 		SELECT movie_no, thumbnail, name FROM movie
+		WHERE movie_no IN (SELECT movie_no FROM movie_category WHERE category_type_no = 1000)
+        ORDER BY RAND()
+        LIMIT 0, 9;
 	</select>
 </mapper>
