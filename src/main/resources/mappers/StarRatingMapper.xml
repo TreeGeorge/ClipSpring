@@ -10,14 +10,14 @@
 		<result property="movie_no" column="movie_no"/>
 	</resultMap>
 	
-	<!-- 기능 정의 -->
+	<!-- 별점 추가 -->
 	<select id="starInsert"
 		parameterType="study.spring.clip.model.StarRating"
 		resultMap="StarRatingMap">
 		INSERT INTO star_rating (score, user_no, movie_no)
 		VALUES (#{score}, #{user_no}, #{movie_no});
 	</select>
-	
+	<!-- 별점 중복 확인 -->
 	<select id="starCheck"
 		parameterType="study.spring.clip.model.StarRating"
 		resultMap="StarRatingMap">

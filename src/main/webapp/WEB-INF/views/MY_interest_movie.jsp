@@ -236,7 +236,7 @@
 		<!-- 드롭다운 옵션 -->
 		<div class="content clearfix">
 			<span class="delete_list"> <a class="toggleCheckbox_top hidden">전체선택</a>
-				<a class="movie_delete hidden">삭제</a></span> <select name="asdf"
+				<a class="movie_delete hidden">삭제</a></span> <select name="dropBox"
 				class="form-control selcls" id="movie_select">
 				<option value="가나다순">가나다순</option>
 				<option value="개봉순">개봉순</option>
@@ -300,6 +300,7 @@
             }).then(function(result) { // 버튼이 눌러졌을 경우의 콜백 연결
                 if (result.value) { // 확인 버튼이 눌러진 경우
 							var interest_movie_no = parseInt($("input[name=interestoo]").val());
+							// 체크된 항목의 value값(무비넘버(input에 value로 담아놓음)을 파라미터로 넘겨 해당 항목 DB에서 삭제)
 							$.post('interestDelete.do', {movieNo:interest_movie_no},function(req){
 								
 							});
@@ -314,19 +315,14 @@
 			        }).then(function(){
 			            location.reload();
 			        });
-//                    console.log($(this))
-//                    $(star).parent().remove();
-//                    if (!$(".movie_list")[0]) {
-//                        // 지우고 난 후 빈화면
-//                        $(".no_value").removeClass("hide")
-//                        $(".delete_list").addClass("hide");
+
                     }
                 })
             })
 
 
-     	
-     	$("select[name='asdf']").change(function() {
+     	//정렬기능 (output을 여러개 받음)
+     	$("select[name='dropBox']").change(function() {
          if($(this).val()=="개봉순"){
                $(".movie").remove();	 
 			   $("#asd").append().html('<ul class="movie"> <c:forEach var="item" items="${output1}" varStatus="status"> <li class="movie_list wish_content"><a href="Movie_information?movieNo=${item.movie_no}"> <img src="${item.thumbnail}" alt="${item.name}포스터"> <span class="movie_title">${item.name}</span> <span class="age">${item.age}<span> | ${item.runtime}</span></span> <span class="act">${item.type}</span></a> <!-- 편집 클릭시 체크박스 --><div class="star"><img src="assets/img/star2.png" alt="interest_button"></div></li></c:forEach></ul>')

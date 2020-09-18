@@ -57,11 +57,6 @@
         SELECT COUNT(movie_like_no) FROM movie_like
         WHERE movie_no=#{movie_no};
     </select>
-    <select id="likeRecent" parameterType="study.spring.clip.model.Movie"
-        resultMap="movieMap">
-        SELECT COUNT(movie_like_no) FROM movie_like
-        WHERE movie_no=#{movie_no};
-    </select>
 
 	<!-- 해당영화평점평균 -->
     <select id="starMovie" parameterType="study.spring.clip.model.Movie"

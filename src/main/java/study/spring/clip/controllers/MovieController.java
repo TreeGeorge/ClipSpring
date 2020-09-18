@@ -32,15 +32,31 @@ public class MovieController {
 		@Value("#{servletContext.contextPath}")
 		String contextPath;
 
+		
+		//해당영화 정보 불러오기
 		@RequestMapping(value="Movie_information",method=RequestMethod.GET)
 		public String movieinfo(Model model,HttpServletResponse response,
 				@RequestParam(value="movieNo") int movie_no,
 				HttpSession session) throws IOException {
+			// 파라미터값으로 받은 영화가 실제 존재하는 영화인지 판별 <-- 존재하지 않는다면 메인화면으로 보내버림
+			Movie exist = new Movie();
 			
-			// 조회필요값 빈즈에저장
+				exist.setMovie_no(movie_no);
+				if (movieService.getMovieItem(exist) == null) {
+					try {
+						response.sendRedirect(contextPath + "/home");
+						return "index";
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			
+			
 			Movie input =new Movie();
 			input.setMovie_no(movie_no);
+			// 배우정보 가져오기
 			List<Movie> output6 = movieService.getActor(movie_no);
+			//콤마넣고 마지막엔 빼주기
 			String actor_name = "";
 			for (int i = 0 ; i < output6.size() ; i++ ) {
 				actor_name += output6.get(i).getName() + ", ";
@@ -143,7 +159,7 @@ public class MovieController {
 			return 8;
 	}
 
-		//2
+		//좋아요 개수 실시간 변경
 		@ResponseBody
 		@RequestMapping(value="recent",method=RequestMethod.POST)
 		public int recentLike1(Model model,HttpServletResponse response,
@@ -159,9 +175,10 @@ public class MovieController {
 				e.printStackTrace();
 			}
 
-			
+			// @ResponseBody 쓰면 모델로 보낼수가 업성서 리턴으로함
 			return result;
 	}
+		//별점 실시간 변경
 		@ResponseBody
 		@RequestMapping(value="recentstar",method=RequestMethod.POST)
 		public double recentStar(Model model,HttpServletResponse response,
@@ -177,9 +194,10 @@ public class MovieController {
 				e.printStackTrace();
 			}
 
-			
+			// @ResponseBody 쓰면 모델로 보낼수가 업성서 리턴으로함
 			return result;
 	}
+		//별점 매긴사람 실시간 변경
 		@ResponseBody
 		@RequestMapping(value="recentpeople",method=RequestMethod.POST)
 		public int recentPeople(Model model,HttpServletResponse response,
@@ -195,7 +213,7 @@ public class MovieController {
 				e.printStackTrace();
 			}
 
-			
+			// @ResponseBody 쓰면 모델로 보낼수가 업성서 리턴으로함
 			return result;
 	}
 

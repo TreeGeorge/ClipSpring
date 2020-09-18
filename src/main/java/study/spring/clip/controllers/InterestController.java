@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import lombok.extern.slf4j.Slf4j;
+
 import study.spring.clip.model.Interest;
 
 import study.spring.clip.model.MovieLike;
@@ -27,7 +27,7 @@ import study.spring.clip.service.MovieLikeService;
 import study.spring.clip.service.MovieService;
 import study.spring.clip.service.StarRatingService;
 
-@Slf4j
+
 @Controller
 public class InterestController {
 	
@@ -49,6 +49,7 @@ public class InterestController {
 	@Value("#{servletContext.contextPath}")
 	String contextPath;
 	
+	// 관심항목 불러오기
 	@RequestMapping(value="MY_interest_movie", method = RequestMethod.GET)
 	public String goInterestMovie(Model model, HttpServletResponse response,
 			HttpSession session		
@@ -77,6 +78,7 @@ public class InterestController {
 		return "MY_interest_movie";
 	}
 
+	//관심 삽입
 	@ResponseBody
 	@RequestMapping(value="interestInsert.do",method = RequestMethod.POST)
 	public int insertMovie(Model model,HttpServletResponse response,
@@ -93,7 +95,7 @@ public class InterestController {
 		
 		
 		if(interestService.checkInterest(input)) {
-			
+			// 중복검사
 			return 0;
 		}
 		try {
@@ -105,6 +107,7 @@ public class InterestController {
 			
 		return 1;
 	}
+	// 관심항목 삭제
 	@ResponseBody
 	@RequestMapping(value="interestDelete.do",method = RequestMethod.POST)
 	public int deleteLike(Model model,HttpServletResponse response,
@@ -126,6 +129,8 @@ public class InterestController {
 			
 		return 1;
 	}
+	
+	// 영화 좋아요 하기
 	@ResponseBody
 	@RequestMapping(value="MovieLikeInsert.do",method = RequestMethod.POST)
 	public int insertLike(Model model,HttpServletResponse response,
@@ -155,6 +160,7 @@ public class InterestController {
 		return 1;
 	}
 	
+	//영화 좋아요 취소
 	@ResponseBody
 	@RequestMapping(value="MovieLikeDelete.do",method = RequestMethod.POST)
 	public void deleteMovie(Model model,HttpServletResponse response,
@@ -176,6 +182,8 @@ public class InterestController {
 			
 
 	}
+	
+	// 별점 중복검사
 	@ResponseBody
 	@RequestMapping(value="checkStar",method = RequestMethod.POST)
 	public int checkStar(Model model,HttpServletResponse response,
@@ -198,14 +206,14 @@ public class InterestController {
 		return 1;
 
 	}
+	// 별점 삽입
 	@ResponseBody
 	@RequestMapping(value="insertStar",method = RequestMethod.POST)
 	public void insertStar(Model model,HttpServletResponse response,
 			HttpSession session,
 			@RequestParam(value="movieNo") int movie_no,
 			@RequestParam(value="score") double rate) {
-		
-		log.debug("rate");
+
 
 		int x = (Integer)session.getAttribute("user_no");
 		StarRating input = new StarRating();

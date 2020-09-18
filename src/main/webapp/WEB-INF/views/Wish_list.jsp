@@ -335,7 +335,7 @@
                     });
             		return false;
 				}
-				
+				// 선택된 체크박스의 값을 get 파라미터로 전달
 				var url = "Movie_buy?"
 				for ( var i = 0 ; i < $("input:checkbox[name=wish_content_check]").length ; i++ ) {
 					if ($("input:checkbox[name=wish_content_check]").eq(i).is(":checked") == true) {
@@ -382,6 +382,7 @@
     					for ( var i = 0 ; i < $("input:checkbox[name=wish_content_check]").length ; i++ ) {
     						if ($("input:checkbox[name=wish_content_check]").eq(i).is(":checked") == true) {
     							var wish_movie_no = parseInt($("input:checkbox[name=wish_content_check]").eq(i).val());
+    							// 체크된 항목의 value값(무비넘버(input에 value로 담아놓음)을 파라미터로 넘겨 해당 항목 DB에서 삭제)
     							$.post('wishListDelete.do', {movieNo:wish_movie_no},function(req){
     								if (req == 1) {
     									swal({

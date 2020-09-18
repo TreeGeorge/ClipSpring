@@ -21,10 +21,9 @@ public interface MovieService {
 	//라잌여부확인
 	public int getlikeCommit(Movie input5);
 
-	public String recentLike(int movie_no);
 	// 영화 검색 리스트 가져오기
 	public List<Movie> getSearchMovieList(String name);
-	
+	// 영화배우 가져오기
 	public List<Movie> getActor(int movie_no);
 
 }

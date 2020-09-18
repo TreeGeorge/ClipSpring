@@ -70,13 +70,7 @@ public class MovieServiceImpl implements MovieService {
 	return result;
 	}
 
-	@Override
-	public String recentLike(int movie_no) {
-		Movie input = new Movie();
-		input.setMovie_no(movie_no);
-		String item = sqlSession.selectOne("StarRatingMapper.likeRecent",input);
-		return item;
-	}
+
 	
 	// 영화 검색 리스트 가져오기
 	@Override

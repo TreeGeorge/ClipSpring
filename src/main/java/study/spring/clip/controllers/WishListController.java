@@ -27,6 +27,7 @@ public class WishListController {
 	@Value("#{servletContext.contextPath}")
 	String contextPath;
 	
+	//장바구니 항목 받아오기
 	@RequestMapping(value="Wish_list", method = RequestMethod.GET)
 	public String goWishList(Model model, HttpServletResponse response,
 			HttpSession session
@@ -49,6 +50,8 @@ public class WishListController {
 		
 		return "Wish_list";
 	}
+	
+	//장바구니 담기
 	@ResponseBody
 	@RequestMapping(value="wishListInsert.do",method=RequestMethod.POST)
 	public int insertWishList(HttpServletResponse response,
@@ -65,7 +68,7 @@ public class WishListController {
 		
 		
 		if(!wishListService.checkWishList(input)) {
-			
+			//이미 담겨있으면 0을 리턴
 			return 0;
 		}
 		try {
@@ -77,6 +80,7 @@ public class WishListController {
 			
 		return 1;
 	}
+	//장바구니 삭제
 	@ResponseBody
 	@RequestMapping(value="wishListDelete.do",method=RequestMethod.POST)
 	public int deleteWishList(HttpServletResponse response,

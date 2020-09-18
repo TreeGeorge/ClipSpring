@@ -17,28 +17,28 @@
         <result property="type" column="type" />
         
     </resultMap>
-    
+    <!-- 장바구니항목 불러오기 -->
 	<select id="wishListList"
 		parameterType="study.spring.clip.model.WishList"
 		resultMap="WishListMap">
 		SELECT movie_no, IF(type='B',"구매","대여") AS type, name, Floor(price / 100 * (100 - sale)) AS price, runtime, thumbnail FROM movie
 		WHERE movie_no IN (SELECT movie_no FROM wish_list WHERE user_no= #{user_no});
 	</select>
-	
+	<!-- 장바구니 중복여부 확인 -->
 	<select id="wishListInsertCheck"
 		parameterType="study.spring.clip.model.WishList"
 		resultMap="WishListMap">
 		SELECT movie_no from wish_list
 		where user_no = #{user_no} AND movie_no = #{movie_no};
 	</select>
-	
+	<!-- 장바구니 담기 -->
 	<select id="wishListInsert"
 		parameterType="study.spring.clip.model.WishList"
 		resultMap="WishListMap">
 		INSERT INTO wish_list (movie_no ,user_no)
 		VALUES (#{movie_no},#{user_no});
 	</select>
-	
+	<!-- 장바구니 삭제 -->
 	<select id="wishListDelete"
 		parameterType="study.spring.clip.model.WishList"
 		resultMap="WishListMap">

@@ -340,7 +340,7 @@
         <ul class="clearfix">
             <!-- 좋아요버튼 -->
             <li class="btn2_1">
-                <button id="likebtn" type="button"><img  id="likeimg" src="assets/img/like_icon.png" data-img="assets/img/like_icon_after.png"><br><span id="zzzz">${movie_like}</span></button>
+                <button id="likebtn" type="button"><img  id="likeimg" src="assets/img/like_icon.png" data-img="assets/img/like_icon_after.png"><br><span id="likeCount">${movie_like}</span></button>
             </li>
             <!-- 덧글버튼 -->
             <li class="btn2_1">
@@ -540,6 +540,7 @@
                 arrows: false
 
             })
+            //클래스 줫다뺏다하기 예고편,줄거리,상세정보
             $(".tab_btn_1_link").click(function(e) {
                 e.preventDefault();
                 $(".tab_btn_1_link").not(this).removeClass("selected");
@@ -549,7 +550,7 @@
                 $(target).removeClass("hide");
                 $(".tab_panel>div").not($(target)).addClass("hide");
             })
-
+			//장바구니담기
             $("#wish").click(function() {
             	$.post("wishListInsert.do",{movieNo:"${movie_no}"},function(req){
             		if(req==1){
@@ -615,24 +616,14 @@
             });
            
 
-//            $("#interest").click(function() {
-//                var tmp = $("").attr("src");
-//                var img = $(this).data("img");
-//                $(this).attr("src", img);
-//                $(this).data("img", tmp);
-//            })
-//            $("#like").click(function() {
-//                var tmp = $(this).attr("src");
-//                var img = $(this).data("img");
-//                $(this).attr("src", img);
-//                $(this).data("img", tmp);
-//            })
 
+			//영화 좋아요 개수
             $("#likebtn").click(function(e) {
             	$.post("MovieLikeInsert.do",{movieNo:"${movie_no}"},function(req){
             		if(req==1){
+            			//실시간 좋아요 개수 업데이트
             			$.post("recent",{movieNo:"${movie_no}"},function(req){
-								$("#zzzz").text(req)
+								$("#likeCount").text(req)
             			})
             			
                         var tmp = $("#likeimg").attr("src");
@@ -655,8 +646,9 @@
                         })
             		}else{
                         	$.post("MovieLikeDelete.do",{movieNo:"${movie_no}"},function(req){
+                        		//실시간 좋아요 개수 업데이트
                         		$.post("recent",{movieNo:"${movie_no}"},function(req){
-								$("#zzzz").text(req)
+								$("#likeCount").text(req)
             			})
                         	})
                         var tmp = $("#likeimg").attr("src");
@@ -668,7 +660,7 @@
             	})
                 
             })
-        
+        //관심등록
 		$("#interestbtn").click(function() {
             	$.post("interestInsert.do",{movieNo:"${movie_no}"},function(req){
             		if(req==1){
