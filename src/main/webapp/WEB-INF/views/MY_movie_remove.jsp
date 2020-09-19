@@ -346,13 +346,27 @@ a.toggleCheckbox_top {
 	<script src="assets/js/bootstrap.min.js"></script>
 	<script>
 	 	$(".bot_bar_icon").eq(3).attr("src","assets/img/my_page_icon_selected.png");
-	 	if (!$(".movie_list")[0]) {
-			// 영화리스트 빈 화면
-			$(".no_value").removeClass("hide")
-			$(".delete_list").addClass("hide");
-			$(".movie_delete").addClass('hide');
-			$(".click_edit").addClass('hide');
+	 	
+	 	function exist_movie() {
+			$(".movie_list").remove();	 
+			$(".no_value").addClass("hide");
+			$(".delete_list").removeClass("hide");
+			$(".movie_delete").removeClass('hide');
+			$(".click_edit").removeClass('hide');
 		}
+	 	
+	 	function no_movie() {
+			if (!$(".movie_list")[0]) {
+				// 영화리스트 빈 화면
+				$(".no_value").removeClass("hide")
+				$(".delete_list").addClass("hide");
+				$(".movie_delete").addClass('hide');
+				$(".click_edit").addClass('hide');
+			}
+		}
+		
+		no_movie();
+		
 		var isCheck = 2;
 		// 편집 버튼의 클릭 처리 
 		$(".click_edit").click(function(e) {
@@ -388,39 +402,21 @@ a.toggleCheckbox_top {
 		$("select[name='sort']").change(function() {
 			
 	    	if( $(this).val() == "new" ){
-	        	$(".movie_list").remove();	 
+	    		exist_movie()	 
 				$(".movie").append().html('<c:forEach var="item" items="${newList}" varStatus="status"><c:choose><c:when test="${item.type == \'대여\' and item.is_delete == \'Y\'}"><li class="movie_list"><div class="movie_item"><span class="thumb"><img src="${item.thumbnail}" alt="${item.name} 포스터"></span><span class="movie_text"><span class="movie_title">${item.name}</span><span class="time">${item.runtime} | ${item.age}</span><span class="type">${item.type}</span><span class="period">${item.end_date} 까지</span></span></div><input id="check_box" class="hidden" type="checkbox" name="movie_check" value="${item.buy_movie_list_no}" /></li></c:when><c:when test="${item.type == \'구매\' and item.is_delete == \'Y\'}"><li class="movie_list"><div class="movie_item"><span class="thumb"><img src="${item.thumbnail}" alt="${item.name} 포스터"></span><span class="movie_text"><span class="movie_title">${item.name}</span><span class="time">${item.runtime} | ${item.age}</span><span class="type">${item.type}</span></span></div><!-- 편집 클릭시 체크박스 --><input id="check_box" class="hidden" type="checkbox" name="movie_check" value="${item.buy_movie_list_no}" /></li></c:when></c:choose></c:forEach>')
+				no_movie();
 	        } else if ( $(this).val() == "name" ) {
-	        	$(".movie_list").remove();	 
+	        	exist_movie() 
 	        	$(".movie").append().html('<c:forEach var="item" items="${nameList}" varStatus="status"><c:choose><c:when test="${item.type == \'대여\' and item.is_delete == \'Y\'}"><li class="movie_list"><div class="movie_item"><span class="thumb"><img src="${item.thumbnail}" alt="${item.name} 포스터"></span><span class="movie_text"><span class="movie_title">${item.name}</span><span class="time">${item.runtime} | ${item.age}</span><span class="type">${item.type}</span><span class="period">${item.end_date} 까지</span></span></div><input id="check_box" class="hidden" type="checkbox" name="movie_check" value="${item.buy_movie_list_no}" /></li></c:when><c:when test="${item.type == \'구매\' and item.is_delete == \'Y\'}"><li class="movie_list"><div class="movie_item"><span class="thumb"><img src="${item.thumbnail}" alt="${item.name} 포스터"></span><span class="movie_text"><span class="movie_title">${item.name}</span><span class="time">${item.runtime} | ${item.age}</span><span class="type">${item.type}</span></span></div><!-- 편집 클릭시 체크박스 --><input id="check_box" class="hidden" type="checkbox" name="movie_check" value="${item.buy_movie_list_no}" /></li></c:when></c:choose></c:forEach>')
+	        	no_movie();
 		    } else if ( $(this).val() == "buy" ) {
-	        	$(".movie_list").remove();	 
-	        	$(".no_value").addClass("hide");
-				$(".delete_list").removeClass("hide");
-				$(".movie_delete").removeClass('hide');
-				$(".click_edit").removeClass('hide');
+		    	exist_movie()
 				$(".movie").append().html('<c:forEach var="item" items="${newList}" varStatus="status"><c:if test="${item.type == \'구매\' and item.is_delete == \'Y\'}"><li class="movie_list"><div class="movie_item"><span class="thumb"><img src="${item.thumbnail}" alt="${item.name} 포스터"></span><span class="movie_text"><span class="movie_title">${item.name}</span><span class="time">${item.runtime} | ${item.age}</span><span class="type">${item.type}</span></span></div><!-- 편집 클릭시 체크박스 --><input id="check_box" class="hidden" type="checkbox" name="movie_check" value="${item.buy_movie_list_no}" /></li></c:if></c:forEach>');
-				if (!$(".movie_list")[0]) {
-					// 영화리스트 빈 화면
-					$(".no_value").removeClass("hide")
-					$(".delete_list").addClass("hide");
-					$(".movie_delete").addClass('hide');
-					$(".click_edit").addClass('hide');
-				}
+				no_movie();
 			} else if ($(this).val() == "rent" ) {
-				$(".movie_list").remove();	 
-				$(".no_value").addClass("hide");
-				$(".delete_list").removeClass("hide");
-				$(".movie_delete").removeClass('hide');
-				$(".click_edit").removeClass('hide');
+				exist_movie()
 				$(".movie").append().html('<c:forEach var="item" items="${newList}" varStatus="status"><c:if test="${item.type == \'대여\' and item.is_delete == \'Y\'}"><li class="movie_list"><div class="movie_item"><span class="thumb"><img src="${item.thumbnail}" alt="${item.name} 포스터"></span><span class="movie_text"><span class="movie_title">${item.name}</span><span class="time">${item.runtime} | ${item.age}</span><span class="type">${item.type}</span><span class="period">${item.end_date} 까지</span></span></div><!-- 편집 클릭시 체크박스 --><input id="check_box" class="hidden" type="checkbox" name="movie_check" value="${item.buy_movie_list_no}" /></li></c:if></c:forEach>');
-				if (!$(".movie_list")[0]) {
-					// 영화리스트 빈 화면
-					$(".no_value").removeClass("hide")
-					$(".delete_list").addClass("hide");
-					$(".movie_delete").addClass('hide');
-					$(".click_edit").addClass('hide');
-				}
+				no_movie();
 			}
 	    	
 		});

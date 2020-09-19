@@ -516,8 +516,21 @@
                                     allowOutsideClick: false,
                                     showConfirmButton: false
                                 })
-                          } else {
-                             $(location).attr('href','Login');
+                          } else if (req == 3){
+                        	  swal({
+                  				html : "<b>로그인이 필요한 서비스입니다.</b>",
+                                  type: "error",
+                                  confirmButtonText: "확인",
+                                  showCancelButton: true,
+                                  cancelButtonText: "로그인 하기",
+                                  confirmButtonColor:"#aaa",
+                                  cancelButtonColor: "#FF3253"
+                              }).then(function(result) {
+                              	// 로그인이 되어있지 않다면, 로그인 화면으로 이동
+                                  if (result.dismiss === "cancel") {
+                                	  $(location).attr('href','Login');
+                                  }
+                              })
                           }
                        });
                     } else if (result.dismiss === "cancel") {   // 취소버튼이 눌러진 경우

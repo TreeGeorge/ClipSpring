@@ -359,7 +359,7 @@ public class BuyMovieListController {
 			// 장바구니 안에 구매된 목록이 있다면 삭제
 			wish.setMovie_no(movie.getMovie_no());
 			wish.setUser_no(user_no);
-			if (wishListService.checkWishList(wish)) {
+			if (!wishListService.checkWishList(wish)) {
 				try {
 					wishListService.deleteWishList(wish);
 				} catch (Exception e) {

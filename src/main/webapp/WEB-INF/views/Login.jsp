@@ -10,10 +10,6 @@
 <link rel="stylesheet" href="assets/plugins/sweetalert/sweetalert2.min.css">
 <link rel="stylesheet" href="assets/plugins/ajax/ajax_helper.css">
 <style type="text/css">
-* {
-	font-family: 'Nanum Gothic', sans-serif;
-}
-
 /* logo box */
 .logo {
 	padding-top: 95px;

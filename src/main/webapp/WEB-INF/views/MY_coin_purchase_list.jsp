@@ -10,9 +10,7 @@
 <%@ include file="assets/inc/header.jsp" %>
 <script src="assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
 <style type="text/css">
-* {
-    font-family: 'Nanum Gothic', sans-serif;
-}
+
 /*a 밑줄 제거*/
 a{
 	text-decoration: none;

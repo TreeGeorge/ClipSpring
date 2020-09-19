@@ -256,39 +256,42 @@ input[type='radio']:checked {
 	<script src="assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 	<script>
+	
+	function no_movie() {
+		if (!$(".plist.clear")[0]) {
+	   		$(".no_movies").removeClass("hide");
+		}
+	}
+		   
    $(function(){
 	   $(".top_bar_list").eq(3).addClass("selected")
-	   $(".bot_bar_icon").eq(3).attr("src", "assets/img/my_page_icon_selected.png");
-	   if (!$(".plist.clear")[0]) {
-	      $(".no_movies").removeClass("hide");
-	   }
+	   $(".bot_bar_icon").eq(3).attr("src", "assets/img/my_page_icon_selected.png");   
+	   no_movie();
    })
    
    // 정렬 기능
 		$("select[name='sort']").change(function() {
 			
 	    	if( $(this).val() == "new" ){
-	        	$(".plist").remove();	 
+	        	$(".plist").remove();	
+	        	$(".no_movies").addClass("hide");
 				$(".movies").append().html('<c:forEach var="item" items="${newList}" varStatus="status"><c:choose><c:when test="${item.price != 0}"><div class="plist clear"><p class="movie_title">${item.name}</p><button style="display: block;" class="cancel pull-right" onclick="return false;">구매취소</button><input id="buy_movie_list_no" type="hidden" value="${item.buy_movie_list_no}"/><p class="price"><fmt:formatNumber value="${item.price}" pattern="#,###" /><img src="assets/img/coin_icon.png"></p><p class="period">${item.date}&nbsp;&nbsp;${item.type}</p></div></c:when><c:otherwise><div class="plist clear"><p class="movie_title">${item.name}</p><button style="display: block;" class="cancel pull-right" onclick="return false;">구매취소</button><input id="buy_movie_list_no" type="hidden" value="${item.buy_movie_list_no}"/><p class="price">무료</p><p class="period">${item.date}&nbsp;&nbsp;${item.type}</p></div></c:otherwise></c:choose></c:forEach>');
+				no_movie();
 	        } else if ( $(this).val() == "name" ) {
-	        	$(".plist").remove();	 
+	        	$(".plist").remove();	
+	        	$(".no_movies").addClass("hide");
 	        	$(".movies").append().html('<c:forEach var="item" items="${nameList}" varStatus="status"><c:choose><c:when test="${item.price != 0}"><div class="plist clear"><p class="movie_title">${item.name}</p><button style="display: block;" class="cancel pull-right" onclick="return false;">구매취소</button><input id="buy_movie_list_no" type="hidden" value="${item.buy_movie_list_no}"/><p class="price"><fmt:formatNumber value="${item.price}" pattern="#,###" /><img src="assets/img/coin_icon.png"></p><p class="period">${item.date}&nbsp;&nbsp;${item.type}</p></div></c:when><c:otherwise><div class="plist clear"><p class="movie_title">${item.name}</p><button style="display: block;" class="cancel pull-right" onclick="return false;">구매취소</button><input id="buy_movie_list_no" type="hidden" value="${item.buy_movie_list_no}"/><p class="price">무료</p><p class="period">${item.date}&nbsp;&nbsp;${item.type}</p></div></c:otherwise></c:choose></c:forEach>');
+	        	no_movie();
 		    } else if ( $(this).val() == "buy" ) {
 	        	$(".plist").remove();	 
 	        	$(".no_movies").addClass("hide");
 	        	$(".movies").append().html('<c:forEach var="item" items="${newList}" varStatus="status"><c:choose><c:when test="${item.price != 0 and item.type == \'구매\'}"><div class="plist clear"><p class="movie_title">${item.name}</p><button style="display: block;" class="cancel pull-right" onclick="return false;">구매취소</button><input id="buy_movie_list_no" type="hidden" value="${item.buy_movie_list_no}"/><p class="price"><fmt:formatNumber value="${item.price}" pattern="#,###" /><img src="assets/img/coin_icon.png"></p><p class="period">${item.date}&nbsp;&nbsp;${item.type}</p></div></c:when><c:when test="${item.price == 0 and item.type == \'구매\'}"><div class="plist clear"><p class="movie_title">${item.name}</p><button style="display: block;" class="cancel pull-right" onclick="return false;">구매취소</button><input id="buy_movie_list_no" type="hidden" value="${item.buy_movie_list_no}"/><p class="price">무료</p><p class="period">${item.date}&nbsp;&nbsp;${item.type}</p></div></c:when></c:choose></c:forEach>');
-			    if (!$(".plist")[0]) {
-					// 영화리스트 빈 화면
-					$(".no_movies").removeClass("hide");
-				}
+	        	no_movie();
 			} else if ($(this).val() == "rent" ) {
 				$(".plist").remove();	 
 				$(".no_movies").addClass("hide");
 				$(".movies").append().html('<c:forEach var="item" items="${newList}" varStatus="status"><c:choose><c:when test="${item.price != 0 and item.type == \'대여\'}"><div class="plist clear"><p class="movie_title">${item.name}</p><button style="display: block;" class="cancel pull-right" onclick="return false;">구매취소</button><input id="buy_movie_list_no" type="hidden" value="${item.buy_movie_list_no}"/><p class="price"><fmt:formatNumber value="${item.price}" pattern="#,###" /><img src="assets/img/coin_icon.png"></p><p class="period">${item.date}&nbsp;&nbsp;${item.type}</p></div></c:when><c:when test="${item.price == 0 and item.type == \'대여\'}"><div class="plist clear"><p class="movie_title">${item.name}</p><button style="display: block;" class="cancel pull-right" onclick="return false;">구매취소</button><input id="buy_movie_list_no" type="hidden" value="${item.buy_movie_list_no}"/><p class="price">무료</p><p class="period">${item.date}&nbsp;&nbsp;${item.type}</p></div></c:when></c:choose></c:forEach>');
-			    if (!$(".plist")[0]) {
-					// 영화리스트 빈 화면
-					$(".no_movies").removeClass("hide")
-				}
+				no_movie();
 			}
 	    	
 		});

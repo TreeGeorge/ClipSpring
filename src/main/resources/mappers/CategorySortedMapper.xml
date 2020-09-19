@@ -19,6 +19,7 @@
 		<result property="limit" column="limit" />
 	</resultMap>
 	
+	<!-- topInfo를 가져오기위한 카테고리 이름 가져오기 -->
 	<select id="getCategoryName"
 		parameterType="study.spring.clip.model.CategorySorted"
 		resultType="String">
@@ -27,8 +28,9 @@
 		WHERE category_type_no = #{category_type_no};
 	</select>
 	
+	<!-- 해당 카테고리에 해당하는 전체 작품 수 가져오기 -->
 	<select id="total" resultType="int" parameterType="study.spring.clip.model.CategorySorted">
-	SELECT COUNT(*) AS count FROM movie_category WHERE category_type_no= #{category_type_no};
+		SELECT COUNT(*) AS count FROM movie_category WHERE category_type_no= #{category_type_no};
 	</select>
 
 	<!-- 해당 장르 영화 조회 -->
@@ -65,7 +67,7 @@
 		WHERE movie_no
 		IN(select movie_no from movie_category
 		WHERE category_type_no = #{category_type_no})
-		ORDER BY price desc
+		ORDER BY sale desc
 		LIMIT #{limit}, 15;
 	</select>
 
@@ -78,7 +80,7 @@
 		WHERE movie_no
 		IN(select movie_no from movie_category
 		WHERE category_type_no = #{category_type_no})
-		ORDER BY price asc
+		ORDER BY sale asc
 		LIMIT #{limit}, 15;
 	</select>
 	
@@ -92,6 +94,7 @@
         LIMIT 0, 9;
 	</select>
 	
+	<!-- 가나다순 영화 조회 -->
 	<select id="nameList"
 		parameterType="study.spring.clip.model.CategorySorted"
 		resultMap="categorySortedMap">

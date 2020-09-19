@@ -25,9 +25,6 @@
 		where user_no = #{user_no} AND movie_no = #{movie_no};
 	</select>
 	
-	
-	
-	<!-- 태희쨩이 추가함 이식 후에 주석 지워주삼-->
 	<!-- user_no null처리 -->
 	<update id="nullList" parameterType="study.spring.clip.model.StarRating">
 		UPDATE star_rating SET user_no=null WHERE user_no=#{user_no};

@@ -18,10 +18,6 @@
     <link rel="stylesheet" type="text/css" href="assets/plugins/starratingsvg/star-rating-svg.css">
     <link rel="stylesheet" type="text/css" href="assets/plugins/starratingsvg/demo.css">
     <style>
-        * {
-            font-family: 'Nanum Gothic', sans-serif;
-        }
-        
         .m_info1 {
             float: left;
             width: 35%;
@@ -178,6 +174,9 @@
             display: block;
             width: 100%;
             text-align: center;
+            text-overflow: ellipsis;
+			white-space: nowrap;
+			overflow: hidden;
         }
         
         .slide_item {
@@ -503,8 +502,7 @@
                    
             	}else if(req==0){
     			swal({
-                    title: "이미 평가를",
-                    text: "완료하였습니다.",
+    				html : "<b>이미 평가를 마친 상품입니다.</b>",
                     type: "error",
                     confirmButtonText: "확인",
                     showCancelButton: false,
@@ -513,8 +511,7 @@
                 })
     		}else {
     			swal({
-                    title: "로그인이",
-                    text: "필요한 서비스입니다.",
+    				html : "<b>로그인이 필요한 서비스입니다.</b>",
                     type: "error",
                     confirmButtonText: "확인",
                     showCancelButton: true,
@@ -578,7 +575,7 @@
                         })
             		}else {
             			swal({
-            				html : "<b>로그인이<br>필요한 서비스 입니다.</b>",
+            				html : "<b>로그인이 필요한 서비스입니다.</b>",
                             type: "error",
                             confirmButtonText: "확인",
                             showCancelButton: true,
@@ -632,7 +629,7 @@
                         $("#likeimg").data("img", tmp);
             		}else if(req==2){
             			swal({
-            				html : "<b>로그인이<br>필요한 서비스입니다.</b>",
+            				html : "<b>로그인이 필요한 서비스입니다.</b>",
                             type: "error",
                             confirmButtonText: "확인",
                             showCancelButton: true,
@@ -698,7 +695,7 @@
 
             		}else {
             			swal({
-            				html : "<b>로그인이<br>필요한 서비스 입니다.</b>",
+            				html : "<b>로그인이 필요한 서비스입니다.</b>",
                             type: "error",
                             confirmButtonText: "확인",
                             showCancelButton: true,

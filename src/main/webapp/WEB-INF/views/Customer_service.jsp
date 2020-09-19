@@ -5,14 +5,8 @@
 <head>
 <%@ include file="assets/inc/header.jsp" %>
     <link rel="stylesheet" href="assets/plugins/bootstrap/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/footer.css">
     <script src="assets/plugins/bootstrap/bootstrap.min.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            font-family: 'Nanum Gothic', sans-serif;
-        }
         
         a:hover {
         	text-decoration: none;
@@ -196,11 +190,6 @@
                 $(target).removeClass("hide");
                 $(".tab_panel>div").not($(target)).addClass("hide");
             })
-            
-            $(".btn-default").click(function(e) {
-                alert("아직 미구현입니다.");
-            })
-
         })
     </script>
 </body>

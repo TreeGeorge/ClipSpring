@@ -13,6 +13,7 @@
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 <script src="https://unpkg.com/@webcreate/infinite-ajax-scroll/dist/infinite-ajax-scroll.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/underscore@1.11.0/underscore-min.js"></script>
 </head>
 <style type="text/css">
 html, body {
@@ -160,7 +161,7 @@ a:hover {
 	<div class="content clearfix">
 		<span class="total">총</span> <span class="p">&nbsp;${TotalCount}</span>개 작품
 
-		<!-- 드랍 다운 -->
+		<!-- 드롭다운 -->
 		<select name="asdf" class="form-control selcls" id="movie_select">
 			<option value="new">최신순</option>
 			<option value="kr">가나다순</option>
@@ -179,7 +180,7 @@ a:hover {
 						<span class="thumb"><img src="${item.thumbnail}" alt="${item.name} 썸네일" /></span>
 						<span class="movie_title">${item.name}</span>
 						<span class="price">${item.type}&nbsp;
-							<span class="cost">${item.price}<img src="assets/img/coin_icon.png"></span>
+							<span class="cost">${item.sale}<img src="assets/img/coin_icon.png"></span>
 						</span>
 					</a>
 				</li>
@@ -196,23 +197,14 @@ a:hover {
 			var no = "${categoryTypeNo}";
 			var full_stack = Math.ceil(total/15);
 			
-			//무료영화, 대여/구매 한글 표기
-			function BR() {
-				var hangle = $(".price");
-				for( var i = 0; i < hangle.length; i++) {
-					if (hangle.eq(i).text() == 'B') {
-						hangle.eq(i).text("구매");
-					} else if(price.eq(i).text() == 'R') {
-						hangle.eq(i).text("대여")
-					}
-				}
-			}
-
+			//무료영화 표기
 			function renderfree() {
 				var cost = $(".cost");
 				for (var i = 0; i < cost.length; i++) {
 					if (cost.eq(i).text() == "0") {
 						cost.eq(i).text("무료");
+					} else {
+						cost.eq(i).html(cost.eq(i).text().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '<img src="assets/img/coin_icon.png">');
 					}
 				}
 			}
@@ -234,9 +226,10 @@ a:hover {
 						$(".obj a").eq(i).append("<span class='price'></span>")
 						$(".obj .price").eq(i).text(req[i].type+" ")
 						$(".obj .price").eq(i).append("<span class='cost'></span>")
-						$(".obj .cost").eq(i).text(req[i].price)
+						$(".obj .cost").eq(i).text(req[i].sale)
 						$(".obj .cost").eq(i).append("<img src='assets/img/coin_icon.png'>")
 					}
+					renderfree();
 				})
 				return 2;
 			}
@@ -259,41 +252,38 @@ a:hover {
 				}
 			})
 			$(function() {
-				
+				renderfree();
 		
-			$(window).scroll(
-				function() {
-					if ($(window).height() + $(window).scrollTop() + 1 >= $(document).height()) {
-						var space = 15*stack;
-						if(stack<=full_stack){
-							console.log("--status--\n"+stack+":"+full_stack+"\noption : "+option);
-							$.post('moreView.do',{no:no, option:option, stack:stack},function(req){
-						
-								for(var i = space-15; i<space; i++){
-										$("#movie").append("<li class='img obj'></li>");
-										$(".obj").eq(i).append("<a href=''></a>")
-										$(".obj a").eq(i).attr("href","Movie_information.do?movieNo="+req[i%15].movie_no);
-										$(".obj a").eq(i).append("<span class='thumb'></span>")
-										$(".obj .thumb").eq(i).append("<img src='' alt='' />")
-										$(".obj .thumb img").eq(i).attr("src", req[i%15].thumbnail)//alt 추가
-										$(".obj a").eq(i).append("<span class='movie_title'></span>")
-										$(".obj .movie_title").eq(i).text(req[i%15].name)
-										$(".obj a").eq(i).append("<span class='price'></span>")
-										$(".obj .price").eq(i).text(req[i%15].type+" ")
-										$(".obj .price").eq(i).append("<span class='cost'></span>")
-										$(".obj .cost").eq(i).text(req[i%15].price)
-										$(".obj .cost").eq(i).append("<img src='assets/img/coin_icon.png'>")
-								}
-							})
-							stack++;
-						}//stack 비교 end
-					}
-			})
+				$(window).scroll(
+					_.debounce(function() {
+						if (Math.round($(window).height() + $(window).scrollTop()) == $(document).height()) {
+							var space = 15*stack;
+							if(stack<=full_stack){
+								// console.log("--status--\n"+stack+":"+full_stack+"\noption : "+option);
+								$.post('moreView.do',{no:no, option:option, stack:stack},function(req){
+							
+									for(var i = space-15; i<space; i++){
+											$("#movie").append("<li class='img obj'></li>");
+											$(".obj").eq(i).append("<a href=''></a>")
+											$(".obj a").eq(i).attr("href","Movie_information.do?movieNo="+req[i%15].movie_no);
+											$(".obj a").eq(i).append("<span class='thumb'></span>")
+											$(".obj .thumb").eq(i).append("<img src='' alt='' />")
+											$(".obj .thumb img").eq(i).attr("src", req[i%15].thumbnail)//alt 추가
+											$(".obj a").eq(i).append("<span class='movie_title'></span>")
+											$(".obj .movie_title").eq(i).text(req[i%15].name)
+											$(".obj a").eq(i).append("<span class='price'></span>")
+											$(".obj .price").eq(i).text(req[i%15].type+" ")
+											$(".obj .price").eq(i).append("<span class='cost'></span>")
+											$(".obj .cost").eq(i).text(req[i%15].sale)
+											$(".obj .cost").eq(i).append("<img src='assets/img/coin_icon.png'>")
+									}
+									renderfree()
+								});
+								stack++;
+							}//stack 비교 end
+						}
+				}, 100 ))
 		});
-
- 
-
-
 	</script>
 </body>
 

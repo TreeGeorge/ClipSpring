@@ -9,13 +9,7 @@
 <head>
 
 <%@ include file="assets/inc/header.jsp" %>
-<script src="assets/plugins/ajax/ajax_helper.js"></script>
-<script src="assets/plugins/handlebars/handlebars-v4.0.5.js"></script>
 <script src="assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
-<link rel="stylesheet" type="text/css" href="assets/plugins/ajax/ajax_helper.css" />
-<link rel="stylesheet" href="plugins/sweetalert/sweetalert2.min.css">
-<link rel="stylesheet" type="text/css" href="assets/assets/css/bootstrap.min.css" />
-<script src="assets/js/bootstrap.min.js"></script>
 <style>
 /** 검색창 */
 .form {

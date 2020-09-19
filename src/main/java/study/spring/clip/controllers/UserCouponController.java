@@ -64,13 +64,8 @@ public class UserCouponController {
 	 public int addUserCouponOk(Model model, HttpServletResponse response, HttpSession session,
 	 		@RequestParam(value="coupon_no") int coupon_no) {
 		 
-		 if ( session.getAttribute("id") == null ) {
-				try {
-					response.sendRedirect(contextPath + "/Login");
-					return 3;
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+		 if ( session.getAttribute("id") == null ) {	// 로그인 상태가 아니라면
+			  return 3;
 		 }
 		 
 	 	// 데이터 삭제에 필요한 조건값을 Beans에 저장하기

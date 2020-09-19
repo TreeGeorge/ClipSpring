@@ -281,8 +281,7 @@
 	                // 만약 로그인이 되어있지 않다면, 로그인 해달라는  swal 창
               		if(req == 2){
             			swal({
-                            title: "로그인이",
-                            text: "필요한 서비스입니다.",
+            				html : "<b>로그인이 필요한 서비스입니다.</b>",
                             type: "error",
                             confirmButtonText: "확인",
                             showCancelButton: true,
