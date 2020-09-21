@@ -10,7 +10,9 @@
 <head>
 <%@ include file="assets/inc/header.jsp"%>
 <!-- bootstrap -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+<script src="assets/js/bootstrap.min.js"></script>
 </head>
 <style type="text/css">
 html, body {
@@ -185,14 +187,13 @@ a:hover {
 		</ul>
 	</div>
 
-	<!-- 인피니트 스크롤 -->
-	<script src="assets/js/bootstrap.min.js"></script>
 	<script>
-			var option = 1;
-			var stack = 1;
-			var total = "${TotalCount}";
-			var no = "${categoryTypeNo}";
-			var full_stack = Math.ceil(total/15);
+			var option = 1;							//정렬 옵션 지정 변수
+			var total = "${TotalCount}";			//총 영화 수
+			var stack = 1; 							//호출 스택
+			var full_stack = Math.ceil(total/15);	//최대 호출 스택
+			var no = "${categoryTypeNo}";			//카테고리(장르) 분류 변수
+			
 			
 			//무료영화 표기
 			function renderfree() {
@@ -206,7 +207,7 @@ a:hover {
 				}
 			}
 			
-			//셀렉트 채인지 이벤트 발생시 보여줄 초기 값 
+			//셀렉트 채인지 이벤트 발생시 보여줄 초기 값(1번째 호출 스택)
 			function firstView(option){
 				stack = 0;
 				$("#movie").html("");//영화 리스트 지우기
@@ -217,7 +218,7 @@ a:hover {
 						$(".obj a").eq(i).attr("href","Movie_information.do?movieNo="+req[i].movie_no);
 						$(".obj a").eq(i).append("<span class='thumb'></span>")
 						$(".obj .thumb").eq(i).append("<img src='' alt='' />")
-						$(".obj .thumb img").eq(i).attr("src", req[i].thumbnail)//alt 추가
+						$(".obj .thumb img").eq(i).attr("src", req[i].thumbnail)
 						$(".obj a").eq(i).append("<span class='movie_title'></span>")
 						$(".obj .movie_title").eq(i).text(req[i].name)
 						$(".obj a").eq(i).append("<span class='price'></span>")
@@ -230,10 +231,13 @@ a:hover {
 				})
 				return 2;
 			}
+			
+			//카테고리(장르) 정렬 옵션 변경
 			$("#movie_select").change(function(){
 				if($(this).val()=="new"){
 					option = 1;
 					stack = firstView(option);
+					//1번째 호출 스택 표기 후 stack변수에 2할당
 				}
 				else if($(this).val()=="high"){
 					option = 2;
@@ -248,39 +252,46 @@ a:hover {
 					stack = firstView(option);
 				}
 			})
+			
 			$(function() {
-				renderfree();
-				var renderCheck = true;
-				$(window).scroll(
-					function() {
-						if ($(window).height() + $(window).scrollTop() + 200 >= $(document).height() && renderCheck) {
-							renderCheck = false;
-							var space = 15*stack;
-							if(stack<=full_stack){
-								// console.log("--status--\n"+stack+":"+full_stack+"\noption : "+option);
-								$.post('moreView.do',{no:no, option:option, stack:stack},function(req){
-							
-									for(var i = space-15; i<space; i++){
-											$("#movie").append("<li class='img obj'></li>");
-											$(".obj").eq(i).append("<a href=''></a>")
-											$(".obj a").eq(i).attr("href","Movie_information.do?movieNo="+req[i%15].movie_no);
-											$(".obj a").eq(i).append("<span class='thumb'></span>")
-											$(".obj .thumb").eq(i).append("<img src='' alt='' />")
-											$(".obj .thumb img").eq(i).attr("src", req[i%15].thumbnail)//alt 추가
-											$(".obj a").eq(i).append("<span class='movie_title'></span>")
-											$(".obj .movie_title").eq(i).text(req[i%15].name)
-											$(".obj a").eq(i).append("<span class='price'></span>")
-											$(".obj .price").eq(i).text(req[i%15].type+" ")
-											$(".obj .price").eq(i).append("<span class='cost'></span>")
-											$(".obj .cost").eq(i).text(req[i%15].sale)
-											$(".obj .cost").eq(i).append("<img src='assets/img/coin_icon.png'>")
-									}
-									renderCheck = true;
-									renderfree()
-								});
-								stack++;
-							}//stack 비교 end
-						}
+				var nextView = true;
+				$(window).scroll(function(){
+					var scrollT = $(window).scrollTop(); 	//최상단으로 부터 스크롤바 위치
+					var scrollH = $(window).height();		//스크롤바 높이
+					var contentH = $(document).height();	//문서 전체 내용 높이
+					
+					if(scrollT + scrollH + 200 >= contentH && nextView){
+						//최상단으로 부터의 스크롤바 위치 + 스크롤바 높이(크기) + 100 위치에 접근시(스크롤바 가 바닥에 닿기 100px전)
+						nextView = false;		//스크롤바 위치에 따른 함수 재실행 방지 
+						var space = 15*stack;	//호출된 영화데이터의 인덱스 호출 범위(15개씩 호출하므로 스택이 증가함에 따라 15씩 증가하도록 변수 할당)
+						if(stack<=full_stack){
+							//최대 호출 스택에 도달시 더이상 함수가 실행되지 않도록 방어
+							$.post('moreView.do',{no:no, option:option, stack:stack},function(req){
+								//ajax파라미터로 카테고리, 정렬, 호출스택 정보를 전달해 해당하는 값을 리턴받음
+								for(var i = space-15; i<space; i++){
+									//space = 호출된 영화의 데이터 인덱스 최대값  space - 15는 인덱스 최소값 즉  (space - 15) ~ space = 호출된 데이터의 인덱스
+									
+										/* view 템플릿 */
+										$("#movie").append("<li class='img obj'></li>");
+										$(".obj").eq(i).append("<a href=''></a>")
+										$(".obj a").eq(i).attr("href","Movie_information.do?movieNo="+req[i%15].movie_no);
+										$(".obj a").eq(i).append("<span class='thumb'></span>")
+										$(".obj .thumb").eq(i).append("<img src='' alt='' />")
+										$(".obj .thumb img").eq(i).attr("src", req[i%15].thumbnail)//alt 추가
+										$(".obj a").eq(i).append("<span class='movie_title'></span>")
+										$(".obj .movie_title").eq(i).text(req[i%15].name)
+										$(".obj a").eq(i).append("<span class='price'></span>")
+										$(".obj .price").eq(i).text(req[i%15].type+" ")
+										$(".obj .price").eq(i).append("<span class='cost'></span>")
+										$(".obj .cost").eq(i).text(req[i%15].sale)
+										$(".obj .cost").eq(i).append("<img src='assets/img/coin_icon.png'>")
+								}
+								renderfree()		//무료영화 표기
+								nextView = true;	//스크롤 이벤트 발생 가능하도록
+							});
+							stack++;				//호출 스택 증가
+						}//stack 비교 end
+					}
 				})
 		});
 	</script>

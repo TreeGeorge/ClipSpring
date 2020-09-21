@@ -127,8 +127,8 @@
                         </div>
                         <div id="collapseOne" class="panel-collapse collapse">
                             <div class="panel-body">
-                                8월 10일부터 9월 25일까지 모든 영화 컨텐츠를 할인 받을 수 있는 3,000 코인 할인 쿠폰을 발급중입니다. <br>
-                                앞으로도 많은 이용 부탁드립니다.<br><br> 쿠폰 이용기간 : 9월 25일까지 <br> 주의사항 : 중복해서 지급받으실 수 없습니다.
+                                2025년 9월 25일까지 모든 영화 컨텐츠를 할인 받을 수 있는 5,000 코인 할인 쿠폰을 발급중입니다. <br>
+                                앞으로도 많은 이용 부탁드립니다.<br><br> 쿠폰 이용기간 : 2025년 9월 25일까지 <br> 주의사항 : 중복해서 지급받으실 수 없습니다.
                             </div>
                         </div>
                     </div>
@@ -139,7 +139,7 @@
                         </div>
                         <div id="collapseTwo" class="panel-collapse collapse">
                             <div class="panel-body">
-                                무료 영화 소장 이벤트를 진행중입니다. 현재 무료로 소장하실 수 있는 영화는 백두산, 캡틴아메리카, 마녀, Moonlight, 머드라, 1917, Baby Driver, Marjorie Prime 등이 있습니다.
+                                무료 영화 소장 이벤트를 진행중입니다. 이벤트 기간이 끝나기 전에 이용해 주시면 감사하겠습니다.
                             </div>
                         </div>
                     </div>
