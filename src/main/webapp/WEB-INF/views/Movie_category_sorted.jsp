@@ -10,10 +10,7 @@
 <head>
 <%@ include file="assets/inc/header.jsp"%>
 <!-- bootstrap -->
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-<script src="https://unpkg.com/@webcreate/infinite-ajax-scroll/dist/infinite-ajax-scroll.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/underscore@1.11.0/underscore-min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 </head>
 <style type="text/css">
 html, body {
@@ -253,10 +250,11 @@ a:hover {
 			})
 			$(function() {
 				renderfree();
-		
+				var renderCheck = true;
 				$(window).scroll(
-					_.debounce(function() {
-						if (Math.round($(window).height() + $(window).scrollTop()) == $(document).height()) {
+					function() {
+						if ($(window).height() + $(window).scrollTop() + 200 >= $(document).height() && renderCheck) {
+							renderCheck = false;
 							var space = 15*stack;
 							if(stack<=full_stack){
 								// console.log("--status--\n"+stack+":"+full_stack+"\noption : "+option);
@@ -277,12 +275,13 @@ a:hover {
 											$(".obj .cost").eq(i).text(req[i%15].sale)
 											$(".obj .cost").eq(i).append("<img src='assets/img/coin_icon.png'>")
 									}
+									renderCheck = true;
 									renderfree()
 								});
 								stack++;
 							}//stack 비교 end
 						}
-				}, 100 ))
+				})
 		});
 	</script>
 </body>

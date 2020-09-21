@@ -26,7 +26,7 @@
         
         .m_info1 img {
             width: 95%;
-            height: 95%;
+            height: 100%;
         }
         
         .m_info2 {

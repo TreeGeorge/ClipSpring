@@ -112,7 +112,6 @@ public class LoginServiceImpl implements LoginService {
 		 sqlSession.selectList("BuyMovieListMapper.deleteList",input);
 		 
 		 /*null 처리*/
-		 sqlSession.selectList("CommentAppraisalMapper.nullList",input);
 		 sqlSession.selectList("MovieCommentMapper.nullList",input);
 		 sqlSession.selectList("StarRatingMapper.nullList",input);
 		 
