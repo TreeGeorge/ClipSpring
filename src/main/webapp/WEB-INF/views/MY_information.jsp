@@ -104,7 +104,7 @@
 /*카드 swal content*/
 .card_body{
     padding-top: 70px;
-    height: 200px;
+    height: 230px;
     text-align: auto;
 }
 /*카드번호 입력요소 영역*/
@@ -180,7 +180,7 @@
             <div class="header_border" style="border-top: none;">
             <p class="info_header">&nbsp;&nbsp;&nbsp;기본 정보</p>
             <div class="btn_box" style="height: 40px;">
-            <input type="button" class="change_btn" id="info_del" value="회원탈퇴">
+            <button class="change_btn" id="info_del">회원탈퇴</button>
             </div>
             </div>
             <div class="clearfix" style ='padding-top:8px; padding-bottom:8px;'>
@@ -191,9 +191,9 @@
                     <p class="info_list">생년월일<br><span class="info_item">${birthdate}</span></p>
                     <p class="info_list">이메일<br> <span class="info_item">${email}</span></p>
                 </div>
-                <div class="btn_box"><input type="button" value="비밀번호 변경" class="change_btn" id="pw_change"></div>
+                <div class="btn_box"><button class="change_btn" id="pw_change">비밀번호 변경</button></div>
                 <div class="space"></div>
-                <div class="btn_box"><input type="button" value="이메일 변경" class="change_btn" id="email_change"></div>
+                <div class="btn_box"><button class="change_btn" id="email_change">이메일 변경</button></div>
 
             </div>
             <div class="header_border">
@@ -203,7 +203,7 @@
                 <div class="info_group">
                     <p class="info_list">카드<br><span class="info_item"></span></p>
                 </div>
-                <div class="btn_box"><input type="button" value="" class="change_btn" id="card_change"></div>
+                <div class="btn_box"><button class="change_btn" id="card_change"></button></div>
             </div>
         </div>
             <!-- footer -->
@@ -224,12 +224,12 @@
    		 	/*카드정보 등록 유무 판별*/
    		    if(""!="${card}"){
    		    	$(".info_item").eq(5).text("Ezen Card");
-   		    	$("#card_change").val("카드정보 변경");
+   		    	$("#card_change").text("카드정보 변경");
    		    	isCard = true;
    		    }
    		    else{
    		    	$(".info_item").eq(5).text("카드정보를 등록해주세요");
-   		    	$("#card_change").val("카드정보 등록");
+   		    	$("#card_change").text("카드정보 등록");
    		    	isCard = false;
    		    }
    		 	
@@ -300,7 +300,8 @@
     	}
 
         
-        $("#pw_change").click(function(){
+        $("#pw_change").click(function(e){
+        	e.preventDefault();
             swal({
                 showConfirmButton: true,
                 showCancelButton: false,
@@ -388,7 +389,8 @@
             })
         })
 
-        $("#email_change").click(function(){
+        $("#email_change").click(function(e){
+        	e.preventDefault();
         	 pw_pass = false; 
         	
              swal({
@@ -422,7 +424,7 @@
                                     "<input type='text' id='swal_new_pw'class='swal_body' placeholder='인증번호를 입력해주세요'>"+
                                     "<p id='email_text'>&nbsp;</p>"+
                                     "<div class='submit_box'>"+
-                                    "<input type='button' class='card_submit' value='메일전송' id = email_send_btn>"+"<input id='email_key_check_btn'type='button' class='card_submit' value='변경하기'>"+
+                                    "<button type='button' class='card_submit' id = email_send_btn>메일전송</button>"+"<button id='email_key_check_btn'type='button' class='card_submit'>변경하기</button>"+
                                     "</div>"
                                 })
                                 
@@ -566,7 +568,7 @@
                                      "</div>"+
                                      "<p id='card_text'>&nbsp;</p>"+
                                      "<div class='submit_box'>"+
-                                     "<input type='button' class= 'card_submit'id='card_submit_btn' value='확인'>"+
+                                     "<button type='button' class= 'card_submit'id='card_submit_btn'>확인</button>"+
                                      "</div>"+
                                      "</form>"+
                                      "</div>"

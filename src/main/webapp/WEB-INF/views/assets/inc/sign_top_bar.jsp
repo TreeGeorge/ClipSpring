@@ -38,6 +38,7 @@
 .top_bar .link{
     float: right;
     height: 30px;
+    width: 145px;
 }
 
 .top_bar span:last-child{

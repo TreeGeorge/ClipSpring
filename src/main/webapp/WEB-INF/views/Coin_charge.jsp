@@ -321,7 +321,8 @@ input[type="number"]::-webkit-inner-spin-button {
 			<div class="Payment">
 				<!-- 결제가 되면 마이페이지로 이동 실패시 alert(사유) 페이지 이동 x 
 			위 체크 박스 체크 되있으면 결제되고 마이페이지 안되있으면 alert(사유) & 포커스 (그위치로 이동)-->
-				<input class="pay_end" type="button" value="결제하기" /><br>
+				<button class="pay_end" type="button">결제하기</button>
+				<br><br>
 			</div>
 		</div>
 </div>

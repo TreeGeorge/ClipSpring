@@ -126,7 +126,7 @@
 			<input type="password" id="user_pw" name="user_pw" class="form_control pw_control"
 				placeholder="비밀번호를 입력하세요">
 			<!-- login button -->
-			<input type="submit" name="to_submit" class="to_login" id="submit_btn" value="로그인">
+			<button  name="to_submit" class="to_login" id="submit_btn">로그인</button>
 		</form>
 		<!-- page link -->
 		<div class="link">

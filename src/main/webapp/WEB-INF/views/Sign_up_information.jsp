@@ -121,13 +121,14 @@
 		.form-horizontal .check_btn {
 			float: left;
 			width: 30%;
+			height:35px;
 			box-sizing: border-box;
 			background-color: #b9062d;
 			border: 0;
 			line-height: 100%;
 			border-radius: 0 4px 4px 0;
 			color: #fffbfc;
-			font-size: 0.8em;
+			font-size: 0.7em;
 			font-weight: 550;
 		}
 
@@ -156,8 +157,8 @@
 								<label for="user_id" style="width: 55px">아이디</label>
 								<div class="clearfix">
 									<input type="text" id="user_id" name="user_id" class="inner_btn"
-									value=""> <input type="button" class="check_btn"
-									value="중복확인" id="overlap">
+									value=""> 
+									<button class="check_btn"  id="overlap">중복확인</button>
 								</div>
 								<!-- 설명 -->
 								<span id="id_guide" class="input_Explanation hidden">아이디는
@@ -174,21 +175,21 @@
 							<input type="text" name="user_name" id="user_name"> <span
 							class="input_Explanation hidden" id="name_guide">이름이 한글이 아닙니다.</span> <label
 							for="birthdate" style="width: 75px">생년월일</label> 
-							<input type="text" name="birthdate" id="user_birth"> <!-- datepicker -->
+							<input autocomplete="off" type="text" name="birthdate" id="user_birth"> <!-- datepicker -->
 							<label for="gender" style="width: 45px">성별</label> 
 							<select name="gender" id="user_gender">
 								<option value="">&nbsp;성별을 선택해주세요</option>
 								<option value="M">&nbsp;남</option>
 								<option value="F">&nbsp;여</option>
 							</select> <label for="email" style="width: 55px">이메일</label> <input
-							type="email" name="email" class="inner_btn" id="email"> <input
-							type="button" class="check_btn" value="인증번호 받기" id="send_key">
+							type="email" name="email" class="inner_btn" id="email"> 
+							<button class="check_btn"  id="send_key">인증번호 받기</button>
 							<hr style="border: none; margin-top: 0px; margin-bottom: 7px;">
 							<input type="text" name="key_num" class="inner_btn" id="key_num" style='border-radius : 4px 0 0 4px;'>
-							<input type="button" class="check_btn" value="인증번호 확인"
-							id="check_key" >
+							<button class="check_btn" 
+							id="check_key" >인증번호 확인</button>
 							<div class="submit_box">
-								<input type="submit" name="submit" id="to_submit" value="가입하기">
+								<button name="submit" id="to_submit" >가입하기</button>
 							</div>
 						</div>
 					</fieldset>
@@ -298,7 +299,8 @@
 
 			
 				//인증번호 받기 클릭
-				$("#send_key").click(function() {
+				$("#send_key").click(function(e) {
+					e.preventDefault();
 					//이메일 미 입력시
 					if (!$("#email").val()) {
 						swal({
@@ -348,7 +350,8 @@
 
 				})
 				//인증번호 확인 클릭
-				$("#check_key").click(function() {
+				$("#check_key").click(function(e) {
+					e.preventDefault();
 					//값 일치 시
 					if ($("#key_num").val() == key) {
 						swal({
@@ -371,7 +374,8 @@
 				})
 				
 				//아이디 중복 확인 클릭
-				$("#overlap").click(function() {
+				$("#overlap").click(function(e) {
+					e.preventDefault();
 					var id_val = $("#user_id").val();
 					//아이디 미 입력시
 					if (id_val == "") {

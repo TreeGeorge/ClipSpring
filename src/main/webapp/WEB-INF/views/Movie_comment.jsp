@@ -174,7 +174,7 @@
             width: 40px;
             height: 20px;
             bottom: 10px;
-            font-size: 12px;
+            font-size: 0.6em;
             top:10px;	
         }
         

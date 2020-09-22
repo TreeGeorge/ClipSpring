@@ -138,7 +138,7 @@
 
                     <!--취소버튼 없애고 다음 버튼만-->
                     <div class="button_box">
-                        <input type="button" class="to_submit" value="다음">
+                        <button class="to_submit">다음</button>
                     </div>
                 </fieldset>
             </form>
@@ -157,7 +157,8 @@
             }
         });
             // 다음 버튼 클릭 이벤트
-            $(".to_submit").click(function(){
+            $(".to_submit").click(function(e){
+            	e.preventDefault();
                 var must = false;
                 var should = $("#should")[0].checked;
                 //must클래스를 가진 필수 동의 사항 체크박스 checked속성 검사

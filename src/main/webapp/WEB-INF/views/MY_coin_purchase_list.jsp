@@ -283,7 +283,7 @@ button{
     border: 1px solid #E61A3F;
     border-radius: 3px;
     background-color: #E61A3F;
-    font-size: 12px;
+    font-size: 0.7em;
     color: #fff;
     letter-spacing: 0px;
     text-align: center;

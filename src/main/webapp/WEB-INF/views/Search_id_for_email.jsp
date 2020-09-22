@@ -81,13 +81,14 @@
 .form-horizontal .check_btn {
     float: left;
     width: 30%;
+    height:35px;
     box-sizing: border-box;
     line-height: 100%;
     background-color: #b9062d;
     border: 0;
     border-radius: 0 4px 4px 0;
     color: #fffbfc;
-    font-size: 0.8em;
+    font-size: 0.7em;
     font-weight: 550;
 }
 
@@ -97,7 +98,9 @@
     border-radius: 4px;
     border: 0px;
     width: 50%;
+    height:35px;
     color: #fffbfc;
+   
 }
 
 /* 다음버튼 박스 */
@@ -109,11 +112,13 @@
 /* 다음버튼 */
 #to_submit{
     line-height: 100%;
+     height:35px;
     background-color:#b9062d;
     border-radius: 4px;
     border: 0px;
     width: 100px;
     color: #fffbfc;
+   
 }
 
 /* 이메일 발송 안내 */
@@ -207,18 +212,17 @@
                 </div>
                 <div id="email_box"class="form-group">
                     <label for="email" style="width: 55px">이메일</label> <input
-                    type="email" name="email" class="inner_btn" id="email" style='border-radius: 0px 0px 0px 4px;'> <input
-                    type="button" class="check_btn" value="인증번호 받기" id="send_key">
+                    type="email" name="email" class="inner_btn" id="email" style='border-radius: 0px 0px 0px 4px;'> 
+                    <button class="check_btn"  id="send_key">인증번호 받기</button>
                     <hr style="border: none; margin-top: 0px; margin-bottom: 7px;">
                     <input type="text" name="key_num" class="inner_btn" id="key_num">
-                    <input type="button" class="check_btn" value="인증번호 확인"
-                    id="check_key">
+                    <button class="check_btn" id="check_key">인증번호 확인</button>
                     <span id="email_guide">인증번호가 오지 않나요?</span>
 
                 </div>
                 <div id="next_box"class="form-group">
                     <div class="submit_box">
-                        <input type="submit" name="submit" id="to_submit" value="확인">
+                        <button name="submit" id="to_submit">확인</button>
                     </div>
                 </div>
                

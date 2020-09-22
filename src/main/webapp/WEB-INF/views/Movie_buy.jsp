@@ -224,8 +224,8 @@ input[type="radio" i] {
 
 
 				<div class="box">
-					<input class="cancel" type="button" value="취소" />
-					<input class="pay_end" type="button" value="구매하기" />
+					<button class="cancel" type="button">취소</button>
+					<button class="pay_end" type="button">구매하기</button>
 				</div>
 			</div>
 		</div>

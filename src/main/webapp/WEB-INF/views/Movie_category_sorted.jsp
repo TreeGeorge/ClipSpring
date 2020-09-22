@@ -254,6 +254,7 @@ a:hover {
 			})
 			
 			$(function() {
+				renderfree();
 				var nextView = true;
 				$(window).scroll(function(){
 					var scrollT = $(window).scrollTop(); 	//최상단으로 부터 스크롤바 위치

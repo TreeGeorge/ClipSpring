@@ -69,7 +69,9 @@ a:hover {
 }
 
 .content .delete_list {
-	padding-left: 5px;
+	display: block;
+    width: 50px;
+    float: left;
 }
 
 a.toggleCheckbox_top {
@@ -104,6 +106,7 @@ a.toggleCheckbox_top {
 .total {
 	float: left;
 	display: block;
+	width: 30px;
 }
 /* 드랍다운 css */
 .selcls {
@@ -213,9 +216,9 @@ a.toggleCheckbox_top {
 /* 전체선택 체크박스 */
 #check_box2 {
 	position: absolute;
-	top: 11px;
-	left: 90px;
-	margin: 0;
+    top: 11.5px;
+    left: 95px;
+    margin: 0;
 }
 /* hidden , hide */
 .hidden {

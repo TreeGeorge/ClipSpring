@@ -89,6 +89,7 @@
             line-height: 100%;
             border-radius: 4px;
             border: 0px;
+            height:35px;
             width: 100px;
             color: #fffbfc;
         }
@@ -114,7 +115,7 @@
                     </div>
                     <div id="next_box" class="form-group">
                         <div class="submit_box">
-                            <input type="submit" name="submit" id="to_submit" value="다음">
+                            <button name="submit" id="to_submit" >다음</button>
                         </div>
                     </div>
 

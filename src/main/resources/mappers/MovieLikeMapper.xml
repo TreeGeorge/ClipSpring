@@ -35,6 +35,12 @@
 		WHERE (movie_no=#{movie_no} and user_no=#{user_no});
 	</select>
 	
+	<!-- 회원 탈퇴시 좋아요 null 처리 -->
+	<update id="nullList"
+		parameterType="study.spring.clip.model.MovieLike">
+		UPDATE movie_like SET user_no = null WHERE user_no = #{user_no}
+	</update>
+	
 	
 
 

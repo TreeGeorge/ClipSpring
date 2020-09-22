@@ -46,6 +46,7 @@ legend {
 .form .search_button {
     float: left;
     width: 20%;
+    height: 35px;
     box-sizing: border-box;
     background-color: #FF3253;
     border: 0;
@@ -70,6 +71,7 @@ legend {
 .total {
     float: left;
     display: block;
+    width: 100px;
 }
 
 /** 검색 영화 리스트 */
@@ -200,7 +202,7 @@ legend {
                 <legend>검색</legend>
                     <div class="clearfix">
                         <input autocomplete="off" type="text" id="search_movie" class="search_movie" value="" placeholder="제목, 배우 또는 감독을 입력해주세요" />
-                        <input type="button" class="search_button" value="검색" id="search_button" />
+                        <button type="button" class="search_button" id="search_button" >검색</button>
                     </div>
             </fieldset>
         </form>
@@ -208,9 +210,7 @@ legend {
         <!-- 총 개수, 정렬 -->
         <div class="search_info clearfix hide">
             <div class="total">
-                <p>
-                    총 <span id="count">${count}</span>개 작품
-                </p>
+                   	 총 <span id="count">${count}</span>개 작품
             </div>
         </div>
 
