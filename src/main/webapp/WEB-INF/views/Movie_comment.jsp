@@ -240,7 +240,7 @@
     <div id="comment">
     	<c:forEach var="item" items="${output}" varStatus="status"> 
          <div class="comment_plus">
-         <c:if test="${item.userid == id}">
+         <c:if test="${item.user_no == user_no}">
 	        <button class="delete" value="${item.movie_comment_no}" >삭제</button>
 	     </c:if>
             <p class="user">${item.userid}</p>
