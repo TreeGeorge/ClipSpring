@@ -263,11 +263,84 @@ input[type='radio']:checked {
 		}
 	}
 		   
+	function delmovie(){
+		   // 구매취소 버튼 클릭시
+	       $(".cancel").click(function() {
+	       	var buy_movie_list_no = $(this).next().val();
+	           // 확인, 취소버튼에 따른 후속 처리 구현
+	           swal({
+	               html: "<b>선택하신 상품을 구매 취소하시겠습니까?</b>", // 내용
+	               type: "question", // 종류
+	               showCancelButton: true, // 취소버튼 표시 여부
+	               cancelButtonText:"취소",
+	               confirmButtonText:"확인",
+	               confirmButtonColor:"#ff3253",
+	           }).then(function(result) { // 버튼이 눌러졌을 경우의 콜백 연결
+	           	if (result.value) {     // 확인 버튼이 눌러진 경우
+	           		$.post('movie_delete_ok.do',{buy_movie_list_no: buy_movie_list_no},function(req){
+				            if (req == 0) {
+				            	swal({
+						            timer:1500,
+						            html:"<div style='font-weight: bold; margin-bottom: 20px;'>구매취소 되었습니다.</div>",
+						            type:"success",
+						            allowOutsideClick: false,
+						            showConfirmButton: false
+						        }).then(function(){
+						            location.reload();
+						        });
+				            } else if (req == 1) {
+				            	swal({
+						            timer:1500,
+						            html:"<div style='font-weight: bold; margin-bottom: 20px;'>개짓거리 하지 마십쇼 휴먼</div>",
+						            type:"error",
+						            allowOutsideClick: false,
+						            showConfirmButton: false
+						        }).then(function(){
+						            location.reload();
+						        });
+				            } else if (req == 2) {
+								swal({
+					                timer:1500,
+					                html:"<div style='font-weight: bold; margin-bottom: 20px;'>이미 시청하신 상품은<br>구매 취소가 불가능합니다.</div>",
+					                type:"error",
+					                allowOutsideClick: false,
+					                showConfirmButton: false
+					            }).then(function(){
+					            	return false;
+					            })
+				            } else if (req == 3 ) {
+				            	swal({
+					                timer:1500,
+					                html:"<div style='font-weight: bold; margin-bottom: 20px;'>구매한지 일주일이 지난 상품은<br>구매 취소가 불가능합니다.</div>",
+					                type:"error",
+					                allowOutsideClick: false,
+					                showConfirmButton: false
+					            }).then(function(){
+					            	return false;
+					            });
+				            } else if (req == 4) {
+				            	swal({
+					                timer:1500,
+					                html:"<div style='font-weight: bold; margin-bottom: 20px;'>쿠폰을 이용해 구매한 상품은<br>구매 취소가 불가능합니다.</div>",
+					                type:"error",
+					                allowOutsideClick: false,
+					                showConfirmButton: false
+					            }).then(function(){
+					            	return false;
+					            });
+				            }
+			        	});
+					}
+	           });
+	       }); // end of $(".cancel").click()  
+	   }
    $(function(){
 	   $(".top_bar_list").eq(3).addClass("selected")
 	   $(".bot_bar_icon").eq(3).attr("src", "assets/img/my_page_icon_selected.png");   
 	   no_movie();
+	   delmovie()
    })
+   
    
    // 정렬 기능
 		$("select[name='sort']").change(function() {
@@ -293,80 +366,12 @@ input[type='radio']:checked {
 				$(".movies").append().html('<c:forEach var="item" items="${newList}" varStatus="status"><c:choose><c:when test="${item.price != 0 and item.type == \'대여\'}"><div class="plist clear"><p class="movie_title">${item.name}</p><button style="display: block;" class="cancel pull-right" onclick="return false;">구매취소</button><input id="buy_movie_list_no" type="hidden" value="${item.buy_movie_list_no}"/><p class="price"><fmt:formatNumber value="${item.price}" pattern="#,###" /><img src="assets/img/coin_icon.png"></p><p class="period">${item.date}&nbsp;&nbsp;${item.type}</p></div></c:when><c:when test="${item.price == 0 and item.type == \'대여\'}"><div class="plist clear"><p class="movie_title">${item.name}</p><button style="display: block;" class="cancel pull-right" onclick="return false;">구매취소</button><input id="buy_movie_list_no" type="hidden" value="${item.buy_movie_list_no}"/><p class="price">무료</p><p class="period">${item.date}&nbsp;&nbsp;${item.type}</p></div></c:when></c:choose></c:forEach>');
 				no_movie();
 			}
-	    	
+	    	delmovie()
 		});
    
       
 
-        // 구매취소 버튼 클릭시
-        $(".cancel").click(function() {
-        	var buy_movie_list_no = $(this).next().val();
-            // 확인, 취소버튼에 따른 후속 처리 구현
-            swal({
-                html: "<b>선택하신 상품을 구매 취소하시겠습니까?</b>", // 내용
-                type: "question", // 종류
-                showCancelButton: true, // 취소버튼 표시 여부
-                cancelButtonText:"취소",
-                confirmButtonText:"확인",
-                confirmButtonColor:"#ff3253",
-            }).then(function(result) { // 버튼이 눌러졌을 경우의 콜백 연결
-            	if (result.value) {     // 확인 버튼이 눌러진 경우
-            		$.post('movie_delete_ok.do',{buy_movie_list_no: buy_movie_list_no},function(req){
-			            if (req == 0) {
-			            	swal({
-					            timer:1500,
-					            html:"<div style='font-weight: bold; margin-bottom: 20px;'>구매취소 되었습니다.</div>",
-					            type:"success",
-					            allowOutsideClick: false,
-					            showConfirmButton: false
-					        }).then(function(){
-					            location.reload();
-					        });
-			            } else if (req == 1) {
-			            	swal({
-					            timer:1500,
-					            html:"<div style='font-weight: bold; margin-bottom: 20px;'>개짓거리 하지 마십쇼 휴먼</div>",
-					            type:"error",
-					            allowOutsideClick: false,
-					            showConfirmButton: false
-					        }).then(function(){
-					            location.reload();
-					        });
-			            } else if (req == 2) {
-							swal({
-				                timer:1500,
-				                html:"<div style='font-weight: bold; margin-bottom: 20px;'>이미 시청하신 상품은<br>구매 취소가 불가능합니다.</div>",
-				                type:"error",
-				                allowOutsideClick: false,
-				                showConfirmButton: false
-				            }).then(function(){
-				            	return false;
-				            })
-			            } else if (req == 3 ) {
-			            	swal({
-				                timer:1500,
-				                html:"<div style='font-weight: bold; margin-bottom: 20px;'>구매한지 일주일이 지난 상품은<br>구매 취소가 불가능합니다.</div>",
-				                type:"error",
-				                allowOutsideClick: false,
-				                showConfirmButton: false
-				            }).then(function(){
-				            	return false;
-				            });
-			            } else if (req == 4) {
-			            	swal({
-				                timer:1500,
-				                html:"<div style='font-weight: bold; margin-bottom: 20px;'>쿠폰을 이용해 구매한 상품은<br>구매 취소가 불가능합니다.</div>",
-				                type:"error",
-				                allowOutsideClick: false,
-				                showConfirmButton: false
-				            }).then(function(){
-				            	return false;
-				            });
-			            }
-		        	});
-				}
-            });
-        }); // end of $(".cancel").click()
+       
 	</script>
 </body>
 

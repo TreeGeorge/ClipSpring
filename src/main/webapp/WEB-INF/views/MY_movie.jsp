@@ -345,7 +345,74 @@ input[type=checkbox] {
 		$(".top_bar_list").eq(0).addClass("selected");
 		$(".bot_bar_icon").eq(3).attr("src",
 				"assets/img/my_page_icon_selected.png");
-		
+		view()
+		function view(){
+			// 시청할지, 시청했으면 이어보기
+			$(".movie_item").click(function() {
+				var buy_movie_list_no = parseInt($(this).next().val());
+				$.post('movie_watch_check.do', {buy_movie_list_no: buy_movie_list_no}, function(req) {
+					if (req == 1) {
+						swal({
+				            timer:1500,
+				            html:"<div style='font-weight: bold; margin-bottom: 20px;'>개짓거리 하지 마십쇼 휴먼</div>",
+				            type:"error",
+				            allowOutsideClick: false,
+				            showConfirmButton: false
+				        }).then(function(){
+				            location.reload();
+				        });
+					} else if (req == 2) {
+						swal({
+							html : "<b>이미 시청하신 상품입니다.<br>이어서 시청하시겠습니까?</b>", // 내용
+							type : "question", // 종류
+							showCancelButton : true, // 취소버튼 표시 여부
+							cancelButtonText : "취소",
+							confirmButtonText : "확인",
+							confirmButtonColor : "#ff3253",
+						}).then(function(result) {
+							if (result.value) {
+								swal({
+									html : "<b>영상 재생중....(영상 미구현)</b>", // 내용
+									type : "success", // 종류
+									confirmButtonText : "확인",
+									confirmButtonColor : "#ff3253"
+								});
+							}
+						});
+					} else if (req == 3) {
+						swal({
+				            timer:1500,
+				            html:"<div style='font-weight: bold; margin-bottom: 20px;'>대여 기간이 지난 상품입니다.</div>",
+				            type:"error",
+				            allowOutsideClick: false,
+				            showConfirmButton: false
+				        }).then(function(){
+				            location.reload();
+				        });
+					} else if (req == 0) {
+						swal({
+							html : "<b>영상을 시청하시겠습니까?<br>주의! 시청시 환불이 불가능합니다.</b>", // 내용
+							type : "question", // 종류
+							showCancelButton : true, // 취소버튼 표시 여부
+							cancelButtonText : "취소",
+							confirmButtonText : "확인",
+							confirmButtonColor : "#ff3253",
+						}).then(function(result) {
+							if (result.value) {
+								$.post('movie_watch.do', {buy_movie_list_no: buy_movie_list_no}, function() {
+									swal({
+										html : "<b>영상 재생중....(영상 미구현)</b>", // 내용
+										type : "success", // 종류
+										confirmButtonText : "확인",
+										confirmButtonColor : "#ff3253"
+									});
+								});
+							}
+						});
+					}
+				});
+			});
+		}
 		function exist_movie() {
 			$(".movie_list").remove();	 
 			$(".no_value").addClass("hide");
@@ -396,71 +463,7 @@ input[type=checkbox] {
 			isCheck++;
 		}); // end $("#check_box2").click();
 		
-		// 시청할지, 시청했으면 이어보기
-		$(".movie_item").click(function() {
-			var buy_movie_list_no = parseInt($(this).next().val());
-			$.post('movie_watch_check.do', {buy_movie_list_no: buy_movie_list_no}, function(req) {
-				if (req == 1) {
-					swal({
-			            timer:1500,
-			            html:"<div style='font-weight: bold; margin-bottom: 20px;'>개짓거리 하지 마십쇼 휴먼</div>",
-			            type:"error",
-			            allowOutsideClick: false,
-			            showConfirmButton: false
-			        }).then(function(){
-			            location.reload();
-			        });
-				} else if (req == 2) {
-					swal({
-						html : "<b>이미 시청하신 상품입니다.<br>이어서 시청하시겠습니까?</b>", // 내용
-						type : "question", // 종류
-						showCancelButton : true, // 취소버튼 표시 여부
-						cancelButtonText : "취소",
-						confirmButtonText : "확인",
-						confirmButtonColor : "#ff3253",
-					}).then(function(result) {
-						if (result.value) {
-							swal({
-								html : "<b>영상 재생중....(영상 미구현)</b>", // 내용
-								type : "success", // 종류
-								confirmButtonText : "확인",
-								confirmButtonColor : "#ff3253"
-							});
-						}
-					});
-				} else if (req == 3) {
-					swal({
-			            timer:1500,
-			            html:"<div style='font-weight: bold; margin-bottom: 20px;'>대여 기간이 지난 상품입니다.</div>",
-			            type:"error",
-			            allowOutsideClick: false,
-			            showConfirmButton: false
-			        }).then(function(){
-			            location.reload();
-			        });
-				} else if (req == 0) {
-					swal({
-						html : "<b>영상을 시청하시겠습니까?<br>주의! 시청시 환불이 불가능합니다.</b>", // 내용
-						type : "question", // 종류
-						showCancelButton : true, // 취소버튼 표시 여부
-						cancelButtonText : "취소",
-						confirmButtonText : "확인",
-						confirmButtonColor : "#ff3253",
-					}).then(function(result) {
-						if (result.value) {
-							$.post('movie_watch.do', {buy_movie_list_no: buy_movie_list_no}, function() {
-								swal({
-									html : "<b>영상 재생중....(영상 미구현)</b>", // 내용
-									type : "success", // 종류
-									confirmButtonText : "확인",
-									confirmButtonColor : "#ff3253"
-								});
-							});
-						}
-					});
-				}
-			});
-		});
+		
 		
 		// 정렬 기능
 		$("select[name='sort']").change(function() {
@@ -482,7 +485,7 @@ input[type=checkbox] {
 				$(".movie").append().html('<c:forEach var="item" items="${newList}" varStatus="status"><c:if test="${item.type == \'대여\' and item.is_delete == \'N\'}"><li class="movie_list"><div class="movie_item"><span class="thumb"><img src="${item.thumbnail}" alt="${item.name} 포스터"></span><span class="movie_text"><span class="movie_title">${item.name}</span><span class="time">${item.runtime} | ${item.age}</span><span class="type">${item.type}</span><span class="period">${item.end_date} 까지</span></span></div><!-- 편집 클릭시 체크박스 --><input id="check_box" class="hidden" type="checkbox" name="movie_check" value="${item.buy_movie_list_no}" /></li></c:if></c:forEach>');
 				no_movie();
 			}
-	    	
+	    	view()
 		});
 		
 		// 삭제 버튼 클릭시

@@ -98,6 +98,10 @@
             border-bottom: 1px solid #d5d5d5;
             padding: 12px 0;
         }
+        
+        .content{
+        	word-break:break-all;
+        }
            
         .user {
             font-weight: bold;

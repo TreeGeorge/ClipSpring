@@ -321,7 +321,8 @@
             }
         });
 
-        $("#send_key").click(function() {
+        $("#send_key").click(function(e) {
+        	e.preventDefault();
             var name_val = $("#user_name").val();
             var email_val = $("#email").val();
             if (!$("#email").val()) {
@@ -368,7 +369,8 @@
             }
 
         })
-        $("#check_key").click(function() {
+        $("#check_key").click(function(e) {
+        	e.preventDefault();
         	var email = $("#email").val();
             if($("#key_num").val() == key) {
                 swal({

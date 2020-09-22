@@ -14,43 +14,23 @@ public class MovieLikeServieImpl implements MovieLikeService{
 	@Autowired
 	SqlSession sqlSession;
 	@Override
-	public int insertMovieLike(MovieLike input) throws Exception {
+	public int insertMovieLike(MovieLike input)  {
 		int result = 0;
 		
-		try {
+		
 			result = sqlSession.insert("MovieLikeMapper.insertLike",input);
 			
-			if(result==0) {
-				throw new NullPointerException("result=0");
-			}
-		}catch(NullPointerException e) {
-			log.error(e.getLocalizedMessage());
-			throw new Exception("삽입된데이터가엄쪄");
-		}catch(Exception e) {
-			log.error(e.getLocalizedMessage());
-			throw new Exception("삽입 실패");
-		}
 		
 		return result;
 	}
 
 	@Override
-	public int deleteMovieLike(MovieLike input) throws Exception {
+	public int deleteMovieLike(MovieLike input)  {
 		int result = 0;
 		
-		try {
+		
 			result = sqlSession.delete("MovieLikeMapper.deleteLike",input);
-			
-			if(result == 0) {
-				throw new NullPointerException("result=0");
-			}
-		}catch(NullPointerException e) {
-			log.error(e.getLocalizedMessage());
-			throw new Exception("삭제된터가 엄쪄");
-		}catch(Exception e) {
-			log.error(e.getLocalizedMessage());
-			throw new Exception("삭제실패");
-		}
+		
 		return result;
 	}
 

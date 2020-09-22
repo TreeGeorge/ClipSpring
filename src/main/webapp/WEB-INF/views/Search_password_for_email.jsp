@@ -294,7 +294,8 @@
         });
 
         //인증번호 발송 버튼 클릭
-        $("#send_key").click(function() {
+        $("#send_key").click(function(e) {
+        	  e.preventDefault();
             var name_val = $("#user_name").val();
             var email_val = $("#email").val();
             //이메일 입력 안할시
@@ -347,7 +348,8 @@
 
         })
         //인증 번호 확인 버튼 클릭
-        $("#check_key").click(function() {
+        $("#check_key").click(function(e) {
+        	  e.preventDefault();
             //인증번호가 일치할 경우
             if($("#key_num").val() == key) {
                 swal({

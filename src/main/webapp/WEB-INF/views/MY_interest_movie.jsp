@@ -240,8 +240,8 @@
 				class="form-control selcls" id="movie_select">
 				<option value="가나다순">가나다순</option>
 				<option value="개봉순">개봉순</option>
-				<option value="낮은 가격순">낮은가격순</option>
-				<option value="높은 가격순">높은가격순</option>
+				<option value="low">낮은가격순</option>
+				<option value="high">높은가격순</option>
 			</select>
 		</div>
 		<!-- 영화목록에 담긴 상품이 아무것도 없을 떄 -->
@@ -284,11 +284,22 @@
         $(".no_value").removeClass("hide")
         $(".delete_list").addClass("hide");
     }
-					
-        // 체크 버튼 클릭시
+	
+	//전체이용가 표기
+	function allAge(){
+		for(var i = 0; i<$(".age").length; i++){
+         	if($(".age").eq(i).text().substring(0,5)=="세 이용가"){
+         		$(".age").eq(i).text($(".age").eq(i).text().replace("세 이용가", "전체 이용가"));
+         	}
+         }
+	}
+	
+	function change(){
+		 // 체크 버튼 클릭시
         $(".star").click(function() {
-            var movie_d = $(".star");
             var star = $(this)
+            var target = star.children(1).val();
+            console.log(target);
             // 확인, 취소버튼에 따른 후속 처리 구현
             swal({
                 html: "<b>선택하신 상품을 관심영화에서 삭제하시겠습니까?</b>", // 내용
@@ -299,7 +310,7 @@
                 confirmButtonColor:"#ff3253",
             }).then(function(result) { // 버튼이 눌러졌을 경우의 콜백 연결
                 if (result.value) { // 확인 버튼이 눌러진 경우
-							var interest_movie_no = parseInt($("input[name=interestoo]").val());
+							var interest_movie_no = parseInt(target);
 							// 체크된 항목의 value값(무비넘버(input에 value로 담아놓음)을 파라미터로 넘겨 해당 항목 DB에서 삭제)
 							$.post('interestDelete.do', {movieNo:interest_movie_no},function(req){
 								
@@ -321,27 +332,34 @@
             })
 
 
+	}
+	
+	
+       
      	//정렬기능 (output을 여러개 받음)
      	$("select[name='dropBox']").change(function() {
          if($(this).val()=="개봉순"){
                $(".movie").remove();	 
-			   $("#asd").append().html('<ul class="movie"> <c:forEach var="item" items="${output1}" varStatus="status"> <li class="movie_list wish_content"><a href="Movie_information?movieNo=${item.movie_no}"> <img src="${item.thumbnail}" alt="${item.name}포스터"> <span class="movie_title">${item.name}</span> <span class="age">${item.age}<span> | ${item.runtime}</span></span> <span class="act">${item.type}</span></a> <!-- 편집 클릭시 체크박스 --><div class="star"><img src="assets/img/star2.png" alt="interest_button"></div></li></c:forEach></ul>')
-           } else if ($(this).val()=="낮은 가격순") {
+			   $("#asd").append().html('<ul class="movie"><c:forEach var="item" items="${output}" varStatus="status"><li class="movie_list wish_content"><a href="Movie_information?movieNo=${item.movie_no}"> <img src="${item.thumbnail}" alt="${item.name}포스터"><span class="movie_title">${item.name}</span> <span class="age">${item.age}세 이용가<span> | ${item.runtime}</span></span> <span class="act">${item.type}</span></a> <!-- 편집 클릭시 체크박스 --><div class="star"><input type="hidden" name="interestoo"value="${item.movie_no}"></input><img src="assets/img/star2.png" alt="interest_button" ></div></li></c:forEach></ul>')
+		   } else if ($(this).val()=="low") {
         	   $(".movie").remove();
-        	   $("#asd").append().html('<ul class="movie"> <c:forEach var="item" items="${output3}" varStatus="status"> <li class="movie_list wish_content"><a href="Movie_information?movieNo=${item.movie_no}"> <img src="${item.thumbnail}" alt="${item.name}포스터"> <span class="movie_title">${item.name}</span> <span class="age">${item.age}<span> | ${item.runtime}</span></span> <span class="act">${item.type}</span></a> <!-- 편집 클릭시 체크박스 --><div class="star"><img src="assets/img/star2.png" alt="interest_button"></div></li></c:forEach></ul>')
-           } else if ($(this).val()=="높은 가격순"){
+        	   $("#asd").append().html('<ul class="movie"> <c:forEach var="item" items="${output3}" varStatus="status"> <li class="movie_list wish_content"><a href="Movie_information?movieNo=${item.movie_no}"> <img src="${item.thumbnail}" alt="${item.name}포스터"> <span class="movie_title">${item.name}</span> <span class="age">${item.age}세 이용가<span> | ${item.runtime}</span></span> <span class="act">${item.type}</span></a> <!-- 편집 클릭시 체크박스 --><div class="star"><input type="hidden" name="interestoo"value="${item.movie_no}"></input><img src="assets/img/star2.png" alt="interest_button"></div></li></c:forEach></ul>')
+           } else if ($(this).val()=="high"){
         	   $(".movie").remove();
-        	   $("#asd").append().html('<ul class="movie"> <c:forEach var="item" items="${output2}" varStatus="status"> <li class="movie_list wish_content"><a href="Movie_information?movieNo=${item.movie_no}"> <img src="${item.thumbnail}" alt="${item.name}포스터"> <span class="movie_title">${item.name}</span> <span class="age">${item.age}<span> | ${item.runtime}</span></span> <span class="act">${item.type}</span></a> <!-- 편집 클릭시 체크박스 --><div class="star"><img src="assets/img/star2.png" alt="interest_button"></div></li></c:forEach></ul>')  
+        	   $("#asd").append().html('<ul class="movie"> <c:forEach var="item" items="${output2}" varStatus="status"> <li class="movie_list wish_content"><a href="Movie_information?movieNo=${item.movie_no}"> <img src="${item.thumbnail}" alt="${item.name}포스터"> <span class="movie_title">${item.name}</span> <span class="age">${item.age}세 이용가<span> | ${item.runtime}</span></span> <span class="act">${item.type}</span></a> <!-- 편집 클릭시 체크박스 --><div class="star"><input type="hidden" name="interestoo"value="${item.movie_no}"></input><img src="assets/img/star2.png" alt="interest_button"></div></li></c:forEach></ul>')  
            } else{
         	   $(".movie").remove();
-        	   $("#asd").append().html('<ul class="movie"> <c:forEach var="item" items="${output4}" varStatus="status"> <li class="movie_list wish_content"><a href="Movie_information?movieNo=${item.movie_no}"> <img src="${item.thumbnail}" alt="${item.name}포스터"> <span class="movie_title">${item.name}</span> <span class="age">${item.age}<span> | ${item.runtime}</span></span> <span class="act">${item.type}</span></a> <!-- 편집 클릭시 체크박스 --><div class="star"><img src="assets/img/star2.png" alt="interest_button"></div></li></c:forEach></ul>')   
+        	   $("#asd").append().html('<ul class="movie"> <c:forEach var="item" items="${output4}" varStatus="status"> <li class="movie_list wish_content"><a href="Movie_information?movieNo=${item.movie_no}"> <img src="${item.thumbnail}" alt="${item.name}포스터"> <span class="movie_title">${item.name}</span> <span class="age">${item.age}세 이용가<span> | ${item.runtime}</span></span> <span class="act">${item.type}</span></a> <!-- 편집 클릭시 체크박스 --><div class="star"><input type="hidden" name="interestoo"value="${item.movie_no}"></input><img src="assets/img/star2.png" alt="interest_button"></div></li></c:forEach></ul>')   
            }
-           
-           })
+         change();
+         allAge();
+         
+         
+         })
 
-
-
-      
+      $(function(){
+    	  allAge();
+      })
 
          
 	</script>

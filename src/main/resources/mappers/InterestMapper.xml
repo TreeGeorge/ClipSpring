@@ -69,7 +69,7 @@
 		resultMap="InterestMap">
 		SELECT movie_no, Floor(price / 100 * (100 - sale)) AS sale, name, release_date, age, runtime, thumbnail,IF(type='B',"구매","대여") AS type FROM movie
 		WHERE movie_no IN (SELECT movie_no FROM interest WHERE user_no= #{user_no}) 
-		ORDER BY price desc;
+		ORDER BY sale desc;
 	</select>
 	<!-- 낮은가격순 정렬(관심페이지) -->
 	<select id="rowpriceList"
@@ -77,7 +77,7 @@
 		resultMap="InterestMap">
 		SELECT movie_no, Floor(price / 100 * (100 - sale)) AS sale, name, release_date, age, runtime, thumbnail,IF(type='B',"구매","대여") AS type FROM movie
 		WHERE movie_no IN (SELECT movie_no FROM interest WHERE user_no= #{user_no}) 
-		ORDER BY price asc;
+		ORDER BY sale asc;
 	</select>
 	
 	<!-- 회원 탈퇴 행 삭제 -->
