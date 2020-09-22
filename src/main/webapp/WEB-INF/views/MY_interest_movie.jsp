@@ -253,7 +253,7 @@
 		</div>
 	<div id="asd">
 		<ul class="movie">
-		<c:forEach var="item" items="${output}" varStatus="status">
+		<c:forEach var="item" items="${output4}" varStatus="status">
 			<li class="movie_list wish_content"><a
 				href="Movie_information?movieNo=${item.movie_no}"> <img
 					src="${item.thumbnail}" alt="${item.name}포스터">
@@ -359,6 +359,7 @@
 
       $(function(){
     	  allAge();
+    	  change();
       })
 
          

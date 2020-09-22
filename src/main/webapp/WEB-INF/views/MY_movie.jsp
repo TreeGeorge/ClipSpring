@@ -345,7 +345,7 @@ input[type=checkbox] {
 		$(".top_bar_list").eq(0).addClass("selected");
 		$(".bot_bar_icon").eq(3).attr("src",
 				"assets/img/my_page_icon_selected.png");
-		view()
+		view();
 		function view(){
 			// 시청할지, 시청했으면 이어보기
 			$(".movie_item").click(function() {
@@ -485,7 +485,7 @@ input[type=checkbox] {
 				$(".movie").append().html('<c:forEach var="item" items="${newList}" varStatus="status"><c:if test="${item.type == \'대여\' and item.is_delete == \'N\'}"><li class="movie_list"><div class="movie_item"><span class="thumb"><img src="${item.thumbnail}" alt="${item.name} 포스터"></span><span class="movie_text"><span class="movie_title">${item.name}</span><span class="time">${item.runtime} | ${item.age}</span><span class="type">${item.type}</span><span class="period">${item.end_date} 까지</span></span></div><!-- 편집 클릭시 체크박스 --><input id="check_box" class="hidden" type="checkbox" name="movie_check" value="${item.buy_movie_list_no}" /></li></c:if></c:forEach>');
 				no_movie();
 			}
-	    	view()
+	    	view();
 		});
 		
 		// 삭제 버튼 클릭시
