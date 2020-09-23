@@ -219,6 +219,7 @@ a:hover {
 						$(".obj a").eq(i).append("<span class='thumb'></span>")
 						$(".obj .thumb").eq(i).append("<img src='' alt='' />")
 						$(".obj .thumb img").eq(i).attr("src", req[i].thumbnail)
+						$(".obj .thumb img").eq(i).attr("alt", req[i%15].name+"썸네일")
 						$(".obj a").eq(i).append("<span class='movie_title'></span>")
 						$(".obj .movie_title").eq(i).text(req[i].name)
 						$(".obj a").eq(i).append("<span class='price'></span>")
@@ -279,6 +280,7 @@ a:hover {
 										$(".obj a").eq(i).append("<span class='thumb'></span>")
 										$(".obj .thumb").eq(i).append("<img src='' alt='' />")
 										$(".obj .thumb img").eq(i).attr("src", req[i%15].thumbnail)//alt 추가
+										$(".obj .thumb img").eq(i).attr("alt", req[i%15].name+"썸네일")
 										$(".obj a").eq(i).append("<span class='movie_title'></span>")
 										$(".obj .movie_title").eq(i).text(req[i%15].name)
 										$(".obj a").eq(i).append("<span class='price'></span>")

@@ -43,6 +43,7 @@
 		.form-horizontal .group {
 			width: 90%;
 			margin: auto;
+			position: relative;
 		}
 
 		/* 라벨 width값은 각각 직접 할당 */
@@ -137,6 +138,17 @@
 			visibility: hidden;
 		}
 
+		.timer{
+			position: absolute;
+			height:35px;
+			line-height: 35px;
+			z-index: 10;
+			right:105px;
+			color: #FF3253;
+			font-size: 0.8em;
+			font-weight: bold;
+		}
+		
 	</style>
 
 
@@ -155,9 +167,9 @@
 							<hr>
 							<div class="group">
 								<label for="user_id" style="width: 55px">아이디</label>
-								<div class="clearfix">
+								<div class="clearfix from_box">
 									<input type="text" id="user_id" name="user_id" class="inner_btn"
-									value=""> 
+									value="">
 									<button class="check_btn"  id="overlap">중복확인</button>
 								</div>
 								<!-- 설명 -->
@@ -174,20 +186,21 @@
 							일치하지 않습니다.</span> <label for="user_name" style="width: 45px">이름</label>
 							<input type="text" name="user_name" id="user_name"> <span
 							class="input_Explanation hidden" id="name_guide">이름이 한글이 아닙니다.</span> <label
-							for="birthdate" style="width: 75px">생년월일</label> 
+							for="birthdate" style="width: 75px">생년월일</label>
 							<input autocomplete="off" type="text" name="birthdate" id="user_birth"> <!-- datepicker -->
-							<label for="gender" style="width: 45px">성별</label> 
+							<label for="gender" style="width: 45px">성별</label>
 							<select name="gender" id="user_gender">
 								<option value="">&nbsp;성별을 선택해주세요</option>
 								<option value="M">&nbsp;남</option>
 								<option value="F">&nbsp;여</option>
 							</select> <label for="email" style="width: 55px">이메일</label> <input
-							type="email" name="email" class="inner_btn" id="email"> 
+							type="email" name="email" class="inner_btn" id="email">
 							<button class="check_btn"  id="send_key">인증번호 받기</button>
 							<hr style="border: none; margin-top: 0px; margin-bottom: 7px;">
 							<input type="text" name="key_num" class="inner_btn" id="key_num" style='border-radius : 4px 0 0 4px;'>
-							<button class="check_btn" 
+							<button class="check_btn"
 							id="check_key" >인증번호 확인</button>
+							<p class='timer'></p>
 							<div class="submit_box">
 								<button name="submit" id="to_submit" >가입하기</button>
 							</div>
@@ -203,13 +216,55 @@
 		<script src="assets/plugins/sweetalert/sweetalert2.all.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/emailjs-com@2.4.1/dist/email.min.js"></script>
 		<script>
-			$(function() {
-				var id_check = false;
-				var pass_id = false;
-				var pass_key = false;
-				var pass_name = false;
-				var key = "123123!@!@#!@#";
-				var email_reg = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
+		
+		var id_check = false;
+		var pass_id = false;
+		var pass_key = false;
+		var pass_name = false;
+		var key = "123123!@!@#!@#";
+		var email_reg = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
+		var mm;
+		var ss;
+		var time_out= false;
+		var id_val;
+		var email_val;
+		var start;
+	
+			//타이머 3분
+			function timer(){
+				clearInterval(start); //반복 중지
+				$(".timer").text("");//view 삭제
+				
+				if(!pass_key){
+					time_out = false;//시간초과 초기화
+					var time = 180;//인증번호 유효시간(초)
+					start = setInterval(function(){ //1초 간격 반복 실행
+						if(pass_key){
+							clearInterval(start); //반복 중지
+							 $(".timer").text("");//view 삭제
+							 return;
+						}
+						 mm = time/60;//분
+						 ss = time%60;//초
+
+						 if(ss<10){ss="0"+ss}//ss가 10미만이면 앞에 0붙여줌
+						 var result = parseInt(mm) + ":" + ss;//소수점 버린   분 : 초
+
+						 $(".timer").text(result);//남은 시간 표기
+						 if(time == 0 ){//time이 0이되면 view삭제
+				
+							 time_out = true;//남은시간 0일때
+							 //$(".timer").text("");//view 삭제
+						
+							 clearInterval(start); //반복 중지
+						 }
+						 time--;//반복마다 1씩 감소
+					}, 1000);
+				}
+				
+	
+			}
+
 
 			//난수 생성
 			function createRandomNumber() {
@@ -253,9 +308,9 @@
                     minDate : "-100Y",
                     maxDate : "-14Y"
                 });
-                
+
             })
-			
+
 			function checkAge(){
 					//선택된 날자 값 변수에 저장
 					var date = $("input[name=birthdate]").val();
@@ -297,12 +352,22 @@
 				}
 			})
 
-			
+
 				//인증번호 받기 클릭
 				$("#send_key").click(function(e) {
 					e.preventDefault();
+					email_val = $("#email").val();
 					//이메일 미 입력시
-					if (!$("#email").val()) {
+					
+					if(pass_key){
+						swal({
+		                    html: "<b>이미 인증 완료되었습니다.</b>",    // 내용
+		                    type: "success",  // 종류
+		                    confirmButtonText: "확인", // 확인버튼 표시 문구
+		                    confirmButtonColor: "#ff3253", // 확인버튼 색상
+		                });
+					}
+					else if (!email_val) {
 						swal({
 		                    html: "<b>이메일을 입력해주세요.</b>",    // 내용
 		                    type: "error",  // 종류
@@ -310,7 +375,7 @@
 		                    confirmButtonColor: "#ff3253", // 확인버튼 색상
 		                });
 						//이메일 양식이 틀릴시
-					}else if(!email_reg.test($("#email").val())) {
+					}else if(!email_reg.test(email_val)) {
 						swal({
 		                    html: "<b>이메일 양식에 맞지 않습니다.</b>",    // 내용
 		                    type: "error",  // 종류
@@ -322,9 +387,9 @@
 						return false;
 						//정상 값 입력시
 					} else {
-						$.post('emailOverlapCheck.do', {email : $("#email").val()}, 
+						$.post('emailOverlapCheck.do', {email : email_val},
 							function(req) {
-								console.log($("#email").val());
+								console.log(email_val);
 							if(req=='1'){
 								swal({
 				                    html: "<b>중복된 이메일입니다.</b>",    // 내용
@@ -342,10 +407,12 @@
 			                    confirmButtonText: "확인", // 확인버튼 표시 문구
 			                    confirmButtonColor: "#ff3253", // 확인버튼 색상
 			                });
-							sendEmail($("#email").val());
+							sendEmail(email_val);
 							$("#email").prop('disabled','true');
+							timer();
 							}
 						})
+						
 					}
 
 				})
@@ -353,16 +420,25 @@
 				$("#check_key").click(function(e) {
 					e.preventDefault();
 					//값 일치 시
-					if ($("#key_num").val() == key) {
+					if(time_out){
+						swal({
+		                    html: "<b>인증번호를 다시 받아주세요.</b>",    // 내용
+		                    type: "error",  // 종류
+		                    confirmButtonText: "확인", // 확인버튼 표시 문구
+		                    confirmButtonColor: "#ff3253", // 확인버튼 색상
+		                });
+					}
+					else if ($("#key_num").val() == key) {
 						swal({
 		                    html: "<b>인증되었습니다.</b>",    // 내용
 		                    type: "success",  // 종류
 		                    confirmButtonText: "확인", // 확인버튼 표시 문구
 		                    confirmButtonColor: "#ff3253", // 확인버튼 색상
 		                });
-						pass_key = true;
+						pass_key = true; //인증 완료 
+						
 						$("#key_num").prop('disabled','true');
-					} //값 불일치 
+					} //값 불일치
 					else {
 						swal({
 		                    html: "<b>인증번호가 일치하지 않습니다.</b>",    // 내용
@@ -372,11 +448,11 @@
 		                });
 					}
 				})
-				
+
 				//아이디 중복 확인 클릭
 				$("#overlap").click(function(e) {
 					e.preventDefault();
-					var id_val = $("#user_id").val();
+					id_val = $("#user_id").val();
 					//아이디 미 입력시
 					if (id_val == "") {
 						swal({
@@ -385,7 +461,7 @@
 		                    confirmButtonColor: "#ff3253", // 확인버튼 색상
 		                });
 					}
-					// 
+					//
 					else {
 						$.post('idOverlapCheck.do', {id : id_val}, function(req) {
 							if(!id_check){
@@ -404,7 +480,7 @@
 				                });
 								pass_id =true;
 								$("#user_id").prop('disabled','true');
-								
+
 							} else {
 								swal({
 				                    html: "<b>중복된 아이디 입니다.</b>",    // 내용
@@ -524,10 +600,9 @@
 					}
 				},
 				submitHandler: function(form){
-					var id_val = $("#user_id").val();
 					var pw_val = $("#user_pw").val();
 					var edit_val = "";
-					
+
 					var date = new Date();
 					var yy = date.getFullYear();
 					var dd = date.getMonth() + 1;
@@ -535,8 +610,8 @@
 					var mm = date.getDate();
 					if(mm<10){ mm = "0" + mm }
 					edit_val = "" + yy+"-" + dd+"-" + mm;
+
 					
-					var email_val = $("#email").val();
 					var name_val = $("#user_name").val();
 					var birth_val = $("#user_birth").val();
 					var gender_val = $("#user_gender").val();
@@ -569,7 +644,7 @@
 					}
 					$.post('signUp.do', {id : id_val, name : name_val,
 					email : email_val, pw : pw_val, edit: edit_val, birth : birth_val,
-					gender : gender_val}, 
+					gender : gender_val},
 					function(){
 						//java signUP함수화시키고 1리턴 시켜서 swal포함 시키기
 						swal({
@@ -582,8 +657,8 @@
 							location.href = "Login";
 						})
 						})
-					
-					
+
+
 				}
 			});
 
@@ -665,7 +740,7 @@
 					}
 				}
 			}); // end validate()
-		});
+
 	</script>
 </body>
 
